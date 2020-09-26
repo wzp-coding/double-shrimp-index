@@ -57,7 +57,9 @@
       </div>
     </div>
     <router-view></router-view>
-    <div class="lxl-footer"></div>
+    <div class="lxl-footer">
+      aaaaaaaaaaaaaaa
+    </div>
   </div>
 </template>
 <script>
