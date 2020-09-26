@@ -14,13 +14,13 @@
         </div>
       </div>
       <div class="lxl-nav">
-        <!-- <el-menu
+        <el-menu
           :default-active="activeIndex"
           class="el-menu-demo"
           mode="horizontal"
           router="true"
-        > -->
-          <!-- <el-submenu>
+        >
+          <el-submenu>
             <template slot="title">产业资讯</template>
             <el-menu-item index="/industryMarket">产业行情</el-menu-item>
             <el-menu-item index="/industryMarket">虾业专题</el-menu-item>
@@ -53,11 +53,13 @@
           <el-menu-item index="1">可视化平台</el-menu-item>
           <el-menu-item index="1">电子商城</el-menu-item>
           <el-menu-item index="1">个人中心</el-menu-item>
-        </el-menu> -->
+        </el-menu>
       </div>
     </div>
     <router-view></router-view>
-    <div class="lxl-footer"></div>
+    <div class="lxl-footer">
+
+    </div>
   </div>
 </template>
 <script>
@@ -66,7 +68,7 @@ export default {
     return {};
   },
   created() {
-    alert()
+    alert();
     console.log(this.global.baseUrl);
   },
 };
@@ -104,6 +106,11 @@ export default {
 .lxl-nav {
   display: flex;
   justify-content: center;
+}
+.lxl-footer{
+  height: 10rem;
+  background-color: rgb(95, 95, 95);
+  width: 100%;
 }
 </style>
 
