@@ -108,7 +108,7 @@ export default {
   justify-content: center;
 }
 .lxl-footer{
-  height: 10rem;
+  height: 15rem;
   background-color: rgb(95, 95, 95);
   width: 100%;
 }
