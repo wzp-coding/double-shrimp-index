@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+// 以下是具体的页面
 import industryMarket from '../components/IndustryInformation/industryMarket.vue'
 import prawnNews from '../components/IndustryInformation/prawnNews.vue'
 
@@ -29,6 +30,10 @@ import visualizationPlatform from '../components/visualizationPlatform/visualiza
 
 import emall from '../components/emall/emall.vue'
 import me from '../components/Me/me.vue'
+// 登录页面
+import login from '../components/login/login.vue'
+
+
 
 
 
@@ -141,6 +146,11 @@ const routes = [
   {
     path: '/me',
     component: me
+
+  },
+  {
+    path: '/login',
+    component: login
 
   }
 ]
