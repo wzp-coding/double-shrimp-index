@@ -1,0 +1,9 @@
+<template>
+<div>
+    visualizationPlatform
+</div>
+</template>
+<script>
+</script>
+<style>
+</style>
