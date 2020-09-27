@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import industryMarket from '../components/IndustryInformation/industryMarket.vue'
-import emall from '../components/e-mall/e-mall.vue'
+import emall from '../components/emall/emall.vue'
+
 Vue.use(VueRouter)
 
 const routes = [

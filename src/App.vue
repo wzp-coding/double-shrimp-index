@@ -58,7 +58,7 @@
     </div>
     <router-view></router-view>
     <div class="lxl-footer">
-
+      aaaaaaaaaaaaaaa
     </div>
   </div>
 </template>
@@ -107,10 +107,10 @@ export default {
   display: flex;
   justify-content: center;
 }
-.lxl-footer{
-  height: 15rem;
-  background-color: rgb(95, 95, 95);
+.lxl-footer {
+  height: 10rem;
   width: 100%;
+  background-color: black;
 }
 </style>
 
