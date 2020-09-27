@@ -51,7 +51,7 @@
             <el-menu-item index="2-2">疾病自诊</el-menu-item>
           </el-submenu>
           <el-menu-item index="1">可视化平台</el-menu-item>
-          <el-menu-item index="1">电子商城</el-menu-item>
+          <el-menu-item index="/emall">电子商城</el-menu-item>
           <el-menu-item index="1">个人中心</el-menu-item>
         </el-menu>
       </div>
