@@ -159,4 +159,13 @@ const router = new VueRouter({
   routes
 })
 
+// 挂载路由导航守卫 ,to目标路径，from来源路径，next放行路径
+router.beforeEach((to, from, next) => {
+  if (to.path === '/login') return next()
+  // const tokenStr = window.sessionStorage.getItem('token')
+  // if (!tokenStr) return next('/login')
+  next()
+})
+
+
 export default router
