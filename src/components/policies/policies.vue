@@ -1,0 +1,9 @@
+<template>
+<div>
+    policies
+</div>
+</template>
+<script>
+</script>
+<style>
+</style>

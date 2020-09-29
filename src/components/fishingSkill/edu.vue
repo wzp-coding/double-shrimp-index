@@ -1,0 +1,9 @@
+<template>
+<div>
+    edn
+</div>
+</template>
+<script>
+</script>
+<style>
+</style>
