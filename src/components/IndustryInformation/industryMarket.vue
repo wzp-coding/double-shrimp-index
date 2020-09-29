@@ -1,6 +1,6 @@
 <template>
   <div>
-  11111
+  11111产业资讯
   </div>
 </template>
 <script>
