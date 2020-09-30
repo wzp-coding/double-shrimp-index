@@ -10,7 +10,6 @@ export default {
     
   },
   created() {
-      console.log(this.global.baseUrl)
   },
 };
 </script>

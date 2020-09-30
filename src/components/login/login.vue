@@ -32,7 +32,11 @@
             </el-form-item>
             <el-form-item label="验证码">
               <div style="position: relative">
-                <el-input style="width: 110px" placeholder="输入验证码">
+                <el-input
+                  style="width: 110px"
+                  v-model="loginForm.captcha"
+                  placeholder="输入验证码"
+                >
                 </el-input>
                 <el-image
                   style="width: 100px; position: absolute; height: 42px"
@@ -56,7 +60,7 @@
       </el-card>
     </div>
     <!-- 注册 -->
-    <el-dialog
+    <!-- <el-dialog
       title="注册页面"
       :visible.sync="centerDialogVisible1"
       width="25%"
@@ -78,7 +82,7 @@
         </el-form-item>
         <el-form-item label="验证码">
           <div style="position: relative">
-            <el-input style="width: 110px"> </el-input>
+            <el-input style="width: 110px" v-model="captcha"> </el-input>
             <el-image
               style="width: 100px; position: absolute; height: 42px"
               :src="url"
@@ -94,9 +98,10 @@
           >注册</el-button
         >
       </span>
-    </el-dialog>
+    </el-dialog> -->
+
     <!-- 忘记密码 -->
-    <el-dialog
+    <!-- <el-dialog
       title="提示"
       :visible.sync="centerDialogVisible2"
       width="25%"
@@ -130,7 +135,7 @@
           >注册</el-button
         >
       </span>
-    </el-dialog>
+    </el-dialog> -->
   </div>
 </template>
 <script>
@@ -139,6 +144,8 @@ export default {
     return {
       centerDialogVisible1: false,
       centerDialogVisible2: false,
+      url: "",
+      cToken: "",
       form: {
         name: "",
         region: "",
@@ -151,6 +158,7 @@ export default {
       },
       //登录表单数据
       loginForm: {
+        captcha: "",
         username: "",
         password: "",
       },
@@ -159,34 +167,60 @@ export default {
         username: [
           { required: true, message: "请输入用户名", trigger: "blur" },
           {
-            min: 3,
+            min: 2,
             max: 10,
-            message: "长度在 3 到 10 个字符",
+            message: "长度在 2 到 10 个字符",
             trigger: "blur",
           },
         ],
         password: [
           { required: true, message: "请输入密码", trigger: "blur" },
           {
-            min: 5,
+            min: 2,
             max: 15,
-            message: "长度在 5 到 15 个字符",
+            message: "长度在 2 到 15 个字符",
             trigger: "blur",
           },
         ],
       },
     };
   },
+  created() {
+    this.getCaptcha();
+  },
   methods: {
     onSubmit() {
       console.log("submit!");
     },
+    // 登录并把token储存
     login() {
       // 表单预验证
-      this.$refs.loginForm.validate((valid) => {
+      this.$refs.loginForm.validate(async (valid) => {
         if (!valid) return;
-        this.$http.post()
+        const data = await this.$http.post(
+          "/user/login" +
+            "?captcha=" +
+            this.loginForm.captcha +
+            "&cToken=" +
+            this.cToken,
+          {
+            loginId: this.loginForm.username,
+            password: this.loginForm.password,
+          }
+        );
+        console.log(data);
+        this.$message.success("登录成功!");
+        window.sessionStorage.setItem("token", data.headers.token);
+        window.localStorage.setItem("userData", data.data);
+        // this.$router.push("/me");
       });
+    },
+    // 获取验证码
+    async getCaptcha() {
+      const { data: res } = await this.$http.post("/captcha/getCaptcha");
+      this.url = "data:image/png;base64," + res.data.img;
+      this.cToken = res.data.cToken;
+      console.log(this.cToken);
     },
   },
 };
