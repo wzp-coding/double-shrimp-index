@@ -1,10 +1,31 @@
 <template>
   <div class="partTwo">
-    <div class="title">专家问答</div>
-    <div class="expertReply">
-      <miniReplyCard></miniReplyCard>
-      <miniReplyCard></miniReplyCard>
-      <miniReplyCard></miniReplyCard>
+    <div class="title">
+      专家问答<i
+        class="el-icon-arrow-right"
+        style="
+          border: 1px solid #000;
+          border-radius: 50%;
+          float: right;
+          cursor: pointer;
+        "
+      ></i>
+    </div>
+    <div class="block">
+      <el-carousel>
+        <el-carousel-item>
+          <miniReplyCard></miniReplyCard>
+          <miniReplyCard></miniReplyCard>
+          <miniReplyCard></miniReplyCard>
+          <miniReplyCard></miniReplyCard>
+        </el-carousel-item>
+        <el-carousel-item>
+          <miniReplyCard></miniReplyCard>
+          <miniReplyCard></miniReplyCard>
+          <miniReplyCard></miniReplyCard>
+          <miniReplyCard></miniReplyCard>
+        </el-carousel-item>
+      </el-carousel>
     </div>
   </div>
 </template>
@@ -22,12 +43,13 @@ export default {
 </script>
 <style lang="less">
 .partTwo {
-    .title{
-        
-    }
-    .expertReply{
-        display: flex;
-        flex-direction: column;
-    }
+  .title {
+    padding-top: 20px;
+    font-size: 20px;
+  }
+  .expertReply {
+    display: flex;
+    flex-direction: column;
+  }
 }
 </style>

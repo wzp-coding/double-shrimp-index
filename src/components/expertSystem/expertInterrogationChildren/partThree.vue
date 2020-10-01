@@ -1,28 +1,49 @@
 <template>
-    <div>
-        <div class="title">推荐文章</div>
-        <div>
-            <miniArticleCard></miniArticleCard>
-            <miniArticleCard></miniArticleCard>
-            <miniArticleCard></miniArticleCard>
-            <miniArticleCard></miniArticleCard>
-        </div>
+  <div>
+    <div class="title">
+      推荐文章<i
+        class="el-icon-arrow-right"
+        style="
+          border: 1px solid #000;
+          border-radius: 50%;
+          float: right;
+          cursor: pointer;
+        "
+      ></i>
     </div>
+    <div class="block">
+      <el-carousel>
+        <el-carousel-item>
+          <miniArticleCard></miniArticleCard>
+          <miniArticleCard></miniArticleCard>
+          <miniArticleCard></miniArticleCard>
+          <miniArticleCard></miniArticleCard>
+        </el-carousel-item>
+        <el-carousel-item>
+          <miniArticleCard></miniArticleCard>
+          <miniArticleCard></miniArticleCard>
+          <miniArticleCard></miniArticleCard>
+          <miniArticleCard></miniArticleCard>
+        </el-carousel-item>
+      </el-carousel>
+    </div>
+  </div>
 </template>
 <script>
-import miniArticleCard from './miniArticleCard.vue'
+import miniArticleCard from "./miniArticleCard.vue";
 
 export default {
-    data () {
-    return {
-      
-    }
+  data() {
+    return {};
   },
-  components:{
-    miniArticleCard
-  }
-}
+  components: {
+    miniArticleCard,
+  },
+};
 </script>
 <style lang="less">
-    
+.title {
+  padding-top: 20px;
+  font-size: 20px;
+}
 </style>

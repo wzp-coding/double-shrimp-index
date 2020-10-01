@@ -30,7 +30,10 @@ export default {};
 </script>
 <style lang="less">
 .mini_reply_card {
-    margin: 10px 0;
+   &:nth-child(1){
+     margin: 10px 0 20px 0;
+   }
+     margin-bottom: 20px;
   .ques_item {
     display: flex;
     flex-direction: column;

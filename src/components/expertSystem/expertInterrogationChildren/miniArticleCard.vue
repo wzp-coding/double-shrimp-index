@@ -24,7 +24,10 @@ export default {};
 </script>
 <style lang="less">
 .mini_article_card {
-  margin: 10px 0;
+  &:nth-child(1){
+     margin: 10px 0 10px 0;
+   }
+     margin-bottom: 10px;
   .article_item {
     display: flex;
     align-items: center;
@@ -59,6 +62,7 @@ export default {};
       .detail_info {
           margin: 0 10px;
           font-size: 12px;
+          margin-bottom: 10px;
           color: grey;
           display: flex;
           justify-content: space-between;

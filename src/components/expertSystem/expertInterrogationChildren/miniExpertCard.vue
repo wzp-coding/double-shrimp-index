@@ -11,7 +11,7 @@
             <div class="name_address">
               <div class="name">
                 <span>张三</span>
-                <span>|</span>
+                <span style="padding:0 10px;">|</span>
                 <el-button type="text">详情</el-button>
               </div>
               <div class="address">广东省广州市某某区</div>
@@ -48,7 +48,7 @@ export default {};
 </script>
 <style lang="less">
 .mini_expert_card {
-  margin: 20px 0;
+  margin: 10px 0;
   .experts_item {
     display: flex;
     flex-direction: column;
