@@ -14,12 +14,11 @@
       </div>
       <div class="lxl-nav">
         <el-menu
-          :default-active="activeIndex"
           class="el-menu-demo"
           mode="horizontal"
-          router="true"
+          router
         >
-          <el-submenu :index="1">
+          <el-submenu index="1">
             <template slot="title">产业资讯</template>
             <el-menu-item index="/industryMarket">产业行情</el-menu-item>
             <el-menu-item index="/prawnNews">虾业专题</el-menu-item>
@@ -36,12 +35,12 @@
           <el-menu-item index="/environmentalMonitoring">环境监控</el-menu-item>
           <el-menu-item index="/productTraceability">产品溯源</el-menu-item>
           <el-menu-item index="/knowledgeGraph">知识图谱</el-menu-item>
-          <el-submenu :index="2">
+          <el-submenu index="2">
             <template slot="title">专家系统</template>
             <el-menu-item index="/expertInterrogation">专家问诊</el-menu-item>
             <el-menu-item index="/autognosis">疾病自诊</el-menu-item>
           </el-submenu>
-          <el-submenu>
+          <el-submenu index="3">
             <template slot="title">智能决策</template>
             <el-menu-item index="/breedingPlan">养殖规划</el-menu-item>
             <el-menu-item index="/waterQualityForecastAndWarning"
