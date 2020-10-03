@@ -24,6 +24,9 @@
       <div class="photoDisease">
         <photoDisease></photoDisease>
       </div>
+      <div class="waterfallReply">
+        <waterfallReply></waterfallReply>
+      </div>
     </div>
   </div>
 </template>
@@ -32,6 +35,7 @@ import queryDisease from "./autognosisChildren/queryDisease";
 import queryDiseaseTypes from "./autognosisChildren/queryDiseaseTypes";
 import diseaseKnowledges from "./autognosisChildren/diseaseKnowledges";
 import photoDisease from "./autognosisChildren/photoDisease";
+import waterfallReply from "./autognosisChildren/waterfallReply";
 export default {
   data() {
     return {};
@@ -40,7 +44,8 @@ export default {
     queryDisease,
     queryDiseaseTypes,
     diseaseKnowledges,
-    photoDisease
+    photoDisease,
+    waterfallReply
   },
   methods: {},
 };
