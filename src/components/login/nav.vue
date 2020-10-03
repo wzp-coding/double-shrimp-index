@@ -3,10 +3,22 @@
     <div class="lxl-head">
       <div class="lxl-login">
         <div class="lxl-logo"></div>
-        <div class="lxl-avatar">
-          <el-avatar :size="50" :src="userData.photo"></el-avatar>
+
+        <div class="lxl-avatar" v-if="!isLogin">
+          <el-avatar
+            :size="50"
+            src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+          ></el-avatar>
           <router-link to="/login">登录</router-link>
-          <el-link>退出</el-link>
+          <el-link>注册</el-link>
+        </div>
+
+        <div class="lxl-avatar" v-if="isLogin">
+          <el-avatar :size="50" :src="userData.photo"></el-avatar>
+          <router-link to="/me" style="color: #082958d4">{{
+            userData.userName
+          }}</router-link>
+          <el-link @click="outUser()">退出</el-link>
         </div>
       </div>
       <div class="lxl-nav">
@@ -58,31 +70,39 @@
   </div>
 </template>
 <script>
+import { mapState, mapMutations } from "vuex";
 export default {
   data() {
     return {
       activeIndex: "",
-      userData: {
-        photo:
-          "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
-      },
-      photo:
-        "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
     };
   },
-  mounted() {
-    window.addEventListener('setItem')
+  methods: {
+    outUser() {
+      // 调用vuex使用默认的值的覆盖原有的用户
+      window.sessionStorage.setItem("token", "");
+      window.sessionStorage.setItem("userData", null);
+      this.$store.commit(("changeToken", ""));
+      this.$store.commit(("changeUserData", ""));
+      this.$store.commit("changeIsLogin", false);
+      this.$message({
+        showClose: true,
+        message: "退出成功",
+      });
+    },
   },
-  created() {
-    this.userData = window.localStorage.getItem("userData");
-    console.log(this.userData.photo);
-  },
-  beforeUpdate() {
-    this.userData = window.localStorage.getItem("userData");
-    console.log(this.userData.photo);
-  },
-  updated() {
-    this.userData = window.localStorage.getItem("userData");
+  computed: {
+    ...mapState(["userData", "isLogin"]),
+    // 用来标识登录，并监控浏览器刷新后重新将session中的数据放到vuex中
+    isLogin() {
+      if (
+        window.sessionStorage.getItem("userData") &&
+        window.sessionStorage.getItem("token")
+      ) {
+        this.$store.dispatch("changeUserDataAsycn");
+      }
+      return this.$store.getters.getIsLogin;
+    },
   },
 };
 </script>
@@ -116,5 +136,11 @@ export default {
 .lxl-nav {
   display: flex;
   justify-content: center;
+}
+.router-link-active {
+  text-decoration: none;
+}
+a {
+  text-decoration: none;
 }
 </style>
