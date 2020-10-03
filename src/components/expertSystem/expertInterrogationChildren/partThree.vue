@@ -1,15 +1,14 @@
 <template>
   <div>
     <div class="title">
-      推荐文章<i
-        class="el-icon-arrow-right"
-        style="
-          border: 1px solid #000;
-          border-radius: 50%;
-          float: right;
-          cursor: pointer;
-        "
-      ></i>
+      推荐文章
+      <div style="float: right; cursor: pointer">
+        <span style="color: #ddd; font-size: 14px">查看更多&nbsp;</span>
+        <i
+          class="el-icon-arrow-right"
+          style="border: 1px solid #000; border-radius: 50%"
+        ></i>
+      </div>
     </div>
     <div class="block">
       <el-carousel>

@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div class="photo_disease">
     <el-row
       style="padding-top: 20px; font-size: 20px; border-bottom: 1px solid #ddd"
     >
       <el-col :span="24"
         ><div class="grid-content">
-          农技专家
+          图文识病
           <div style="float: right; cursor: pointer">
             <span style="color: #ddd; font-size: 14px">查看更多&nbsp;</span>
             <i
@@ -16,32 +16,37 @@
       ></el-col>
     </el-row>
     <el-row :gutter="20">
-      <el-col :span="8"
-        ><div class="grid-content bg-purple">
-          <miniExpertCard></miniExpertCard></div
+      <el-col :span="6"
+        ><div class="grid-content"><miniPhotoDisease></miniPhotoDisease></div
       ></el-col>
-      <el-col :span="8"
-        ><div class="grid-content bg-purple">
-          <miniExpertCard></miniExpertCard></div
+      <el-col :span="6"
+        ><div class="grid-content"><miniPhotoDisease></miniPhotoDisease></div
       ></el-col>
-      <el-col :span="8"
-        ><div class="grid-content bg-purple">
-          <miniExpertCard></miniExpertCard></div
+      <el-col :span="6"
+        ><div class="grid-content"><miniPhotoDisease></miniPhotoDisease></div
+      ></el-col>
+      <el-col :span="6"
+        ><div class="grid-content"><miniPhotoDisease></miniPhotoDisease></div
       ></el-col>
     </el-row>
   </div>
 </template>
 <script>
-import miniExpertCard from "./miniExpertCard.vue";
+import miniPhotoDisease from "./miniPhotoDisease";
 
 export default {
   data() {
     return {};
   },
+  methods: {},
+  mounted() {},
   components: {
-    miniExpertCard,
+    miniPhotoDisease,
   },
 };
 </script>
 <style lang="less">
+.photo_disease{
+  margin-top: 20px;
+}
 </style>
