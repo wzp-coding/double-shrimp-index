@@ -20,7 +20,7 @@
           </div>
         </div>
         <div class="topright" >
-          <h3 style="display:inline"><span style="border-left:6px solid rgb(93,183,60)"></span>行情资讯 </h3>
+          <h3 ><span style="margin-right:5px;border-left:6px solid rgb(93,183,60)"></span>行情资讯 </h3>
           <hr style="opacity:0.6">
           <ul>
             <li ><span style="font-size:19px ;font-weight:800">今日小麦价格多少钱一斤?...</span></li>
@@ -28,7 +28,7 @@
             <li>今日小麦价格多少钱一斤? 2020年9月11...</li>
             <li>今日全国各地小麦价格最新行情分析</li>
           </ul><br>
-          <h3><span style="border-left:6px  solid rgb(93,183,60)"></span> 每周精品</h3>
+          <h3><span style="border-left:6px  solid rgb(93,183,60);margin-right:5px"></span> 每周精品</h3>
           <hr style="opacity:0.6">
           <ul>
             <li ><span style="font-size:19px ;font-weight:800">今日小麦多少钱一斤? 2020...</span></li>
@@ -39,7 +39,7 @@
           </ul>
         </div>
         <div class="headerbot">
-          <h3><span></span>行情资讯 </h3>
+          <h3><span style="margin-right:5px"></span>行情资讯 </h3>
           <a href="">查看更多</a>
           
         </div>
@@ -63,7 +63,7 @@
           <li>下半年生猪肉会涨价吗</li>
         </ul>
         <div class="div1">
-          <ul>
+          <ul class="div1ul1">
             <li ><span>今日菠萝多少钱一斤? 2020...</span></li>
             <li>今日小麦价格多少钱一斤? 2020年9月18...</li>
             <li>今日小麦价格多少钱一斤? 2020年9月11...</li>
@@ -78,57 +78,57 @@
         </div>
 
         <div class="onemid"> 
-        <h3><span></span>精彩专题</h3> 
-        <span>查看更多</span>
+        <h3 style="margin-right:5px"><i>&nbsp;</i> <span style="opacity:1">精彩专题</span></h3> 
+        <span style="margin-left:3px">查看更多</span>
         </div> 
         <div class="zhuangti">
           <div class="ztitop">
-            <el-image :src="src"></el-image>
-            <el-image :src="src"></el-image>
-            <el-image :src="src"></el-image>
-            <el-image :src="src"></el-image>
+            <div class="ztitopblock"><el-image :src="src"></el-image><span>现在桃子行情怎么样....</span></div>
+            <div class="ztitopblock"><el-image :src="src"></el-image><span>现在桃子行情怎么样</span></div>
+            <div class="ztitopblock"><el-image :src="src"></el-image><span>现在桃子行情怎么样</span></div>
+            <div class="ztitopblock"><el-image :src="src"></el-image><span>现在桃子行情怎么样</span></div>
           </div>
           <div class="ztison">
-            <el-image :src="src" ></el-image>
+            <el-image :src="src" style="padding-top:3px"></el-image>
             <div class="ztisontext">
-              <h3>选择、坚持、热爱,他们把货从农村卖向全国</h3>
+              <h3 style="padding-top:10px">选择、坚持、热爱,他们把货从农村卖向全国</h3>
             <p style="font-size:16px;padding-bottom:15px;padding-top:10px">编者按:“我与惠农网的故事”征文比赛已圆满结束，本次活动我们收到了482个真实故事，感谢你
               们用文字和图片记录下了与惠农网的“独家记忆”.中感谢你们在故事...<span style="color:green">[详细]</span>
             </p>
-            <p style="font-size:15px;float:left">发布时间:2020-09-14 14:26阅读： 533</p> 
+            <p style="font-size:13px;float:left">发布时间:2020-09-14 14:26<span style="margin-left:15px">阅读： 533</span></p> 
             <p style="color:green;font-size:13px;float:right;padding-right:3px">财富手册</p><p style="font-size:13px;float:right">分类：</p>
             </div>
           </div>
           <div class="ztison">
-            <el-image :src="src"></el-image>
+            <el-image :src="src" style="padding-top:3px"></el-image>
             <div class="ztisontext">
-              <h3>选择、坚持、热爱,他们把货从农村卖向全国</h3>
+              <h3 style="padding-top:10px">选择、坚持、热爱,他们把货从农村卖向全国</h3>
             <p style="font-size:16px;padding-bottom:15px;padding-top:10px">编者按:“我与惠农网的故事”征文比赛已圆满结束，本次活动我们收到了482个真实故事，感谢你
               们用文字和图片记录下了与惠农网的“独家记忆”.中感谢你们在故事...<span style="color:green">[详细]</span>
             </p>
-            <p style="font-size:15px;float:left">发布时间:2020-09-14 14:26阅读： 533</p> 
+            <p style="font-size:13px;float:left">发布时间:2020-09-14 14:26<span style="margin-left:15px">阅读： 533</span></p> 
             <p style="color:green;font-size:13px;float:right;padding-right:3px">财富手册</p><p style="font-size:13px;float:right">分类：</p>
             </div>
           </div>
           <div class="ztison">
-            <el-image :src="src"></el-image>
+            <el-image :src="src" style="padding-top:3px"></el-image>
             <div class="ztisontext">
-              <h3>选择、坚持、热爱,他们把货从农村卖向全国</h3>
+              <h3 style="padding-top:10px">选择、坚持、热爱,他们把货从农村卖向全国</h3>
             <p style="font-size:16px;padding-bottom:15px;padding-top:10px">编者按:“我与惠农网的故事”征文比赛已圆满结束，本次活动我们收到了482个真实故事，感谢你
               们用文字和图片记录下了与惠农网的“独家记忆”.中感谢你们在故事...<span style="color:green">[详细]</span>
             </p>
-            <p style="font-size:15px;float:left">发布时间:2020-09-14 14:26阅读： 533</p> 
+            <p style="font-size:13px;float:left">发布时间:2020-09-14 14:26<span style="margin-left:15px">阅读： 533</span></p> 
             <p style="color:green;font-size:13px;float:right;padding-right:3px">财富手册</p><p style="font-size:13px;float:right">分类：</p>
             </div>
           </div>
           <div class="ztison">
-            <el-image :src="src"></el-image>
+            <el-image :src="src" style="padding-top:3px"></el-image>
             <div class="ztisontext">
-              <h3>选择、坚持、热爱,他们把货从农村卖向全国</h3>
+              <h3 style="padding-top:10px">选择、坚持、热爱,他们把货从农村卖向全国</h3>
             <p style="font-size:16px;padding-bottom:15px;padding-top:10px">编者按:“我与惠农网的故事”征文比赛已圆满结束，本次活动我们收到了482个真实故事，感谢你
               们用文字和图片记录下了与惠农网的“独家记忆”.中感谢你们在故事...<span style="color:green">[详细]</span>
             </p>
-            <p style="font-size:15px;float:left">发布时间:2020-09-14 14:26阅读： 533</p> 
+            <p style="font-size:13px;float:left">发布时间:2020-09-14 14:26  <span style="margin-left:15px">阅读： 533</span></p> 
             <p style="color:green;font-size:13px;float:right;padding-right:3px">财富手册</p><p style="font-size:13px;float:right">分类：</p>
             </div>
           </div>
@@ -138,7 +138,7 @@
     
     </div>
     <div class="right">   <!--右半部分--->
-      <h3><span style="border-left:6px  solid rgb(93,183,60)"></span> 热门资讯<span style="font-size:15px;background-color:red;border-radius:10px;color:#fff">NEW</span></h3>
+      <h3><span style="border-left:6px  solid rgb(93,183,60);margin-right:5px"></span> 热门资讯<span style="font-size:15px;background-color:red;color:#fff">NEW</span></h3>
       <div class="righttext">
         <ul style="margin-left:17px">
           <li><span style="font-size:19px ;font-weight:800 ">农村农业部关于完善农村...</span><span style="float:right">2天前</span></li>
@@ -177,7 +177,7 @@
           <li>80后青年互联网上卖山货，助力家乡脱贫致富！</li>
           <li>精准卖货，他是农产品的“经纪人”</li>
         </ul>
-        <h3 style="display:inline"><span style="border-left:6px  solid rgb(93,183,60)"></span> 热门资讯</h3>
+        <h3 style="display:inline"><span style="border-left:6px  solid rgb(93,183,60);margin-right:5px"></span> 热门资讯</h3>
         <p style="float:right;padding-top:9px;opacity:0.6">查看更多</p>
       </div>
       <div class="tage" >
@@ -191,11 +191,6 @@
         <div class="tageson"><el-button  size="medium" round>红薯批发</el-button>
         <el-button  size="medium" round>黄瓜资源</el-button></div>
       </div>
-    </div>
-    <!-- 最底部 -->
-    <div class="bot"><h5></h5>
-      <p style="padding-top:25px;padding-bottom:3px">联系我们：15904960695 kabit@sina.com</p>
-      <p>Copyright@2020.<span style="color:blue">对虾大数据云平台</span>All rights reserved</p>
     </div>
   </div>
 </template>
@@ -323,24 +318,25 @@ export default {
       margin-bottom:10px;
     }
     .ul1{
-      margin-left:17px;
+      margin:5px 0 0 154px;
       float: left;
     }
     .div1{
       float:left;
       width: 800px;
       margin-bottom:10px;
-      ul{
+      .div1ul1{
         float: left;
-        padding: 10px 72px 0 20px;
+        padding-left: 18px;
       }
     }
     .onemid{
       h3{
         display:inline-block;
         padding-top:6px;
-        span{
+        i{
           border-left:6px  solid rgb(93,183,60);
+          margin-right: 5px;
         }
       }
       span{
@@ -350,9 +346,20 @@ export default {
       }
     }
     .ztitop{
-      .el-image{
-        width:190px; 
-        height:115px;
+      display: inline-block;
+      .ztitopblock{
+        height: 160px;
+        width: 200px;
+        float: left;
+        .el-image{
+          float: left;
+          width:190px; 
+          height:115px;
+        }
+        span{
+          padding-left: 8px;
+          display: block;
+        }
       }
     }
     .ztison{
@@ -365,7 +372,7 @@ export default {
     }
     .ul2{
       float: right;
-      margin:10px 75px 0 0;
+      margin:10px 34px 0 0;
     }
   }
   li{
@@ -404,10 +411,6 @@ export default {
   .el-col{
     margin-right: 55px;
     
-  }
-  .bot p{
-    color:white;
-    text-align: center;
   }
   .rightmd li{
     font-size: 14.5px;
