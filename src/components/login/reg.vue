@@ -2,6 +2,9 @@
   <div class="lxl-login">
     <div class="lxl-page">
       <el-card class="box-card">
+        <div class="lxl-title">
+          <p style="font-size: 26px">注册页面</p>
+        </div>
         <div class="lxl-form">
           <el-form
             ref="regForm"
@@ -9,58 +12,62 @@
             label-width="80px"
             :rules="FormRules"
           >
-            <el-form-item style="color: red" label="用户名" prop="userName">
+            <el-form-item label="用户名" prop="userName">
               <el-input
-                v-model="regForm.user.userName"
+                v-model="regForm.userName"
                 placeholder="设置用户名"
                 prefix-icon="el-icon-user"
               ></el-input>
             </el-form-item>
-            <el-form-item style="color: red" label="设置密码" prop="pass">
+            <el-form-item label="设置密码" prop="password">
               <el-input
-                v-model="regForm.user.password"
+                v-model="regForm.password"
                 placeholder="设置密码"
                 prefix-icon="el-icon-lock"
               ></el-input>
             </el-form-item>
-            <el-form-item style="color: red" label="确认密码" prop="checkPass">
+            <el-form-item label="确认密码" prop="checkpassword">
               <el-input
                 placeholder="确认密码"
                 type="password"
-                v-model="regForm.user.checkpassword"
+                v-model="regForm.checkpassword"
                 prefix-icon="el-icon-unlock"
               ></el-input>
             </el-form-item>
-            <el-form-item label="验证码">
+            <el-form-item label="验证码" prop="captcha">
               <el-input style="width: 110px" v-model="regForm.captcha">
               </el-input>
               <el-image
                 style="width: 100px; position: absolute; height: 42px"
                 :src="url"
+                @click="getCaptcha()"
               ></el-image>
             </el-form-item>
-            <el-form-item style="color: red" label="邮箱" prop="email2">
+            <el-form-item label="邮箱" prop="email">
               <el-input
-                v-model="regForm.user.email"
+                v-model="regForm.email"
                 placeholder="请输入邮箱"
                 prefix-icon="el-icon-message"
               ></el-input>
             </el-form-item>
-            <el-form-item label="邮箱验证">
-              <el-input style="width: 110px" v-model="regForm.captcha">
+            <el-form-item label="邮箱验证" prop="emailCode">
+              <el-input style="width: 110px" v-model="regForm.emailCode">
               </el-input>
               <el-button type="primary" @click="emailCode()"
                 >发送验证码</el-button
               >
             </el-form-item>
+            <el-form-item>
+              <el-button type="success" @click="register()">
+                确认注册</el-button
+              >
+            </el-form-item>
           </el-form>
         </div>
         <div style="display: flex; justify-content: flex-end">
-          <el-link style="" @click="centerDialogVisible1 = true">
-            注册
-          </el-link>
+          <router-link to="/login">登录</router-link>
           <el-divider direction="vertical"></el-divider>
-          <el-link @click="centerDialogVisible2 = true"> 忘记密码 ？</el-link>
+          <router-link to="/forgetPass">忘记密码 ？</router-link>
         </div>
       </el-card>
     </div>
@@ -71,13 +78,8 @@ export default {
   data() {
     // 自定义表单校验
     var validatePass = (rule, value, callback) => {
-      if (this.regForm.user.password === "") {
+      if (this.regForm.password === "") {
         callback(new Error("请输入密码"));
-      } else if (
-        this.regForm.user.password.length > 10 ||
-        this.regForm.user.password.length < 2
-      ) {
-        callback(new Error("长度在 2 到 10 个字符"));
       } else {
         if (this.regForm.checkpassword !== "") {
           this.$refs.regForm.validateField("checkpassword");
@@ -86,40 +88,35 @@ export default {
       }
     };
     var validatePass2 = (rule, value, callback) => {
-      if (this.regForm.user.checkpassword === "") {
+      if (this.regForm.checkpassword === "") {
         callback(new Error("请再次输入密码"));
-      } else if (
-        this.regForm.user.checkpassword !== this.regForm.user.password
-      ) {
+      } else if (this.regForm.checkpassword !== this.regForm.password) {
         callback(new Error("两次输入密码不一致!"));
       } else {
         callback();
       }
     };
     return {
-      photo1:
-        "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2308639883,2836006807&fm=26&gp=0.jpg",
       url: "",
       cToken: "",
       regForm: {
         captcha: "",
-        user: {
-          userName: "",
-          password: "",
-          checkpassword: "",
-          email: "",
-        },
+        emailCode: "",
+        userName: "",
+        password: "",
+        checkpassword: "",
+        email: "",
       },
       //表单验证规则
       FormRules: {
-        pass: [
+        password: [
           {
             validator: validatePass,
             trigger: "blur",
             required: true,
           },
         ],
-        checkPass: [
+        checkpassword: [
           { validator: validatePass2, required: true, trigger: "blur" },
         ],
         userName: [
@@ -131,81 +128,72 @@ export default {
             trigger: "blur",
           },
         ],
-        email2: [
+        email: [
           {
-            required: true, //是否必填
-            message: "请输入邮箱地址", //错误提示信息
-            trigger: "blur", //检验方式（blur为鼠标点击其他地方，）
+            required: true,
+            message: "请输入邮箱地址",
+            trigger: "blur",
           },
           {
-            type: "email", //要检验的类型（number，email，date等）
+            type: "email",
             message: "请输入正确的邮箱地址",
             trigger: ["blur", "change"],
+          },
+        ],
+        captcha: [
+          { required: true, message: "请输入验证码", trigger: "blur" },
+          {
+            min: 4,
+            max: 4,
+            message: "长度为4个字符",
+            trigger: "blur",
+          },
+        ],
+        emailCode: [
+          { required: true, message: "请输入邮箱验证码", trigger: "blur" },
+          {
+            min: 6,
+            max: 6,
+            message: "长度为4个字符",
+            trigger: "blur",
           },
         ],
       },
     };
   },
   created() {
+    // 加载验证码
     this.getCaptcha();
   },
   methods: {
-    login() {
-      // 表单预验证
-      this.$refs.loginForm.validate(async (valid) => {
-        if (!valid) return;
-        const data = await this.$http.post(
-          "/user/login" +
-            "?captcha=" +
-            this.loginForm.captcha +
-            "&cToken=" +
-            this.cToken,
-          {
-            loginId: this.loginForm.userName,
-            password: this.loginForm.password,
-          }
-        );
-        // 过滤
-        if (data.data.code === 20000) {
-          // 提示登录词语
-          this.$message.success(data.data.message);
-          // 将用户数据存入vuex和sessionStorage
-          this.$store.dispatch("loginAsycn", data);
-          console.log(this.$store.state);
-          // this.$router.push("/me");
-        } else {
-          this.$message({
-            showClose: true,
-            message: data.data.message,
-            type: "error",
-          });
-        }
-        console.log(data);
-      });
-    },
     // 获取验证码
     async getCaptcha() {
       const { data: res } = await this.$http.post("/captcha/getCaptcha");
       this.url = "data:image/png;base64," + res.data.img;
       this.cToken = res.data.cToken;
     },
+    // 注册
     register() {
-      this.$refs.loginForm.validate(async (valid) => {
+      this.$refs.regForm.validate(async (valid) => {
         if (!valid) return;
-        const data = await this.$http.post("/user/login", {
-          cToken: "",
-          captcha: "",
-          loginId: this.loginForm.userName,
-          password: this.loginForm.password,
-        });
+        const data = await this.$http.post(
+          "/user/register/" +
+            this.regForm.emailCode +
+            "?captcha=" +
+            this.regForm.captcha +
+            "&cToken=" +
+            this.cToken,
+          {
+            email: this.regForm.email,
+            loginId: this.regForm.userName,
+            password: this.regForm.password,
+          }
+        );
         // 过滤
         if (data.data.code === 20000) {
           // 提示登录词语
           this.$message.success(data.data.message);
-          // 将用户数据存入vuex和sessionStorage
-          this.$store.dispatch("loginAsycn", data);
-          console.log(this.$store.state);
-          // this.$router.push("/me");
+          this.$router.push("/login");
         } else {
           this.$message({
             showClose: true,
@@ -213,14 +201,11 @@ export default {
             type: "error",
           });
         }
-        console.log(data);
       });
     },
+    // 发送邮箱验证码
     async emailCode() {
-      const { data: res } = await this.$http.get(
-        "/email/" + this.regForm.user.email
-      );
-      console.log(res);
+      const data = await this.$http.get("/email/" + this.regForm.email);
     },
   },
 };
@@ -255,8 +240,8 @@ export default {
   }
 }
 .box-card {
-  height: 520px;
-  width: 400px;
+  height: 580px;
+  width: 380px;
   background-color: rgba(255, 255, 255, 0.6);
   border: none;
   border-radius: 2%;
@@ -266,5 +251,12 @@ a {
 }
 .router-link-active {
   text-decoration: none;
+}
+.lxl-title {
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+  margin-bottom: 20px;
+  color: rgb(95, 95, 95);
 }
 </style>

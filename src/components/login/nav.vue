@@ -5,19 +5,19 @@
         <div class="lxl-logo"></div>
 
         <div class="lxl-avatar" v-if="!isLogin">
-          <el-avatar
-            :size="50"
-            src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-          ></el-avatar>
+          <router-link to="/login">
+            <el-avatar
+              :size="50"
+              src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+            ></el-avatar>
+          </router-link>
           <router-link to="/login">登录</router-link>
-          <el-link>注册</el-link>
+          <router-link to="/reg">注册</router-link>
         </div>
 
         <div class="lxl-avatar" v-if="isLogin">
           <el-avatar :size="50" :src="userData.photo"></el-avatar>
-          <router-link to="/me" style="color: #082958d4">{{
-            userData.userName
-          }}</router-link>
+          <router-link to="/me">{{ userData.loginId }}</router-link>
           <el-link @click="outUser()">退出</el-link>
         </div>
       </div>
@@ -89,6 +89,7 @@ export default {
         showClose: true,
         message: "退出成功",
       });
+      this.$router.push("/login");
     },
   },
   computed: {

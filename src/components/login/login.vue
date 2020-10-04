@@ -43,7 +43,6 @@
             <el-form-item>
               <el-button type="success" @click="login()"> 登录</el-button>
             </el-form-item>
-            <el-form-item> </el-form-item>
           </el-form>
         </div>
         <div style="display: flex; justify-content: flex-end">
