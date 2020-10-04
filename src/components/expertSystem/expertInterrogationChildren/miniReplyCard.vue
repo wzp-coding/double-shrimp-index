@@ -6,7 +6,7 @@
           <div class="que_text">
             <span class="queicon">问</span>
             <router-link :to="{ name: 'replyDetail', params: { id: 123 } }">
-              请问如何提高罗氏沼虾养殖的成活率？Lorem ipsum dolor sit amet.
+              {{data?data.ques:'Lorem ipsum dolor sit amet consectetur adipisicing elit. Error, quae.'}}
             </router-link>
           </div>
         </div>
@@ -14,19 +14,23 @@
           <div class="que_text reply_text">
             <span class="queicon replyicon">答</span>
             <span class="quetext replytext">
-              1、改善底质和水体环境。定期使用底质改良剂，改善底部环境，抑制有害菌的滋生；稳定水质，保持藻相菌相的平衡。
+              {{data?data.reply:'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem cum quos et eligendi neque fugiat delectus quis animi est reiciendis.'}}
             </span>
           </div>
         </div>
         <div class="down">
-          <span class="update_time">更新于2020-08-03 10:46:37</span>
+          <span class="update_time">更新于{{data?data.updateTime:'2020-04-08 10:08:09'}}</span>
         </div>
       </div>
     </el-card>
   </div>
 </template>
 <script>
-export default {};
+export default {
+  props:['data'],
+  mounted() {
+  },
+};
 </script>
 <style lang="less">
 .mini_reply_card {
@@ -46,6 +50,7 @@ export default {};
       .que_text {
         margin-bottom: 15px;
         display: flex;
+        
         .queicon {
           box-sizing: border-box;
           text-align: center;
