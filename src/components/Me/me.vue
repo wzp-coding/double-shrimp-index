@@ -1,6 +1,6 @@
 <template>
   <div class="user-view">
-    <el-breadcrumb separator-class="el-icon-arrow-right">
+    <el-breadcrumb separator-class="el-icon-arrow-right" style="margin-left:18px">
       <el-breadcrumb-item>当前位置</el-breadcrumb-item>
       <el-breadcrumb-item>个人中心</el-breadcrumb-item>
     </el-breadcrumb>
@@ -82,8 +82,8 @@ export default {};
 
 <style lang="less" scoped>
 .user-view {
-  // width: 1150px;
-  width: 76%;
+  width: 1150px;
+  // width: 76%;
   margin: 10px auto;
   .user-container {
     // min-height: 500px;

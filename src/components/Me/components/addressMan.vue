@@ -175,7 +175,7 @@ export default {
       margin: 10px 0 30px;
     }
     border-radius: 4px;
-    border: 1px solid #ccc;
+    // border: 1px solid #ccc;
   }
   .address-detail {
     width: 100%;
@@ -183,7 +183,7 @@ export default {
     margin: 10px 0;
     background-color: #fff;
     border-radius: 4px;
-    border: 1px solid #ccc;
+    // border: 1px solid #ccc;
     .el-alert {
       width: 95%;
       margin: 10px auto;
