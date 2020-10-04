@@ -150,8 +150,10 @@ export default {
 <style lang="less" scoped>
 .lxl-login {
   background-image: url("../../assets/131.jpg");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
   width: 100%;
-  height: 800px;
+  height: 50rem;
   display: flex;
   justify-content: center;
   align-items: center;
