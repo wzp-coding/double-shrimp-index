@@ -32,6 +32,10 @@ import emall from '../components/emall/emall.vue'
 import me from '../components/Me/me.vue'
 // 登录页面
 import login from '../components/login/login.vue'
+import reg from '../components/login/reg.vue'
+import forgetPass from '../components/login/forgetPass.vue'
+import nav from '../components/login/nav.vue'
+import footer from '../components/login/footer.vue'
 
 
 
@@ -151,6 +155,24 @@ const routes = [
   {
     path: '/login',
     component: login
+  },
+  {
+    path: '/forgetPass',
+    component: forgetPass
+  },
+  {
+    path: '/reg',
+    component: reg
+  }
+  ,
+  {
+    path: '/nav',
+    component: nav
+
+  },
+  {
+    path: '/footer',
+    component: footer
 
   }
 ]
