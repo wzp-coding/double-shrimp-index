@@ -1,6 +1,6 @@
 <template>
   <div class="me-homepage">
-    <el-tabs v-model="activeName" @tab-click="handleClick" >
+    <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="所有订单" name="allOrder">
         <el-table :data="tableData" border style="width: 100%">
           <el-table-column fixed prop="date" label="货品" width="150">
