@@ -73,4 +73,18 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.expertList{
+    .container{
+        width: 1150px;
+        margin: auto;
+        .breadcrumb {
+        margin: 10px 0 10px 0;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #ccc;
+        }
+        .sortWay{
+            border-bottom: 1px solid #ddd;
+        }
+    }
+}
 </style>
