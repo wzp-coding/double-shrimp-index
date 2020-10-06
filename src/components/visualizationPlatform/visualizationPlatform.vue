@@ -1,8 +1,8 @@
 <template>
   <div class="lxl-vp">
     <el-header class="lxl-header">
-      <h1>数据可视化-Echarts</h1>
-      <span>{{ date }}</span>
+      <h1>对虾大数据可视化平台</h1>
+      <p>{{ date }}</p>
     </el-header>
     <!-- 主内容区 -->
     <section class="mainBox">
@@ -67,7 +67,6 @@
         </div>
       </div>
     </section>
-    <div id="myChart" :style="{ width: '300px', height: '300px' }"></div>
   </div>
 </template>
 <script>
@@ -75,7 +74,6 @@ import "./china";
 export default {
   data() {
     return {
-      msg: "Welcome to Your Vue.js App",
       date: new Date(),
     };
   },
@@ -595,8 +593,6 @@ export default {
       });
     },
     china() {
-
-
       // 本图作者：参考秋雁南飞的《投票统计》一图，网址：http://gallery.echartsjs.com/editor.html?c=xrJU-aE-LG
       var name_title = "中国人民大学2017年各省市计划录取人数";
       var subname = "数据爬取自千栀网\n，\n上海、浙江无文理科录取人数";
@@ -1153,17 +1149,20 @@ export default {
 .lxl-header {
   display: flex;
   justify-content: center;
-  color: white;
+  color: rgb(145, 248, 168);
   background-color: rgba(255, 255, 255, 0.3);
   padding-top: 0.5rem;
   flex-direction: row;
   position: relative;
-  span {
+
+  p {
+    color: rgb(167, 204, 176);
+
     position: absolute;
     right: 1rem;
-    line-height: 40px;
+    line-height: 50px;
     font-family: "electronicFont";
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
 }
 
