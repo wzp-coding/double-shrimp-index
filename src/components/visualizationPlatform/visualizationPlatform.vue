@@ -2,7 +2,6 @@
   <div class="lxl-vp">
     <el-header class="lxl-header">
       <h1>对虾大数据可视化平台</h1>
-      <p>{{ date }}</p>
     </el-header>
     <!-- 主内容区 -->
     <section class="mainBox">
