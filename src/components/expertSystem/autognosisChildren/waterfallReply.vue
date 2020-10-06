@@ -179,12 +179,12 @@ export default {
   },
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .waterfallReply {
-  .waterfallReply_content {
+  /deep/ .waterfallReply_content {
     display: flex;
     flex-direction: row;
-    .ques_item {
+     .ques_item  {
       .up {
           .que_text
         a {
@@ -197,10 +197,9 @@ export default {
             -webkit-box-orient: vertical;
           }
       }
-
       .mid{
         height: 100%;
-        .que_text.reply_text .quetext.replytext {
+        .que_text.reply_text  .quetext.replytext {
             font-size: 14px;
             overflow: hidden;
             text-overflow: ellipsis;

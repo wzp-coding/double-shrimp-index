@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="partThree">
     <div class="title">
       推荐文章
       <div style="float: right; cursor: pointer">
@@ -40,9 +40,8 @@ export default {
   },
 };
 </script>
-<style lang="less">
-.title {
-  padding-top: 20px;
-  font-size: 20px;
+<style lang="less" scoped>
+.partThree{
+  
 }
 </style>

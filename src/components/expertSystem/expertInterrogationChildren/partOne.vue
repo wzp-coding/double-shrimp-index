@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="partOne">
     <div class="title">
       热门专家
       <router-link style="float: right; cursor: pointer" :to="{name:'expertList'}" >
@@ -41,19 +41,9 @@ export default {
   },
 };
 </script>
-<style lang="less">
-.title {
-  padding-top: 20px;
-  font-size: 20px;
-}
-.block {
-  .el-carousel__container {
-    height: 560px;
-  }
-  .el-carousel__indicators.el-carousel__indicators--horizontal {
-    .el-carousel__button {
-      background-color: #ccc;
-    }
-  }
+<style lang="less" scoped>
+.partOne{
+
+  
 }
 </style>
