@@ -18,7 +18,9 @@ import productTraceability from '../components/productTraceability/productTracea
 
 import knowledgeGraph from '../components/knowledgeGraph/knowledgeGraph.vue'
 
+// 专家系统->专家问诊
 import expertInterrogation from '../components/expertSystem/expertInterrogation.vue'
+// 专家系统->疾病自诊
 import autognosis from '../components/expertSystem/autognosis.vue'
 
 import breedingPlan from '../components/intelligentDecision/breedingPlan.vue'
@@ -126,7 +128,6 @@ const routes = [
   {
     path: '/expertInterrogation',
     component: expertInterrogation
-
   },
   {
     path: '/autognosis',
