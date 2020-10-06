@@ -4,7 +4,7 @@
       <div class="breadcrumb">
         <el-breadcrumb separator-class="el-icon-arrow-right">
           <el-breadcrumb-item>当前位置</el-breadcrumb-item>
-          <el-breadcrumb-item :to="{ path: '/' }">专家问诊</el-breadcrumb-item>
+          <el-breadcrumb-item>专家问诊</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
       <div class="three_part">
@@ -48,11 +48,14 @@ export default {
 };
 </script>
 <style lang="less">
+a:-webkit-any-link{
+  text-decoration: none;
+}
 .container {
   width: 1150px;
   margin: auto;
   .breadcrumb{
-    margin: 10px 0 20px 0;
+    margin: 10px 0 10px 0;
     padding-bottom: 10px;;
     border-bottom: 2px solid #ccc;
   }

@@ -4,7 +4,7 @@
       <div class="breadcrumb">
         <el-breadcrumb separator-class="el-icon-arrow-right">
           <el-breadcrumb-item>当前位置</el-breadcrumb-item>
-          <el-breadcrumb-item :to="{ path: '/' }">疾病自诊</el-breadcrumb-item>
+          <el-breadcrumb-item>疾病自诊</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
       <el-tabs tab-position="left">

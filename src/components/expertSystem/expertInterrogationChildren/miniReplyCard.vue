@@ -5,7 +5,7 @@
         <div class="up">
           <div class="que_text">
             <span class="queicon">问</span>
-            <router-link :to="{ name: 'replyDetail', params: { id: 123 } }">
+            <router-link :to="{ name: 'questionDetail', params: { id: 123 } }">
               {{data?data.ques:'Lorem ipsum dolor sit amet consectetur adipisicing elit. Error, quae.'}}
             </router-link>
           </div>

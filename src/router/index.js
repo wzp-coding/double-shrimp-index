@@ -20,6 +20,9 @@ import knowledgeGraph from '../components/knowledgeGraph/knowledgeGraph.vue'
 
 // 专家系统->专家问诊
 import expertInterrogation from '../components/expertSystem/expertInterrogation.vue'
+// 跳转子页面，问答详情和专家列表
+import questionDetail from '../components/expertSystem/questionDetail.vue'
+import expertList from '../components/expertSystem/expertList.vue'
 // 专家系统->疾病自诊
 import autognosis from '../components/expertSystem/autognosis.vue'
 
@@ -43,8 +46,7 @@ import login from '../components/login/login.vue'
 
 Vue.use(VueRouter)
 
-const routes = [
-  {
+const routes = [{
     path: '/',
     redirect: '/industryMarket'
   },
@@ -82,14 +84,12 @@ const routes = [
     path: '/powerPoint',
     component: powerPoint
 
-  }
-  ,
+  },
   {
     path: '/intellectualProperty',
     component: intellectualProperty
 
-  }
-  ,
+  },
   {
     path: '/environmentalMonitoring',
     component: environmentalMonitoring
@@ -106,10 +106,25 @@ const routes = [
 
   },
   {
+    // 专家问诊
     path: '/expertInterrogation',
-    component: expertInterrogation
+    component: expertInterrogation,
+    name: 'expertInterrogation'
   },
   {
+    // 问答详情
+    path: '/expertInterrogation/questionDetail/:id',
+    component: questionDetail,
+    name: 'questionDetail'
+  },
+  {
+    // 专家列表
+    path: '/expertInterrogation/expertList',
+    component: expertList,
+    name: 'expertList'
+  },
+  {
+    // 疾病自诊
     path: '/autognosis',
     component: autognosis
 
