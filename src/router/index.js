@@ -15,6 +15,8 @@ import intellectualProperty from '../components/fishingSkill/intellectualPropert
 import environmentalMonitoring from '../components/environmentalMonitoring/environmentalMonitoring.vue'
 
 import productTraceability from '../components/productTraceability/productTraceability.vue'
+// 溯源详情页
+import traceabilityDetails from '../components/productTraceability/traceabilityDetails.vue'
 
 import knowledgeGraph from '../components/knowledgeGraph/knowledgeGraph.vue'
 
@@ -30,6 +32,7 @@ import visualizationPlatform from '../components/visualizationPlatform/visualiza
 
 import emall from '../components/emall/emall.vue'
 import me from '../components/Me/me.vue'
+
 // 登录页面
 import login from '../components/login/login.vue'
 
@@ -96,6 +99,12 @@ const routes = [
   {
     path: '/productTraceability',
     component: productTraceability
+
+  },
+  {
+    // 溯源详情页
+    path: '/traceabilityDetails',
+    component: traceabilityDetails
 
   },
   {
