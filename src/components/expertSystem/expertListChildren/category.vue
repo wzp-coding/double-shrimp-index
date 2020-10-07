@@ -38,6 +38,10 @@ export default {
             border: none;
           }
         }
+        .el-radio-button:first-child .el-radio-button__inner,
+        .el-radio-button:last-child .el-radio-button__inner{
+          border-radius: 0;
+        }
     }
 }
 </style>
