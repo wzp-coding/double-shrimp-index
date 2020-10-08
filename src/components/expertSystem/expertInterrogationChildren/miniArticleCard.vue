@@ -22,7 +22,7 @@
 <script>
 export default {};
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .mini_article_card {
   &:nth-child(1){
      margin: 10px 0 10px 0;

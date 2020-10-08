@@ -72,7 +72,7 @@ export default {
   components: {},
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .diseaseKnowledges {
   .img_div {
     padding: 5px;

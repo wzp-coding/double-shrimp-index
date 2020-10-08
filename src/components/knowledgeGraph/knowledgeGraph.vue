@@ -5,8 +5,8 @@
         separator-class="el-icon-arrow-right"
         class="lxl-breadcrumb"
       >
-        <el-breadcrumb-item :to="{ path: 'industryMarket' }"
-          >首页</el-breadcrumb-item
+        <el-breadcrumb-item 
+          >当前位置</el-breadcrumb-item
         >
         <el-breadcrumb-item>知识图谱</el-breadcrumb-item>
       </el-breadcrumb>

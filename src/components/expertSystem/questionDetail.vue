@@ -60,11 +60,32 @@ export default {
   },
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
+/deep/ a:-webkit-any-link{
+  text-decoration: none;
+}
+/deep/ .el-card.is-always-shadow{
+    box-shadow: none;
+  }
+/deep/.block {
+.el-carousel__container {
+  height: 560px;
+}
+.el-carousel__indicators.el-carousel__indicators--horizontal {
+  .el-carousel__button {
+    background-color: #ccc;
+  }
+}
+}
 .questionDetail {
-  .container {
+ /deep/ .container {
     width: 1150px;
     margin: auto;
+    .breadcrumb{
+    margin: 10px 0 10px 0;
+    padding-bottom: 10px;;
+    border-bottom: 2px solid #ccc;
+  }
     .content {
       display: flex;
       .left {

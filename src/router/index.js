@@ -34,13 +34,29 @@ import precisionFeeding from '../components/intelligentDecision/precisionFeeding
 import visualizationPlatform from '../components/visualizationPlatform/visualizationPlatform.vue'
 
 import emall from '../components/emall/emall.vue'
-import me from '../components/Me/me.vue'
 // 登录页面
-import login from '../components/login/login.vue'
 import reg from '../components/login/reg.vue'
 import forgetPass from '../components/login/forgetPass.vue'
 import nav from '../components/login/nav.vue'
 import footer from '../components/login/footer.vue'
+
+// 个人中心
+import me from '../components/Me/me.vue'
+// 个人中心---首页
+import meHomePage from '../components/Me/components/meHomePage.vue'
+// 个人中心---已购买的货物
+import goodsPurchased from '../components/Me/components/goodsPurchased.vue'
+// 个人中心---收藏夹
+import favorite from '../components/Me/components/favorite.vue'
+// 个人中心---收货地址管理
+import addressMan from '../components/Me/components/addressMan.vue'
+// 个人中心---退货退款
+import refund from '../components/Me/components/refund.vue'
+// 个人中心---修改密码
+import changePassword from '../components/Me/components/changePassword.vue'
+
+// 登录页面
+import login from '../components/login/login.vue'
 
 
 
@@ -165,7 +181,39 @@ const routes = [{
   },
   {
     path: '/me',
-    component: me
+    component: me,
+    children: [
+      // 个人中心首页
+      {
+        path: '/meHomePage',
+        component: meHomePage
+      },
+      // 个人中心已购买的货物
+      {
+        path: '/goodsPurchased',
+        component: goodsPurchased
+      },
+      // 个人中心收藏夹
+      {
+        path: '/favorite',
+        component: favorite
+      },
+      // 个人中心收货地址管理
+      {
+        path: '/addressMan',
+        component: addressMan
+      },
+      // 个人中心退货退款
+      {
+        path: '/refund',
+        component: refund
+      },
+      // 个人中心修改密码
+      {
+        path: '/changePassword',
+        component: changePassword
+      }
+    ]
 
   },
   {

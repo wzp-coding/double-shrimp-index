@@ -32,7 +32,7 @@ export default {
   },
 };
 </script>
-<style lang="less">
+<style lang="less" scoped> 
 .mini_reply_card {
    &:nth-child(1){
      margin: 10px 0 20px 0;

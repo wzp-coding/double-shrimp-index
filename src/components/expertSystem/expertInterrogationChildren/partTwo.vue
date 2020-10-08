@@ -2,14 +2,12 @@
   <div class="partTwo">
     <div class="title">
       专家问答
-      <div style="float: right;cursor: pointer;"><span style="color:#ddd;font-size:14px;">查看更多&nbsp;</span>
+      <div style="float: right; cursor: pointer">
+        <span style="color: #ddd; font-size: 14px">查看更多&nbsp;</span>
         <i
-        class="el-icon-arrow-right"
-        style="
-          border: 1px solid #000;
-          border-radius: 50%;
-        "
-      ></i>
+          class="el-icon-arrow-right"
+          style="border: 1px solid #000; border-radius: 50%"
+        ></i>
       </div>
     </div>
     <div class="block">
@@ -42,15 +40,7 @@ export default {
   },
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .partTwo {
-  .title {
-    padding-top: 20px;
-    font-size: 20px;
-  }
-  .expertReply {
-    display: flex;
-    flex-direction: column;
-  }
 }
 </style>

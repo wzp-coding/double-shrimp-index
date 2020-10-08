@@ -145,9 +145,9 @@ export default {
   },
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .queryDiseaseTypes {
-  
+    
   .content {
     .choices {
       margin: 20px 0 20px 10px;

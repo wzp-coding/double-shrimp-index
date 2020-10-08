@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="partOne">
     <div class="title">
       <div>热门专家</div>
       <router-link :to="{ name: 'expertList' }">
@@ -40,16 +40,8 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.title {
-  display: flex;
-  justify-content: space-between;
-  margin-left: 1rem;
-  margin-top: -8px;
-}
-.router-link-active {
-  text-decoration: none;
-}
-a {
-  text-decoration: none;
+.partOne{
+
+  
 }
 </style>
