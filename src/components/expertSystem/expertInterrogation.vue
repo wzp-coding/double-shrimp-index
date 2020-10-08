@@ -1,27 +1,40 @@
 <template>
   <div>
-    <div class="container">
-      <div class="breadcrumb">
-        <el-breadcrumb separator-class="el-icon-arrow-right">
+    <div class="lxl-body">
+      <div class="lxl-box">
+        <el-breadcrumb
+          separator-class="el-icon-arrow-right"
+          class="lxl-breadcrumb"
+        >
           <el-breadcrumb-item>当前位置</el-breadcrumb-item>
+          <el-breadcrumb-item>专家系统</el-breadcrumb-item>
           <el-breadcrumb-item>专家问诊</el-breadcrumb-item>
         </el-breadcrumb>
-      </div>
-      <div class="three_part">
-        <el-row :gutter="20" style="background:rgb(243, 243, 243);border-radius:4px;margin-left:0;margin-right:0;">
-          <el-col :span="8" style="background:#fff;margin:5px;"><div class="grid-content"><partOne></partOne></div></el-col>
-          <el-col :span="8" style="background:#fff;margin:5px;"><div class="grid-content"><partTwo></partTwo></div></el-col>
-          <el-col :span="8" style="background:#fff;margin:5px;"><div class="grid-content"><partThree></partThree></div></el-col>
-        </el-row>
-      </div>
-      <div class="experts">
-        <expert></expert>
-      </div>
-      <div class="expert_reply">
-        <expertReply></expertReply>
-      </div>
-      <div class="articles">
-        <articles></articles>
+        <el-divider></el-divider>
+        <!-- 热门专家 专家问答 推荐文章 -->
+        <div class="three_part">
+          <el-row :gutter="10">
+            <el-col :span="8"
+              ><div class="grid-content"><partOne></partOne></div
+            ></el-col>
+            <el-col :span="8"
+              ><div class="grid-content"><partTwo></partTwo></div
+            ></el-col>
+            <el-col :span="8"
+              ><div class="grid-content"><partThree></partThree></div
+            ></el-col>
+          </el-row>
+        </div>
+
+        <div class="experts">
+          <expert></expert>
+        </div>
+        <div class="expert_reply">
+          <expertReply></expertReply>
+        </div>
+        <div class="articles">
+          <articles></articles>
+        </div>
       </div>
     </div>
   </div>
@@ -47,28 +60,23 @@ export default {
   },
 };
 </script>
-<style lang="less">
-a:-webkit-any-link{
-  text-decoration: none;
+<style lang="less" scoped>
+.lxl-body {
+  display: flex;
+  justify-content: center;
+  .lxl-breadcrumb {
+    margin-top: 25px;
+    margin-left: 18px;
+    margin-bottom: -10px;
+  }
 }
-.container {
+.lxl-box {
   width: 1150px;
-  margin: auto;
-  .breadcrumb{
-    margin: 10px 0 10px 0;
-    padding-bottom: 10px;;
-    border-bottom: 2px solid #ccc;
-  }
-  .three_part {
-    width: 100%;
-    .el-col-8 {
-      width: 32.43333%;
-      height: 600px;
-      border-radius: 4px;
-    }
-  }
-  .el-card.is-always-shadow{
-    box-shadow: none;
+}
+.three_part {
+  margin-top: -18px;
+  .el-row > .el-col {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
   }
 }
 </style>
