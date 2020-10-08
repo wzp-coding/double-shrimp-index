@@ -1,13 +1,11 @@
 <template>
   <div>
     <div class="title">
-      热门专家
-      <router-link style="float: right; cursor: pointer" :to="{name:'expertList'}" >
-        <span style="color: #ddd; font-size: 14px">查看更多&nbsp;</span>
-        <i
-          class="el-icon-arrow-right"
-          style="border: 1px solid #000; border-radius: 50%"
-        ></i>
+      <div>热门专家</div>
+      <router-link :to="{ name: 'expertList' }">
+        <span style="font-size: 1rem"
+          >查看更多 <i class="el-icon-arrow-right"></i
+        ></span>
       </router-link>
     </div>
     <div class="block">
@@ -35,25 +33,23 @@ export default {
     miniExpertCard,
   },
   methods: {
-    pushToExpertList(){
-      this.$route.push('')
-    }
+    pushToExpertList() {
+      this.$route.push("");
+    },
   },
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .title {
-  padding-top: 20px;
-  font-size: 20px;
+  display: flex;
+  justify-content: space-between;
+  margin-left: 1rem;
+  margin-top: -8px;
 }
-.block {
-  .el-carousel__container {
-    height: 560px;
-  }
-  .el-carousel__indicators.el-carousel__indicators--horizontal {
-    .el-carousel__button {
-      background-color: #ccc;
-    }
-  }
+.router-link-active {
+  text-decoration: none;
+}
+a {
+  text-decoration: none;
 }
 </style>

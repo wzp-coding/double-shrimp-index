@@ -50,7 +50,7 @@ export default {
   methods: {},
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .autognosis {
   .little_title {
     font-size: 36px;
