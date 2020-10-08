@@ -61,22 +61,43 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.lxl-body {
-  display: flex;
-  justify-content: center;
-  .lxl-breadcrumb {
-    margin-top: 25px;
-    margin-left: 18px;
-    margin-bottom: -10px;
+/deep/ a:-webkit-any-link{
+  text-decoration: none;
+}
+/deep/ .el-card.is-always-shadow{
+    box-shadow: none;
+  }
+/deep/.block {
+  .el-carousel__container {
+    height: 560px;
+  }
+  .el-carousel__indicators.el-carousel__indicators--horizontal {
+    .el-carousel__button {
+      background-color: #ccc;
+    }
   }
 }
-.lxl-box {
+.container {
   width: 1150px;
-}
-.three_part {
-  margin-top: -18px;
-  .el-row > .el-col {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+  margin: auto;
+  /deep/.breadcrumb{
+    margin: 10px 0 10px 0;
+    padding-bottom: 10px;;
+    border-bottom: 2px solid #ccc;
   }
+  
+ /deep/ .three_part {
+    width: 100%;
+    .title {
+    padding-top: 20px;
+    font-size: 20px;
+  }
+    .el-col-8 {
+      width: 32.43333%;
+      height: 600px;
+      border-radius: 4px;
+    }
+  }
+  
 }
 </style>

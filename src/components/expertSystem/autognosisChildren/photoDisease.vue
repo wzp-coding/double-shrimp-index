@@ -45,8 +45,9 @@ export default {
   },
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .photo_disease{
   margin-top: 20px;
+  
 }
 </style>

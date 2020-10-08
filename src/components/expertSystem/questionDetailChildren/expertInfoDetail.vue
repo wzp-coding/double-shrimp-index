@@ -44,11 +44,11 @@
 <script>
 export default {};
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .expertInfoDetail {
 
   color: #fff;
-  .expert_info {
+  /deep/.expert_info {
     display: flex;
     flex-direction: column;
     align-items: start;

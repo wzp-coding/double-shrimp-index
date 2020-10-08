@@ -59,9 +59,9 @@ export default {
     }
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .miniReplyDetailCard {
-  .reply-item {
+  /deep/.reply-item {
     .res_user {
       display: flex;
       flex-direction: row;

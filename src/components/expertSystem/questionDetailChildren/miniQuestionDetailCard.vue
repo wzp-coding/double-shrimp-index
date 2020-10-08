@@ -36,9 +36,9 @@
 <script>
 export default {};
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .miniQuestionDetailCard {
-  .que_item {
+ /deep/ .que_item {
     border-bottom: 1px solid #ddd;
     .que_text {
       .up {

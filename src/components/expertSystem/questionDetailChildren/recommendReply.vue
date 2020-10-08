@@ -41,9 +41,9 @@ export default {
   },
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .recommendReply{
-  .el-card{
+  /deep/.el-card{
     border:none;
     border-bottom: 1px solid #ddd;
     padding-bottom: 10px;
