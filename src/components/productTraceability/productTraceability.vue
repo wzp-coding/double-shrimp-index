@@ -64,7 +64,7 @@
   width: 1150px;
   display: flex;
   justify-content: center;
-  flex-wrap: wrap;
+  flex-wrap: wrap;g
 }
 .contain {
   width: 300px;
