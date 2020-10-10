@@ -54,6 +54,9 @@
         </div>
       </el-col>
     </el-row>
+    <el-button>
+      <router-link to="/traceabilityDetails">aaa</router-link>
+    </el-button>
   </div>
 </template>
 <script>
