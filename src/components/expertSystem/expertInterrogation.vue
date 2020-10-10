@@ -4,7 +4,7 @@
       <div class="breadcrumb">
         <el-breadcrumb separator-class="el-icon-arrow-right">
           <el-breadcrumb-item>当前位置</el-breadcrumb-item>
-          <el-breadcrumb-item :to="{ path: '/' }">专家问诊</el-breadcrumb-item>
+          <el-breadcrumb-item>专家问诊</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
       <div class="three_part">
@@ -47,25 +47,44 @@ export default {
   },
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
+/deep/ a:-webkit-any-link{
+  text-decoration: none;
+}
+/deep/ .el-card.is-always-shadow{
+    box-shadow: none;
+  }
+/deep/.block {
+  .el-carousel__container {
+    height: 560px;
+  }
+  .el-carousel__indicators.el-carousel__indicators--horizontal {
+    .el-carousel__button {
+      background-color: #ccc;
+    }
+  }
+}
 .container {
   width: 1150px;
   margin: auto;
-  .breadcrumb{
-    margin: 10px 0 20px 0;
+  /deep/.breadcrumb{
+    margin: 10px 0 10px 0;
     padding-bottom: 10px;;
     border-bottom: 2px solid #ccc;
   }
-  .three_part {
+  
+ /deep/ .three_part {
     width: 100%;
+    .title {
+    padding-top: 20px;
+    font-size: 20px;
+  }
     .el-col-8 {
       width: 32.43333%;
       height: 600px;
       border-radius: 4px;
     }
   }
-  .el-card.is-always-shadow{
-    box-shadow: none;
-  }
+  
 }
 </style>

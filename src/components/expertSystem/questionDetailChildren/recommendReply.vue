@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div class="recommendReply">
     <el-row
       style="padding-top: 20px; font-size: 20px; border-bottom: 1px solid #ddd"
     >
       <el-col :span="24"
         ><div class="grid-content">
-          农技专家
+          专家问答
           <div style="float: right; cursor: pointer">
             <span style="color: #ddd; font-size: 14px">查看更多&nbsp;</span>
             <i
@@ -15,33 +15,45 @@
           </div></div
       ></el-col>
     </el-row>
-    <el-row :gutter="20">
-      <el-col :span="8"
-        ><div class="grid-content bg-purple">
-          <miniExpertCard></miniExpertCard></div
-      ></el-col>
-      <el-col :span="8"
-        ><div class="grid-content bg-purple">
-          <miniExpertCard></miniExpertCard></div
-      ></el-col>
-      <el-col :span="8"
-        ><div class="grid-content bg-purple">
-          <miniExpertCard></miniExpertCard></div
-      ></el-col>
+    <el-row>
+        <miniReplyCard></miniReplyCard>
+    </el-row>
+    <el-row>
+        <miniReplyCard></miniReplyCard>
+    </el-row>
+    <el-row>
+        <miniReplyCard></miniReplyCard>
+    </el-row>
+    <el-row>
+        <miniReplyCard></miniReplyCard>
     </el-row>
   </div>
 </template>
 <script>
-import miniExpertCard from "./miniExpertCard.vue";
+import miniReplyCard from "../expertInterrogationChildren/miniReplyCard";
 
 export default {
   data() {
     return {};
   },
   components: {
-    miniExpertCard,
+    miniReplyCard,
   },
 };
 </script>
 <style lang="less" scoped>
+.recommendReply{
+  /deep/.el-card{
+    border:none;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+  .ques_item{
+    background-color: #fff;
+    border-radius: 0;
+    .mid{
+      height: 100%;
+    }
+  }
+  }
+}
 </style>

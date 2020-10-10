@@ -5,7 +5,7 @@
         <div class="up">
           <div class="que_text">
             <span class="queicon">问</span>
-            <router-link :to="{ name: 'replyDetail', params: { id: 123 } }">
+            <router-link :to="{ name: 'questionDetail', params: { id: 123 } }">
               {{data?data.ques:'Lorem ipsum dolor sit amet consectetur adipisicing elit. Error, quae.'}}
             </router-link>
           </div>
@@ -32,7 +32,7 @@ export default {
   },
 };
 </script>
-<style lang="less">
+<style lang="less" scoped> 
 .mini_reply_card {
    &:nth-child(1){
      margin: 10px 0 20px 0;

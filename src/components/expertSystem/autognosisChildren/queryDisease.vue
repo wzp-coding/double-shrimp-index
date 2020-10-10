@@ -72,19 +72,12 @@ export default {
   },
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .queryDisease {
   .func_tip {
     margin: 0 0 10px 0;
   }
   .content {
-    border: 1px solid #5f8acc;
-    border-radius: 4px;
-    .title {
-      background-color: rgb(95, 138, 204);
-      border-radius: 4px;
-      padding: 10px 0 10px 10px;
-    }
     .tips {
       margin: 10px 0;
       padding-left: 10px;
