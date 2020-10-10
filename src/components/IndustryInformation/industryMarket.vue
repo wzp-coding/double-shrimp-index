@@ -14,7 +14,7 @@
           </div>
           <div class="block2">
             <el-image class="pic1" :src="src" >          
-            </el-image>
+            </el-image> 
             <el-image class="pic2" :src="src" >  
             </el-image>
           </div>
