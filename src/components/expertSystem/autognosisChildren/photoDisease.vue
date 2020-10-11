@@ -1,20 +1,32 @@
 <template>
   <div class="photo_disease">
-    <el-row
-      style="padding-top: 20px; font-size: 20px; border-bottom: 1px solid #ddd"
+    <h3
+      style="
+        display: flex;
+        justify-content: space-between;
+        margin: 15px 5px 5px 4px;
+      "
     >
-      <el-col :span="24"
-        ><div class="grid-content">
-          图文识病
-          <div style="float: right; cursor: pointer">
-            <span style="color: #ddd; font-size: 14px">查看更多&nbsp;</span>
-            <i
-              class="el-icon-arrow-right"
-              style="border: 1px solid #000; border-radius: 50%"
-            ></i>
-          </div></div
-      ></el-col>
-    </el-row>
+      <div>
+        <span
+          style="margin-right: 5px; border-left: 6px solid rgb(93, 183, 60)"
+        ></span>
+        专家问答
+      </div>
+      <div
+        style="
+          font-size: 0.8rem;
+          margin-top: 6px;
+          color: rgb(93, 183, 60);
+          cursor: pointer;
+        "
+        @click="toExpertList()"
+      >
+        <span style="color: #9e9e9e"> 更多 </span>
+        <i class="el-icon-caret-right"></i>
+      </div>
+    </h3>
+    <el-divider class="ccy-drvider"></el-divider>
     <el-row :gutter="20">
       <el-col :span="6"
         ><div class="grid-content"><miniPhotoDisease></miniPhotoDisease></div
@@ -46,8 +58,10 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.photo_disease{
+.photo_disease {
   margin-top: 20px;
-  
+}
+.ccy-drvider {
+  margin: 10px 0 7px 0;
 }
 </style>

@@ -134,6 +134,9 @@ export default {
     font-size: 1rem;
     color: white;
   }
+  .el-avatar{
+    border: ivory 1.5px solid;
+  }
 }
 .lxl-nav {
   display: flex;

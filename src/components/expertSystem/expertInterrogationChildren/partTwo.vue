@@ -1,15 +1,31 @@
 <template>
   <div class="partTwo">
-    <div class="title">
-      专家问答
-      <div style="float: right; cursor: pointer">
-        <span style="color: #ddd; font-size: 14px">查看更多&nbsp;</span>
-        <i
-          class="el-icon-arrow-right"
-          style="border: 1px solid #000; border-radius: 50%"
-        ></i>
+    <h3
+      style="
+        display: flex;
+        justify-content: space-between;
+        margin: 15px 5px 5px 4px;
+      "
+    >
+      <div>
+        <span
+          style="margin-right: 5px; border-left: 6px solid rgb(93, 183, 60)"
+        ></span>
+        专家问答
       </div>
-    </div>
+      <div
+        style="
+          font-size: 0.8rem;
+          margin-top: 6px;
+          color: rgb(93, 183, 60);
+          cursor: pointer;
+        "
+        @click="toExpertList()"
+      >
+        <span style="color: #9e9e9e"> 更多 </span>
+        <i class="el-icon-caret-right"></i>
+      </div>
+    </h3>
     <div class="block">
       <el-carousel>
         <el-carousel-item>
@@ -41,4 +57,6 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.partTwo {
+}
 </style>

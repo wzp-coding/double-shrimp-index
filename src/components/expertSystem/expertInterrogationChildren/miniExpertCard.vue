@@ -11,7 +11,7 @@
             <div class="name_address">
               <div class="name">
                 <span>张三</span>
-                <span style="padding:0 10px;">|</span>
+                <span style="padding: 0 10px">|</span>
                 <el-button type="text">详情</el-button>
               </div>
               <div class="address">广东省广州市某某区</div>
@@ -19,16 +19,16 @@
           </div>
           <div class="replies">
             <div class="action">
-              <span class="action_num">17</span>
               <span class="action_title">咨询量</span>
+              <span class="action_num">17</span>
             </div>
             <div class="action">
-              <span class="action_num">45</span>
               <span class="action_title">回复量</span>
+              <span class="action_num">45</span>
             </div>
             <div class="action">
-              <span class="action_num">264.71%</span>
               <span class="action_title">回复率</span>
+              <span class="action_num">24.71%</span>
             </div>
           </div>
           <div class="major">
@@ -37,7 +37,9 @@
           <div class="onlineTime">在线时间：周一下午14:00-17:00</div>
         </div>
         <div class="down">
-          <el-button type="primary" round>我要提问</el-button>
+          <el-button type="primary" round icon="el-icon-chat-dot-round"
+            >我要提问</el-button
+          >
         </div>
       </div>
     </el-card>
@@ -55,7 +57,7 @@ export default {};
     justify-content: center;
     align-items: flex-start;
     padding: 5px 0 0 5px;
-    background: #f3f3f3;
+    background: #e0f0e0;
     border-radius: 5px;
     .up {
       width: 100%;
@@ -100,6 +102,7 @@ export default {};
         .action_num {
           color: rgb(255, 134, 139);
           font-size: 14px;
+          margin-left: 8px;
         }
         .action_title {
           font-size: 13px;
@@ -129,7 +132,7 @@ export default {};
       display: flex;
       justify-content: center;
       .el-button.is-round {
-        padding: 12px 50px;
+        padding: 10px 30px;
       }
     }
   }

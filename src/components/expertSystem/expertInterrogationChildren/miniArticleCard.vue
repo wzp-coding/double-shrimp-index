@@ -24,48 +24,47 @@ export default {};
 </script>
 <style lang="less" scoped>
 .mini_article_card {
-  &:nth-child(1){
-     margin: 10px 0 10px 0;
-   }
-     margin-bottom: 10px;
+  &:nth-child(1) {
+    margin: 10px 0 4px 0;
+  }
+  margin-bottom: 4px;
   .article_item {
     display: flex;
     align-items: center;
     padding: 5px 0 0 5px;
-    background: #f3f3f3;
+    background: #e0f0e0;
     border-radius: 5px;
     .img {
-        flex: 1;
+      flex: 1;
       img {
-          width: 100%;
-          height: 100px;
+        width: 100%;
+        height: 109px;
       }
     }
 
     .info {
-        flex: 2;
-        display: flex;
-        flex-direction: column;
-        
+      flex: 2;
+      display: flex;
+      flex-direction: column;
       .title {
-          font-size: 13px;
-          font-weight: 700;
+        font-size: 13px;
+        font-weight: 700;
         margin-left: 10px;
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
-        -webkit-line-clamp: 1;
+        -webkit-line-clamp: 4;
         -webkit-box-orient: vertical;
-        margin-bottom: 50px;
+        margin-top: -20px;
       }
 
       .detail_info {
-          margin: 0 10px;
-          font-size: 12px;
-          margin-bottom: 10px;
-          color: grey;
-          display: flex;
-          justify-content: space-between;
+        margin: 0 10px;
+        font-size: 12px;
+        margin-bottom: 10px;
+        color: grey;
+        display: flex;
+        justify-content: space-between;
         span {
         }
       }

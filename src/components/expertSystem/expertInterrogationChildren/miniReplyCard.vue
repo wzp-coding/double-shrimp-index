@@ -35,16 +35,16 @@ export default {
 <style lang="less" scoped> 
 .mini_reply_card {
    &:nth-child(1){
-     margin: 10px 0 20px 0;
+     margin: 10px 0 4px 0;
    }
-     margin-bottom: 20px;
+     margin-bottom: 4px;
   .ques_item {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
     padding: 5px 0 0 5px;
-    background: rgb(245, 245, 245);
+    background: #e0f0e0;
     border-radius: 5px;
     .up {
       .que_text {
@@ -54,7 +54,7 @@ export default {
         .queicon {
           box-sizing: border-box;
           text-align: center;
-          background-color: #336699;
+          background-color: #409EFF;
           padding: 0 3px;
           border-radius: 4px;
           color: #fff;
@@ -88,7 +88,7 @@ export default {
           box-sizing: border-box;
           width: 21px;
           height: 20px;
-          background-color: #336699;
+          background-color: #96ccb1;
           padding: 0 3px;
           border-radius: 4px;
           color: #fff;
@@ -116,6 +116,8 @@ export default {
       .update_time {
         margin-right: 5px;
         font-size: 12px;
+        margin-top: 7.2px;
+        margin-bottom: 10px;
       }
     }
   }

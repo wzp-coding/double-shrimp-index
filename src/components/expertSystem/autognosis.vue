@@ -1,12 +1,14 @@
 <template>
-  <div class="autognosis">
-    <div class="container">
-      <div class="breadcrumb">
-        <el-breadcrumb separator-class="el-icon-arrow-right">
-          <el-breadcrumb-item>当前位置</el-breadcrumb-item>
-          <el-breadcrumb-item>疾病自诊</el-breadcrumb-item>
-        </el-breadcrumb>
-      </div>
+  <div class="autognosis lxl-body">
+    <div class="container lxl-box">
+      <el-breadcrumb
+        separator-class="el-icon-arrow-right"
+        class="lxl-breadcrumb"
+      >
+        <el-breadcrumb-item>当前位置</el-breadcrumb-item>
+        <el-breadcrumb-item>疾病自诊</el-breadcrumb-item>
+      </el-breadcrumb>
+      <el-divider></el-divider>
       <el-tabs tab-position="left">
         <el-tab-pane label="病情查询"
           ><queryDisease></queryDisease
@@ -51,6 +53,19 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.lxl-body {
+  display: flex;
+  justify-content: center;
+  .lxl-breadcrumb {
+    margin-top: 25px;
+    margin-left: 18px;
+    margin-bottom: -10px;
+  }
+  margin-bottom: 40px;
+}
+.lxl-box {
+  width: 1150px;
+}
 /deep/a:-webkit-any-link {
   text-decoration: none;
 }
@@ -58,7 +73,7 @@ export default {
   box-shadow: none;
 }
 .autognosis {
- /deep/ .container {
+  /deep/ .container {
     width: 1150px;
     margin: auto;
     .breadcrumb {
