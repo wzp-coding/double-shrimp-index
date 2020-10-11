@@ -185,7 +185,7 @@ export default {
     display: flex;
     flex-wrap: wrap; //溢出换行
     .blockson {
-      width: 32%;
+      width: 35%;
       margin: 5px 5px;
     }
   }
