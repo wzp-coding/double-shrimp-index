@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 // 以下是具体的页面
 import industryMarket from '../components/IndustryInformation/industryMarket.vue'
 import prawnNews from '../components/IndustryInformation/prawnNews.vue'
+import instructdetail from '../components/IndustryInformation/instructdetail.vue'
+
 
 import policies from '../components/policies/policies.vue'
 
@@ -49,6 +51,10 @@ const routes = [
   {
     path: '/',
     redirect: '/industryMarket'
+  },
+  {
+    path: '/instructdetail',
+    component: instructdetail
   },
   {
     path: '/industryMarket',

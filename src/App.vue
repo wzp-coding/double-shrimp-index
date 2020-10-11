@@ -2,7 +2,7 @@
   <div id="app">
     <NavNav></NavNav>
     <router-view></router-view>
-    <FooterFooter></FooterFooter>
+    <!-- <FooterFooter></FooterFooter> -->
   </div>
 </template>
 <script>
