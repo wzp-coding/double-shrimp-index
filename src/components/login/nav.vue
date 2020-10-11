@@ -23,7 +23,7 @@
       </div>
       <div class="lxl-nav">
         <el-menu
-          default-active="/industryMarket"
+          :default-active="navPath"
           class="el-menu-demo"
           mode="horizontal"
           router
@@ -75,6 +75,7 @@ export default {
   data() {
     return {
       activeIndex: "",
+      navPath:this.$route.path
     };
   },
   methods: {

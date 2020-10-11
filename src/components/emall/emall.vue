@@ -1,7 +1,7 @@
 <template>
-<div>
-    emall
-</div>
+  <div>
+    <router-link to="/shopDetail">xxxxxxxxxxxx</router-link>
+  </div>
 </template>
 <script>
 </script>

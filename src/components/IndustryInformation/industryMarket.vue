@@ -321,7 +321,9 @@
                   "
                 ></span>
                 热门资讯
-                <el-tag type="danger" size="small" style="margin-bottom:-5px">Hot</el-tag>
+                <el-tag type="danger" size="small" style="margin-bottom: -5px"
+                  >Hot</el-tag
+                >
               </div>
               <div
                 style="

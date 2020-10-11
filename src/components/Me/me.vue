@@ -1,114 +1,140 @@
 <template>
-  <div class="user-view">
-    <el-breadcrumb separator-class="el-icon-arrow-right" style="margin-left:18px">
-      <el-breadcrumb-item>当前位置</el-breadcrumb-item>
-      <el-breadcrumb-item>个人中心</el-breadcrumb-item>
-    </el-breadcrumb>
-    <!-- <hr /> -->
-    <el-container
-      style="border: 1px solid #eee"
-      class="user-container"
-    >
-      <el-aside
-        width="200px"
-        class="user-left"
-        style="background-color: rgb(238, 241, 246)"
+  <div class="user-view lxl-body">
+    <div class="lxl-box">
+      <el-breadcrumb
+        separator-class="el-icon-arrow-right"
+        class="lxl-breadcrumb"
       >
-        <el-menu
-          default-active="/meHomePage"
-          active-text-color="#4ecb5f"
-          router
+        <el-breadcrumb-item>当前位置</el-breadcrumb-item>
+        <el-breadcrumb-item>个人中心</el-breadcrumb-item>
+      </el-breadcrumb>
+      <el-divider></el-divider>
+      <el-container style="border: 1px solid #eee" class="user-container">
+        <el-aside
+          width="200px"
+          class="user-left"
+          style="background-color: rgb(238, 241, 246)"
         >
-          <!-- active-text-color高亮颜色 -->
-          <!-- router:是否使用 vue-router 的模式，启用该模式会在激活导航时以 index 作为 path 进行路由跳转 -->
-          <el-menu-item index="/meHomePage" >首页</el-menu-item>
-          <el-menu-item index="/goodsPurchased">已购买的货品</el-menu-item>
-          <el-menu-item index="/favorite">收藏夹</el-menu-item>
-          <el-menu-item index="/addressMan">收货地址管理</el-menu-item>
-          <el-menu-item index="/refund">退货退款</el-menu-item>
-          <el-menu-item index="/changePassword">修改密码</el-menu-item>
-        </el-menu>
-      </el-aside>
+          <el-menu :default-active="isPath" active-text-color="#4ecb5f" router>
+            <!-- active-text-color高亮颜色 -->
+            <!-- router:是否使用 vue-router 的模式，启用该模式会在激活导航时以 index 作为 path 进行路由跳转 -->
+            <el-menu-item index="/meHomePage">首页</el-menu-item>
+            <el-menu-item index="/favorite">收藏夹</el-menu-item>
+            <el-menu-item index="/addressMan">收货地址管理</el-menu-item>
+            <el-menu-item index="/changePassword">修改密码</el-menu-item>
+            <el-menu-item index="/changePassword">店铺管理</el-menu-item>
+            <el-menu-item index="/changePassword">专家页面</el-menu-item>
+          </el-menu>
+        </el-aside>
 
-      <el-container class="user-right">
-        <el-header height="250px" class="user-header">
-          <el-row class="user-headerbox">
-            <el-col :span="6" class="user-avator">
-              <div class="user-avator-image">1</div>
-              <span class="user-avator-name">哒哒哒</span>
-              <span class="user-avator-identity">批发商</span>
-              <span class="user-avator-time">晚上好</span>
-            </el-col>
-            <el-col :span="17" class="user-attestation">
-              <div class="user-attestation-header">认证情况</div>
-              <div class="user-attestation-main">
-                <div class="wait">
-                  <div class="amount">0</div>
-                  <div class="text">待付款</div>
+        <el-container class="user-right">
+          <el-header height="250px" class="user-header">
+            <el-row class="user-headerbox">
+              <el-col :span="6" class="user-avator">
+                <div class="user-avator-image">
+                  <el-avatar
+                    shape="circle"
+                    :size="100"
+                    :src="userData.photo"
+                  ></el-avatar>
                 </div>
-                <span></span>
-                <div class="wait">
-                  <div class="amount">0</div>
-                  <div class="text">待发货</div>
+                <span class="user-avator-name">{{ userData.loginId }}</span>
+                <span class="user-avator-identity">{{ userData.role }}</span>
+              </el-col>
+              <el-col :span="17" class="user-attestation">
+                <div class="user-attestation-header">认证情况</div>
+                <div class="user-attestation-main">
+                  <div class="wait">
+                    <div class="amount">5615</div>
+                    <div class="text">待付款</div>
+                  </div>
+                  <span></span>
+                  <div class="wait">
+                    <div class="amount">0</div>
+                    <div class="text">待发货</div>
+                  </div>
+                  <span></span>
+                  <div class="wait">
+                    <div class="amount">0</div>
+                    <div class="text">待收货</div>
+                  </div>
+                  <span></span>
+                  <div class="wait">
+                    <div class="amount">0</div>
+                    <div class="text">待退款</div>
+                  </div>
                 </div>
-                <span></span>
-                <div class="wait">
-                  <div class="amount">0</div>
-                  <div class="text">待收货</div>
-                </div>
-                <span></span>
-                <div class="wait">
-                  <div class="amount">0</div>
-                  <div class="text">待退款</div>
-                </div>
-              </div>
-            </el-col>
-          </el-row>
-        </el-header>
+              </el-col>
+            </el-row>
+          </el-header>
 
-        <el-main class="user-main">
+          <el-main class="user-main">
             <div class="user-mainbox">
-                <router-view></router-view>
+              <router-view></router-view>
             </div>
-        </el-main>
+          </el-main>
+        </el-container>
       </el-container>
-    </el-container>
+    </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      isPath: this.$route.path,
+      userData: {},
+    };
+  },
+  created() {
+    console.log(this.$route.path);
+    this.userData = this.$store.state.userData;
+    console.log(this.userData);
+  },
+};
 </script>
 
 <style lang="less" scoped>
-.user-view {
+.lxl-body {
+  display: flex;
+  justify-content: center;
+  .lxl-breadcrumb {
+    margin-top: 25px;
+    margin-left: 18px;
+    margin-bottom: -10px;
+  }
+}
+.lxl-box {
   width: 1150px;
-  // width: 76%;
-  margin: 10px auto;
+}
+@font-face {
+  font-family: electronicFont;
+  src: url("../../fonts/KaneDemo-OVMZO.otf");
+}
+.user-view {
   .user-container {
-    // min-height: 500px;
-    margin-top: 10px;
     .user-right {
-      // min-height: 700px;
       .user-headerbox {
         padding: 10px 0;
-        // box-sizing: border-box;
         display: flex;
         justify-content: space-between;
-        background-color: #f5f5f5;
+        background-color: #f7f7f7;
+        font-family: "electronicFont";
         .user-avator {
           min-height: 230px;
           background-color: #4ecb5f;
           border-radius: 2px;
-          font-size: 14px;
+          font-size: 1rem;
           color: #fff;
           text-align: center;
           .user-avator-image {
-            width: 90px;
-            height: 100px;
-            border-radius: 70%;
-            margin: 20px auto 15px;
-            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            margin-top: 10%;
+            > * {
+              border: ivory 1.5px solid;
+            }
           }
           span {
             display: block;
@@ -147,22 +173,22 @@ export default {};
             .wait {
               width: 24%;
               height: 90%;
-            //   background-color: #cdcdab;
+              //   background-color: #cdcdab;
               text-align: center;
               .amount {
-                  font-size: 25px;
-                  margin-top: 30%;
+                font-size: 25px;
+                margin-top: 30%;
               }
             }
           }
         }
       }
       .user-mainbox {
-          width: 100%;
-          // height:300px;
-          background-color: #f5f5f5;
-          padding: 10px;
-          box-sizing: border-box;
+        width: 100%;
+        // height:300px;
+        background-color: #f5f5f5;
+        padding: 5px;
+        box-sizing: border-box;
       }
     }
   }
