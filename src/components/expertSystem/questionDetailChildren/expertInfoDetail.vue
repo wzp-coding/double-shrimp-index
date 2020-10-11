@@ -8,13 +8,13 @@
             alt=""
           />
           <div class="info">
-            <div class="name_address">
-              <span class="name">张三</span>
+            <div class="name_address"> 
+              <span class="name">李三</span>
               <span class="address">广东省广州市某某区</span>
             </div>
             <div class="major">
               <span class="major_detail"
-                >擅长：对虾养殖及疾病诊断治疗和把脉</span
+                >擅长：对虾养 殖及疾病诊断治疗 和  把脉</span
               >
               <span class="brief"> 张三，北大毕业博士 </span>
               <span class="onlineTime"> 在线时间：周一下午14:00-17:00 </span>
