@@ -82,8 +82,8 @@ export default {};
 
 <style lang="less" scoped>
 .user-view {
-  // width: 1150px;
-  width: 76%;
+  width: 1150px;
+  // width: 76%;
   margin: 10px auto;
   .user-container {
     // min-height: 500px;

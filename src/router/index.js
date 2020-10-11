@@ -29,6 +29,8 @@ import precisionFeeding from '../components/intelligentDecision/precisionFeeding
 import visualizationPlatform from '../components/visualizationPlatform/visualizationPlatform.vue'
 
 import emall from '../components/emall/emall.vue'
+// 店铺详情
+import shopDetail from '../components/emall/shopDetail.vue'
 
 // 个人中心
 import me from '../components/Me/me.vue'
@@ -47,6 +49,10 @@ import changePassword from '../components/Me/components/changePassword.vue'
 
 // 登录页面
 import login from '../components/login/login.vue'
+import reg from '../components/login/reg.vue'
+import forgetPass from '../components/login/forgetPass.vue'
+import nav from '../components/login/nav.vue'
+import footer from '../components/login/footer.vue'
 
 
 
@@ -69,6 +75,11 @@ const routes = [
   {
     path: '/prawnNews',
     component: prawnNews
+
+  },
+  {
+    path: '/shopDetail',
+    component: shopDetail
 
   },
   {
@@ -198,6 +209,24 @@ const routes = [
   {
     path: '/login',
     component: login
+  },
+  {
+    path: '/forgetPass',
+    component: forgetPass
+  },
+  {
+    path: '/reg',
+    component: reg
+  }
+  ,
+  {
+    path: '/nav',
+    component: nav
+
+  },
+  {
+    path: '/footer',
+    component: footer
 
   }
 ]
