@@ -22,7 +22,7 @@
               <div>
                 <el-image
                   class="ljc-image"
-                  src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1602512451192&di=f357c60565840457f260ef9de2e2c8aa&imgtype=0&src=http%3A%2F%2Fyun.ysoow.com%2F6316%2F2020%2F0106%2F20200106mhg1578293661.jpg"
+                  src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2522888179,1460929736&fm=26&gp=0.jpg"
                 ></el-image>
                 <el-image
                   class="ljc-image"
