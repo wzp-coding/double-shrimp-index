@@ -4,13 +4,15 @@
       <el-breadcrumb
         separator-class="el-icon-arrow-right"
         class="lxl-breadcrumb"
-      >
+        >
         <el-breadcrumb-item>当前位置</el-breadcrumb-item>
         <el-breadcrumb-item>产业咨询</el-breadcrumb-item>
       </el-breadcrumb>
       <el-divider></el-divider>
+
+      
       <el-container>
-        <el-aside width="65%">
+        <el-main width="67%">
           <div class="left">
             <!--左大部分-->
             <div class="header">
@@ -47,7 +49,7 @@
                         color: rgb(93, 183, 60);
                       "
                     >
-                      <span style="color: #9e9e9e"> 更多 </span>
+                      <span> <router-link to="/instructdetail" style="color:#9e9e9e;text-decoration:none;font-size:13px;font-weight:780;margin-right:4px">更多</router-link> </span>
                       <i class="el-icon-caret-right"></i>
                     </div>
                   </h3>
@@ -98,72 +100,143 @@
                   </ul>
                 </div>
               </div>
-            </div>
-            <!--  -->
-            <el-divider></el-divider>
-            <div class="one">
-              <div class="block">
-                <div class="blockson1">
-                  <el-image :src="src"></el-image>
-                  <span>现在猕猴桃行情怎样</span>
-                </div>
-                <div class="blockson1">
-                  <el-image :src="src"></el-image>
-                  <span>现在猕猴桃行情怎样</span>
-                </div>
-              </div>
-              <ul class="ul2">
-                <li><span>今日桃子多少钱一斤? 2020...</span></li>
-                <li>今日小麦价格多少钱一斤? 2020年9月18...</li>
-                <li>今日小麦价格多少钱一斤? 2020年9月11...</li>
-                <li>下半年生猪肉会涨价吗</li>
-              </ul>
-              <div class="div1">
-                <ul class="div1ul1">
-                  <li><span>今日菠萝多少钱一斤? 2020...</span></li>
-                  <li>今日小麦价格多少钱一斤? 2020年9月18...</li>
-                  <li>今日小麦价格多少钱一斤? 2020年9月11...</li>
-                  <li>今日全国各地小麦价格最新行情分析</li>
-                </ul>
-                <ul class="ul1">
-                  <li><span>今日苹果多少钱一斤? 2020...</span></li>
-                  <li>今日小麦价格多少钱一斤? 2020年9月18...</li>
-                  <li>今日小麦价格多少钱一斤? 2020年9月11...</li>
-                  <li>今日全国各地小麦价格最新行情分析</li>
-                </ul>
-              </div>
-
-              <div class="onemid">
-                <h3 style="margin-right: 5px">
-                  <i>&nbsp;</i> <span style="opacity: 1">精彩专题</span>
+              <div class="tail" style="width:100%;display:flex;justify-content:space-between;margin-top:5px">
+                <h3><span style="border-left: 6px solid rgb(93, 183, 60);margin-right: 5px;">精彩专题</span>
                 </h3>
-                <span style="margin-left: 3px">查看更多</span>
+                <p style="padding-top:5px;font-size:13px">查看更多</p>
               </div>
-              <div class="zhuangti">
-                <div class="ztitop">
-                  <div class="ztitopblock">
-                    <el-image :src="src"></el-image
-                    ><span>现在桃子行情怎么样....</span>
+              <!--分割线-->
+              <div class="drive" style="margin-top:-25px;width:100%">
+                <el-divider></el-divider>
+              </div>
+              
+            </div>
+            <div class="one">
+              <div class="onetop">
+                <div class="onetopl">
+                  <div class="block" >
+                    <div class="blockson">
+                      <el-image :src="src"></el-image>
+                      <span>现在猕猴桃行情怎样</span>
+                    </div>
+                    <div class="blockson">
+                      <el-image :src="src"></el-image>
+                      <span>现在猕猴桃行情怎样</span>
+                    </div> 
                   </div>
-                  <div class="ztitopblock">
-                    <el-image :src="src"></el-image
-                    ><span>现在桃子行情怎么样</span>
-                  </div>
-                  <div class="ztitopblock">
-                    <el-image :src="src"></el-image
-                    ><span>现在桃子行情怎么样</span>
-                  </div>
-                  <div class="ztitopblock">
-                    <el-image :src="src"></el-image
-                    ><span>现在桃子行情怎么样</span>
+                  <div class="onetoplb">
+                      <ul style="padding:15px 0 0 7px">
+                        <li><span>今日桃子多少钱一斤? 2020...</span></li>
+                        <li>今日小麦价格多少钱一斤? 2020年9月18...</li>
+                        <li>今日小麦价格多少钱一斤? 2020年9月11...</li>
+                        <li>下半年生猪肉会涨价吗</li>
+                      </ul>
                   </div>
                 </div>
-                <div class="ztison">
-                  <el-image :src="src" style="padding-top: 3px"></el-image>
-                  <div class="ztisontext">
-                    <h3 style="padding-top: 10px">
-                      选择、坚持、热爱,他们把货从农村卖向全国
-                    </h3>
+                <!-- one 最顶部右边 -->
+                <div class="onetopr">                  
+                    <div class="onetopr1" style="margin-bottom:10px">
+                      <ul>
+                      <li><span>今日菠萝多少钱一斤? 2020...</span></li>
+                      <li>今日小麦价格多少钱一斤? 2020年9月18...</li>
+                      <li>今日小麦价格多少钱一斤? 2020年9月11...</li>
+                      <li>今日全国各地小麦价格最新行情分析</li>
+                    </ul>
+                    </div>
+                    <div class="onetopr2">
+                      <ul>
+                      <li><span>今日苹果多少钱一斤? 2020...</span></li>
+                      <li>今日小麦价格多少钱一斤? 2020年9月18...</li>
+                      <li>今日小麦价格多少钱一斤? 2020年9月11...</li>
+                      <li>今日全国各地小麦价格最新行情分析</li>
+                    </ul> 
+                    </div>                               
+                </div>
+              </div>
+              <div class="tail" style="width:100%;display:flex;justify-content:space-between;margin-top:5px">
+                <h3><span style="border-left: 6px solid rgb(93, 183, 60);margin-right: 5px;">精彩专题</span>
+                </h3>
+                <p style="padding-top:15px;font-size:13px">查看更多</p>
+              </div>
+              <!--分割线-->
+              <div class="diver" style="width:100%;margin-top:-23px">
+                <el-divider></el-divider>
+              </div>
+              <div class="onemide">
+                <div class="zhuangti">
+                  <el-image :src="src"></el-image>
+                  <span>现在桃子行情怎么样....</span>
+                </div>
+                <div class="zhuangti">
+                  <el-image :src="src"></el-image>
+                  <span>现在桃子行情怎么样....</span>
+                </div>
+                <div class="zhuangti">
+                  <el-image :src="src"></el-image>
+                  <span>现在桃子行情怎么样....</span>
+                </div>
+                <div class="zhuangti">
+                  <el-image :src="src"></el-image>
+                  <span>现在桃子行情怎么样....</span>
+                </div>
+                <div class="tail" style="width:100%;display:flex;justify-content:space-between;margin-top:5px">
+                <h3><span style="border-left: 6px solid rgb(93, 183, 60);margin-right: 5px;">精彩专题</span>
+                </h3>
+                <p style="padding-top:5px;font-size:13px">查看更多</p>
+              </div>
+              <!--分割线-->
+              <div class="driver" style="width:100%;margin-top:-25px">
+                <el-divider></el-divider>
+              </div>
+              </div>
+              <div class="onebottom">
+                <div class="four">
+                  <div class="pic">
+                    <el-image :src="src"></el-image>
+                  </div>
+                  <div class="news">
+                    <h3>选择、坚持、热爱,他们把货从农村卖向全国</h3>
+                    <p
+                      style="
+                        font-size: 16px;
+                        padding-bottom: 15px;
+                        padding-top: 10px;
+                      "
+                    >
+                      编者按:“我与惠农网的故事”征文比赛已圆满结束，本次活动我们收到了482个真实故事，感谢你
+                      们用文字和图片记录下了与惠农网的“独家记忆”.中感谢你们在故事...<span
+                        style="color: green"
+                        >[详细]</span
+                      >
+                    </p>
+                    <p style="font-size: 13px; float: left">
+                      发布时间:2020-09-14 14:26<span style="margin-left: 15px"
+                        >阅读： 533</span
+                      >
+                    </p>
+                    <p
+                      style="
+                        color: green;
+                        font-size: 13px;
+                        float: right;
+                        padding-right: 3px;
+                      "
+                    >
+                      财富手册
+                    </p>
+                    <p style="font-size: 13px; float: right">分类：</p>
+                  </div>
+                  
+                </div>
+                <div class="driver" style="width:100%;margin-top:-16px">
+                  <el-divider></el-divider>
+                </div>
+                <div class="four">
+                  <div class="pic">
+                    <el-image :src="src"></el-image>
+                  </div>
+                  <div class="news">
+                    <h3>选择、坚持、热爱,他们把货从农村卖向全国</h3>
                     <p
                       style="
                         font-size: 16px;
@@ -195,12 +268,15 @@
                     <p style="font-size: 13px; float: right">分类：</p>
                   </div>
                 </div>
-                <div class="ztison">
-                  <el-image :src="src" style="padding-top: 3px"></el-image>
-                  <div class="ztisontext">
-                    <h3 style="padding-top: 10px">
-                      选择、坚持、热爱,他们把货从农村卖向全国
-                    </h3>
+                <div class="driver" style="width:100%;margin-top:-16px">
+                  <el-divider></el-divider>
+                </div>
+                <div class="four">
+                  <div class="pic">
+                    <el-image :src="src"></el-image>
+                  </div>
+                  <div class="news">
+                    <h3>选择、坚持、热爱,他们把货从农村卖向全国</h3>
                     <p
                       style="
                         font-size: 16px;
@@ -232,12 +308,15 @@
                     <p style="font-size: 13px; float: right">分类：</p>
                   </div>
                 </div>
-                <div class="ztison">
-                  <el-image :src="src" style="padding-top: 3px"></el-image>
-                  <div class="ztisontext">
-                    <h3 style="padding-top: 10px">
-                      选择、坚持、热爱,他们把货从农村卖向全国
-                    </h3>
+                <div class="driver" style="width:100%;margin-top:-16px">
+                  <el-divider></el-divider>
+                </div>
+                <div class="four">
+                  <div class="pic">
+                    <el-image :src="src"></el-image>
+                  </div>
+                  <div class="news">
+                    <h3>选择、坚持、热爱,他们把货从农村卖向全国</h3>
                     <p
                       style="
                         font-size: 16px;
@@ -269,47 +348,14 @@
                     <p style="font-size: 13px; float: right">分类：</p>
                   </div>
                 </div>
-                <div class="ztison">
-                  <el-image :src="src" style="padding-top: 3px"></el-image>
-                  <div class="ztisontext">
-                    <h3 style="padding-top: 10px">
-                      选择、坚持、热爱,他们把货从农村卖向全国
-                    </h3>
-                    <p
-                      style="
-                        font-size: 16px;
-                        padding-bottom: 15px;
-                        padding-top: 10px;
-                      "
-                    >
-                      编者按:“我与惠农网的故事”征文比赛已圆满结束，本次活动我们收到了482个真实故事，感谢你
-                      们用文字和图片记录下了与惠农网的“独家记忆”.中感谢你们在故事...<span
-                        style="color: green"
-                        >[详细]</span
-                      >
-                    </p>
-                    <p style="font-size: 13px; float: left">
-                      发布时间:2020-09-14 14:26
-                      <span style="margin-left: 15px">阅读： 533</span>
-                    </p>
-                    <p
-                      style="
-                        color: green;
-                        font-size: 13px;
-                        float: right;
-                        padding-right: 3px;
-                      "
-                    >
-                      财富手册
-                    </p>
-                    <p style="font-size: 13px; float: right">分类：</p>
-                  </div>
+                <div class="driver" style="width:100%;margin-top:-16px">
+                  <el-divider></el-divider>
                 </div>
               </div>
             </div>
           </div>
-        </el-aside>
-        <el-main>
+        </el-main>
+        <el-aside>
           <div class="right">
             <!--右半部分--->
             <h3 style="display: flex; justify-content: space-between">
@@ -321,7 +367,9 @@
                   "
                 ></span>
                 热门资讯
-                <el-tag type="danger" size="small" style="margin-bottom:-5px">Hot</el-tag>
+                <el-tag type="danger" size="small" style="margin-bottom: -5px"
+                  >Hot</el-tag
+                >
               </div>
               <div
                 style="
@@ -402,7 +450,19 @@
               <li>赤土花果园:脐橙，甜柚即将进入采摘季</li>
               <li>赤土花果园:脐橙，甜柚即将进入采摘季</li>
               <br />
-              <p style="float: right; opacity: 0.6">查看更多</p>
+              <h3 style="display: inline">
+                <span
+                  style="
+                    border-left: 6px solid rgb(93, 183, 60);
+                    margin-right: 5px;
+                  "
+                ></span>
+                热门资讯
+              </h3>
+              <p style="float: right; opacity: 0.6;font-size:13px;padding-top:5px">查看更多</p>
+              <div class="dri" style="margin-top:-17px">
+                <el-divider></el-divider>
+              </div>
             </div>
             <div class="rightmd" style="margin-top: 20px; padding-top: 12px">
               <ul style="margin-left: 17px">
@@ -432,9 +492,12 @@
                 ></span>
                 热门资讯
               </h3>
-              <p style="float: right; padding-top: 9px; opacity: 0.6">
+              <p style="float: right; padding-top: 9px; opacity: 0.6;font-size:13px">
                 查看更多
               </p>
+              <div class="dri" style="margin-top:-17px">
+                <el-divider></el-divider>
+              </div>
             </div>
             <div class="tage">
               <div class="tageson">
@@ -456,7 +519,7 @@
               </div>
             </div>
           </div>
-        </el-main>
+        </el-aside>
       </el-container>
     </div>
   </div>
@@ -475,7 +538,7 @@ export default {
 <style lang="less" scoped>
 .lxl-body {
   display: flex;
-  justify-content: center;
+  justify-content: center; //对齐方式
   min-width: 1150px;
   .lxl-breadcrumb {
     margin-top: 25px;
@@ -486,22 +549,30 @@ export default {
 .lxl-box {
   width: 1150px;
 }
+
 .header {
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
   .pictop {
     display: flex;
     flex-direction: column;
     flex: 4.7;
     .block1 {
       width: 100%;
+      height:200px;
+      margin-bottom: 5px;
+      .el-image{
+        width: 100%;
+        height:200px
+      }
     }
     .block2 {
       width: 100%;
       display: flex;
       justify-content: space-between;
       > * {
-        width: 198px;
+        width: 225px;
       }
     }
   }
@@ -533,117 +604,75 @@ export default {
   }
 }
 .one {
-  float: left;
-  width: 100%;
+  width: 99%;
+  display: flex;
   padding: 1px;
-  .block {
-    display: inline-block;
-    width: 400px;
-    span {
-      display: block;
+  flex-wrap: wrap;
+  flex-direction:column;
+  .onetop{
+    display:flex;
+    width:100%;
+    .onetopl{
+      width:50%;
+      display:flex;
+      flex-wrap:wrap;
+      flex-direction:column;
+      .block {
+        display:flex;
+        justify-content:space-between;
+        span {
+          padding-left:5px;
+          display: block;
+        }
+        .blockson {
+          .el-image {
+            width: 208px;
+            height: 90px;
+          }
+        }
+      }
     }
-    height: 130px;
-    .blockson1 {
-      width: 180px;
-      float: left;
-      height: 110px;
-      padding-top: 10px;
-      margin-right: 10px;
-      .el-image {
-        width: 170px;
-        height: 90px;
+    .onetopr{
+      padding-left: 61px;
+    }
+  }
+  .onemide{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content:space-around;
+    width:99%;
+    .zhuangti{
+      width:24%;
+    }
+  }
+  .onebottom{
+    flex-direction:column;
+    .four{
+      width: 100%;
+      display: flex;
+      align-content: space-between;
+      padding-left: 2px;
+      .pic{
+        width: 25%;
+        padding-right: 15px;
+      }
+      .news{
+        width: 72%;
       }
     }
   }
-  ul li span {
+  ul li span {  //保留
     font-size: 19px;
     font-weight: 800;
-  }
-  .div2 {
-    float: left;
-
-    margin-bottom: 10px;
-  }
-  .ul1 {
-    margin: 5px 0 0 154px;
-    float: left;
-  }
-  .div1 {
-    float: left;
-    width: 800px;
-    margin-bottom: 10px;
-    .div1ul1 {
-      float: left;
-      padding-left: 18px;
-    }
-  }
-  .onemid {
-    h3 {
-      display: inline-block;
-      padding-top: 6px;
-      i {
-        border-left: 6px solid rgb(93, 183, 60);
-        margin-right: 5px;
-      }
-    }
-    span {
-      float: right;
-      padding-top: 3px;
-      opacity: 0.6;
-    }
-  }
-  .ztitop {
-    display: inline-block;
-    .ztitopblock {
-      height: 160px;
-      width: 200px;
-      float: left;
-      .el-image {
-        float: left;
-        width: 190px;
-        height: 115px;
-      }
-      span {
-        padding-left: 8px;
-        display: block;
-      }
-    }
-  }
-  .ztison {
-    .el-image {
-      width: 240px;
-      height: 140px;
-      float: left;
-      margin-right: 12px;
-    }
-  }
-  .ul2 {
-    float: right;
-    margin: 10px 34px 0 0;
   }
 }
 li {
   padding: 6px 0 3px 0;
 }
-ul {
-  padding-bottom: 5px;
-}
-a {
-  list-style: none;
-  text-decoration: none;
-}
-.zhuangti {
-  border-top: 1px solid rgb(220, 220, 220);
-}
-.ztitop .el-image {
-  display: inline-block;
-  margin: 5px 10px 10px 0;
-}
-.ztison {
-  clear: both;
-  height: 150px;
-  border-bottom: 1px solid rgb(220, 220, 220);
-}
+
+
+
+
 .bot {
   margin-top: 12px;
   width: 100%;
@@ -663,8 +692,7 @@ a {
   font-weight: 400;
 }
 .tage {
-  padding: 15px 0 0 8px;
-  border-top: 1px solid black;
+  padding: 0 0 0 8px;
   margin-top: 4px;
   .tageson {
     margin-bottom: 12px;
