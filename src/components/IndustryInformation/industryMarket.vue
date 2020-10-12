@@ -49,7 +49,7 @@
                         color: rgb(93, 183, 60);
                       "
                     >
-                      <span style="color: #9e9e9e"> 更多 </span>
+                      <span> <router-link to="/instructdetail" style="color:#9e9e9e;text-decoration:none;font-size:13px;font-weight:780;margin-right:4px">更多</router-link> </span>
                       <i class="el-icon-caret-right"></i>
                     </div>
                   </h3>
@@ -549,6 +549,7 @@ export default {
 .lxl-box {
   width: 1150px;
 }
+
 .header {
   width: 100%;
   display: flex;

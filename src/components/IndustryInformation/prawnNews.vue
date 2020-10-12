@@ -328,6 +328,7 @@ export default {
       opacity: 0.8;
       outline: none;
       border-radius: 20px;
+      font-size-adjust:inherit;
     }
   }
 }
