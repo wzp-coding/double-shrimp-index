@@ -1,600 +1,622 @@
 <template>
-  <div class="detail">
+  <div class="detail lxl-body">
     <!-- 面包屑导航区 -->
-    <el-breadcrumb separator-class="el-icon-arrow-right" class="bread">
-      <el-breadcrumb-item>当前位置</el-breadcrumb-item>
-      <el-breadcrumb-item>产品溯源</el-breadcrumb-item>
-      <el-breadcrumb-item>溯源详情</el-breadcrumb-item>
-    </el-breadcrumb>
-
-    <el-card class="head">
-      <!-- 头部区域 -->
-      <el-row :gutter="10" class="h-top">
-        <el-col :span="13">
-          <div class="h-left">
-            <h1>仲恺基地</h1>
-            <p>
-              仲恺基地，创办于1927年，是一所以伟大的爱国主义者、近代民主革命家廖仲恺先生名字命名，以现代农业科学为特色，农学、工学为优势，农、工、理、经、管、文、艺、法八大学科协调发展的广东省省属高水平应用型大学，是教育部本科教学评估优秀学校及全国首批卓越农林人才教育培养计划高校。学校办学历史悠久，文脉深厚，坐落在历史文化名城——广州。现有海珠校区、白云校区、番禺教学科研基地，占地面积2000余亩。校园集云山之神秀，汇珠水之灵气，是读书治学的理想地。
-            </p>
-          </div>
-        </el-col>
-        <el-col :span="8">
-          <!-- 图片走马灯 -->
-          <el-carousel height="220px" class="h-right">
-            <el-carousel-item v-for="item in 4" :key="item">
-              <h3 class="small">{{ item }}</h3>
-            </el-carousel-item>
-          </el-carousel>
-        </el-col>
-      </el-row>
-      <el-row :gutter="10" class="dashed">
-        <el-col :span="10">
-          <div class="mes">
-            <p class="mes1">基地地址：</p>
-            <p>广州海珠</p>
-          </div>
-        </el-col>
-        <el-col :span="10">
-          <div class="mes">
-            <p class="mes1">创建时间：</p>
-            <p>2020.06.03</p>
-          </div>
-        </el-col>
-      </el-row>
-
-      <el-row :gutter="10">
-        <el-col :span="10">
-          <div class="mes">
-            <p class="mes1">注册资金：</p>
-            <p>1000万元</p>
-          </div>
-        </el-col>
-        <el-col :span="10">
-          <div class="mes">
-            <p class="mes1">营业范围</p>
-            <p>全世界</p>
-          </div>
-        </el-col>
-      </el-row>
-    </el-card>
-
-    <el-card style="margin-top: 30px">
-      <!-- 基地信息 -->
-      <div class="bass">
-        <!-- 标题区 -->
-        <div class="title1">
-          <div class="title2">
-            <i class="el-icon-office-building"></i>
-            <p>基地信息</p>
-          </div>
-          <el-divider></el-divider>
-        </div>
-        <!-- 内容区域 -->
-        <div class="contain">
-          <el-row :gutter="10" class="dashed">
-            <el-col :span="10">
-              <div class="mes">
-                <p class="mes1">基地名称：</p>
-                <p>仲恺基地</p>
-              </div>
-            </el-col>
-            <el-col :span="10">
-              <div class="mes">
-                <p class="mes1">创建时间：</p>
-                <p>2020.06.03</p>
-              </div>
-            </el-col>
-          </el-row>
-
-          <el-row :gutter="10" class="dashed">
-            <el-col :span="10">
-              <div class="mes">
-                <p class="mes1">基地地址：</p>
-                <p>广州海珠</p>
-              </div>
-            </el-col>
-            <el-col :span="10">
-              <div class="mes">
-                <p class="mes1">创建人：</p>
-                <p>李老板</p>
-              </div>
-            </el-col>
-          </el-row>
-
-          <el-row :gutter="10" class="dashed">
-            <el-col :span="10">
-              <div class="mes">
-                <p class="mes1">注册资金：</p>
-                <p>1000万元</p>
-              </div>
-            </el-col>
-            <el-col :span="10">
-              <div class="mes">
-                <p class="mes1">营业执照注册号：</p>
-                <p>1010101</p>
-              </div>
-            </el-col>
-          </el-row>
-
-          <el-row :gutter="10" class="dashed">
-            <el-col :span="10">
-              <div class="mes">
-                <p class="mes1">营业范围：</p>
-                <p>全世界</p>
-              </div>
-            </el-col>
-          </el-row>
-
-          <el-row class="dashed">
-            <el-col>
-              <div class="mes">
-                <p class="mes1" style="width: 300px">基地简介：</p>
-                <p>
-                  仲恺农业工程学院（Zhongkai University of Agriculture and
-                  Engineering）简称仲恺，创办于1927年，是一所以伟大的爱国主义者、近代民主革命家廖仲恺先生名字命名，以现代农业科学为特色，农学、工学为优势，农、工、理、经、管、文、艺、法八大学科协调发展的广东省省属高水平应用型大学，是教育部本科教学评估优秀学校及全国首批卓越农林人才教育培养计划高校。学校办学历史悠久，文脉深厚，坐落在历史文化名城——广州。现有海珠校区、白云校区、番禺教学科研基地，占地面积2000余亩。校园集云山之神秀，汇珠水之灵气，是读书治学的理想地。
-                </p>
-              </div>
-            </el-col>
-          </el-row>
-
-          <el-row class="dashed">
-            <el-col>
-              <div class="mes">
-                <p class="mes1">基地图片：</p>
-                <div class="image__preview">
-                  <el-image
-                    class="b-img"
-                    :src="url"
-                    :preview-src-list="srcList"
-                  >
-                  </el-image>
-                  <el-image
-                    class="b-img"
-                    :src="url"
-                    :preview-src-list="srcList"
-                  >
-                  </el-image>
-                  <el-image
-                    class="b-img"
-                    :src="url"
-                    :preview-src-list="srcList"
-                  >
-                  </el-image>
-                </div>
-              </div>
-            </el-col>
-          </el-row>
-        </div>
-      </div>
-      <!-- 分割线 -->
+    <div class="lxl-box">
+      <el-breadcrumb separator-class="el-icon-arrow-right" class=" lxl-breadcrumb">
+        <el-breadcrumb-item>当前位置</el-breadcrumb-item>
+        <el-breadcrumb-item to="/productTraceability">产品溯源</el-breadcrumb-item>
+        <el-breadcrumb-item>溯源详情</el-breadcrumb-item>
+      </el-breadcrumb>
       <el-divider></el-divider>
 
-      <!-- 虾苗来源 -->
-      <div class="bass">
-        <!-- 标题区 -->
-        <div class="title1">
-          <div class="title2">
-            <i class="el-icon-receiving"></i>
-            <p>虾苗来源</p>
+      <el-card class="head">
+        <!-- 头部区域 -->
+        <el-row :gutter="10" class="h-top">
+          <el-col :span="13">
+            <div class="h-left">
+              <h1>仲恺基地</h1>
+              <p>
+                仲恺基地，创办于1927年，是一所以伟大的爱国主义者、近代民主革命家廖仲恺先生名字命名，以现代农业科学为特色，农学、工学为优势，农、工、理、经、管、文、艺、法八大学科协调发展的广东省省属高水平应用型大学，是教育部本科教学评估优秀学校及全国首批卓越农林人才教育培养计划高校。学校办学历史悠久，文脉深厚，坐落在历史文化名城——广州。现有海珠校区、白云校区、番禺教学科研基地，占地面积2000余亩。校园集云山之神秀，汇珠水之灵气，是读书治学的理想地。
+              </p>
+            </div>
+          </el-col>
+          <el-col :span="8">
+            <!-- 图片走马灯 -->
+            <el-carousel height="220px" class="h-right">
+              <el-carousel-item v-for="item in 4" :key="item">
+                <h3 class="small">{{ item }}</h3>
+              </el-carousel-item>
+            </el-carousel>
+          </el-col>
+        </el-row>
+        <el-row :gutter="10" class="dashed">
+          <el-col :span="10">
+            <div class="mes">
+              <p class="mes1">基地地址：</p>
+              <p>广州海珠</p>
+            </div>
+          </el-col>
+          <el-col :span="10">
+            <div class="mes">
+              <p class="mes1">创建时间：</p>
+              <p>2020.06.03</p>
+            </div>
+          </el-col>
+        </el-row>
+
+        <el-row :gutter="10">
+          <el-col :span="10">
+            <div class="mes">
+              <p class="mes1">注册资金：</p>
+              <p>1000万元</p>
+            </div>
+          </el-col>
+          <el-col :span="10">
+            <div class="mes">
+              <p class="mes1">营业范围</p>
+              <p>全世界</p>
+            </div>
+          </el-col>
+        </el-row>
+      </el-card>
+
+      <el-card style="margin-top: 30px">
+        <!-- 基地信息 -->
+        <div class="bass">
+          <!-- 标题区 -->
+          <div class="title1">
+            <div class="title2">
+              <i class="el-icon-office-building"></i>
+              <p>基地信息</p>
+            </div>
+            <el-divider></el-divider>
           </div>
-          <el-divider></el-divider>
-        </div>
-        <!-- 内容区域 -->
-        <div class="contain">
-          <el-row :gutter="10" class="dashed">
-            <el-col :span="10">
-              <div class="mes">
-                <p class="mes1">虾苗批次名称：</p>
-                <p>斑节A1</p>
-              </div>
-            </el-col>
-            <el-col :span="10">
-              <div class="mes">
-                <p class="mes1">虾苗品种：</p>
-                <p>斑节对虾</p>
-              </div>
-            </el-col>
-          </el-row>
-
-          <el-row :gutter="10" class="dashed">
-            <el-col :span="10">
-              <div class="mes">
-                <p class="mes1">虾苗产地：</p>
-                <p>广东湛江</p>
-              </div>
-            </el-col>
-            <el-col :span="10">
-              <div class="mes">
-                <p class="mes1">虾苗供应商：</p>
-                <p>李老板</p>
-              </div>
-            </el-col>
-          </el-row>
-
-          <el-row :gutter="10" class="dashed">
-            <el-col :span="10">
-              <div class="mes">
-                <p class="mes1">放苗时间：</p>
-                <p>2020.03.19</p>
-              </div>
-            </el-col>
-            <el-col :span="10">
-              <div class="mes">
-                <p class="mes1">捕捞时间：</p>
-                <p>2020.03.19</p>
-              </div>
-            </el-col>
-          </el-row>
-
-          <el-row :gutter="10" class="dashed">
-            <el-col :span="10">
-              <div class="mes">
-                <p class="mes1">审核人：</p>
-                <p>李老板</p>
-              </div>
-            </el-col>
-            <el-col :span="10">
-              <div class="mes">
-                <p class="mes1">对虾规格(kg/尾)：</p>
-                <p>30~40</p>
-              </div>
-            </el-col>
-          </el-row>
-
-          <div class="s-imgs">
-            <el-row :gutter="0">
-              <el-col :span="10" class="s-c-img">
-                <el-image class="s-img" :src="url" :preview-src-list="srcList">
-                </el-image>
+          <!-- 内容区域 -->
+          <div class="contain">
+            <el-row :gutter="10" class="dashed">
+              <el-col :span="10">
+                <div class="mes">
+                  <p class="mes1">基地名称：</p>
+                  <p>仲恺基地</p>
+                </div>
               </el-col>
-              <el-col :span="10" class="s-c-img">
-                <el-image class="s-img" :src="url" :preview-src-list="srcList">
-                </el-image>
+              <el-col :span="10">
+                <div class="mes">
+                  <p class="mes1">创建时间：</p>
+                  <p>2020.06.03</p>
+                </div>
               </el-col>
             </el-row>
-          </div>
 
-          <div class="s-imgs">
-            <el-row :gutter="0">
-              <el-col :span="10" class="s-c-img">
-                <el-image class="s-img" :src="url" :preview-src-list="srcList">
-                </el-image>
+            <el-row :gutter="10" class="dashed">
+              <el-col :span="10">
+                <div class="mes">
+                  <p class="mes1">基地地址：</p>
+                  <p>广州海珠</p>
+                </div>
               </el-col>
-              <el-col :span="10" class="s-c-img">
-                <el-image class="s-img" :src="url" :preview-src-list="srcList">
-                </el-image>
+              <el-col :span="10">
+                <div class="mes">
+                  <p class="mes1">创建人：</p>
+                  <p>李老板</p>
+                </div>
+              </el-col>
+            </el-row>
+
+            <el-row :gutter="10" class="dashed">
+              <el-col :span="10">
+                <div class="mes">
+                  <p class="mes1">注册资金：</p>
+                  <p>1000万元</p>
+                </div>
+              </el-col>
+              <el-col :span="10">
+                <div class="mes">
+                  <p class="mes1">营业执照注册号：</p>
+                  <p>1010101</p>
+                </div>
+              </el-col>
+            </el-row>
+
+            <el-row :gutter="10" class="dashed">
+              <el-col :span="10">
+                <div class="mes">
+                  <p class="mes1">营业范围：</p>
+                  <p>全世界</p>
+                </div>
+              </el-col>
+            </el-row>
+
+            <el-row class="dashed">
+              <el-col>
+                <div class="mes">
+                  <p class="mes1" style="width: 300px">基地简介：</p>
+                  <p>
+                    仲恺农业工程学院（Zhongkai University of Agriculture and
+                    Engineering）简称仲恺，创办于1927年，是一所以伟大的爱国主义者、近代民主革命家廖仲恺先生名字命名，以现代农业科学为特色，农学、工学为优势，农、工、理、经、管、文、艺、法八大学科协调发展的广东省省属高水平应用型大学，是教育部本科教学评估优秀学校及全国首批卓越农林人才教育培养计划高校。学校办学历史悠久，文脉深厚，坐落在历史文化名城——广州。现有海珠校区、白云校区、番禺教学科研基地，占地面积2000余亩。校园集云山之神秀，汇珠水之灵气，是读书治学的理想地。
+                  </p>
+                </div>
+              </el-col>
+            </el-row>
+
+            <el-row class="dashed">
+              <el-col>
+                <div class="mes">
+                  <p class="mes1">基地图片：</p>
+                  <div class="image__preview">
+                    <el-image
+                      class="b-img"
+                      :src="url"
+                      :preview-src-list="srcList"
+                    >
+                    </el-image>
+                    <el-image
+                      class="b-img"
+                      :src="url"
+                      :preview-src-list="srcList"
+                    >
+                    </el-image>
+                    <el-image
+                      class="b-img"
+                      :src="url"
+                      :preview-src-list="srcList"
+                    >
+                    </el-image>
+                  </div>
+                </div>
               </el-col>
             </el-row>
           </div>
         </div>
-      </div>
-      <!-- 分割线 -->
-      <el-divider></el-divider>
+        <!-- 分割线 -->
+        <el-divider></el-divider>
 
-      <!-- 投料信息 -->
-      <div class="bass">
-        <!-- 标题区 -->
-        <div class="title1">
-          <div class="title2">
-            <i class="el-icon-tickets"></i>
-            <p>投料信息</p>
+        <!-- 虾苗来源 -->
+        <div class="bass">
+          <!-- 标题区 -->
+          <div class="title1">
+            <div class="title2">
+              <i class="el-icon-receiving"></i>
+              <p>虾苗来源</p>
+            </div>
+            <el-divider></el-divider>
           </div>
-          <el-divider></el-divider>
-        </div>
-        <!-- 内容区域 -->
-        <div class="contain">
-          <el-table :data="tableData" stripe>
-            <el-table-column prop="date" label="农资信息"> </el-table-column>
-            <el-table-column prop="name" label="使用人"> </el-table-column>
-            <el-table-column prop="address" label="农资类型"> </el-table-column>
-            <el-table-column prop="address" label="投放量"> </el-table-column>
-            <el-table-column prop="address" label="使用时间"> </el-table-column>
-            <el-table-column label="操作">
-              <template slot-scope="scope">
-                <el-button
-                  size="mini"
-                  type="success"
-                  @click="handleDelete(scope.$index, scope.row)"
-                  >查看农资</el-button
-                >
-              </template>
-            </el-table-column>
-          </el-table>
-        </div>
-      </div>
-      <!-- 分割线 -->
-      <el-divider></el-divider>
-
-      <!-- 加工信息 -->
-      <div class="bass">
-        <!-- 标题区 -->
-        <div class="title1">
-          <div class="title2">
-            <i class="el-icon-setting"></i>
-            <p>加工信息</p>
-          </div>
-          <el-divider></el-divider>
-        </div>
-        <!-- 内容区域 -->
-        <div class="contain">
-          <el-row :gutter="10" class="dashed">
-            <el-col :span="10">
-              <div class="mes">
-                <p class="mes1">加工厂名称：</p>
-                <p>加工厂A1</p>
-              </div>
-            </el-col>
-            <el-col :span="10">
-              <div class="mes">
-                <p class="mes1">加工厂地址：</p>
-                <p>广东省广州市</p>
-              </div>
-            </el-col>
-          </el-row>
-
-          <el-row :gutter="10" class="dashed">
-            <el-col :span="10">
-              <div class="mes">
-                <p class="mes1">产品名称：</p>
-                <p>小龙虾</p>
-              </div>
-            </el-col>
-            <el-col :span="10">
-              <div class="mes">
-                <p class="mes1">生产时间：</p>
-                <p>2020.06.03</p>
-              </div>
-            </el-col>
-          </el-row>
-
-          <el-row :gutter="10" class="dashed">
-            <el-col :span="10">
-              <div class="mes">
-                <p class="mes1">创建者：</p>
-                <p>李老板</p>
-              </div>
-            </el-col>
-          </el-row>
-
-          <!-- 图片区域 -->
-          <div class="p-imgs">
-            <el-row>
-              <el-col :span="8">
-                <div class="p-img">
-                  <el-image
-                    class="p-img-top"
-                    :src="url"
-                    :preview-src-list="srcList"
-                  >
-                  </el-image>
-                  <p class="p-img-bottom">xxx图</p>
+          <!-- 内容区域 -->
+          <div class="contain">
+            <el-row :gutter="10" class="dashed">
+              <el-col :span="10">
+                <div class="mes">
+                  <p class="mes1">虾苗批次名称：</p>
+                  <p>斑节A1</p>
                 </div>
               </el-col>
-              <el-col :span="8">
-                <div class="p-img">
-                  <el-image
-                    class="p-img-top"
-                    :src="url"
-                    :preview-src-list="srcList"
-                  >
-                  </el-image>
-                  <p class="p-img-bottom">xxx图</p>
-                </div>
-              </el-col>
-              <el-col :span="8">
-                <div class="p-img">
-                  <el-image
-                    class="p-img-top"
-                    :src="url"
-                    :preview-src-list="srcList"
-                  >
-                  </el-image>
-                  <p class="p-img-bottom">xxx图</p>
+              <el-col :span="10">
+                <div class="mes">
+                  <p class="mes1">虾苗品种：</p>
+                  <p>斑节对虾</p>
                 </div>
               </el-col>
             </el-row>
-          </div>
 
-          <!-- 步骤区域 -->
-          <div class="p-tab">
-            <el-tabs tab-position="left" style="height: 200px">
-              <el-tab-pane label="用户管理">
-                <el-image
-                  class="p-tab-img"
-                  :src="url"
-                  :preview-src-list="srcList"
-                >
+            <el-row :gutter="10" class="dashed">
+              <el-col :span="10">
+                <div class="mes">
+                  <p class="mes1">虾苗产地：</p>
+                  <p>广东湛江</p>
+                </div>
+              </el-col>
+              <el-col :span="10">
+                <div class="mes">
+                  <p class="mes1">虾苗供应商：</p>
+                  <p>李老板</p>
+                </div>
+              </el-col>
+            </el-row>
+
+            <el-row :gutter="10" class="dashed">
+              <el-col :span="10">
+                <div class="mes">
+                  <p class="mes1">放苗时间：</p>
+                  <p>2020.03.19</p>
+                </div>
+              </el-col>
+              <el-col :span="10">
+                <div class="mes">
+                  <p class="mes1">捕捞时间：</p>
+                  <p>2020.03.19</p>
+                </div>
+              </el-col>
+            </el-row>
+
+            <el-row :gutter="10" class="dashed">
+              <el-col :span="10">
+                <div class="mes">
+                  <p class="mes1">审核人：</p>
+                  <p>李老板</p>
+                </div>
+              </el-col>
+              <el-col :span="10">
+                <div class="mes">
+                  <p class="mes1">对虾规格(kg/尾)：</p>
+                  <p>30~40</p>
+                </div>
+              </el-col>
+            </el-row>
+
+            <div class="s-imgs">
+              <el-row :gutter="0">
+                <el-col :span="10" class="s-c-img">
+                  <el-image
+                    class="s-img"
+                    :src="url"
+                    :preview-src-list="srcList"
+                  >
+                  </el-image>
+                </el-col>
+                <el-col :span="10" class="s-c-img">
+                  <el-image
+                    class="s-img"
+                    :src="url"
+                    :preview-src-list="srcList"
+                  >
+                  </el-image>
+                </el-col>
+              </el-row>
+            </div>
+
+            <div class="s-imgs">
+              <el-row :gutter="0">
+                <el-col :span="10" class="s-c-img">
+                  <el-image
+                    class="s-img"
+                    :src="url"
+                    :preview-src-list="srcList"
+                  >
+                  </el-image>
+                </el-col>
+                <el-col :span="10" class="s-c-img">
+                  <el-image
+                    class="s-img"
+                    :src="url"
+                    :preview-src-list="srcList"
+                  >
+                  </el-image>
+                </el-col>
+              </el-row>
+            </div>
+          </div>
+        </div>
+        <!-- 分割线 -->
+        <el-divider></el-divider>
+
+        <!-- 投料信息 -->
+        <div class="bass">
+          <!-- 标题区 -->
+          <div class="title1">
+            <div class="title2">
+              <i class="el-icon-tickets"></i>
+              <p>投料信息</p>
+            </div>
+            <el-divider></el-divider>
+          </div>
+          <!-- 内容区域 -->
+          <div class="contain">
+            <el-table :data="tableData" stripe>
+              <el-table-column prop="date" label="农资信息"> </el-table-column>
+              <el-table-column prop="name" label="使用人"> </el-table-column>
+              <el-table-column prop="address" label="农资类型">
+              </el-table-column>
+              <el-table-column prop="address" label="投放量"> </el-table-column>
+              <el-table-column prop="address" label="使用时间">
+              </el-table-column>
+              <el-table-column label="操作">
+                <template slot-scope="scope">
+                  <el-button
+                    size="mini"
+                    type="success"
+                    @click="handleDelete(scope.$index, scope.row)"
+                    >查看农资</el-button
+                  >
+                </template>
+              </el-table-column>
+            </el-table>
+          </div>
+        </div>
+        <!-- 分割线 -->
+        <el-divider></el-divider>
+
+        <!-- 加工信息 -->
+        <div class="bass">
+          <!-- 标题区 -->
+          <div class="title1">
+            <div class="title2">
+              <i class="el-icon-setting"></i>
+              <p>加工信息</p>
+            </div>
+            <el-divider></el-divider>
+          </div>
+          <!-- 内容区域 -->
+          <div class="contain">
+            <el-row :gutter="10" class="dashed">
+              <el-col :span="10">
+                <div class="mes">
+                  <p class="mes1">加工厂名称：</p>
+                  <p>加工厂A1</p>
+                </div>
+              </el-col>
+              <el-col :span="10">
+                <div class="mes">
+                  <p class="mes1">加工厂地址：</p>
+                  <p>广东省广州市</p>
+                </div>
+              </el-col>
+            </el-row>
+
+            <el-row :gutter="10" class="dashed">
+              <el-col :span="10">
+                <div class="mes">
+                  <p class="mes1">产品名称：</p>
+                  <p>小龙虾</p>
+                </div>
+              </el-col>
+              <el-col :span="10">
+                <div class="mes">
+                  <p class="mes1">生产时间：</p>
+                  <p>2020.06.03</p>
+                </div>
+              </el-col>
+            </el-row>
+
+            <el-row :gutter="10" class="dashed">
+              <el-col :span="10">
+                <div class="mes">
+                  <p class="mes1">创建者：</p>
+                  <p>李老板</p>
+                </div>
+              </el-col>
+            </el-row>
+
+            <!-- 图片区域 -->
+            <div class="p-imgs">
+              <el-row>
+                <el-col :span="8">
+                  <div class="p-img">
+                    <el-image
+                      class="p-img-top"
+                      :src="url"
+                      :preview-src-list="srcList"
+                    >
+                    </el-image>
+                    <p class="p-img-bottom">xxx图</p>
+                  </div>
+                </el-col>
+                <el-col :span="8">
+                  <div class="p-img">
+                    <el-image
+                      class="p-img-top"
+                      :src="url"
+                      :preview-src-list="srcList"
+                    >
+                    </el-image>
+                    <p class="p-img-bottom">xxx图</p>
+                  </div>
+                </el-col>
+                <el-col :span="8">
+                  <div class="p-img">
+                    <el-image
+                      class="p-img-top"
+                      :src="url"
+                      :preview-src-list="srcList"
+                    >
+                    </el-image>
+                    <p class="p-img-bottom">xxx图</p>
+                  </div>
+                </el-col>
+              </el-row>
+            </div>
+
+            <!-- 步骤区域 -->
+            <div class="p-tab">
+              <el-tabs tab-position="left" style="height: 200px">
+                <el-tab-pane label="用户管理">
+                  <el-image
+                    class="p-tab-img"
+                    :src="url"
+                    :preview-src-list="srcList"
+                  >
+                  </el-image>
+                </el-tab-pane>
+                <el-tab-pane label="配置管理">
+                  <el-image
+                    class="p-tab-img"
+                    :src="url"
+                    :preview-src-list="srcList"
+                  >
+                  </el-image>
+                </el-tab-pane>
+                <el-tab-pane label="角色管理">
+                  <el-image
+                    class="p-tab-img"
+                    :src="url"
+                    :preview-src-list="srcList"
+                  >
+                  </el-image>
+                </el-tab-pane>
+                <el-tab-pane label="定时任务补偿">
+                  <el-image
+                    class="p-tab-img"
+                    :src="url"
+                    :preview-src-list="srcList"
+                  >
+                  </el-image>
+                </el-tab-pane>
+              </el-tabs>
+            </div>
+          </div>
+        </div>
+        <!-- 分割线 -->
+        <el-divider></el-divider>
+
+        <!-- 冷库信息 -->
+        <div class="bass">
+          <!-- 标题区 -->
+          <div class="title1">
+            <div class="title2">
+              <i class="el-icon-refrigerator"></i>
+              <p>冷库信息</p>
+            </div>
+            <el-divider></el-divider>
+          </div>
+          <!-- 内容区域 -->
+          <div class="contain">
+            <el-row :gutter="10" class="dashed">
+              <el-col :span="10">
+                <div class="mes">
+                  <p class="mes1">冷库名称：</p>
+                  <p>冷库A1</p>
+                </div>
+              </el-col>
+              <el-col :span="10">
+                <div class="mes">
+                  <p class="mes1">冷库地址：</p>
+                  <p>广东省广州市海珠区</p>
+                </div>
+              </el-col>
+            </el-row>
+
+            <el-row :gutter="10" class="dashed">
+              <el-col :span="10">
+                <div class="mes">
+                  <p class="mes1">入库时间：</p>
+                  <p>2020.06.03</p>
+                </div>
+              </el-col>
+              <el-col :span="10">
+                <div class="mes">
+                  <p class="mes1">出库时间：</p>
+                  <p>2020.06.03</p>
+                </div>
+              </el-col>
+            </el-row>
+
+            <el-row :gutter="10" class="dashed">
+              <el-col :span="10">
+                <div class="mes">
+                  <p class="mes1">冷库温度：</p>
+                  <p>-10</p>
+                </div>
+              </el-col>
+              <el-col :span="10">
+                <div class="mes">
+                  <p class="mes1">负责人：</p>
+                  <p>小明</p>
+                </div>
+              </el-col>
+            </el-row>
+
+            <el-row class="l-imgs" gutter="30">
+              <el-col :span="2"></el-col>
+              <el-col :span="7">
+                <el-image class="l-img" :src="url" :preview-src-list="srcList">
                 </el-image>
-              </el-tab-pane>
-              <el-tab-pane label="配置管理">
-                <el-image
-                  class="p-tab-img"
-                  :src="url"
-                  :preview-src-list="srcList"
-                >
+              </el-col>
+              <el-col :span="7">
+                <el-image class="l-img" :src="url" :preview-src-list="srcList">
                 </el-image>
-              </el-tab-pane>
-              <el-tab-pane label="角色管理">
-                <el-image
-                  class="p-tab-img"
-                  :src="url"
-                  :preview-src-list="srcList"
-                >
-                </el-image>
-              </el-tab-pane>
-              <el-tab-pane label="定时任务补偿">
-                <el-image
-                  class="p-tab-img"
-                  :src="url"
-                  :preview-src-list="srcList"
-                >
-                </el-image>
-              </el-tab-pane>
-            </el-tabs>
+              </el-col>
+            </el-row>
           </div>
         </div>
-      </div>
-      <!-- 分割线 -->
-      <el-divider></el-divider>
+        <!-- 分割线 -->
+        <el-divider></el-divider>
 
-      <!-- 冷库信息 -->
-      <div class="bass">
-        <!-- 标题区 -->
-        <div class="title1">
-          <div class="title2">
-            <i class="el-icon-refrigerator"></i>
-            <p>冷库信息</p>
+        <!-- 物流信息 -->
+        <div class="bass">
+          <!-- 标题区 -->
+          <div class="title1">
+            <div class="title2">
+              <i class="el-icon-truck"></i>
+              <p>物流信息</p>
+            </div>
+            <el-divider></el-divider>
           </div>
-          <el-divider></el-divider>
-        </div>
-        <!-- 内容区域 -->
-        <div class="contain">
-          <el-row :gutter="10" class="dashed">
-            <el-col :span="10">
-              <div class="mes">
-                <p class="mes1">冷库名称：</p>
-                <p>冷库A1</p>
-              </div>
-            </el-col>
-            <el-col :span="10">
-              <div class="mes">
-                <p class="mes1">冷库地址：</p>
-                <p>广东省广州市海珠区</p>
-              </div>
-            </el-col>
-          </el-row>
-
-          <el-row :gutter="10" class="dashed">
-            <el-col :span="10">
-              <div class="mes">
-                <p class="mes1">入库时间：</p>
-                <p>2020.06.03</p>
-              </div>
-            </el-col>
-            <el-col :span="10">
-              <div class="mes">
-                <p class="mes1">出库时间：</p>
-                <p>2020.06.03</p>
-              </div>
-            </el-col>
-          </el-row>
-
-          <el-row :gutter="10" class="dashed">
-            <el-col :span="10">
-              <div class="mes">
-                <p class="mes1">冷库温度：</p>
-                <p>-10</p>
-              </div>
-            </el-col>
-            <el-col :span="10">
-              <div class="mes">
-                <p class="mes1">负责人：</p>
-                <p>小明</p>
-              </div>
-            </el-col>
-          </el-row>
-
-          <el-row class="l-imgs" gutter="30">
-            <el-col :span="2"></el-col>
-            <el-col :span="7">
-              <el-image class="l-img" :src="url" :preview-src-list="srcList">
-              </el-image>
-            </el-col>
-            <el-col :span="7">
-              <el-image class="l-img" :src="url" :preview-src-list="srcList">
-              </el-image>
-            </el-col>
-          </el-row>
-        </div>
-      </div>
-      <!-- 分割线 -->
-      <el-divider></el-divider>
-
-      <!-- 物流信息 -->
-      <div class="bass">
-        <!-- 标题区 -->
-        <div class="title1">
-          <div class="title2">
-            <i class="el-icon-truck"></i>
-            <p>物流信息</p>
+          <!-- 内容区域 -->
+          <div class="contain">
+            <!-- 订单信息列表区域 -->
+            <el-table :data="logisticsList" border stripe>
+              <!-- border： 加入边框线 -->
+              <!-- type="index"： 索引列 -->
+              >
+              <el-table-column type="index"></el-table-column>
+              <el-table-column label="出发">
+                <el-table-column
+                  prop="departureAddr"
+                  label="地址"
+                ></el-table-column>
+                <el-table-column
+                  prop="departureTime"
+                  label="时间"
+                ></el-table-column>
+              </el-table-column>
+              <el-table-column label="抵达">
+                <el-table-column
+                  prop="arrivalAddr"
+                  label="地址"
+                ></el-table-column>
+                <el-table-column
+                  prop="arrivalTime"
+                  label="时间"
+                ></el-table-column>
+              </el-table-column>
+              <el-table-column label="操作" width="240px">
+                <template slot-scope="scope">
+                  <!-- 查看物流信息 -->
+                  <el-button
+                    type="success"
+                    icon="el-icon-location-information"
+                    size="mini"
+                    @click="
+                      getLogisticsById(scope.row.adultShrimpId).then(() =>
+                        init()
+                      )
+                    "
+                    >物流信息</el-button
+                  >
+                </template>
+              </el-table-column>
+            </el-table>
           </div>
-          <el-divider></el-divider>
         </div>
-        <!-- 内容区域 -->
-        <div class="contain">
-          <!-- 订单信息列表区域 -->
-          <el-table :data="logisticsList" border stripe>
-            <!-- border： 加入边框线 -->
-            <!-- type="index"： 索引列 -->
-            >
-            <el-table-column type="index"></el-table-column>
-            <el-table-column label="出发">
-              <el-table-column
-                prop="departureAddr"
-                label="地址"
-              ></el-table-column>
-              <el-table-column
-                prop="departureTime"
-                label="时间"
-              ></el-table-column>
-            </el-table-column>
-            <el-table-column label="抵达">
-              <el-table-column
-                prop="arrivalAddr"
-                label="地址"
-              ></el-table-column>
-              <el-table-column
-                prop="arrivalTime"
-                label="时间"
-              ></el-table-column>
-            </el-table-column>
-            <el-table-column label="操作" width="240px">
-              <template slot-scope="scope">
-                <!-- 查看物流信息 -->
-                <el-button
-                  type="success"
-                  icon="el-icon-location-information"
-                  size="mini"
-                  @click="
-                    getLogisticsById(scope.row.adultShrimpId).then(() => init())
-                  "
-                  >物流信息</el-button
-                >
-              </template>
-            </el-table-column>
-          </el-table>
-        </div>
-      </div>
 
-      <!-- 展示物流信息 -->
-      <el-dialog
-        title="物流信息"
-        :visible.sync="logisticsDialogVisible"
-        width="50%"
-      >
-        <!-- 内容主题区 -->
-        <div id="map"></div>
-        <!-- 页脚 -->
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="logisticsDialogVisible = false">关闭</el-button>
-        </span>
-      </el-dialog>
+        <!-- 展示物流信息 -->
+        <el-dialog
+          title="物流信息"
+          :visible.sync="logisticsDialogVisible"
+          width="50%"
+        >
+          <!-- 内容主题区 -->
+          <div id="map"></div>
+          <!-- 页脚 -->
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="logisticsDialogVisible = false">关闭</el-button>
+          </span>
+        </el-dialog>
 
-      <!-- 分割线 -->
-      <el-divider></el-divider>
+        <!-- 分割线 -->
+        <el-divider></el-divider>
 
-      <!-- 养殖现场 -->
-      <div class="bass">
-        <!-- 标题区 -->
-        <div class="title1">
-          <div class="title2">
-            <i class="el-icon-video-camera"></i>
-            <p>养殖现场</p>
+        <!-- 养殖现场 -->
+        <div class="bass">
+          <!-- 标题区 -->
+          <div class="title1">
+            <div class="title2">
+              <i class="el-icon-video-camera"></i>
+              <p>养殖现场</p>
+            </div>
+            <el-divider></el-divider>
           </div>
-          <el-divider></el-divider>
-        </div>
-        <!-- 内容区域 -->
-        <div class="monitor">
+          <!-- 内容区域 -->
+          <!-- <div class="monitor">
           <div class="videoIframe">
             <p>监控设备位置：1</p>
             <iframe
@@ -662,11 +684,12 @@
               style="background: rgba(0, 0, 0, 0.2)"
             ></iframe>
           </div>
+        </div> -->
         </div>
-      </div>
-      <!-- 分割线 -->
-      <el-divider></el-divider>
-    </el-card>
+        <!-- 分割线 -->
+        <el-divider></el-divider>
+      </el-card>
+    </div>
   </div>
 </template>
 
@@ -779,11 +802,24 @@ export default {
         map: This.map,
       });
     },
+    
   },
 };
 </script>
 
 <style lang="less" scoped>
+.lxl-body {
+  display: flex;
+  justify-content: center;
+  .lxl-breadcrumb {
+    margin-top: 25px;
+    margin-left: 18px;
+    margin-bottom: -10px;
+  }
+}
+.lxl-box {
+  width: 1150px;
+}
 .detail {
   width: 1150px;
   margin: 0 auto;
@@ -820,6 +856,7 @@ export default {
 
 .head {
   margin: 0 auto;
+  margin-top: -10px;
   .h-top {
     margin-bottom: 20px;
     .h-left {

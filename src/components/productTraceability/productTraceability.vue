@@ -1,80 +1,182 @@
 <template>
-  <div class="s-foot">
-    <el-row justify align >
-      <el-col :span="8" :xs="12" :sm="12" :md="12" :lg="8" :xl="8">
-        <div class="contain">
-          <img src="http://www.zhenyuanma.com/img/zymsyy.png" alt="" />
-          <h3>真源码溯源云</h3>
-          <p>溯源云扶贫平台，从源头保障产品的安全，让消费者更放心。</p>
+  <div class="s-foot lxl-body">
+    <div class="lxl-box">
+      <div>
+        <div class="demo-image__placeholder">
+          <div class="ljc-img">
+            <div class="ljc-imgs">
+              <div>
+                <el-image
+                  class="ljc-image"
+                  src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2996214293,1686881207&fm=26&gp=0.jpg"
+                ></el-image>
+                <el-image
+                  class="ljc-image"
+                  src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2811493416,3498467370&fm=26&gp=0.jpg"
+                ></el-image>
+                <el-image
+                  class="ljc-image"
+                  src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2580755058,304570169&fm=26&gp=0.jpg"
+                ></el-image>
+              </div>
+              <div>
+                <el-image
+                  class="ljc-image"
+                  src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1602512451192&di=f357c60565840457f260ef9de2e2c8aa&imgtype=0&src=http%3A%2F%2Fyun.ysoow.com%2F6316%2F2020%2F0106%2F20200106mhg1578293661.jpg"
+                ></el-image>
+                <el-image
+                  class="ljc-image"
+                  src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1199888204,3885688818&fm=26&gp=0.jpg"
+                ></el-image>
+                <el-image
+                  class="ljc-image"
+                  src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1525733984,3023991847&fm=26&gp=0.jpg"
+                ></el-image>
+              </div>
+            </div>
+            <div class="lxl-clu">
+              <div class="ljc-text">食品安全连万家<br> 溯源惠及你我他</div>
+              <div class="search-wrapper active">
+                <div class="input-holder">
+                  <input
+                    type="text"
+                    class="search-input"
+                    placeholder="请输入溯源码"
+                  />
+                  <button class="search-icon" @click="toDetail()">
+                    <span></span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </el-col>
-      <el-col :span="8" :xs="12" :sm="12" :md="12" :lg="8" :xl="8">
-        <div class="contain">
-          <img src="http://www.zhenyuanma.com/img/zhny.png" alt="" />
-          <h3>智慧农业物联网</h3>
-          <p>
-            支持按需添加物联网模块：温度、海拔、湿度、风力、水质、土然、灌溉水源流量、水位等物联网模块支持自定义添加。
-          </p>
-        </div>
-      </el-col>
-      <el-col :span="8" :xs="12" :sm="12" :md="12" :lg="8" :xl="8">
-        <div class="contain">
-          <img src="http://www.zhenyuanma.com/img/ytzb.png" alt="" />
-          <h3>源头直播摄像机</h3>
-          <p>
-            自主研发，是安防监控也是网红农货营销工具打开手机，随时看基地以及顾客访问记录顾客留言。客户看得见的真源头直播。支持24小时直播，真实货源看得见。支持分享摄像机画面给亲人给客户。
-          </p>
-        </div>
-      </el-col>
-      <el-col :span="8" :xs="12" :sm="12" :md="12" :lg="8" :xl="8">
-        <div class="contain">
-          <img src="http://www.zhenyuanma.com/img/dkgl.png" alt="" />
-          <h3>地块管理</h3>
-          <p>
-            采用最先进的深度学习技术，在高分辨率遥感影像上，根据耕地的纹理、种类等特征，实时地确定地块位置、识别地块分界、测算地块和种植面积，并在云端存储。
-          </p>
-        </div>
-      </el-col>
-      <el-col :span="8" :xs="12" :sm="12" :md="12" :lg="8" :xl="8">
-        <div class="contain">
-          <img src="http://www.zhenyuanma.com/img/nydsj.png" alt="" />
-          <h3>农业大数据</h3>
-          <p>
-            智慧农业大数据平台高效的将自然环境数据与种植数据根据季节和生长周期进行融合计算。
-          </p>
-        </div>
-      </el-col>
-      <el-col :span="8" :xs="12" :sm="12" :md="12" :lg="8" :xl="8">
-        <div class="contain">
-          <img src="http://www.zhenyuanma.com/img/fch.png" alt="" />
-          <h3>防串货</h3>
-          <p>
-            对产品的流通进行有效的监管，帮助厂家进行销售区域的管理和跟踪查看。
-          </p>
-        </div>
-      </el-col>
-    </el-row>
-    <el-button>
-      <router-link to="/traceabilityDetails">aaa</router-link>
-    </el-button>
+      </div>
+      <el-row justify align class="ljc-body">
+        <el-col :span="8" :xs="12" :sm="12" :md="12" :lg="8" :xl="8">
+          <div class="contain">
+            <img src="http://www.zhenyuanma.com/img/zymsyy.png" alt="" />
+            <h3>真源码溯源云</h3>
+            <p>溯源云扶贫平台，从源头保障产品的安全，让消费者更放心。</p>
+          </div>
+        </el-col>
+        <el-col :span="8" :xs="12" :sm="12" :md="12" :lg="8" :xl="8">
+          <div class="contain">
+            <img src="http://www.zhenyuanma.com/img/zhny.png" alt="" />
+            <h3>智慧渔业物联网</h3>
+            <p>
+              支持按需添加物联网模块：温度、海拔、湿度、风力、水质、土然、灌溉水源流量、水位等物联网模块支持自定义添加。
+            </p>
+          </div>
+        </el-col>
+        <el-col :span="8" :xs="12" :sm="12" :md="12" :lg="8" :xl="8">
+          <div class="contain">
+            <img src="http://www.zhenyuanma.com/img/ytzb.png" alt="" />
+            <h3>源头直播摄像机</h3>
+            <p>
+              自主研发，是安防监控也是网红农货营销工具打开手机，随时看基地以及顾客访问记录顾客留言。客户看得见的真源头直播。支持24小时直播，真实货源看得见。支持分享摄像机画面给亲人给客户。
+            </p>
+          </div>
+        </el-col>
+        <el-col :span="8" :xs="12" :sm="12" :md="12" :lg="8" :xl="8">
+          <div class="contain">
+            <img src="http://www.zhenyuanma.com/img/dkgl.png" alt="" />
+            <h3>地块管理</h3>
+            <p>
+              采用最先进的深度学习技术，在高分辨率遥感影像上，根据耕地的纹理、种类等特征，实时地确定地块位置、识别地块分界、测算地块和种植面积，并在云端存储。
+            </p>
+          </div>
+        </el-col>
+        <el-col :span="8" :xs="12" :sm="12" :md="12" :lg="8" :xl="8">
+          <div class="contain">
+            <img src="http://www.zhenyuanma.com/img/nydsj.png" alt="" />
+            <h3>渔业大数据</h3>
+            <p>
+              智慧农业大数据平台高效的将自然环境数据与种植数据根据季节和生长周期进行融合计算。
+            </p>
+          </div>
+        </el-col>
+        <el-col :span="8" :xs="12" :sm="12" :md="12" :lg="8" :xl="8">
+          <div class="contain">
+            <img src="http://www.zhenyuanma.com/img/fch.png" alt="" />
+            <h3>防串货</h3>
+            <p>
+              对产品的流通进行有效的监管，帮助厂家进行销售区域的管理和跟踪查看。
+            </p>
+          </div>
+        </el-col>
+      </el-row>
+    </div>
   </div>
 </template>
 <script>
 export default {
   data() {
     return {
-      
+      url: "../../assets/xia.jpg",
+    };
+  },
+  methods: {
+    toDetail(){
+      this.$router.push("/traceabilityDetails")
     }
   },
-}
+};
 </script>
 <style lang="less" scoped>
+@font-face {
+  font-family: bt;
+  src: url("../../fonts/bt.ttf");
+}
 .s-foot {
-  margin: 0 auto; // 处于父元素的居中位置
-  width: 1150px;
   display: flex;
   justify-content: center;
-  flex-wrap: wrap;
+  .lxl-box {
+    width: 1150px;
+  }
+}
+.ljc-img {
+  height: 100%;
+  width: 1150px;
+  background-image: url("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1602514034193&di=5d094e46786da70a650db63f3cf899ee&imgtype=0&src=http%3A%2F%2Fimg2.99114.com%2Fgroup1%2FM00%2F7A%2FD5%2FwKgGMFZMOeCAG32DAASBmpxCXU4173.jpg");
+  height: 800px;
+  background-repeat: no-repeat;
+  background-size: cover;
+.ljc-text{
+  color: rgb(255, 255, 255);
+  font-size: 5.5rem;
+  margin-top: -800px;
+  margin-left: 500px;
+   font-family: "bt";
+
+}
+  .ljc-imgs {
+    display: flex;
+    flex-direction: row;
+
+    div {
+      margin: 10px;
+      margin-top: 35px;
+      display: inherit;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  .lxl-clu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+.ljc-image {
+  width: 180px;
+  height: 180px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 30%;
+  opacity: 0.9;
+}
+.ljc-body {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
 }
 .contain {
   width: 300px;
@@ -83,6 +185,7 @@ export default {
   img {
     width: 96px;
     height: 96px;
+    margin-top: 25px;
   }
   h3 {
     margin: 10px 0px;
@@ -100,5 +203,91 @@ export default {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #333;
   }
+}
+.search-wrapper {
+  position: absolute;
+  margin-left: 550px;
+  margin-top: -200px;
+}
+.search-wrapper .input-holder {
+  height: 70px;
+  width: 70px;
+}
+.search-wrapper.active .input-holder {
+  width: 450px;
+  border-radius: 50px;
+  background: rgba(255, 255, 255, 0.5);
+}
+.search-wrapper .input-holder .search-input {
+  width: 100%;
+  height: 50px;
+  padding: 0px 70px 0 20px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background: transparent;
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+  font-family: "Open Sans", Arial, Verdana;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  color: rgb(255, 255, 255);
+  transform: translate(0, 60px);
+  transition: all 0.3s cubic-bezier(0, 0.105, 0.035, 1.57);
+  transition-delay: 0.3s;
+}
+.search-wrapper.active .input-holder .search-input {
+  opacity: 1;
+  transform: translate(0, 10px);
+}
+.search-wrapper .input-holder .search-icon {
+  width: 70px;
+  height: 70px;
+  border: none;
+  border-radius: 6px;
+  background: #fff;
+  padding: 0px;
+  outline: none;
+  position: relative;
+  z-index: 2;
+  float: right;
+  cursor: pointer;
+}
+.search-wrapper.active .input-holder .search-icon {
+  width: 50px;
+  height: 50px;
+  margin: 10px;
+  border-radius: 30px;
+}
+.search-wrapper .input-holder .search-icon span {
+  width: 22px;
+  height: 22px;
+  display: inline-block;
+}
+.search-wrapper.active .input-holder .search-icon span {
+  transform: rotate(-45deg);
+}
+.search-wrapper .input-holder .search-icon span::before,
+.search-wrapper .input-holder .search-icon span::after {
+  position: absolute;
+  content: "";
+}
+.search-wrapper .input-holder .search-icon span::before {
+  width: 4px;
+  height: 11px;
+  left: 9px;
+  top: 18px;
+  border-radius: 2px;
+  background: #fe5f55;
+}
+.search-wrapper .input-holder .search-icon span::after {
+  width: 14px;
+  height: 14px;
+  left: 0px;
+  top: 0px;
+  border-radius: 16px;
+  border: 4px solid #fe5f55;
 }
 </style>
