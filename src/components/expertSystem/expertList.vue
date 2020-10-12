@@ -1,15 +1,17 @@
 <template>
-  <div class="expertList">
-    <div class="container">
-      <div class="breadcrumb">
-        <el-breadcrumb separator-class="el-icon-arrow-right">
-          <el-breadcrumb-item>当前位置</el-breadcrumb-item>
-          <el-breadcrumb-item :to="{ name: 'expertInterrogation' }"
-            >专家问诊</el-breadcrumb-item
-          >
-          <el-breadcrumb-item>专家列表</el-breadcrumb-item>
-        </el-breadcrumb>
-      </div>
+  <div class="expertList lxl-body">
+    <div class="container lxl-box">
+      <el-breadcrumb
+        separator-class="el-icon-arrow-right "
+        class="lxl-breadcrumb"
+      >
+        <el-breadcrumb-item>当前位置</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ name: 'expertInterrogation' }"
+          >专家问诊</el-breadcrumb-item
+        >
+        <el-breadcrumb-item>专家列表</el-breadcrumb-item>
+      </el-breadcrumb>
+      <el-divider></el-divider>
       <div class="sortWay">
         <category
           :default="'默认'"
@@ -112,6 +114,19 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.lxl-body {
+  display: flex;
+  justify-content: center;
+  .lxl-breadcrumb {
+    margin-top: 25px;
+    margin-left: 18px;
+    margin-bottom: -10px;
+  }
+  margin-bottom: 40px;
+}
+.lxl-box {
+  width: 1150px;
+}
 /deep/ .el-card.is-always-shadow {
   box-shadow: none;
 }
@@ -127,7 +142,6 @@ export default {
     .sortWay {
       margin-bottom: 10px;
       padding-bottom: 10px;
-      border-bottom: 1px dashed #ddd;
     }
     .expertList-container {
       display: flex;
@@ -137,9 +151,9 @@ export default {
         width: 32%;
       }
     }
-    .pagination{
-        text-align: center;
-        margin: 20px 0;
+    .pagination {
+      text-align: center;
+      margin: 20px 0;
     }
   }
 }

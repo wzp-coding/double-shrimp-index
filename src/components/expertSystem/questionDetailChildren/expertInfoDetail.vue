@@ -3,21 +3,23 @@
     <div class="expert_info">
       <div class="up">
         <div class="left">
-          <img
+          <el-avatar
+            :size="150"
             src="http://134.175.208.235/group1/M00/00/0A/rBAAD18j6-CAXJntAAAhCkDNkuo847.jpg"
-            alt=""
-          />
+          ></el-avatar>
           <div class="info">
-            <div class="name_address"> 
+            <div class="name_address">
               <span class="name">李三</span>
-              <span class="address">广东省广州市某某区</span>
+              <span class="brief"> 张三，北大毕业博士 </span>
             </div>
             <div class="major">
               <span class="major_detail"
-                >擅长：对虾养 殖及疾病诊断治疗 和  把脉</span
+                >擅长：对虾养 殖及疾病诊断治疗 和 把脉</span
               >
-              <span class="brief"> 张三，北大毕业博士 </span>
               <span class="onlineTime"> 在线时间：周一下午14:00-17:00 </span>
+              <div class="name_address">
+                <span class="address">广东省广州市某某区</span>
+              </div>
             </div>
           </div>
         </div>
@@ -33,7 +35,7 @@
             <span class="action_title">回复量</span>
           </div>
           <div class="action">
-            <span class="action_num">264.7059%</span>
+            <span class="action_num">24.7059%</span>
             <span class="action_title">回复率</span>
           </div>
         </div>
@@ -45,18 +47,25 @@
 export default {};
 </script>
 <style lang="less" scoped>
+@font-face {
+  font-family: electronicFont;
+  src: url("../../../fonts/KaneDemo-OVMZO.otf");
+}
 .expertInfoDetail {
-
-  color: #fff;
+  // color: #fff;
   /deep/.expert_info {
     display: flex;
     flex-direction: column;
     align-items: start;
     margin-top: 10px;
     justify-content: space-between;
-    background-color: rgb(103, 212, 86);
-    padding: 30px 0;
+    background-color:#5fd780;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+    border-radius: 10px;
+    color: rgb(36, 36, 36);
+    font-family: "electronicFont";
     .up {
+      margin-top: 30px;
       width: 100%;
       display: flex;
       flex-direction: row;
@@ -68,44 +77,29 @@ export default {};
         justify-content: flex-start;
         align-items: center;
         margin-left: 30px;
-        img {
+        .el-avatar {
           width: 150px;
           height: 150px;
-          border-radius: 50%;
-          border: 3px solid #fff;
+          border: 3px solid rgb(176, 199, 212);
         }
-
         .info {
           display: flex;
           flex-direction: column;
           font-size: 15px;
           margin-left: 20px;
+
           .name_address {
             display: flex;
             flex-direction: column;
             .name {
-              font-size: 24px;
               margin-bottom: 10px;
-            }
-
-            .address {
+              font-size: 24px;
             }
           }
-
           .major {
             display: flex;
             flex-direction: column;
             margin: 10px 0;
-            .major_detail {
-
-            }
-
-            .brief {
-              margin: 10px 0;
-            }
-
-            .onlineTime {
-            }
           }
         }
       }
@@ -114,18 +108,20 @@ export default {};
     .down {
       width: 100%;
       margin-top: 30px;
+      background-color: rgb(54, 155, 93);
+
+      color: white;
       .replies {
+        margin-top: 20px;
+        margin-bottom: 20px;
         display: flex;
         flex-direction: row;
         justify-content: space-around;
         font-size: 26px;
-        color: #fff;
         .action {
           display: flex;
           flex-direction: column;
           align-items: center;
-          .action_num {
-          }
 
           .action_title {
             font-size: 15px;
