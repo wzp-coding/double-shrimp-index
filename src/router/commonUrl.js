@@ -1,6 +1,6 @@
 //1->common.js中引入axios
-import Axios from 'axios'
-Axios.defaults.timeout = 180000
+import axios from 'axios'
+axios.defaults.timeout = 180000
 //2->对get请求传递过来的参数处理
 function paramsToUrl(url, params) {
     if (!params) return url
@@ -30,22 +30,34 @@ function requireData(url, params, type, item) {
         case 'M3':
             url = axios.defaults.baseM3URL + url
             break;
+        case 'M4':
+            url = axios.defaults.baseM3URL + url
+            break;
+        case 'M5':
+            url = axios.defaults.baseM3URL + url
+            break;
+        case 'M6':
+            url = axios.defaults.baseM3URL + url
+            break;
+        case 'M7':
+            url = axios.defaults.baseM3URL + url
+            break;
         default:
             url = axios.defaults.baseM4URL + url
     }
     if (type === 'get') {
         url = paramsToUrl(url, params)
         return new Promise((resolve, reject) => {
-            Axios.get(url, params).then(res => {
-                resolve(res.data)
+            axios.get(url, params).then(res => {
+                resolve(res)
             }).catch(err => {
                 reject(err)
             })
         })
     } else {
         return new Promise((resolve, reject) => {
-            Axios.post(url, params).then(res => {
-                resolve(res.data)
+            axios.post(url, params).then(res => {
+                resolve(res)
             }).catch(err => {
                 reject(err)
             })
@@ -74,6 +86,19 @@ export default {
         Vue.prototype.reqM4Service = function (url, params, type) {
             return requireData.call(this, url, params, type, 'M4')
         }
+        //->接口4的请求数据方法
+        Vue.prototype.reqM4Service = function (url, params, type) {
+            return requireData.call(this, url, params, type, 'M5')
+        }
+        //->接口4的请求数据方法
+        Vue.prototype.reqM4Service = function (url, params, type) {
+            return requireData.call(this, url, params, type, 'M6')
+        }
+        //->接口4的请求数据方法
+        Vue.prototype.reqM4Service = function (url, params, type) {
+            return requireData.call(this, url, params, type, 'M7')
+        }
+
     }
 
 }

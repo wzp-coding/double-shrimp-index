@@ -139,11 +139,6 @@ export default {
       });
     },
     // 获取验证码
-    // async getCaptcha() {
-    //   const { data: res } = await this.$http.post("/captcha/getCaptcha");
-    //   this.url = "data:image/png;base64," + res.data.img;
-    //   this.cToken = res.data.cToken;
-    // },
     async getCaptcha() {
       const { data: res } = await this.reqM1Service("/captcha/getCaptcha");
       this.url = "data:image/png;base64," + res.data.img;
