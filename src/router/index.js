@@ -13,6 +13,7 @@ import fishingSkillArticles from '../components/fishingSkill/fishingSkillArticle
 import figureLibrary from '../components/fishingSkill/figureLibrary.vue'
 import powerPoint from '../components/fishingSkill/powerPoint.vue'
 import intellectualProperty from '../components/fishingSkill/intellectualProperty.vue'
+import videoPlay from '../components/fishingSkill/videoPlay.vue'
 
 import environmentalMonitoring from '../components/environmentalMonitoring/environmentalMonitoring.vue'
 
@@ -111,6 +112,11 @@ const routes = [{
 {
   path: '/figureLibrary',
   component: figureLibrary
+
+},
+{
+  path: '/videoPlay',
+  component:videoPlay
 
 },
 {

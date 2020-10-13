@@ -5,9 +5,7 @@
         separator-class="el-icon-arrow-right"
         class="lxl-breadcrumb"
       >
-        <el-breadcrumb-item 
-          >当前位置</el-breadcrumb-item
-        >
+        <el-breadcrumb-item>当前位置</el-breadcrumb-item>
         <el-breadcrumb-item>知识图谱</el-breadcrumb-item>
       </el-breadcrumb>
       <el-divider></el-divider>
@@ -18,11 +16,11 @@
       >
         <el-form-item>
           <el-input
-            v-model="formInline.user"
+            v-model="formInline.searchData"
             placeholder="请输入实体名称"
           ></el-input>
         </el-form-item>
-        <el-button type="success">查询</el-button>
+        <el-button type="success" @click="searchByName()">查询</el-button>
         <el-form-item> </el-form-item>
         <el-form-item style="width: 150px">
           <el-select v-model="formInline.region" placeholder="常用查询">
@@ -164,7 +162,9 @@ export default {
       formInline: {
         user: "",
         region: "",
+        searchData: "",
       },
+      url: "",
     };
   },
   mounted() {
@@ -816,6 +816,13 @@ export default {
       window.addEventListener("resize", function () {
         myChart.resize();
       });
+    },
+    // 根据名称查询实体详细信息
+    async searchByName() {
+      const data = await this.$axios(
+        this.url + "/entity/search/" + this.formInline.searchData
+      );
+      console.log(data);
     },
   },
 };
