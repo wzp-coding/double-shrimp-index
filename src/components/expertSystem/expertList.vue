@@ -28,31 +28,31 @@
       </div>
       <div class="expertList-container">
         <div class="expert-item">
-          <miniExpertCard></miniExpertCard>
+          <miniExpertCard :oneExpert="expertList[0]"></miniExpertCard>
         </div>
         <div class="expert-item">
-          <miniExpertCard></miniExpertCard>
+          <miniExpertCard :oneExpert="expertList[0]"></miniExpertCard>
         </div>
         <div class="expert-item">
-          <miniExpertCard></miniExpertCard>
+          <miniExpertCard :oneExpert="expertList[0]"></miniExpertCard>
         </div>
         <div class="expert-item">
-          <miniExpertCard></miniExpertCard>
+          <miniExpertCard :oneExpert="expertList[0]"></miniExpertCard>
         </div>
         <div class="expert-item">
-          <miniExpertCard></miniExpertCard>
+          <miniExpertCard :oneExpert="expertList[0]"></miniExpertCard>
         </div>
         <div class="expert-item">
-          <miniExpertCard></miniExpertCard>
+          <miniExpertCard :oneExpert="expertList[0]"></miniExpertCard>
         </div>
         <div class="expert-item">
-          <miniExpertCard></miniExpertCard>
+          <miniExpertCard :oneExpert="expertList[0]"></miniExpertCard>
         </div>
         <div class="expert-item">
-          <miniExpertCard></miniExpertCard>
+          <miniExpertCard :oneExpert="expertList[0]"></miniExpertCard>
         </div>
         <div class="expert-item">
-          <miniExpertCard></miniExpertCard>
+          <miniExpertCard :oneExpert="expertList[0]"></miniExpertCard>
         </div>
       </div>
       <div class="pagination">
@@ -104,12 +104,33 @@ export default {
           data: "有用量从高到低",
         },
       ],
+      expertList: [],
     };
   },
   components: {
     category,
     pagination,
     miniExpertCard,
+  },
+  methods: {
+    getExpertList() {
+      this.$http
+        .get(`http://106.75.154.40:9012/info/experts/findAll/1/3`)
+        .then((res) => {
+          res = res.data;
+          if (res.code === 20000) {
+            res = res.data;
+            res.rows.forEach((item) => this.expertList.push(item));
+          } else {
+            this.$message({
+              message: "获取专家信息失败",
+            });
+          }
+        });
+    },
+  },
+  mounted() {
+    this.getExpertList();
   },
 };
 </script>

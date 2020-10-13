@@ -15,7 +15,8 @@
       <div class="content">
         <div class="left">
           <div class="expertInfoDetail-container">
-            <expertInfoDetail></expertInfoDetail>
+            <!-- 专家信息组件 -->
+            <expertInfoDetail :expertInfo="expertInfo"></expertInfoDetail>
           </div>
           <div class="add-inquire">
             <el-button
@@ -28,11 +29,14 @@
             >
           </div>
           <div class="questionDetail-container">
-            <miniQuestionDetailCard></miniQuestionDetailCard>
+            <!-- 帖子问题组件 -->
+            <miniQuestionDetailCard :quesInfo="quesInfo"></miniQuestionDetailCard>
             <el-divider class="ccy-drvider"></el-divider>
-            <miniReplyDetailCard></miniReplyDetailCard>
+            <!-- 帖子回复组件 -->
+            <miniReplyDetailCard v-for="(item,index) in replyInfo" :key="index" :replyInfo="item"></miniReplyDetailCard>
           </div>
           <div class="recommendQues-container">
+            <!-- 推荐帖子组件 -->
             <recommendReply></recommendReply>
           </div>
         </div>
@@ -51,7 +55,13 @@ import recommendReply from "./questionDetailChildren/recommendReply";
 import partOne from "./expertInterrogationChildren/partOne";
 export default {
   data() {
-    return {};
+    return {
+      quesId:'',
+      expertId:'',
+      quesInfo:{},
+      replyInfo:[],
+      expertInfo:{}
+    };
   },
   components: {
     expertInfoDetail,
@@ -60,6 +70,62 @@ export default {
     recommendReply,
     partOne,
   },
+  methods:{
+    // 获取专家信息expertInfo
+    getExpertInfo(id){
+      this.$http.get(`http://106.75.154.40:9012/info/experts/findById/${id}`).then(res=>{
+        res = res.data
+        if(res.code === 20000){
+          res = res.data
+          this.expertInfo = res
+        }
+      })
+    },
+    // 获取帖子问题信息quesInfo
+    getQuesInfo(id){
+      this.$http.get(`http://106.75.154.40:9012/info/post/findById/${id}`).then(res=>{
+        res = res.data
+        if(res.code === 20000){
+          res = res.data
+          this.quesInfo = res
+          this.expertId = res.expertsId
+          // 获取专家信息
+          this.getExpertInfo(this.expertId)
+          // 将quesInfo中的图片字符串转为数组
+          if(!!this.quesInfo.images){
+            this.$set(this.quesInfo,"images",this.quesInfo.images.split(',')) 
+          }else{
+            this.$set(this.quesInfo,"images",[])
+          }
+        }
+      })
+    },
+    // 获取帖子所有回复replyInfo
+    getReplyInfo(id){
+      this.$http.get(`http://106.75.154.40:9012/info/details/findByPost/${id}/1/100`).then(res=>{
+        res = res.data
+        if(res.code === 20000){
+          res = res.data
+          res.rows.forEach(item=>{
+            if(!!item.images){
+              this.$set(item,"images",item.images.split(',')) 
+            }else{
+              this.$set(item,"images",[])
+            }
+            this.replyInfo.push(item)
+          })
+          
+        }
+      })
+    },
+    
+  },
+  mounted(){
+    this.quesId = this.$route.params.id
+    console.log(this.quesId)
+    this.getQuesInfo(this.quesId)
+    this.getReplyInfo(this.quesId)
+  }
 };
 </script>
 <style lang="less" scoped>

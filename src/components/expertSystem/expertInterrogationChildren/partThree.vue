@@ -27,7 +27,7 @@
       </div>
     </h3>
     <div class="block">
-      <el-carousel>
+      <el-carousel interval=5000>
         <el-carousel-item>
           <miniArticleCard></miniArticleCard>
           <miniArticleCard></miniArticleCard>

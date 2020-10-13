@@ -11,7 +11,7 @@
         <span
           style="margin-right: 5px; border-left: 6px solid rgb(93, 183, 60)"
         ></span>
-        农技专家
+        专家问答
       </div>
       <div
         style="
@@ -27,32 +27,10 @@
       </div>
     </h3>
     <el-divider class="ccy-drvider"></el-divider>
-    <el-row :gutter="20">
-      <el-col :span="8"
+    <el-row :gutter="20" v-for="(item,index) in quesList" :key="index">
+      <el-col :span="8" v-for="item1 in item" :key="item1.id"
         ><div class="grid-content bg-purple">
-          <miniReplyCard></miniReplyCard></div
-      ></el-col>
-      <el-col :span="8"
-        ><div class="grid-content bg-purple">
-          <miniReplyCard></miniReplyCard></div
-      ></el-col>
-      <el-col :span="8"
-        ><div class="grid-content bg-purple">
-          <miniReplyCard></miniReplyCard></div
-      ></el-col>
-    </el-row>
-    <el-row :gutter="20">
-      <el-col :span="8"
-        ><div class="grid-content bg-purple">
-          <miniReplyCard></miniReplyCard></div
-      ></el-col>
-      <el-col :span="8"
-        ><div class="grid-content bg-purple">
-          <miniReplyCard></miniReplyCard></div
-      ></el-col>
-      <el-col :span="8"
-        ><div class="grid-content bg-purple">
-          <miniReplyCard></miniReplyCard></div
+          <miniReplyCard :oneReply="item1"></miniReplyCard></div
       ></el-col>
     </el-row>
   </div>
@@ -62,11 +40,59 @@ import miniReplyCard from "./miniReplyCard.vue";
 
 export default {
   data() {
-    return {};
+    return {
+      quesList: [[],[]],
+    };
   },
   components: {
     miniReplyCard,
   },
+  methods:{
+    async getOneReplyById(ids) {
+      let httpTasks = [];
+      ids.forEach((id) => {
+        httpTasks.push(
+          this.$http.get(
+            `http://106.75.154.40:9012/info/details/findByPost/${id}/1/1`
+          )
+        );
+      });
+      return this.$http.all(httpTasks);
+    },
+    async getRepliesList() {
+      await this.$http
+        .get(`http://106.75.154.40:9012/info/post/findAll/1/6`)
+        .then((res) => {
+          res = res.data;
+          if (res.code === 20000) {
+            res = res.data;
+            let ids= []
+            res.rows.forEach((item) => ids.push(item.id));
+            this.getOneReplyById(ids).then(
+              this.$http.spread((...data) => {
+                data.forEach((item, index) => {
+                  this.$set(res.rows[index], "reply", item.data.data.rows?.[0]?.reply);
+                });
+                res.rows.forEach((item) => {
+                    if (this.quesList[0].length < 3) {
+                    this.quesList[0].push(item);
+                  } else {
+                    this.quesList[1].push(item);
+                  }
+                });
+              })
+            );
+          } else {
+            this.$message({
+              message: "获取帖子信息失败",
+            });
+          }
+        });
+    },
+  },
+  mounted(){
+    this.getRepliesList()
+  }
 };
 </script>
 <style lang="less" scoped>

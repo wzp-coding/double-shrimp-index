@@ -5,21 +5,25 @@
         <div class="up">
           <div class="que_text">
             <span class="queicon">问</span>
-            <router-link :to="{ name: 'questionDetail', params: { id: 123 } }">
-              {{data?data.ques:'Lorem ipsum dolor sit amet consectetur adipisicing elit. Error, quae.'}}
-            </router-link>
+            <div style="cursor: pointer" @click="toQuestionDetail">
+              {{ oneReply ? oneReply.title : "" }}
+            </div>
           </div>
         </div>
         <div class="mid">
           <div class="que_text reply_text">
             <span class="queicon replyicon">答</span>
             <span class="quetext replytext">
-              {{data?data.reply:'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem cum quos et eligendi neque fugiat delectus quis animi est reiciendis.'}}
+              {{ oneReply.reply ? oneReply.reply : "暂无" }}
             </span>
           </div>
         </div>
         <div class="down">
-          <span class="update_time">更新于{{data?data.updateTime:'2020-04-08 10:08:09'}}</span>
+          <span class="update_time"
+            >更新于{{
+              oneReply ? this.formatTime(oneReply.creationTime) : "暂无更新"
+            }}</span
+          >
         </div>
       </div>
     </el-card>
@@ -27,17 +31,48 @@
 </template>
 <script>
 export default {
-  props:['data'],
-  mounted() {
+  props: ["oneReply"],
+  methods: {
+    toQuestionDetail() {
+      this.$router.push({
+        name: "questionDetail",
+        params: { id: this.oneReply.id },
+      });
+      location.reload();
+    },
+    formatTime(date) {
+      //date是传入的时间
+      const d = new Date(date);
+      const month =
+        d.getMonth() + 1 < 10 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
+      const day = d.getDate() < 10 ? "0" + d.getDate() : d.getDate();
+      const hours = d.getHours() < 10 ? "0" + d.getHours() : d.getHours();
+      const min = d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes();
+      const sec = d.getSeconds() < 10 ? "0" + d.getSeconds() : d.getSeconds();
+      const times =
+        d.getFullYear() +
+        "-" +
+        month +
+        "-" +
+        day +
+        " " +
+        hours +
+        ":" +
+        min +
+        ":" +
+        sec;
+      return times;
+    },
   },
+  mounted() {},
 };
 </script>
-<style lang="less" scoped> 
+<style lang="less" scoped>
 .mini_reply_card {
-   &:nth-child(1){
-     margin: 10px 0 4px 0;
-   }
-     margin-bottom: 4px;
+  &:nth-child(1) {
+    margin: 10px 0 4px 0;
+  }
+  margin-bottom: 4px;
   .ques_item {
     display: flex;
     flex-direction: column;
@@ -50,11 +85,11 @@ export default {
       .que_text {
         margin-bottom: 15px;
         display: flex;
-        
+
         .queicon {
           box-sizing: border-box;
           text-align: center;
-          background-color: #409EFF;
+          background-color: #409eff;
           padding: 0 3px;
           border-radius: 4px;
           color: #fff;

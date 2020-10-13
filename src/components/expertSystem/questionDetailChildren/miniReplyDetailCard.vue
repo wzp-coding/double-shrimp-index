@@ -8,8 +8,13 @@
             src="http://134.175.208.235/group1/M00/00/03/rBAAD18PvgqABwO4AAB7h4B4GuU427.jpg"
           ></el-avatar>
           <div class="info">
-            <div style="margin-top: 5px"><i class="el-icon-user"></i> 张三</div>
-            <div class="res_time">2020-08-03 11:02:00</div>
+            <div style="margin-top: 5px">
+              <i class="el-icon-user"></i>
+              {{ replyInfo.replierName ? replyInfo.replierName : "匿名" }}
+            </div>
+            <div class="res_time">
+              {{ this.formatTime(replyInfo.creationTime) }}
+            </div>
           </div>
         </div>
         <div class="right"></div>
@@ -17,24 +22,30 @@
       <div class="res_info">
         <div class="text">
           <span class="queicon">答</span>
-          3.后期催肥：在中期的养殖基础上，加大投饵量，特别是在对虾摄食旺盛的傍晚和深夜，加强高效优质配合饲料的投喂，并增加投喂次数，适当提高虾塘的池水盐度，促进对虾蜕壳和硬壳，这样可以提高商品虾的质量，提高养殖的经济效益。
-          。同时优兰宝可以提高蛋白质和氨基酸等营养物质吸收，提高废弃蛋白的利用，降低对虾饵料系数，促进对虾生长。
+          {{ replyInfo.reply }}
         </div>
         <!-- 图片预览 -->
-        <div class="demo-image__preview" style="margin-top: 10px">
+        <div
+          class="demo-image__preview"
+          style="margin-top: 10px"
+          v-if="replyInfo.images.length != 0"
+        >
           <el-image
-            style="width: 100px; height: 100px"
-            src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
-            :preview-src-list="srcList"
+            v-for="(item, index) in replyInfo.image"
+            :key="index"
+            style="width: 100px; height: 100px; margin-right: 10px"
+            :src="item"
+            :preview-src-list="replyInfo.images"
+            fit="cover"
           >
           </el-image>
         </div>
-        <!--  -->
+        <!-- 点赞按钮 -->
         <div class="div_btn">
           <el-button type="success" class="btn" @click="changeParise">
             <i class="el-icon-medal">有用</i>
             <el-divider direction="vertical"></el-divider>
-            <span id="pariseNum">1</span>
+            <span id="pariseNum">{{ replyInfo.pariseNum }}</span>
           </el-button>
         </div>
       </div>
@@ -46,15 +57,35 @@ export default {
   data() {
     return {
       parise: false,
-      srcList: [
-        "https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg",
-        "https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg",
-      ],
     };
   },
+  props: ["replyInfo"],
   methods: {
     changeParise() {
       if (!this.parise) this.parise = !this.parise;
+    },
+    formatTime(date) {
+      //date是传入的时间
+      const d = new Date(date);
+      const month =
+        d.getMonth() + 1 < 10 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
+      const day = d.getDate() < 10 ? "0" + d.getDate() : d.getDate();
+      const hours = d.getHours() < 10 ? "0" + d.getHours() : d.getHours();
+      const min = d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes();
+      const sec = d.getSeconds() < 10 ? "0" + d.getSeconds() : d.getSeconds();
+      const times =
+        d.getFullYear() +
+        "-" +
+        month +
+        "-" +
+        day +
+        " " +
+        hours +
+        ":" +
+        min +
+        ":" +
+        sec;
+      return times;
     },
   },
 };
@@ -96,6 +127,7 @@ export default {
       font-size: 15px;
       .text {
         padding: 10px;
+        padding-left: 0;
       }
       .img_content {
         width: 200px;

@@ -5,36 +5,36 @@
         <div class="up">
           <div class="info">
             <img
-              src="http://134.175.208.235/group1/M00/00/0A/rBAAD18j6-CAXJntAAAhCkDNkuo847.jpg"
+              :src="oneExpert?oneExpert.picture:''"
               alt=""
             />
             <div class="name_address">
               <div class="name">
-                <span>张三</span>
+                <span>{{oneExpert.name?oneExpert.name:'匿名'}}</span>
                 <span style="padding: 0 10px">|</span>
                 <el-button type="text">详情</el-button>
               </div>
-              <div class="address">广东省广州市某某区</div>
+              <div class="address">{{oneExpert?oneExpert.address:'无法获取'}}</div>
             </div>
           </div>
           <div class="replies">
             <div class="action">
               <span class="action_title">咨询量</span>
-              <span class="action_num">17</span>
+              <span class="action_num">{{oneExpert.consultingNum?oneExpert.consultingNum:0}}</span>
             </div>
             <div class="action">
               <span class="action_title">回复量</span>
-              <span class="action_num">45</span>
+              <span class="action_num">{{oneExpert.repliesNum?oneExpert.repliesNum:0}}</span>
             </div>
             <div class="action">
               <span class="action_title">回复率</span>
-              <span class="action_num">24.71%</span>
+              <span class="action_num">{{isNaN(repliesRate)?0:repliesRate}}%</span>
             </div>
           </div>
           <div class="major">
-            <span>擅长&nbsp;:</span> 对虾养殖及疾病诊断治疗和把脉
+            <span>擅长&nbsp;:</span> {{oneExpert?oneExpert.goodAt:'暂无'}}
           </div>
-          <div class="onlineTime">在线时间：周一下午14:00-17:00</div>
+          <div class="onlineTime">在线时间：{{oneExpert?oneExpert.onlineTime:'暂无'}}</div>
         </div>
         <div class="down">
           <el-button type="primary" round icon="el-icon-chat-dot-round"
@@ -46,7 +46,20 @@
   </div>
 </template>
 <script>
-export default {};
+export default {
+  data() {
+    return {
+    }
+  },
+  props:['oneExpert'],
+  computed:{
+    repliesRate(){
+      return Math.floor(this.oneExpert.repliesNum/this.oneExpert.consultingNum * 10000)/100
+    }
+  },
+  created () {
+  }
+};
 </script>
 <style lang="less" scoped>
 .mini_expert_card {
