@@ -29,10 +29,11 @@
     <el-divider class="ccy-drvider"></el-divider>
     <el-row :gutter="20">
       <el-col :span="8"
+      v-for="item in expertList"
+          :key="item.id"
         ><div
           class="grid-content bg-purple"
-          v-for="item in expertList"
-          :key="item.id"
+          
         >
           <miniExpertCard :oneExpert="item"></miniExpertCard></div
       ></el-col>

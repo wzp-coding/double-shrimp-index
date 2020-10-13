@@ -74,7 +74,7 @@ export default {
       this.$route.push("");
     },
     toExpertList() {
-      this.$router.push("/expertInterrogation/expertList");
+      this.$router.push({name:'expertList'});
     },
   },
   mounted() {
