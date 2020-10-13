@@ -1,35 +1,15 @@
 <template>
   <div class="lxl-body">
     <div class="lxl-box">
+      <el-breadcrumb
+        separator-class="el-icon-arrow-right"
+        class="lxl-breadcrumb"
+      >
+        <el-breadcrumb-item>当前位置</el-breadcrumb-item>
+        <el-breadcrumb-item>产业咨询</el-breadcrumb-item>
+      </el-breadcrumb>
+      <el-divider></el-divider>
       <el-container>
-        <el-header>
-          <div class="top">
-            <div class="nav" style="width: 30%">
-              <el-breadcrumb separator-class="el-icon-d-arrow-right">
-                <el-breadcrumb-item style="opacity: 0.7"
-                  >当前位置</el-breadcrumb-item
-                >
-                <el-breadcrumb-item style="opacity: 0.7"
-                  >产业咨询</el-breadcrumb-item
-                >
-                <el-breadcrumb-item>对虾专题</el-breadcrumb-item>
-              </el-breadcrumb>
-            </div>
-            <div class="search">
-              <form action="" method="post" style="display: inline">
-                <input
-                  type="text"
-                  class="tubiao"
-                  placeholder="搜索你想的农产品资讯"
-                />
-                <!-- <i style="font-size: 30px" class="el-icon-search"></i> -->
-              </form>
-            </div>
-          </div>
-          <div style="margin-top: -22px">
-            <el-divider></el-divider>
-          </div>
-        </el-header>
         <div class="zhuti">
           <div class="left">
             <div class="block">
@@ -46,28 +26,29 @@
                 <span>水稻多少钱一斤</span>
               </div>
             </div>
-            <div
-              class="tail"
-              style="
-                width: 100%;
-                display: flex;
-                justify-content: space-between;
-                margin-top: 15px;
-              "
-            >
-              <h3>
-                <span
+            <div class="tail" style="width: 100%; margin-top: 15px">
+              <h3 style="display: flex; justify-content: space-between">
+                <div>
+                  <span
+                    style="
+                      margin-right: 5px;
+                      border-left: 6px solid rgb(93, 183, 60);
+                    "
+                  ></span>
+                  热门资讯
+                </div>
+                <div
                   style="
-                    border-left: 6px solid rgb(93, 183, 60);
-                    margin-right: 5px;
+                    font-size: 0.8rem;
+                    margin-top: 6px;
+                    color: rgb(93, 183, 60);
                   "
-                  >精彩专题</span
                 >
+                  <span style="color: #9e9e9e"> 更多 </span>
+                  <i class="el-icon-caret-right"></i>
+                </div>
               </h3>
-              <p style="padding-top: 9px; font-size: 13px">查看更多</p>
-            </div>
-            <div class="diver" style="width: 100%; margin-top: -20px">
-              <el-divider></el-divider>
+              <el-divider class="ccy-drvider"></el-divider>
             </div>
             <div class="main">
               <div class="mainson">
@@ -189,7 +170,7 @@
               background
               layout="prev, pager, next"
               :total="1000"
-              style="margin-left: 180px"
+              style="margin-left: 180px;margin-bottom:30px"
             >
             </el-pagination>
           </div>
@@ -197,6 +178,28 @@
           <el-aside>
             <div class="right">
               <div class="rtop">
+                <h3 style="display: flex; justify-content: space-between">
+                  <div>
+                    <span
+                      style="
+                        margin-right: 5px;
+                        border-left: 6px solid rgb(93, 183, 60);
+                      "
+                    ></span>
+                    热门资讯
+                  </div>
+                  <div
+                    style="
+                      font-size: 0.8rem;
+                      margin-top: 6px;
+                      color: rgb(93, 183, 60);
+                    "
+                  >
+                    <span style="color: #9e9e9e"> 更多 </span>
+                    <i class="el-icon-caret-right"></i>
+                  </div>
+                </h3>
+                <el-divider class="ccy-drvider"></el-divider>
                 <ul>
                   <li style="font-size: 18px; font-weight: 800">
                     4G进村百户农民脱贫路上赛跑
@@ -205,7 +208,8 @@
                   <li>4G进村百户农民脱贫路上赛跑</li>
                   <li>4G进村百户农民脱贫路上赛跑</li>
                 </ul>
-                <ul style="margin:17px 0">
+                <el-divider class="ccy-drvider"></el-divider>
+                <ul style="margin: 17px 0">
                   <li style="font-size: 18px; font-weight: 800">
                     4G进村百户农民脱贫路上赛跑
                   </li>
@@ -213,15 +217,30 @@
                   <li>4G进村百户农民脱贫路上赛跑</li>
                   <li>4G进村百户农民脱贫路上赛跑</li>
                 </ul>
-                <div class="tail" style="width:100%;display:flex;justify-content:space-between;margin-top:5px">
-                <h3><span style="border-left: 6px solid rgb(93, 183, 60);margin-right: 5px;">精彩专题</span>
+                <h3 style="display: flex; justify-content: space-between">
+                  <div>
+                    <span
+                      style="
+                        margin-right: 5px;
+                        border-left: 6px solid rgb(93, 183, 60);
+                      "
+                    ></span>
+                    热门资讯
+                  </div>
+                  <div
+                    style="
+                      font-size: 0.8rem;
+                      margin-top: 6px;
+                      color: rgb(93, 183, 60);
+                    "
+                  >
+                    <span style="color: #9e9e9e"> 更多 </span>
+                    <i class="el-icon-caret-right"></i>
+                  </div>
                 </h3>
-                <p style="padding-top:5px;font-size:13px">查看更多</p>
-              </div>
-              <!--分割线-->
-              <div class="drive" style="margin-top:-25px;width:100%">
-                <el-divider></el-divider>
-              </div>
+                <el-divider class="ccy-drvider"></el-divider>
+                <!--分割线-->
+                <div class="drive" style="width: 100%"></div>
               </div>
               <div class="rmid">
                 <ul>
@@ -241,15 +260,32 @@
                   <li>80后青年互联网上卖山货，助力家。</li>
                   <li>80后青年互联网上卖山货，助力家。</li>
                 </ul>
-                <div class="tail" style="width:100%;display:flex;justify-content:space-between;margin-top:5px">
-                <h3><span style="border-left: 6px solid rgb(93, 183, 60);margin-right: 5px;">精彩专题</span>
+                <h3 style="display: flex; justify-content: space-between;margin-top:15px">
+                  <div>
+                    <span
+                      style="
+                        margin-right: 5px;
+                        border-left: 6px solid rgb(93, 183, 60);
+                      "
+                    ></span>
+                    热门资讯
+                  </div>
+                  <div
+                    style="
+                      font-size: 0.8rem;
+                      margin-top: 6px;
+                      color: rgb(93, 183, 60);
+                    "
+                  >
+                    <span style="color: #9e9e9e"> 更多 </span>
+                    <i class="el-icon-caret-right"></i>
+                  </div>
                 </h3>
-                <p style="padding-top:5px;font-size:13px">查看更多</p>
-              </div>
-              <!--分割线-->
-              <div class="drive" style="margin-top:-25px;width:100%">
-                <el-divider></el-divider>
-              </div>
+                <el-divider class="ccy-drvider"></el-divider>
+                <!--分割线-->
+                <div class="drive" style="margin-top: -25px; width: 100%">
+                  <el-divider></el-divider>
+                </div>
               </div>
               <div class="rbtm">
                 <div class="tageson">
@@ -288,6 +324,9 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.ccy-drvider {
+  margin: 10px 0 7px 0;
+}
 .lxl-body {
   display: flex;
   justify-content: center; //对齐方式
@@ -328,7 +367,7 @@ export default {
       opacity: 0.8;
       outline: none;
       border-radius: 20px;
-      font-size-adjust:inherit;
+      font-size-adjust: inherit;
     }
   }
 }
@@ -351,7 +390,6 @@ export default {
       }
     }
     .main {
-      margin-top: -20px;
       width: 100%;
       display: flex;
       flex-direction: column;
@@ -385,7 +423,7 @@ export default {
       display: flex;
       flex-direction: column;
       flex-wrap: wrap;
-      .rbtm { 
+      .rbtm {
         .el-button {
           margin-bottom: 8px;
           background-color: rgb(240, 249, 235);
