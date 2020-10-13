@@ -75,7 +75,7 @@ a<template>
                     <el-image :src="src"></el-image>
                     <div class="rightspan">
                       <span
-                        >明日小麦价格2452多少钱一斤？2020年9月12日小麦价格行情分析预测</span
+                        >明日小麦价格2452多少钱一斤？xx2020年9月12日小麦价格行情分析预测</span
                       >
                     </div>
                   </div>
@@ -275,27 +275,20 @@ export default {
   width: 1150px;
 }
 #container {
-  margin: auto;
   width: 100%;
-  position: relative;
   .el-breadcrumb {
     display: block;
     padding: 15px 0 15px 0;
   }
 }
 .main {
-  position: absolute;
   width: 100%;
   .left {
     float: left;
     width: 67%;
     height: 1700px;
-    position: relative;
-    display: block;
-
     .LeftTop {
       width: 98%;
-      position: absolute;
       display: block;
       padding: 1px;
       margin: 13px 0 0 3px;
@@ -328,7 +321,6 @@ export default {
       font-size: 20.5px;
       display: block;
       padding: 17px 0 0 5px;
-      margin-top: 190px;
       border-bottom: 9px solid rgb(230, 230, 230);
       .block .el-image {
         width: 98%;
@@ -342,7 +334,6 @@ export default {
     float: right;
     height: 700px;
     width: 30%;
-    position: relative;
     .el-tabs {
       padding-top: 8px;
     }
@@ -357,13 +348,15 @@ export default {
         padding-bottom: 5px;
         .el-image {
           position: absolute;
-          width: 25%;
+          width: 28%;
           height: 100px;
           float: left;
           display: block;
         }
         .rightspan {
-          width: 73%;
+          width: 70%;
+          display: flex;
+
           float: right;
         }
       }
