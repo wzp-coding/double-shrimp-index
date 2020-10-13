@@ -2,9 +2,14 @@
   <div class="detail lxl-body">
     <!-- 面包屑导航区 -->
     <div class="lxl-box">
-      <el-breadcrumb separator-class="el-icon-arrow-right" class=" lxl-breadcrumb">
+      <el-breadcrumb
+        separator-class="el-icon-arrow-right"
+        class="lxl-breadcrumb"
+      >
         <el-breadcrumb-item>当前位置</el-breadcrumb-item>
-        <el-breadcrumb-item to="/productTraceability">产品溯源</el-breadcrumb-item>
+        <el-breadcrumb-item to="/productTraceability"
+          >产品溯源</el-breadcrumb-item
+        >
         <el-breadcrumb-item>溯源详情</el-breadcrumb-item>
       </el-breadcrumb>
       <el-divider></el-divider>
@@ -14,17 +19,15 @@
         <el-row :gutter="10" class="h-top">
           <el-col :span="13">
             <div class="h-left">
-              <h1>仲恺基地</h1>
-              <p>
-                仲恺基地，创办于1927年，是一所以伟大的爱国主义者、近代民主革命家廖仲恺先生名字命名，以现代农业科学为特色，农学、工学为优势，农、工、理、经、管、文、艺、法八大学科协调发展的广东省省属高水平应用型大学，是教育部本科教学评估优秀学校及全国首批卓越农林人才教育培养计划高校。学校办学历史悠久，文脉深厚，坐落在历史文化名城——广州。现有海珠校区、白云校区、番禺教学科研基地，占地面积2000余亩。校园集云山之神秀，汇珠水之灵气，是读书治学的理想地。
-              </p>
+              <h1>{{ base.baseName }}</h1>
+              <p>{{ base.baseIntroduction }}</p>
             </div>
           </el-col>
           <el-col :span="8">
             <!-- 图片走马灯 -->
             <el-carousel height="220px" class="h-right">
-              <el-carousel-item v-for="item in 4" :key="item">
-                <h3 class="small">{{ item }}</h3>
+              <el-carousel-item v-for="item in basePicture" :key="item">
+                <el-image :src="item"></el-image>
               </el-carousel-item>
             </el-carousel>
           </el-col>
@@ -33,13 +36,13 @@
           <el-col :span="10">
             <div class="mes">
               <p class="mes1">基地地址：</p>
-              <p>广州海珠</p>
+              <p>{{ base.baseAddr }}</p>
             </div>
           </el-col>
           <el-col :span="10">
             <div class="mes">
               <p class="mes1">创建时间：</p>
-              <p>2020.06.03</p>
+              <p>{{ base.createDate }}</p>
             </div>
           </el-col>
         </el-row>
@@ -47,14 +50,14 @@
         <el-row :gutter="10">
           <el-col :span="10">
             <div class="mes">
-              <p class="mes1">注册资金：</p>
-              <p>1000万元</p>
+              <p class="mes1">注册资金/万元：</p>
+              <p>{{ base.funds }}</p>
             </div>
           </el-col>
           <el-col :span="10">
             <div class="mes">
-              <p class="mes1">营业范围</p>
-              <p>全世界</p>
+              <p class="mes1">营业范围：</p>
+              <p>{{ base.scope }}</p>
             </div>
           </el-col>
         </el-row>
@@ -77,13 +80,13 @@
               <el-col :span="10">
                 <div class="mes">
                   <p class="mes1">基地名称：</p>
-                  <p>仲恺基地</p>
+                  <p>{{ base.baseName }}</p>
                 </div>
               </el-col>
               <el-col :span="10">
                 <div class="mes">
                   <p class="mes1">创建时间：</p>
-                  <p>2020.06.03</p>
+                  <p>{{ base.createDate }}</p>
                 </div>
               </el-col>
             </el-row>
@@ -92,13 +95,13 @@
               <el-col :span="10">
                 <div class="mes">
                   <p class="mes1">基地地址：</p>
-                  <p>广州海珠</p>
+                  <p>{{ base.baseAddr }}</p>
                 </div>
               </el-col>
               <el-col :span="10">
                 <div class="mes">
                   <p class="mes1">创建人：</p>
-                  <p>李老板</p>
+                  <p>{{ base.createBy }}</p>
                 </div>
               </el-col>
             </el-row>
@@ -106,14 +109,14 @@
             <el-row :gutter="10" class="dashed">
               <el-col :span="10">
                 <div class="mes">
-                  <p class="mes1">注册资金：</p>
-                  <p>1000万元</p>
+                  <p class="mes1">注册资金/万元：</p>
+                  <p>{{ base.funds }}</p>
                 </div>
               </el-col>
               <el-col :span="10">
                 <div class="mes">
                   <p class="mes1">营业执照注册号：</p>
-                  <p>1010101</p>
+                  <p>{{ base.registNumber }}</p>
                 </div>
               </el-col>
             </el-row>
@@ -122,7 +125,7 @@
               <el-col :span="10">
                 <div class="mes">
                   <p class="mes1">营业范围：</p>
-                  <p>全世界</p>
+                  <p>{{ base.scope }}</p>
                 </div>
               </el-col>
             </el-row>
@@ -131,10 +134,7 @@
               <el-col>
                 <div class="mes">
                   <p class="mes1" style="width: 300px">基地简介：</p>
-                  <p>
-                    仲恺农业工程学院（Zhongkai University of Agriculture and
-                    Engineering）简称仲恺，创办于1927年，是一所以伟大的爱国主义者、近代民主革命家廖仲恺先生名字命名，以现代农业科学为特色，农学、工学为优势，农、工、理、经、管、文、艺、法八大学科协调发展的广东省省属高水平应用型大学，是教育部本科教学评估优秀学校及全国首批卓越农林人才教育培养计划高校。学校办学历史悠久，文脉深厚，坐落在历史文化名城——广州。现有海珠校区、白云校区、番禺教学科研基地，占地面积2000余亩。校园集云山之神秀，汇珠水之灵气，是读书治学的理想地。
-                  </p>
+                  <p>{{ base.baseIntroduction }}</p>
                 </div>
               </el-col>
             </el-row>
@@ -143,22 +143,14 @@
               <el-col>
                 <div class="mes">
                   <p class="mes1">基地图片：</p>
-                  <div class="image__preview">
+                  <div
+                    class="image__preview"
+                    v-for="item in basePicture"
+                    :key="item.id"
+                  >
                     <el-image
                       class="b-img"
-                      :src="url"
-                      :preview-src-list="srcList"
-                    >
-                    </el-image>
-                    <el-image
-                      class="b-img"
-                      :src="url"
-                      :preview-src-list="srcList"
-                    >
-                    </el-image>
-                    <el-image
-                      class="b-img"
-                      :src="url"
+                      :src="item"
                       :preview-src-list="srcList"
                     >
                     </el-image>
@@ -187,13 +179,13 @@
               <el-col :span="10">
                 <div class="mes">
                   <p class="mes1">虾苗批次名称：</p>
-                  <p>斑节A1</p>
+                  <p>{{ shrimp.shrimpBatchName }}</p>
                 </div>
               </el-col>
               <el-col :span="10">
                 <div class="mes">
                   <p class="mes1">虾苗品种：</p>
-                  <p>斑节对虾</p>
+                  <p>{{ shrimp.shrimpSpecies }}</p>
                 </div>
               </el-col>
             </el-row>
@@ -202,13 +194,13 @@
               <el-col :span="10">
                 <div class="mes">
                   <p class="mes1">虾苗产地：</p>
-                  <p>广东湛江</p>
+                  <p>{{ shrimp.shrimpOrigin }}</p>
                 </div>
               </el-col>
               <el-col :span="10">
                 <div class="mes">
                   <p class="mes1">虾苗供应商：</p>
-                  <p>李老板</p>
+                  <p>{{ shrimp.shrimpSupplier }}</p>
                 </div>
               </el-col>
             </el-row>
@@ -217,13 +209,13 @@
               <el-col :span="10">
                 <div class="mes">
                   <p class="mes1">放苗时间：</p>
-                  <p>2020.03.19</p>
+                  <p>{{ shrimp.seedlingTime }}</p>
                 </div>
               </el-col>
               <el-col :span="10">
                 <div class="mes">
                   <p class="mes1">捕捞时间：</p>
-                  <p>2020.03.19</p>
+                  <p>{{ shrimp.fishingTime }}</p>
                 </div>
               </el-col>
             </el-row>
@@ -232,13 +224,13 @@
               <el-col :span="10">
                 <div class="mes">
                   <p class="mes1">审核人：</p>
-                  <p>李老板</p>
+                  <p>{{ shrimp.createBy }}</p>
                 </div>
               </el-col>
               <el-col :span="10">
                 <div class="mes">
                   <p class="mes1">对虾规格(kg/尾)：</p>
-                  <p>30~40</p>
+                  <p>{{ shrimp.specification }}</p>
                 </div>
               </el-col>
             </el-row>
@@ -301,13 +293,16 @@
           </div>
           <!-- 内容区域 -->
           <div class="contain">
-            <el-table :data="tableData" stripe>
-              <el-table-column prop="date" label="农资信息"> </el-table-column>
-              <el-table-column prop="name" label="使用人"> </el-table-column>
-              <el-table-column prop="address" label="农资类型">
+            <el-table :data="shrimpFarmings" stripe>
+              <el-table-column prop="suppliesName" label="农资名称">
               </el-table-column>
-              <el-table-column prop="address" label="投放量"> </el-table-column>
-              <el-table-column prop="address" label="使用时间">
+              <el-table-column prop="applicator" label="使用人">
+              </el-table-column>
+              <el-table-column prop="applyType" label="农资类型">
+              </el-table-column>
+              <el-table-column prop="deliveryVolume" label="投放量">
+              </el-table-column>
+              <el-table-column prop="applyTime" label="使用时间">
               </el-table-column>
               <el-table-column label="操作">
                 <template slot-scope="scope">
@@ -322,6 +317,19 @@
             </el-table>
           </div>
         </div>
+
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="pageInfo.pagenum"
+          :page-sizes="[4, 8, 16, 32]"
+          :page-size="pageInfo.pagesize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total"
+          :hide-on-single-page="false"
+          style="margin-top: 10px"
+        >
+        </el-pagination>
         <!-- 分割线 -->
         <el-divider></el-divider>
 
@@ -341,13 +349,13 @@
               <el-col :span="10">
                 <div class="mes">
                   <p class="mes1">加工厂名称：</p>
-                  <p>加工厂A1</p>
+                  <p>{{ plant.plantName }}</p>
                 </div>
               </el-col>
               <el-col :span="10">
                 <div class="mes">
                   <p class="mes1">加工厂地址：</p>
-                  <p>广东省广州市</p>
+                  <p>{{ plant.plantAddress }}</p>
                 </div>
               </el-col>
             </el-row>
@@ -356,13 +364,13 @@
               <el-col :span="10">
                 <div class="mes">
                   <p class="mes1">产品名称：</p>
-                  <p>小龙虾</p>
+                  <p>{{ plant.productName }}</p>
                 </div>
               </el-col>
               <el-col :span="10">
                 <div class="mes">
                   <p class="mes1">生产时间：</p>
-                  <p>2020.06.03</p>
+                  <p>{{ plant.productionTime }}</p>
                 </div>
               </el-col>
             </el-row>
@@ -370,8 +378,8 @@
             <el-row :gutter="10" class="dashed">
               <el-col :span="10">
                 <div class="mes">
-                  <p class="mes1">创建者：</p>
-                  <p>李老板</p>
+                  <p class="mes1">负责人：</p>
+                  <p>{{ plant.createBy }}</p>
                 </div>
               </el-col>
             </el-row>
@@ -473,13 +481,13 @@
               <el-col :span="10">
                 <div class="mes">
                   <p class="mes1">冷库名称：</p>
-                  <p>冷库A1</p>
+                  <p>{{ storage.storageName }}</p>
                 </div>
               </el-col>
               <el-col :span="10">
                 <div class="mes">
                   <p class="mes1">冷库地址：</p>
-                  <p>广东省广州市海珠区</p>
+                  <p>{{ storage.storageAddr }}</p>
                 </div>
               </el-col>
             </el-row>
@@ -488,13 +496,13 @@
               <el-col :span="10">
                 <div class="mes">
                   <p class="mes1">入库时间：</p>
-                  <p>2020.06.03</p>
+                  <p>{{ storage.storageTime }}</p>
                 </div>
               </el-col>
               <el-col :span="10">
                 <div class="mes">
                   <p class="mes1">出库时间：</p>
-                  <p>2020.06.03</p>
+                  <p>{{ storage.outboundTime }}</p>
                 </div>
               </el-col>
             </el-row>
@@ -503,13 +511,13 @@
               <el-col :span="10">
                 <div class="mes">
                   <p class="mes1">冷库温度：</p>
-                  <p>-10</p>
+                  <p>{{ storage.storageTemperature }}</p>
                 </div>
               </el-col>
               <el-col :span="10">
                 <div class="mes">
                   <p class="mes1">负责人：</p>
-                  <p>小明</p>
+                  <p>{{ storage.createBy }}</p>
                 </div>
               </el-col>
             </el-row>
@@ -694,9 +702,50 @@
 </template>
 
 <script>
+/* 引入溯源地址 (用于接口获取数据) */
+import Turl from "../../router/url";
 export default {
   data() {
     return {
+      /* 成虾Id  （用于获取全部详情信息） */
+      adultShrimpId: "",
+
+      /* 存储基地信息 (基地信息)*/
+      base: {},
+
+      /* 存储虾苗信息 (虾苗来源)*/
+      shrimp: {},
+
+      /* 监控视频信息 (养殖现场) */
+      monitorResult: {},
+
+      /* 投料信息 (投料信息)*/
+      shrimpFarmings: [],
+
+      /* (物流信息) */
+      logistics: [],
+
+      /* (加工信息) */
+      plant: {},
+
+      /* (冷库信息) */
+      storage: {},
+
+      /* 基地图片 */
+      basePicture: [],
+
+      /* 分页数据 */
+      // 用于控制分页的当前页码和条数
+      pageInfo: {
+        // 当前页码
+        pagenum: 1,
+        // 每页显示条数
+        pagesize: 4,
+      },
+      
+      // 总条数
+      total: 0,
+
       // 图
       url:
         "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
@@ -740,8 +789,29 @@ export default {
       /* 地图表格数据 */
     };
   },
-  created() {},
+  created() {
+    /* 获取adultShrimpId (cookie处理)*/
+    this.cookieByAdultShrimpId();
+    /* 获取基地的所有信息 */
+    this.getDetail().then(() => {
+      /* 获取基地的虾苗信息 */
+      this.getShrimpFarmings();
+    });
+  },
   methods: {
+    /* 分页功能 */
+    // 监听pagesize(每页显示条数)改变事件
+    handleSizeChange(newSize) {
+      this.pageInfo.pagesize = newSize;
+      this.getShrimpFarmings();
+    },
+
+    // 监听页码值改变的事件
+    handleCurrentChange(newPage) {
+      this.pageInfo.pagenum = newPage;
+      this.getShrimpFarmings();
+    },
+
     // 地图
     init() {
       var This = this;
@@ -802,7 +872,59 @@ export default {
         map: This.map,
       });
     },
-    
+
+    /* 获取adultShrimpId (cookie处理)*/
+    cookieByAdultShrimpId() {
+      /* 获取全部cookie */
+      var strcookie = document.cookie;
+      /* 获取目标cookie */
+      //将多cookie切割为多个名/值对
+      var arrcookie = strcookie.split("; ");
+      //遍历cookie数组，处理每个cookie对
+      for (var i = 0; i < arrcookie.length; i++) {
+        var arr = arrcookie[i].split("=");
+        //找到名称为userId的cookie，并返回它的值
+        if ("adultShrimpId" == arr[0]) {
+          this.adultShrimpId = arr[1];
+        }
+      }
+    },
+
+    /* 获取基地的所有信息 */
+    async getDetail() {
+      const { data: res } = await this.$http.get(
+        Turl.traceabilityUrl + "/adultShrimp/traceability/" + this.adultShrimpId
+      );
+      console.log(res);
+      // 基地信息
+      this.base = res.data.base;
+      // 虾苗来源
+      this.shrimp = res.data.shrimp;
+      // // 投料信息
+      // this.shrimpFarmings = res.data.shrimpFarmings;
+      // 养殖现场
+      this.monitorResult = res.data.monitorResult;
+      // 物流信息
+      this.logistics = res.data.others.logistics;
+      // 加工信息
+      this.plant = res.data.others.plant;
+      // 冷库信息
+      this.storage = res.data.others.storage;
+      // 基地图片
+      this.basePicture = res.data.base.basePic.split(";");
+    },
+
+    /* 获取基地投料信息 */
+    async getShrimpFarmings() {
+      const { data: res } = await this.$http.post(
+        Turl.traceabilityUrl +
+          `/shrimpFarming/search/${this.pageInfo.pagenum}/${this.pageInfo.pagesize}`, {
+            shrimpId: this.shrimp.id
+          }
+      );
+      this.total = res.data.total
+      this.shrimpFarmings = res.data.rows
+    },
   },
 };
 </script>
@@ -874,6 +996,7 @@ export default {
       }
     }
     .h-right {
+      margin-top: 40px;
       margin-left: 30px;
       width: 400px;
     }
