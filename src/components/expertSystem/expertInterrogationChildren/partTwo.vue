@@ -27,7 +27,7 @@
       </div>
     </h3>
     <div class="block">
-      <el-carousel interval="5000">
+      <el-carousel interval="5000" v-loading="loading">
         <el-carousel-item v-for="(item, index) in quesList" :key="index">
           <miniReplyCard
             v-for="item2 in item"
@@ -46,6 +46,7 @@ export default {
   data() {
     return {
       quesList: [[], []],
+      loading:true
     };
   },
   components: {
@@ -93,11 +94,13 @@ export default {
               message: "获取帖子信息失败",
             });
           }
+          this.loading = false
         });
     },
   },
-  mounted() {
-    this.getRepliesList();
+ async mounted() {
+   await this.getRepliesList();
+   
   },
 };
 </script>

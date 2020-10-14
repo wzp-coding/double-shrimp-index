@@ -27,7 +27,12 @@
       </div>
     </h3>
     <el-divider class="ccy-drvider"></el-divider>
-    <el-row :gutter="20" v-for="(item,index) in quesList" :key="index">
+    <el-row
+      :gutter="20"
+      v-for="(item, index) in quesList"
+      :key="index"
+      v-loading="loading"
+    >
       <el-col :span="8" v-for="item1 in item" :key="item1.id"
         ><div class="grid-content bg-purple">
           <miniReplyCard :oneReply="item1"></miniReplyCard></div
@@ -41,13 +46,14 @@ import miniReplyCard from "./miniReplyCard.vue";
 export default {
   data() {
     return {
-      quesList: [[],[]],
+      quesList: [[], []],
+      loading: true,
     };
   },
   components: {
     miniReplyCard,
   },
-  methods:{
+  methods: {
     async getOneReplyById(ids) {
       let httpTasks = [];
       ids.forEach((id) => {
@@ -66,15 +72,19 @@ export default {
           res = res.data;
           if (res.code === 20000) {
             res = res.data;
-            let ids= []
+            let ids = [];
             res.rows.forEach((item) => ids.push(item.id));
             this.getOneReplyById(ids).then(
               this.$http.spread((...data) => {
                 data.forEach((item, index) => {
-                  this.$set(res.rows[index], "reply", item.data.data.rows?.[0]?.reply);
+                  this.$set(
+                    res.rows[index],
+                    "reply",
+                    item.data.data.rows?.[0]?.reply
+                  );
                 });
                 res.rows.forEach((item) => {
-                    if (this.quesList[0].length < 3) {
+                  if (this.quesList[0].length < 3) {
                     this.quesList[0].push(item);
                   } else {
                     this.quesList[1].push(item);
@@ -87,12 +97,13 @@ export default {
               message: "获取帖子信息失败",
             });
           }
+          this.loading = false;
         });
     },
   },
-  mounted(){
-    this.getRepliesList()
-  }
+  mounted() {
+    this.getRepliesList();
+  },
 };
 </script>
 <style lang="less" scoped>

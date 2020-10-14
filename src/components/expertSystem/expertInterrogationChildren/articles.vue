@@ -27,7 +27,7 @@
       </div>
     </h3>
     <el-divider class="ccy-drvider"></el-divider>
-    <el-row :gutter="20">
+    <el-row :gutter="20" v-loading="loading">
       <el-col :span="8"
         ><div class="grid-content"><miniArticleCard></miniArticleCard></div
       ></el-col>
@@ -56,10 +56,12 @@ import miniArticleCard from "./miniArticleCard.vue";
 
 export default {
   data() {
-    return {};
+    return { loading: true };
   },
   methods: {},
-  mounted() {},
+  mounted() {
+    this.loading = false;
+  },
   components: {
     miniArticleCard,
   },

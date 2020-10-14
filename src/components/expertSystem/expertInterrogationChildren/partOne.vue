@@ -27,7 +27,7 @@
       </div>
     </h3>
     <div class="block">
-      <el-carousel interval=5000>
+      <el-carousel interval=5000 v-loading="loading">
         <el-carousel-item v-for="(item,index) in expertList" :key="index">
           <miniExpertCard :oneExpert="item[0]"></miniExpertCard>
           <miniExpertCard :oneExpert="item[1]"></miniExpertCard>
@@ -43,6 +43,7 @@ export default {
   data() {
     return {
       expertList: [[], []],
+      loading:true
     };
   },
   components: {
@@ -68,6 +69,7 @@ export default {
               message: "获取专家信息失败",
             });
           }
+          this.loading = false
         });
     },
     pushToExpertList() {
@@ -77,8 +79,9 @@ export default {
       this.$router.push({name:'expertList'});
     },
   },
-  mounted() {
-    this.getExpertList();
+  async mounted() {
+    await this.getExpertList();
+    
     console.log(this.expertList);
   },
 };

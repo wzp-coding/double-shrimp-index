@@ -2,7 +2,7 @@
   <div class="category">
     <div class="category-component">
         <div class="name">{{this.name}}</div>
-      <el-radio-group v-model="radio">
+      <el-radio-group v-model="radio" @change="changeLabel">
         <el-radio-button :label="this.default"></el-radio-button>
         <el-radio-button v-for="item in labelList" :key="item.id" :label="item.data"></el-radio-button>
       </el-radio-group>
@@ -13,12 +13,26 @@
 export default {
     data(){
         return{
-            radio:this.default
+            radio:this.default,
+            id: "0"
         }
     },
     props:[
         'labelList','default','name'
-    ]
+    ],
+    methods:{
+      changeLabel(){
+        this.labelList.some(item=>{
+          if(item.data == this.radio){
+            this.id = item.id
+          }
+        })
+        if(this.radio == this.default){
+          this.id = "0"
+        }
+        this.$emit('changeLabel',{id:this.id})
+      }
+    }
 };
 </script>
 <style lang="less" scoped>

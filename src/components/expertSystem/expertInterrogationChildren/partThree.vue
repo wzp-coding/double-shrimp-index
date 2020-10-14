@@ -27,7 +27,7 @@
       </div>
     </h3>
     <div class="block">
-      <el-carousel interval=5000>
+      <el-carousel interval="5000" v-loading="loading">
         <el-carousel-item>
           <miniArticleCard></miniArticleCard>
           <miniArticleCard></miniArticleCard>
@@ -49,10 +49,15 @@ import miniArticleCard from "./miniArticleCard.vue";
 
 export default {
   data() {
-    return {};
+    return {
+      loading: true,
+    };
   },
   components: {
     miniArticleCard,
+  },
+  mounted() {
+    this.loading = false;
   },
 };
 </script>

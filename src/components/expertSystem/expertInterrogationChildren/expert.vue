@@ -27,14 +27,9 @@
       </div>
     </h3>
     <el-divider class="ccy-drvider"></el-divider>
-    <el-row :gutter="20">
-      <el-col :span="8"
-      v-for="item in expertList"
-          :key="item.id"
-        ><div
-          class="grid-content bg-purple"
-          
-        >
+    <el-row :gutter="20" v-loading="loading">
+      <el-col :span="8" v-for="item in expertList" :key="item.id"
+        ><div class="grid-content bg-purple">
           <miniExpertCard :oneExpert="item"></miniExpertCard></div
       ></el-col>
     </el-row>
@@ -47,6 +42,7 @@ export default {
   data() {
     return {
       expertList: [],
+      loading: true,
     };
   },
   components: {
@@ -66,6 +62,7 @@ export default {
               message: "获取专家信息失败",
             });
           }
+          this.loading = false;
         });
     },
     toExpertList() {
