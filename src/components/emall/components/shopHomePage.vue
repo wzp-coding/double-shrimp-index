@@ -114,6 +114,10 @@
             </el-row>
             <el-row class="goods-address"> 湛江市 </el-row>
           </el-col>
+          <div class="lxl-pagination">
+            <el-pagination background layout="prev, pager, next" :total="1000">
+            </el-pagination>
+          </div>
         </el-row>
       </el-col>
     </el-row>
@@ -125,16 +129,25 @@ export default {};
 </script>
 
 <style lang="less" scoped>
+.lxl-pagination {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+@font-face {
+  font-family: btt;
+  src: url("../../../fonts/btt.ttf");
+}
 .shop-homepage {
   .shop-homepage-container {
     // background-color: #eee;
     .shop-homepage-introduce {
       padding: 5px;
-      background-color: #eee;
       width: 15%;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
       .shop-introduce {
         width: 100%;
-        background-color: #fff;
         padding: 0 10px 15px;
         border-bottom: 2px solid #eee;
         box-sizing: border-box;
@@ -153,8 +166,9 @@ export default {};
           }
         }
         .introduce-desc {
-          font-size: 11px;
-          color: #7f767b;
+          font-size: 18px;
+          color: #383838;
+          font-family: btt;
         }
       }
       .businessLicence {
@@ -190,10 +204,10 @@ export default {};
       }
     }
     .shop-homepage-goods {
-      width: 85%;
-      padding: 5px;
-      background-color: #eee;
-      //   box-sizing: border-box;
+      margin-left: 10px;
+      width: 83%;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+
       .goods-header {
         width: 100%;
         height: 50px;

@@ -11,14 +11,14 @@
       <el-divider></el-divider>
 
       <!-- 店铺头部资料开始 -->
-      <el-row class="shop-header" type="flex" align="middle">
+      <el-row class="shop-header zyh-header" type="flex" align="middle">
         <el-col :offset="3" class="shop-avator">
           <img
             src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
             alt=""
           />
         </el-col>
-        <el-col :span="6" class="shop-name">
+        <el-col :span="12" class="shop-name">
           <p>广州市仲恺农业信科院养猪场</p>
           <p>
             <i class="el-icon-location"></i>
@@ -71,6 +71,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@font-face {
+  font-family: btt;
+  src: url("../../fonts/btt.ttf");
+}
 .lxl-body {
   display: flex;
   justify-content: center;
@@ -89,9 +93,11 @@ export default {
   .shop-header {
     margin: 5px 0;
     margin-top: -10px;
+    padding: 30px;
     width: 100%;
-    height: 100px;
-    background-color: #00c9fd;
+    background-color:rgb(0, 201, 253);
+    font-family: btt;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
     border-radius: 2px;
     .shop-avator {
       height: 80%;
@@ -111,7 +117,7 @@ export default {
       font-size: 14px;
       margin-left: 15px;
       p:nth-child(1) {
-        font-size: 22px;
+        font-size: 30px;
         font-weight: bold;
         margin-bottom: 10px;
       }

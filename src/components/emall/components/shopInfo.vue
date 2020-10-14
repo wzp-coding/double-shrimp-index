@@ -15,23 +15,23 @@
         >
         <el-col :span="12" class="content-right">
           <div>
-            <div class="info-label">企业名称：</div>
+            <div class="info-label"> <i class="el-icon-s-home" style="margin:3px 5px 0 0;"></i> 企业名称：</div>
             <div class="info-content">广州市仲恺农业养猪基地</div>
           </div>
           <div>
-            <div class="info-label">法人代表：</div>
+            <div class="info-label"><i class="el-icon-s-custom" style="margin:3px 5px 0 0;"></i>法人代表：</div>
             <div class="info-content">哒哒哒</div>
           </div>
           <div>
-            <div class="info-label">注册号：</div>
+            <div class="info-label"><i class="el-icon-s-check" style="margin:3px 5px 0 0;"></i>注册号：</div>
             <div class="info-content">1010101010101</div>
           </div>
           <div>
-            <div class="info-label">经营地址：</div>
+            <div class="info-label"><i class="el-icon-location" style="margin:3px 5px 0 0;"></i>经营地址：</div>
             <div class="info-content">广州市海珠区</div>
           </div>
           <div>
-            <div class="info-label">主要项目：</div>
+            <div class="info-label"><i class="el-icon-box" style="margin:3px 5px 0 0;"></i>主要项目：</div>
             <div class="info-content">养猪、养虾</div>
           </div>
         </el-col>
@@ -77,6 +77,10 @@ export default {};
 </script>
 
 <style lang="less" scoped>
+@font-face {
+  font-family: btt;
+  src: url("../../../fonts/btt.ttf");
+}
 .shop-info {
   .shop-info-title {
     position: relative;
@@ -92,8 +96,9 @@ export default {};
     }
   }
   .shop-info-header {
-    background-color: #00c9fd;
-    color: #fff;
+    font-family: btt;
+    font-size: 2rem;
+    color: rgb(0, 0, 0);
     text-align: center;
     .shop-info-name {
       font-size: 20px;
