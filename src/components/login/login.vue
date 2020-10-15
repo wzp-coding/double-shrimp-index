@@ -109,7 +109,7 @@ export default {
       // 表单预验证
       this.$refs.loginForm.validate(async (valid) => {
         if (!valid) return;
-        const data = await this.$http.post(
+        const data = await this.reqM1Service(
           "/user/login" +
             "?captcha=" +
             this.loginForm.captcha +
@@ -118,7 +118,8 @@ export default {
           {
             loginId: this.loginForm.userName,
             password: this.loginForm.password,
-          }
+          },
+          "post"
         );
         // 过滤
         if (data.data.code === 20000) {
@@ -140,7 +141,7 @@ export default {
     },
     // 获取验证码
     async getCaptcha() {
-      const { data: res } = await this.$http.post("/captcha/getCaptcha");
+      const { data: res } = await this.reqM1Service("/captcha/getCaptcha");
       this.url = "data:image/png;base64," + res.data.img;
       this.cToken = res.data.cToken;
     },

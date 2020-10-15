@@ -5,9 +5,7 @@
         separator-class="el-icon-arrow-right"
         class="lxl-breadcrumb"
       >
-        <el-breadcrumb-item 
-          >当前位置</el-breadcrumb-item
-        >
+        <el-breadcrumb-item>当前位置</el-breadcrumb-item>
         <el-breadcrumb-item>知识图谱</el-breadcrumb-item>
       </el-breadcrumb>
       <el-divider></el-divider>
@@ -18,11 +16,18 @@
       >
         <el-form-item>
           <el-input
-            v-model="formInline.user"
+            v-model="formInline.searchData"
             placeholder="请输入实体名称"
           ></el-input>
         </el-form-item>
-        <el-button type="success">查询</el-button>
+        <el-button
+          type="success"
+          @click="
+            searchConByName();
+            searchInfoByName();
+          "
+          >查询</el-button
+        >
         <el-form-item> </el-form-item>
         <el-form-item style="width: 150px">
           <el-select v-model="formInline.region" placeholder="常用查询">
@@ -150,8 +155,28 @@
           <el-divider></el-divider>
         </el-aside>
         <el-main>
+          <div class="someThing">
+            <div class="lxl-1">
+              <div>
+                <h2><i class="el-icon-info"></i> {{ infoData[0].name }}</h2>
+                <p style="margin-top: 3px">{{ infoData[0].baseInfo }}</p>
+              </div>
+              <div>
+                <div class="block">
+                  <el-carousel>
+                    <el-carousel-item v-for="item in 4" :key="item">
+                      <el-image
+                        src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
+                      ></el-image>
+                    </el-carousel-item>
+                  </el-carousel>
+                </div>
+              </div>
+            </div>
+            <div></div>
+          </div>
           <div class="chart2 chart"></div>
-          <div class="chart1 chart" style="margin-top: 1rem"></div>
+          <div class="chart1 chart"></div>
         </el-main>
       </el-container>
     </div>
@@ -164,12 +189,26 @@ export default {
       formInline: {
         user: "",
         region: "",
+        searchData: "",
       },
+      url: "",
+      chartData1: {},
+      infoData: [
+        {
+          name: "对虾大数据平台",
+          baseInfo:
+            "仲恺基地，创办于1927年，是一所以伟大的爱国主义者、近代民主革命家廖仲恺先生名字命名，以现代农业科学为特色，农学、工学为优势，农、工、理、经、管、文、艺、法八大学科协调发展的广东省省属高水平应用型大学，是教育部本科教学评估优秀学校及全国首批卓越农林人才教育培养计划高校。学校办学历史悠久，文脉深厚，坐落在历史文化名城——广州。现有海珠校区、白云校区、番禺教学科研基地，占地面积2000余亩。校园集云山之神秀，汇珠水之灵气，是读书治学的理想地。",
+        },
+      ],
     };
   },
   mounted() {
     this.chart1();
     this.chart2();
+  },
+  created() {
+    // this.bait();
+    // this.equipment();
   },
   methods: {
     onSubmit() {
@@ -585,7 +624,7 @@ export default {
       let myChart = this.$echarts.init(document.querySelector(".chart2"));
       let option = {
         title: {
-          text: "",
+          text: "关联知识图谱",
         },
         tooltip: {},
         animationDurationUpdate: 1500,
@@ -660,7 +699,7 @@ export default {
             data: [
               {
                 name: "徐贱云",
-                draggable: true,
+                draggable: false,
               },
               {
                 name: "冯可梁",
@@ -817,12 +856,93 @@ export default {
         myChart.resize();
       });
     },
+    // 根据名称查询实体关联
+    async searchConByName() {
+      console.log("/entity/search/" + this.formInline.searchData);
+      const { data: res } = await this.reqM3Service(
+        "/entity/search/" + this.formInline.searchData,
+        "",
+        "get"
+      );
+      // 过滤
+      if (res.code === 20000) {
+        // 返回的数据
+        console.log(res.data);
+      } else {
+        this.$message({
+          showClose: true,
+          message: res.message,
+          type: "error",
+        });
+      }
+      console.log("guanlian");
+      console.log(res);
+    },
+    // 根据名称查询实体详细信息
+    async searchInfoByName() {
+      const { data: res } = await this.reqM3Service(
+        "/entity/info/" + this.formInline.searchData,
+        "",
+        "get"
+      );
+      // 过滤
+      if (res.code === 20000) {
+        // 返回的数据
+        console.log(res.data);
+        this.infoData = res.data;
+      } else {
+        this.$message({
+          showClose: true,
+          message: res.message,
+          type: "error",
+        });
+      }
+      console.log("geti");
+      console.log(res);
+    },
+    // async bait() {
+    //   const data = await this.reqM3Service("/bait", "", "get");
+    //   // 过滤
+    //   // if (res.code === 20000) {
+    //   //   // 返回的数据
+    //   //   console.log(res.data);
+    //   // } else {
+    //   //   this.$message({
+    //   //     showClose: true,
+    //   //     message: res.message,
+    //   //     type: "error",
+    //   //   });
+    //   // }
+    //   // console.log("bait");
+    //   // console.log(res);
+    //   console.log(data);
+    // },
+    // async equipment() {
+    //   const data = await this.reqM3Service("/equipment/culture/cate", "", "get");
+    //   // 过滤
+    //   // if (res.code === 20000) {
+    //   //   // 返回的数据
+    //   //   console.log(res.data);
+    //   // } else {
+    //   //   this.$message({
+    //   //     showClose: true,
+    //   //     message: res.message,
+    //   //     type: "error",
+    //   //   });
+    //   // }
+    //   // console.log("bait");
+    //   // console.log(res);
+    //   console.log(data);
+    // },
+    
+    // async getChartData1() {},
   },
 };
 </script>
 <style lang="less" scoped>
 .lxl-body {
   display: flex;
+  min-width: 1150px;
   //   flex-direction: column;
   justify-content: center;
   .lxl-breadcrumb {
@@ -844,5 +964,25 @@ export default {
 }
 .chart {
   height: 40rem;
+  margin-top: 1rem;
+}
+.someThing {
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+  background-color: rgb(245, 245, 245);
+  display: flex;
+  .lxl-1 {
+    display: inherit;
+    flex-direction: row;
+    font-size: 13px;
+    line-height: 30px;
+    > * {
+      flex: 1;
+      padding: 10px;
+    }
+  }
+}
+/deep/.el-carousel__button {
+  background-color: rgb(204, 123, 18) !important;
 }
 </style>

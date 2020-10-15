@@ -5,19 +5,22 @@
     </el-row>
     <div class="content">
       <el-row class="title"> <el-col :span="24">虾病知识概览 </el-col> </el-row>
-      <el-table :data="tableData" border style="width: 100%">
-        <el-table-column prop="id" label="#" width="180"> </el-table-column>
-        <el-table-column label="图片" width="180"
-          ><template slot-scope="scope">
-            <div class="img_div">
-              <img :src="scope.row.img" alt="" />
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column prop="name" label="疾病名称"> </el-table-column>
-        <el-table-column prop="symbol" label="症状"> </el-table-column>
-        <el-table-column prop="treat" label="治疗方法"> </el-table-column>
-      </el-table>
+      <div class="lxl-content">
+        <div class="lxl-card" v-for="item in 5" :key="item">
+          <div>
+            <el-image
+              style="width: 100%; height: 200px"
+              src="http://134.175.208.235/group1/M00/00/0A/rBAAD18hgoeAU6CaAAK1j4HbjSk344.png"
+              :preview-src-list="srcList"
+            ></el-image>
+          </div>
+          <div class="lxl-card-2">
+            <p>气泡病虾病知识概览虾病知识概览虾病知识概览</p>
+          </div>
+        </div>
+        <el-pagination background layout="prev, pager, next" :total="1000">
+        </el-pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -25,6 +28,10 @@
 export default {
   data() {
     return {
+      srcList: [
+        "https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg",
+        "https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg",
+      ],
       tableData: [
         {
           id: "1",
@@ -74,13 +81,31 @@ export default {
 </script>
 <style lang="less" scoped>
 .diseaseKnowledges {
-  .img_div {
-    padding: 5px;
-    border: 1px solid #eee;
-    border-radius: 4px;
-    img {
+  .lxl-content {
+    .el-pagination {
       width: 100%;
-      height: 100%;
+      padding: 20px;
+      text-align: center;
+    }
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+    display: flex;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    justify-content: center;
+    .lxl-card {
+      margin: 4px;
+      height: 280px;
+      width: 235px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+      background-color: #fff;
+      .lxl-card-2 {
+        background-color: rgb(255, 255, 255);
+        p {
+          padding: 15px;
+          text-align: center;
+          font-weight: 10;
+        }
+      }
     }
   }
 }

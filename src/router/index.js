@@ -13,6 +13,7 @@ import fishingSkillArticles from '../components/fishingSkill/fishingSkillArticle
 import figureLibrary from '../components/fishingSkill/figureLibrary.vue'
 import powerPoint from '../components/fishingSkill/powerPoint.vue'
 import intellectualProperty from '../components/fishingSkill/intellectualProperty.vue'
+import videoPlay from '../components/fishingSkill/videoPlay.vue'
 
 import environmentalMonitoring from '../components/environmentalMonitoring/environmentalMonitoring.vue'
 
@@ -29,6 +30,7 @@ import questionDetail from '../components/expertSystem/questionDetail.vue'
 import expertList from '../components/expertSystem/expertList.vue'
 // 专家系统->疾病自诊
 import autognosis from '../components/expertSystem/autognosis.vue'
+import diseaseDateil from '../components/expertSystem/autognosisChildren/diseaseDateil.vue'
 
 import breedingPlan from '../components/intelligentDecision/breedingPlan.vue'
 import waterQualityForecastAndWarning from '../components/intelligentDecision/waterQualityForecastAndWarning.vue'
@@ -114,6 +116,11 @@ const routes = [{
 
 },
 {
+  path: '/videoPlay',
+  component: videoPlay
+
+},
+{
   path: '/powerPoint',
   component: powerPoint
 
@@ -166,6 +173,12 @@ const routes = [{
   // 疾病自诊
   path: '/autognosis',
   component: autognosis
+
+}, 
+{
+  // 疾病自诊
+  path: '/diseaseDateil',
+  component: diseaseDateil
 
 },
 {

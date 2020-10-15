@@ -208,7 +208,7 @@ export default {
       const data = await this.$http.get("/email/" + this.regForm.email);
     },
   },
-};
+}; 
 </script>
 <style lang="less" scoped>
 .lxl-login {
