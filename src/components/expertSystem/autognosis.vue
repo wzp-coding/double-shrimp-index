@@ -79,30 +79,32 @@ export default {
     .breadcrumb {
       margin: 10px 0 10px 0;
       padding-bottom: 10px;
-      border-bottom: 2px solid #ccc;
     }
     .little_title {
-      font-size: 36px;
-      border-bottom: 1px solid #eee;
+      font-size: 26px;
       margin-bottom: 20px;
     }
     .el-tabs__header.is-left {
-      border: 1px solid rgb(95, 138, 204);
-      border-radius: 4px;
       box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
     }
     .el-tabs__item.is-left.is-active {
-      background-color: rgb(95, 138, 204);
+      background-color: rgb(135, 204, 95);
       color: #fff;
     }
     .content {
-      border: 1px solid #5f8acc;
-      border-radius: 4px;
+      margin: 5px;
+      padding: 10px;
       .title {
-        background-color: rgb(95, 138, 204);
-        border-top-left-radius: 4px;
-        border-top-right-radius: 4px;
-        padding: 10px 0 10px 10px;
+        width: 19%;
+        color: white;
+        background: linear-gradient(
+          to top,
+          #57b7cf 0%,
+          rgba(135, 204, 95, 1) 100%
+        );
+        padding: 18px;
+        text-align: center;
+        font-size: 1.3rem;
       }
     }
   }
