@@ -109,7 +109,7 @@ export default {
       // 表单预验证
       this.$refs.loginForm.validate(async (valid) => {
         if (!valid) return;
-        const data = await this.$http.post(
+        const data = await this.reqM1Service(
           "/user/login" +
             "?captcha=" +
             this.loginForm.captcha +
@@ -118,7 +118,8 @@ export default {
           {
             loginId: this.loginForm.userName,
             password: this.loginForm.password,
-          }
+          },
+          "post"
         );
         // 过滤
         if (data.data.code === 20000) {
