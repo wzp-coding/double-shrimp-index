@@ -14,10 +14,16 @@
           ><queryDisease></queryDisease
         ></el-tab-pane>
         <el-tab-pane label="病类名查询"
-          ><queryDiseaseTypes title="病类名查询"></queryDiseaseTypes
+          ><queryDiseaseTypes
+            title="病类名查询"
+            :labelList="labelList1"
+          ></queryDiseaseTypes
         ></el-tab-pane>
         <el-tab-pane label="部位病害查询">
-          <queryDiseaseTypes title="部位病害查询"></queryDiseaseTypes
+          <queryDiseaseTypes
+            title="部位病害查询"
+            :labelList="labelList2"
+          ></queryDiseaseTypes
         ></el-tab-pane>
         <el-tab-pane label="虾病知识概览">
           <diseaseKnowledges></diseaseKnowledges>
@@ -40,7 +46,94 @@ import photoDisease from "./autognosisChildren/photoDisease";
 import waterfallReply from "./autognosisChildren/waterfallReply";
 export default {
   data() {
-    return {};
+    return {
+      labelList1: [
+        {
+          littleTitle: "病毒性疾病",
+          checkBoxs:[
+            "白色斑点","肌肉为白浊色、不透明"
+          ]
+        },
+        {
+          littleTitle: "细菌性疾病",
+          checkBoxs:[
+            "丝状细菌生长，生长缓慢",
+            "头鳃区呈黑色或黄色，污物粘附于鳃上",
+            "腹面发出荧光",
+            "游泳足呈红色",
+            "消化道呈红色",
+            "体表和附肢上有黑褐色溃疡",
+            "眼球肿胀，溃烂"
+          ]
+        },
+        {
+          littleTitle: "真菌性疾病",
+          checkBoxs:[
+            "霉菌侵入卵或幼体全身，不能发育"
+          ]
+        },
+        {
+          littleTitle: "虫害病",
+          checkBoxs:[
+            "体表具黑灰色毛状物"
+          ]
+        },
+        {
+          littleTitle: "其他病害",
+          checkBoxs:[
+            "溃疡性斑点，呈铁锈色或烧焦状",
+            "甲壳薄而软，壳下有积水",
+            "腹部弯曲，尾部弯于胸下呈抱尾状",
+            "在夜间看到池水中有荧光",
+            "夜间大量对虾脱壳并死亡"
+          ]
+        },
+      ],
+      labelList2: [
+        {
+          littleTitle: "肌肉",
+          checkBoxs:[
+            "肌肉为白浊色、不透明"
+          ]
+        },
+        {
+          littleTitle: "体表",
+          checkBoxs:[
+            "白色斑点",
+            "丝状细菌生长，生长缓慢",
+            "体表具黑灰色毛状物，不摄食",
+            "体表和附肢上有黑褐色溃疡"
+          ]
+        },
+        {
+          littleTitle: "肠",
+          checkBoxs:[
+            "消化道呈红色"
+          ]
+        },
+        {
+          littleTitle: "四肢",
+          checkBoxs:[
+            "游泳足呈红色，活动力差",
+            "体表和附肢上有黑褐色溃疡",
+            "附肢有溃疡性斑点，呈铁锈色或烧焦状"
+          ]
+        },
+        {
+          littleTitle: "其他部位",
+          checkBoxs:[
+            "头鳃区呈黑色或黄色，污物粘附于鳃上",
+            "甲壳薄而软，壳下有积水",
+            "腹面发出荧光",
+            "在夜间看到池水中有荧光",
+            "霉菌侵入卵或幼体全身，不能发育",
+            "腹部弯曲，尾部弯于胸下呈抱尾状",
+            "眼球肿胀，溃烂",
+            "夜间大量对虾脱壳并死亡",
+          ]
+        },
+        ],
+    };
   },
   components: {
     queryDisease,

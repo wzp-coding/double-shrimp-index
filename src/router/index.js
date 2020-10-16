@@ -30,7 +30,7 @@ import questionDetail from '../components/expertSystem/questionDetail.vue'
 import expertList from '../components/expertSystem/expertList.vue'
 // 专家系统->疾病自诊
 import autognosis from '../components/expertSystem/autognosis.vue'
-import diseaseDateil from '../components/expertSystem/autognosisChildren/diseaseDateil.vue'
+import diseaseDateil from '../components/expertSystem/diseaseDateil.vue'
 
 import breedingPlan from '../components/intelligentDecision/breedingPlan.vue'
 import waterQualityForecastAndWarning from '../components/intelligentDecision/waterQualityForecastAndWarning.vue'
@@ -176,8 +176,8 @@ const routes = [{
 
 }, 
 {
-  // 疾病自诊
-  path: '/diseaseDateil',
+  // 疾病详情
+  path: '/autognosis/diseaseDateil',
   component: diseaseDateil
 
 },
