@@ -53,6 +53,8 @@ import favorite from '../components/Me/components/favorite.vue'
 import addressMan from '../components/Me/components/addressMan.vue'
 // 个人中心---修改密码
 import changePassword from '../components/Me/components/changePassword.vue'
+import shopManage from '../components/Me/components/shopManage.vue'
+import expertPage from '../components/Me/components/expertPage.vue'
 
 // 登录页面
 import login from '../components/login/login.vue'
@@ -174,7 +176,7 @@ const routes = [{
   path: '/autognosis',
   component: autognosis
 
-}, 
+},
 {
   // 疾病自诊
   path: '/diseaseDateil',
@@ -238,6 +240,16 @@ const routes = [{
     {
       path: '/changePassword',
       component: changePassword
+    },
+    // 个人中心修改密码
+    {
+      path: '/shopManage',
+      component: shopManage
+    },
+    // 个人中心修改密码
+    {
+      path: '/expertPage',
+      component: expertPage
     }
   ]
 
