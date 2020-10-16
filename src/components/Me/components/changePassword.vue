@@ -10,10 +10,10 @@
       <el-row class="change-title"
         >本次操作需要验证手机号码 {{ phoneNum }} 收到的手机验证码</el-row
       >
-      <el-form-item label="活动名称" prop="name">
+      <el-form-item label="手机号" prop="name">
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-input v-model="ruleForm.name"></el-input>
+            <el-input placeholder="请输入手机号" v-model="ruleForm.name"></el-input>
           </el-col>
           <el-col :span="5">
             <el-button>获取验证码</el-button>

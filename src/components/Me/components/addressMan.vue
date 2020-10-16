@@ -9,16 +9,16 @@
     >
       <el-row class="address-form-title">新增收货地址：</el-row>
       <el-form-item label="收货人" prop="name">
-        <el-input v-model="ruleForm.name"></el-input>
+        <el-input placeholder="请输入收货人姓名" v-model="ruleForm.name"></el-input>
       </el-form-item>
       <el-form-item label="地址" prop="region">
-        <el-input v-model="ruleForm.name"></el-input>
+        <el-input placeholder="例如：广东省/湛江市/廉江市" v-model="ruleForm.name"></el-input>
       </el-form-item>
       <el-form-item label="手机号" required>
-        <el-input v-model="ruleForm.name"></el-input>
+        <el-input placeholder="请输入手机号" v-model="ruleForm.name"></el-input>
       </el-form-item>
       <el-form-item label="详细地址" required>
-        <el-input type="textarea" :rows="5" v-model="ruleForm.name"></el-input>
+        <el-input placeholder="例如：河村镇/红湖农场太平街45号" type="textarea" :rows="5" v-model="ruleForm.name"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')"
@@ -37,13 +37,9 @@
         </el-table-column>
         <el-table-column prop="name" label="姓名" width="120">
         </el-table-column>
-        <el-table-column prop="province" label="省份" width="120">
-        </el-table-column>
-        <el-table-column prop="city" label="市区" width="120">
-        </el-table-column>
         <el-table-column prop="address" label="地址" width="300">
         </el-table-column>
-        <el-table-column prop="zip" label="邮编" width="120"> </el-table-column>
+        <el-table-column prop="zip" label="联系方式" width="120"> </el-table-column>
         <el-table-column fixed="right" label="操作" width="100">
           <template slot-scope="scope">
             <el-button @click="handleClick(scope.row)" type="text" size="small"

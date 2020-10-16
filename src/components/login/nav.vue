@@ -75,7 +75,13 @@ export default {
   data() {
     return {
       activeIndex: "",
-      navPath:this.$route.path
+      navPath: this.$route.path,
+      userData1: {
+        loginId: "尚未登录",
+        role: "游客",
+        photo:
+          "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
+      },
     };
   },
   methods: {
@@ -84,7 +90,7 @@ export default {
       window.sessionStorage.setItem("token", "");
       window.sessionStorage.setItem("userData", null);
       this.$store.commit(("changeToken", ""));
-      this.$store.commit(("changeUserData", ""));
+      this.$store.commit("changeUserData", this.userData1);
       this.$store.commit("changeIsLogin", false);
       this.$message({
         showClose: true,
@@ -134,7 +140,7 @@ export default {
     font-size: 1rem;
     color: white;
   }
-  .el-avatar{
+  .el-avatar {
     border: ivory 1.5px solid;
   }
 }
