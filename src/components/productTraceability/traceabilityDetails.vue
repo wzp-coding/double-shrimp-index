@@ -683,7 +683,7 @@
               </el-col>
             </el-row>
 
-            <el-row class="l-imgs" gutter="30">
+            <el-row class="l-imgs" :gutter="30">
               <el-col :span="2"></el-col>
               <el-col :span="7">
                 <el-image class="l-img" :src="url" :preview-src-list="srcList">
@@ -817,7 +817,7 @@ export default {
   data() {
     return {
       /* 成虾Id  （用于获取全部详情信息） */
-      adultShrimpId: "",
+      adultShrimp: {},
 
       /* 存储基地信息 (基地信息)*/
       base: {},
@@ -897,8 +897,8 @@ export default {
     };
   },
   created() {
-    /* 获取adultShrimpId (cookie处理)*/
-    this.cookieByAdultShrimpId();
+    /* 获取adultShrimpId*/
+    this.localStorageAdultShrimp();
     /* 获取基地的所有信息 */
     this.getDetail().then(() => {
       /* 获取基地的虾苗信息 */
@@ -906,52 +906,36 @@ export default {
     });
   },
   methods: {
-    /* 获取adultShrimpId (cookie处理)*/
-    cookieByAdultShrimpId() {
-      /* 获取全部cookie */
-      var strcookie = document.cookie;
-      /* 获取目标cookie */
-      //将多cookie切割为多个名/值对
-      var arrcookie = strcookie.split("; ");
-      //遍历cookie数组，处理每个cookie对
-      for (var i = 0; i < arrcookie.length; i++) {
-        var arr = arrcookie[i].split("=");
-        //找到名称为userId的cookie，并返回它的值
-        if ("adultShrimpId" == arr[0]) {
-          this.adultShrimpId = arr[1];
-        }
-      }
+    /* 获取adultShrimpId*/
+    localStorageAdultShrimp() {
+      // 从localstorage中读取adultShrimp
+      this.adultShrimp = JSON.parse(window.localStorage.getItem("adultShrimp"));
+      console.log(this.adultShrimp);
     },
 
     /* 获取基地的所有信息 */
     async getDetail() {
-      const { data: res } = await this.reqM1Service(
-        "/adultShrimp/traceability/" + this.adultShrimpId,
-        {},
-        "get"
-      );
-      console.log(res);
       // 基地信息
-      this.base = res.data.base;
+      this.base = this.adultShrimp.base;
       // 虾苗来源
-      this.shrimp = res.data.shrimp;
+      this.shrimp = this.adultShrimp.shrimp;
       // // 投料信息
-      // this.shrimpFarmings = res.data.shrimpFarmings;
+      // this.shrimpFarmings =this.adultShrimp.shrimpFarmings;
       // 养殖现场
-      this.monitorResult = res.data.monitorResult.data;
-      console.log("====================================");
-      console.log(this.monitorResult);
-      console.log("====================================");
+      this.monitorResult =this.adultShrimp.monitorResult.data;
+      // console.log("====================================");
+      // console.log(this.monitorResult);
+      // console.log("====================================");
       // 物流信息
-      this.logistics = res.data.others.logistics;
+      this.logistics =this.adultShrimp.others.logistics;
       // 加工信息
-      this.plant = res.data.others.plant;
+      this.plant =this.adultShrimp.others.plant;
       this.getQualificationList(this.plant.qualificationId);
       // 冷库信息
-      this.storage = res.data.others.storage;
+      this.storage =this.adultShrimp.others.storage;
       // 基地图片
-      this.basePicture = res.data.base.basePic.split(";");
-      this.getProcess(res.data.adultShrimp.plantId);
+      this.basePicture =this.adultShrimp.base.basePic.split(";");
+      this.getProcess(this.adultShrimp.adultShrimp.plantId);
     },
 
     ///* 投料信息开始 */
@@ -975,8 +959,8 @@ export default {
         },
         "post"
       );
-      this.total = res.data.total;
-      this.shrimpFarmings = res.data.rows;
+      this.total =this.adultShrimp.total;
+      this.shrimpFarmings =this.adultShrimp.rows;
     },
     /* 展示农资信息对话框 */
     async getSup(id) {
