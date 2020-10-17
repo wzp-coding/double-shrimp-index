@@ -111,12 +111,10 @@
   </div>
 </template>
 <script>
-import Turl from '../../router/url'
 export default {
   data() {
     return {
       url: "../../assets/xia.jpg",
-
       // 溯源码
       source: '',
     };
@@ -125,7 +123,7 @@ export default {
   },
   methods: {
   async toDetail(){
-      const { data: res} = await this.$http.get( Turl.traceabilityUrl + "/adultShrimp/traceability/" + this.source)
+      const { data: res} = await this.reqM1Service("/adultShrimp/traceability/" + this.source, {}, 'get')
       console.log(res);
       if ( res.code !== 20000) {
         return this.$message.error('溯源码错误！！')
