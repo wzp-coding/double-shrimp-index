@@ -46,13 +46,13 @@ git remote add origin https://gitee.com/Sinlon/front-end-of-prawn
 
 ### 推送分支
 
-git add . 
+git add .
 
 git commit -m "wonasnkda"
 
 git push --set-upstream origin xxx
 
-git push 
+git push
 
 
 ### 合并master到你的分支，同步master
@@ -67,7 +67,7 @@ git push
 
 5.拉取分支到本地：git pull origin dev(远程分支名称)
 
-6 在master分支上 git pull 
+6 在master分支上 git pull
 
 7 在切换到你的分支上，git merge master
 

@@ -42,8 +42,9 @@
                     type="text"
                     class="search-input"
                     placeholder="请输入溯源码"
+                    v-model="source"
                   />
-                  <button class="search-icon" @click="toDetail()">
+                  <button class="search-icon" @click="toDetail">
                     <span></span>
                   </button>
                 </div>
@@ -114,10 +115,23 @@ export default {
   data() {
     return {
       url: "../../assets/xia.jpg",
+      // 溯源码
+      source: '',
     };
   },
+  created() {
+  },
   methods: {
-    toDetail(){
+  async toDetail(){
+      const { data: res} = await this.reqM1Service("/adultShrimp/traceability/" + this.source, {}, 'get')
+      console.log(res);
+      if ( res.code !== 20000) {
+        return this.$message.error('溯源码错误！！')
+      }
+      /* 把adultShrimpId存放进cookie */
+      // 1304076717681414144
+      document.cookie = `adultShrimpId=${res.data.adultShrimp.id}`
+      this.$message.success('查询溯源详情成功！！')
       this.$router.push("/traceabilityDetails")
     }
   },
