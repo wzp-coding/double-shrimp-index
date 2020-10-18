@@ -95,7 +95,7 @@ import { mapState, mapMutations } from "vuex";
 export default {
   data() {
     return {
-      visible: "",
+      visible: false,
       activeIndex: "",
       navPath: this.$route.path,
       userData1: {

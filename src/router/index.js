@@ -30,7 +30,12 @@ import questionDetail from '../components/expertSystem/questionDetail.vue'
 import expertList from '../components/expertSystem/expertList.vue'
 // 专家系统->疾病自诊
 import autognosis from '../components/expertSystem/autognosis.vue'
+import expertSystemManage from '../components/expertSystem/expertSystemManage.vue'
 import diseaseDateil from '../components/expertSystem/autognosisChildren/diseaseDateil.vue'
+import expertOne from '../components/expertSystem/expertManage/expertOne.vue'
+import expertAnswer from '../components/expertSystem/expertManage/expertAnswer.vue'
+import articleManage from '../components/expertSystem/expertManage/articleManage.vue'
+
 
 import breedingPlan from '../components/intelligentDecision/breedingPlan.vue'
 import waterQualityForecastAndWarning from '../components/intelligentDecision/waterQualityForecastAndWarning.vue'
@@ -39,9 +44,15 @@ import precisionFeeding from '../components/intelligentDecision/precisionFeeding
 
 import visualizationPlatform from '../components/visualizationPlatform/visualizationPlatform.vue'
 
-import emall from '../components/emall/emall.vue'
 // 店铺详情
+import emall from '../components/emall/emall.vue'
 import shopDetail from '../components/emall/shopDetail.vue'
+import shopMangerDetail from '../components/emall/shopMangerDetail.vue'
+import orderManage from '../components/emall/shopComponents/orderManage.vue'
+import advertising from '../components/emall/shopComponents/advertising.vue'
+import infoManger from '../components/emall/shopComponents/infoManger.vue'
+import goodsManage from '../components/emall/shopComponents/goodsManage.vue'
+import shopInfoManage from '../components/emall/shopComponents/shopInfoManage.vue'
 
 // 个人中心
 import me from '../components/Me/me.vue'
@@ -92,10 +103,40 @@ const routes = [{
 {
   path: '/instructdetail',
   component: instructdetail
-}, {
+},
+{
   path: '/shopDetail',
   component: shopDetail
-
+},
+{
+  path: '/shopMangerDetail',
+  component: shopMangerDetail,
+  children: [
+    {
+      path: '/',
+      redirect: '/infoManger'
+    },
+    {
+      path: '/advertising',
+      component: advertising
+    },
+    {
+      path: '/orderManage',
+      component: orderManage
+    },
+    {
+      path: '/infoManger',
+      component: infoManger
+    },
+    {
+      path: '/goodsManage',
+      component: goodsManage
+    },
+    {
+      path: '/shopInfoManage',
+      component: shopInfoManage
+    }
+  ]
 },
 {
   path: '/policies',
@@ -175,6 +216,31 @@ const routes = [{
   // 疾病自诊
   path: '/autognosis',
   component: autognosis
+
+},
+{
+  path: '/expertSystemManage',
+  component: expertSystemManage,
+  children: [  // 个人中心首页
+    {
+      path: '/',
+      redirect: '/expertOne'
+    },
+    {
+      path: '/expertOne',
+      component: expertOne
+    },
+    // 个人中心收藏夹
+    {
+      path: '/expertAnswer',
+      component: expertAnswer
+    },
+    // 个人中心收货地址管理
+    {
+      path: '/articleManage',
+      component: articleManage
+    }
+  ]
 
 },
 {
