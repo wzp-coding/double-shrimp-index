@@ -5,16 +5,13 @@
         <div class="shop-introduce">
           <p class="introduce-title">店铺介绍</p>
           <p class="introduce-desc">
-            你好，我从事这个行业多年，自己养殖4000多亩的虾田，同样我也收附近亲戚朋友，农民伯伯的健康有活力的虾，阿巴阿巴阿巴
+            {{ shopInfo.merchantDesc }}
           </p>
         </div>
         <div class="businessLicence">
           <p class="licence-title">营业执照公示</p>
           <p class="licence-display">
-            <img
-              src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-              alt=""
-            />
+            <img :src="shopInfo.merchantLicense" alt="" />
           </p>
         </div>
       </el-col>
@@ -24,98 +21,38 @@
           全部商品
         </el-row>
         <el-row class="goods-display" type="flex">
-          <el-col class="goods-card">
+          <el-col
+            class="goods-card"
+            v-for="item in goodsList"
+            :key="item.productId"
+          >
             <el-row class="goods-img">
-              <img
-                src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-                alt=""
-              />
+              <img :src="item.productImages" alt="" />
             </el-row>
-            <el-row class="goods-price">
-              <span class="price-num">25</span>元/斤
+            <el-row class="goods-price" type="flex" align="middle" justify="space-between">
+              <el-col
+                ><span class="price-num">{{ item.productPrice }}</span
+                >元/斤</el-col
+              >
+              <el-col class="goods-sell">
+                销量: {{ item.productStars }}
+              </el-col>
             </el-row>
             <el-row class="goods-desc">
-              阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴
+              {{ item.productTitle }}
             </el-row>
-            <el-row class="goods-address"> 湛江市 </el-row>
+            <el-row class="goods-address"> {{ item.productArea }} </el-row>
           </el-col>
-          <el-col class="goods-card">
-            <el-row class="goods-img">
-              <img
-                src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-                alt=""
-              />
-            </el-row>
-            <el-row class="goods-price">
-              <span class="price-num">25</span>元/斤
-            </el-row>
-            <el-row class="goods-desc">
-              阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴
-            </el-row>
-            <el-row class="goods-address"> 湛江市 </el-row>
-          </el-col>
-          <el-col class="goods-card">
-            <el-row class="goods-img">
-              <img
-                src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-                alt=""
-              />
-            </el-row>
-            <el-row class="goods-price">
-              <span class="price-num">25</span>元/斤
-            </el-row>
-            <el-row class="goods-desc">
-              阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴
-            </el-row>
-            <el-row class="goods-address"> 湛江市 </el-row>
-          </el-col>
-          <el-col class="goods-card">
-            <el-row class="goods-img">
-              <img
-                src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-                alt=""
-              />
-            </el-row>
-            <el-row class="goods-price">
-              <span class="price-num">25</span>元/斤
-            </el-row>
-            <el-row class="goods-desc">
-              阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴
-            </el-row>
-            <el-row class="goods-address"> 湛江市 </el-row>
-          </el-col>
-          <el-col class="goods-card">
-            <el-row class="goods-img">
-              <img
-                src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-                alt=""
-              />
-            </el-row>
-            <el-row class="goods-price">
-              <span class="price-num">25</span>元/斤
-            </el-row>
-            <el-row class="goods-desc">
-              阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴
-            </el-row>
-            <el-row class="goods-address"> 湛江市 </el-row>
-          </el-col>
-          <el-col class="goods-card">
-            <el-row class="goods-img">
-              <img
-                src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-                alt=""
-              />
-            </el-row>
-            <el-row class="goods-price">
-              <span class="price-num">25</span>元/斤
-            </el-row>
-            <el-row class="goods-desc">
-              阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴
-            </el-row>
-            <el-row class="goods-address"> 湛江市 </el-row>
-          </el-col>
+          <!-- 分页 -->
           <div class="lxl-pagination">
-            <el-pagination background layout="prev, pager, next" :total="1000">
+            <el-pagination
+              background
+              layout="prev, pager, next"
+              :page-size="pageInfo.pageSize"
+              :total="totalElements"
+              :current-page="pageInfo.pageNum"
+              @current-change="handleCurrentChange"
+            >
             </el-pagination>
           </div>
         </el-row>
@@ -125,7 +62,50 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      // 商品列表数据
+      goodsList: [],
+      // 总页数
+      totalElements: 1,
+      // 分页
+      pageInfo: {
+        // 每页显示条数
+        pageSize: 8,
+        // 当前页码
+        pageNum: 1,
+      },
+    };
+  },
+  // 从父组件获取数据
+  props: ["shopInfo", "shopId"],
+  methods: {
+    // 监听页码值改变的事件
+    handleCurrentChange(newPage) {
+      // 改变当前页码
+      this.pageInfo.pageNum = newPage;
+      // 刷新列表
+      this.getShopGoods();
+    },
+    // 获取商品列表函数
+    async getShopGoods() {
+      const { data: res } = await this.reqM4Service(
+        `/product/queryProducts/${this.shopId}/${this.pageInfo.pageNum}/${this.pageInfo.pageSize}`,
+        "",
+        "get"
+      );
+      // 获取商品列表数据
+      this.goodsList = res.data.content;
+      // 获取商品总数
+      this.totalElements = res.data.totalElements;
+    },
+  },
+  created() {
+    // 调用获取商品列表函数
+    this.getShopGoods();
+  },
+};
 </script>
 
 <style lang="less" scoped>
@@ -228,8 +208,11 @@ export default {};
           border: 1px solid #eee;
           margin: 10px 15px 20px 0;
           .goods-img {
+            width: 100%;
+            height: 208px;
             img {
               width: 100%;
+              height: 100%;
               border-bottom: 1px solid #eee;
             }
           }
@@ -238,6 +221,11 @@ export default {};
             color: #ff5941;
             span {
               font-size: 20px;
+            }
+            .goods-sell {
+              padding-top:2px;
+              font-size: 14px;
+              color: #969a9d;
             }
           }
           .goods-desc {

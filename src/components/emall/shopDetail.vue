@@ -13,32 +13,32 @@
       <!-- 店铺头部资料开始 -->
       <el-row class="shop-header zyh-header" type="flex" align="middle">
         <el-col :offset="3" class="shop-avator">
-          <img
-            src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-            alt=""
-          />
+          <img :src="shopInfo.merchantLogo" alt="" />
         </el-col>
         <el-col :span="12" class="shop-name">
-          <p>广州市仲恺农业信科院养猪场</p>
+          <p>{{ shopInfo.merchantName }}</p>
           <p>
             <i class="el-icon-location"></i>
-            广州市海珠区
+            {{ shopInfo.shopAddress }}
           </p>
         </el-col>
       </el-row>
       <!-- 店铺头部资料结束 -->
 
       <!-- 标签页开始 -->
-      <el-tabs v-model="activeName" @tab-click="handleClick" class="shop-nav">
+      <el-tabs v-model="activeName" class="shop-nav">
         <el-tab-pane label="首页" name="homePage">
           <!-- 店铺详情首页 -->
-          <shop-home-page></shop-home-page>
+          <shop-home-page
+            :shopInfo="shopInfo"
+            :shopId="shopId"
+          ></shop-home-page>
         </el-tab-pane>
         <el-tab-pane label="店铺档案" name="shopDoc">
-          <shop-info></shop-info>
+          <shop-info :shopInfo="shopInfo"></shop-info>
         </el-tab-pane>
         <el-tab-pane label="联系方式" name="contectWay">
-          <shop-contect></shop-contect>
+          <shop-contect :shopInfo="shopInfo"></shop-contect>
         </el-tab-pane>
       </el-tabs>
       <!-- 标签页结束 -->
@@ -60,12 +60,30 @@ export default {
   data() {
     return {
       activeName: "homePage",
+      shopId: "bdfba4564sdfb",
+      shopInfo: { shopAddress: "" },
     };
   },
   methods: {
-    handleClick(tab, event) {
-      console.log(tab, event);
+    // 获取店铺信息函数
+    async getShopInfo() {
+      const { data: res } = await this.reqM4Service(
+        `/merchant/${this.shopId}`,
+        "",
+        "get"
+      );
+      if (res.code !== 20000) return this.$message.error("该店铺跑路了噢~");
+      this.shopInfo = res.data;
+      // 拼接具体地址
+      this.shopInfo.shopAddress =
+        res.data.merchantProvince +
+        res.data.merchantCity +
+        res.data.merchantTown +
+        res.data.merchantAddress;
     },
+  },
+  created() {
+    this.getShopInfo();
   },
 };
 </script>
@@ -95,12 +113,12 @@ export default {
     margin-top: -10px;
     padding: 30px;
     width: 100%;
-    background-color:rgb(0, 201, 253);
+    background-color: rgb(0, 201, 253);
     font-family: btt;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
     border-radius: 2px;
     .shop-avator {
-      height: 80%;
+      height: 90px;
       background-color: #fff;
       border-radius: 4px;
       width: 90px;
