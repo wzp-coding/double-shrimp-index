@@ -11,7 +11,7 @@
         <span
           style="margin-right: 5px; border-left: 6px solid rgb(93, 183, 60)"
         ></span>
-        专家问答
+        图文识病
       </div>
       <div
         style="
@@ -20,7 +20,7 @@
           color: rgb(93, 183, 60);
           cursor: pointer;
         "
-        @click="toExpertList()"
+        @click="toDiseaseDateil"
       >
         <span style="color: #9e9e9e"> 更多 </span>
         <i class="el-icon-caret-right"></i>
@@ -28,17 +28,9 @@
     </h3>
     <el-divider class="ccy-drvider"></el-divider>
     <el-row :gutter="20">
-      <el-col :span="6"
-        ><div class="grid-content"><miniPhotoDisease></miniPhotoDisease></div
-      ></el-col>
-      <el-col :span="6"
-        ><div class="grid-content"><miniPhotoDisease></miniPhotoDisease></div
-      ></el-col>
-      <el-col :span="6"
-        ><div class="grid-content"><miniPhotoDisease></miniPhotoDisease></div
-      ></el-col>
-      <el-col :span="6"
-        ><div class="grid-content"><miniPhotoDisease></miniPhotoDisease></div
+      <el-col :span="6" v-for="item in queryResList" :key="item.id"
+        ><div class="grid-content">
+          <miniPhotoDisease :info="item"></miniPhotoDisease></div
       ></el-col>
     </el-row>
   </div>
@@ -48,12 +40,32 @@ import miniPhotoDisease from "./miniPhotoDisease";
 
 export default {
   data() {
-    return {};
+    return {
+      queryResList: [],
+    };
   },
-  methods: {},
-  mounted() {},
   components: {
     miniPhotoDisease,
+  },
+  methods: {
+    // 获取4条数据
+    getFourDisease(page = 1, size = 4) {
+      // 等分页查询接口完成加上去
+      let httpUrl = `http://120.78.14.141:9007/diagnose/search/all`;
+      this.$http.get(httpUrl).then((res) => {
+        console.log(res.data);
+        res = res.data;
+        if (res.code === 20000) {
+          res = res.data[0].content;
+          this.queryResList = res.slice(0, 4);
+          console.log(this.queryResList);
+        }
+      });
+    },
+    toDiseaseDateil() {},
+  },
+  async mounted() {
+    await this.getFourDisease();
   },
 };
 </script>

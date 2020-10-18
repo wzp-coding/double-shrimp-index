@@ -20,7 +20,7 @@
           color: rgb(93, 183, 60);
           cursor: pointer;
         "
-        @click="toExpertList()"
+        @click="toExpertList"
       >
         <span style="color: #9e9e9e"> 更多 </span>
         <i class="el-icon-caret-right"></i>
@@ -50,6 +50,7 @@ export default {
     miniExpertCard,
   },
   methods: {
+    // 获取专家列表
     getExpertList() {
       this.$http
         .get(`http://106.75.154.40:9012/info/experts/findAll/1/4`)
@@ -72,9 +73,8 @@ export default {
           this.loading = false
         });
     },
-    pushToExpertList() {
-      this.$route.push("");
-    },
+    
+    // 跳转到专家列表
     toExpertList() {
       this.$router.push({name:'expertList'});
     },

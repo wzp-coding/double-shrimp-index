@@ -49,7 +49,7 @@
           </div></el-col
         >
       </el-row>
-      <!--  -->
+      <!-- 查询结果 -->
       <div class="lxl-content">
         <div class="lxl-card" v-for="item in queryResList" :key="item.id">
           <div>
@@ -59,9 +59,11 @@
               :preview-src-list="srcList"
             ></el-image>
           </div>
-          <router-link :to="{path:'/autognosis/diseaseDateil',query:{id:item.id}}">
+          <router-link
+            :to="{ path: '/autognosis/diseaseDateil', query: { id: item.id } }"
+          >
             <div class="lxl-card-2">
-              <p>{{item.diseaseName}}</p>
+              <p>{{ item.diseaseName }}</p>
             </div>
           </router-link>
         </div>
@@ -69,6 +71,7 @@
           :total="queryTotal"
           :resetPage="false"
           @pageChange="handlePageChange"
+          v-if="this.queryResList.length != 0"
         ></pagination>
       </div>
       <!-- 查询结果 -->
@@ -76,10 +79,10 @@
   </div>
 </template>
 <script>
-import pagination from '../expertListChildren/pagination'
+import pagination from "../expertListChildren/pagination";
 export default {
-  components:{
-    pagination
+  components: {
+    pagination,
   },
   data() {
     return {
@@ -95,21 +98,21 @@ export default {
       ],
       value: "1",
       input: "",
-      queryResList:[],
-      queryTotal:10,
-      srcList:[]
+      queryResList: [],
+      queryTotal: 10,
+      srcList: [],
     };
   },
   methods: {
     // 当子组件换页时
     handlePageChange({ page, size }) {
-      console.log('父组件:')
-      console.log('size: ', size);
-      console.log('page: ', page);
-      this.startQuery(page,size)
+      console.log("父组件:");
+      console.log("size: ", size);
+      console.log("page: ", page);
+      this.startQuery(page, size);
     },
     // 点击开始查询
-    startQuery(page=1,size=8) {
+    startQuery(page = 1, size = 8) {
       // console.log('this.input: ', this.input);
       // console.log('this.value: ', this.value);
       let httpUrl = "";
@@ -127,9 +130,9 @@ export default {
         res = res.data;
         if (res.code === 20000) {
           res = res.data;
-          this.queryResList = res.slice(0,8)
+          this.queryResList = res.slice(0, 8);
           // this.queryTotal = res.length
-          res.forEach(item=>this.srcList.push(item.pic))
+          res.forEach((item) => this.srcList.push(item.pic));
         }
       });
     },
@@ -138,7 +141,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .lxl-content {
-  .el-pagination {
+  .pagination {
     width: 100%;
     padding: 20px;
     text-align: center;
