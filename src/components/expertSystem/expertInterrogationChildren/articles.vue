@@ -56,12 +56,12 @@ import miniArticleCard from "./miniArticleCard.vue";
 
 export default {
   data() {
-    return { loading: true };
+    return { loading: true};
   },
   methods: {},
   mounted() {
     this.loading = false;
-  },
+},
   components: {
     miniArticleCard,
   },

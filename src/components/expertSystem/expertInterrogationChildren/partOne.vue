@@ -27,7 +27,7 @@
       </div>
     </h3>
     <div class="block">
-      <el-carousel interval=5000 v-loading="loading">
+      <el-carousel :interval="Number(5000)" v-loading="loading">
         <el-carousel-item v-for="(item,index) in expertList" :key="index">
           <miniExpertCard :oneExpert="item[0]"></miniExpertCard>
           <miniExpertCard :oneExpert="item[1]"></miniExpertCard>
@@ -53,7 +53,7 @@ export default {
     // 获取专家列表
     getExpertList() {
       this.$http
-        .get(`http://106.75.154.40:9012/info/experts/findAll/1/4`)
+        .get(`http://106.75.154.40:9005/experts/findAll/1/4`)
         .then((res) => {
           res = res.data;
           if (res.code === 20000) {
@@ -81,8 +81,6 @@ export default {
   },
   async mounted() {
     await this.getExpertList();
-    
-    console.log(this.expertList);
   },
 };
 </script>

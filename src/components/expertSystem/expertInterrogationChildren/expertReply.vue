@@ -59,7 +59,7 @@ export default {
       ids.forEach((id) => {
         httpTasks.push(
           this.$http.get(
-            `http://106.75.154.40:9012/info/details/findByPost/${id}/1/1`
+            `http://106.75.154.40:9005/details/findByPost/${id}/1/1`
           )
         );
       });
@@ -67,7 +67,7 @@ export default {
     },
     async getRepliesList() {
       await this.$http
-        .get(`http://106.75.154.40:9012/info/post/findAll/1/6`)
+        .get(`http://106.75.154.40:9005/post/findAll/1/6`)
         .then((res) => {
           res = res.data;
           if (res.code === 20000) {
@@ -103,6 +103,7 @@ export default {
   },
   mounted() {
     this.getRepliesList();
+    console.log(this.quesList)
   },
 };
 </script>

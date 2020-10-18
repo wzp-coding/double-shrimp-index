@@ -27,7 +27,7 @@
       </div>
     </h3>
     <div class="block">
-      <el-carousel interval="5000" v-loading="loading">
+      <el-carousel :interval="Number(5000)" v-loading="loading">
         <el-carousel-item>
           <miniArticleCard></miniArticleCard>
           <miniArticleCard></miniArticleCard>

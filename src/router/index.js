@@ -25,9 +25,10 @@ import knowledgeGraph from '../components/knowledgeGraph/knowledgeGraph.vue'
 
 // 专家系统->专家问诊
 import expertInterrogation from '../components/expertSystem/expertInterrogation.vue'
-// 跳转子页面，问答详情和专家列表
+// 跳转子页面，问答详情，专家列表，帖子列表
 import questionDetail from '../components/expertSystem/questionDetail.vue'
 import expertList from '../components/expertSystem/expertList.vue'
+import replyList from '../components/expertSystem/replyList.vue'
 // 专家系统->疾病自诊
 import autognosis from '../components/expertSystem/autognosis.vue'
 import diseaseDateil from '../components/expertSystem/diseaseDateil.vue'
@@ -168,6 +169,12 @@ const routes = [{
   path: '/expertInterrogation/expertList',
   component: expertList,
   name: 'expertList'
+},
+{
+  // 问答列表
+  path: '/expertInterrogation/replyList',
+  component: replyList,
+  name: 'replyList'
 },
 {
   // 疾病自诊

@@ -10,7 +10,7 @@
             />
             <div class="name_address">
               <div class="name">
-                <span>{{oneExpert.name?oneExpert.name:'匿名'}}</span>
+                <span>{{oneExpert?(oneExpert.name?oneExpert.name:'匿名'):"匿名"}}</span>
                 <span style="padding: 0 10px">|</span>
                 <el-button type="text">详情</el-button>
               </div>
@@ -20,11 +20,11 @@
           <div class="replies">
             <div class="action">
               <span class="action_title">咨询量</span>
-              <span class="action_num">{{oneExpert.consultingNum?oneExpert.consultingNum:0}}</span>
+              <span class="action_num">{{oneExpert?(oneExpert.consultingNum?oneExpert.consultingNum:0):0}}</span>
             </div>
             <div class="action">
               <span class="action_title">回复量</span>
-              <span class="action_num">{{oneExpert.repliesNum?oneExpert.repliesNum:0}}</span>
+              <span class="action_num">{{oneExpert?(oneExpert.repliesNum?oneExpert.repliesNum:0):0}}</span>
             </div>
             <div class="action">
               <span class="action_title">回复率</span>
@@ -54,7 +54,10 @@ export default {
   props:['oneExpert'],
   computed:{
     repliesRate(){
-      return Math.floor(this.oneExpert.repliesNum/this.oneExpert.consultingNum * 10000)/100
+      if(this.oneExpert){
+        return Math.floor(this.oneExpert.repliesNum/this.oneExpert.consultingNum * 10000)/100
+      }
+      return 0
     }
   },
   created () {
