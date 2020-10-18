@@ -6,7 +6,8 @@
         class="lxl-breadcrumb"
       >
         <el-breadcrumb-item>当前位置</el-breadcrumb-item>
-        <el-breadcrumb-item>个人中心</el-breadcrumb-item>
+        <el-breadcrumb-item to="/emall">电子商城</el-breadcrumb-item>
+        <el-breadcrumb-item>店铺</el-breadcrumb-item>
       </el-breadcrumb>
       <el-divider></el-divider>
 
