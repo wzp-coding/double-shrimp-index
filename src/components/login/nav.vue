@@ -5,6 +5,27 @@
         <div class="lxl-logo"></div>
 
         <div class="lxl-avatar" v-if="!isLogin">
+          <el-popover v-model="visible" width="200">
+            <el-alert
+              title="设置了回调置了回调置了回调置了回调置了回调置了回调置了回调的 alert"
+              type="success"
+              @close="hello"
+            >
+            </el-alert>
+            <div style="text-align: right; margin-top: 18px">
+              <el-button size="mini" type="text" @click="visible = false"
+                >取消</el-button
+              >
+              <el-button type="primary" size="mini" @click="visible = false"
+                >确定</el-button
+              >
+            </div>
+            <el-button slot="reference" circle type="success">
+              <el-badge :value="9" :max="10" class="item">
+                <i class="el-icon-message-solid"></i>
+              </el-badge>
+            </el-button>
+          </el-popover>
           <router-link to="/login">
             <el-avatar
               :size="50"
@@ -74,8 +95,15 @@ import { mapState, mapMutations } from "vuex";
 export default {
   data() {
     return {
+      visible: false,
       activeIndex: "",
-      navPath:this.$route.path
+      navPath: this.$route.path,
+      userData1: {
+        loginId: "尚未登录",
+        role: "游客",
+        photo:
+          "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
+      },
     };
   },
   methods: {
@@ -84,13 +112,16 @@ export default {
       window.sessionStorage.setItem("token", "");
       window.sessionStorage.setItem("userData", null);
       this.$store.commit(("changeToken", ""));
-      this.$store.commit(("changeUserData", ""));
+      this.$store.commit("changeUserData", this.userData1);
       this.$store.commit("changeIsLogin", false);
       this.$message({
         showClose: true,
         message: "退出成功",
       });
       this.$router.push("/login");
+    },
+    hello() {
+      alert("Hello World!");
     },
   },
   computed: {
@@ -134,7 +165,7 @@ export default {
     font-size: 1rem;
     color: white;
   }
-  .el-avatar{
+  .el-avatar {
     border: ivory 1.5px solid;
   }
 }

@@ -35,13 +35,17 @@
               </div>
             </div>
             <div class="lxl-clu">
-              <div class="ljc-text">食品安全连万家<br> 溯源惠及你我他</div>
+              <div class="ljc-text">
+                食品安全连万家<br />
+                溯源惠及你我他
+              </div>
               <div class="search-wrapper active">
                 <div class="input-holder">
                   <input
                     type="text"
                     class="search-input"
                     placeholder="请输入溯源码"
+                    v-model="source"
                   />
                   <button class="search-icon" @click="toDetail()">
                     <span></span>
@@ -114,12 +118,33 @@ export default {
   data() {
     return {
       url: "../../assets/xia.jpg",
+      // 溯源码
+      source: "1304076717681414144",
     };
   },
+  created() {},
   methods: {
-    toDetail(){
-      this.$router.push("/traceabilityDetails")
-    }
+    // 详情页
+    async toDetail() {
+      try {
+        const { data: res } = await this.reqM1Service(
+          "/adultShrimp/traceability/" + this.source,
+          {},
+          "get"
+        );
+        console.log(res);
+        if (res.code === 20000) {
+          this.$message.success(res.message);
+          // 将溯源码存入
+          window.localStorage.setItem("adultShrimp", JSON.stringify(res.data));
+          this.$router.push("/traceabilityDetails");
+        } else {
+          return this.$message.error("查询错误！！");
+        }
+      } catch (error) {
+        this.$message.error("网络开小差了，请稍后尝试！！");
+      }
+    },
   },
 };
 </script>
@@ -142,14 +167,13 @@ export default {
   height: 800px;
   background-repeat: no-repeat;
   background-size: cover;
-.ljc-text{
-  color: rgb(255, 255, 255);
-  font-size: 5.5rem;
-  margin-top: -800px;
-  margin-left: 500px;
-   font-family: "bt";
-
-}
+  .ljc-text {
+    color: rgb(255, 255, 255);
+    font-size: 4rem;
+    margin-top: -800px;
+    margin-left: 540px;
+    font-family: "bt";
+  }
   .ljc-imgs {
     display: flex;
     flex-direction: row;
@@ -178,6 +202,7 @@ export default {
 .ljc-body {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
 }
+/*搜索框*/
 .contain {
   width: 300px;
   margin: 0 15px;
@@ -280,7 +305,7 @@ export default {
   left: 9px;
   top: 18px;
   border-radius: 2px;
-  background: #fe5f55;
+  background: #4ecb5f;
 }
 .search-wrapper .input-holder .search-icon span::after {
   width: 14px;
@@ -288,6 +313,6 @@ export default {
   left: 0px;
   top: 0px;
   border-radius: 16px;
-  border: 4px solid #fe5f55;
+  border: 4px solid #4ecb5f;
 }
 </style>

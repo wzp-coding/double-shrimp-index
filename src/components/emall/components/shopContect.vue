@@ -9,19 +9,19 @@
             <el-col :span="4" class="item-label">
                 <i class="el-icon-user"></i>
                 联系人</el-col>
-            <el-col :span="5">哒哒哒</el-col>
+            <el-col :span="5">{{shopInfo.createBy}}</el-col>
           </el-row>
           <el-row class="main-left-bottom-item">
             <el-col :span="4" class="item-label">
                 <i class="el-icon-mobile"></i>
                 联系电话</el-col>
-            <el-col :span="5">1587989345832</el-col>
+            <el-col :span="6">{{shopInfo.merchantPhone}}</el-col>
           </el-row>
           <el-row class="main-left-bottom-item">
             <el-col :span="4" class="item-label">
                 <i class="el-icon-location-outline"></i>
                 所在地区</el-col>
-            <el-col :span="5">广州市海珠区</el-col>
+            <el-col :span="20">{{shopInfo.shopAddress}}</el-col>
           </el-row>
         </el-row>
       </el-col>
@@ -33,7 +33,9 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: ['shopInfo']
+};
 </script>
 
 <style lang="less" scoped>

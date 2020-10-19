@@ -22,8 +22,8 @@
             <el-menu-item index="/favorite">收藏夹</el-menu-item>
             <el-menu-item index="/addressMan">收货地址管理</el-menu-item>
             <el-menu-item index="/changePassword">修改密码</el-menu-item>
-            <el-menu-item index="/changePassword">店铺管理</el-menu-item>
-            <el-menu-item index="/changePassword">专家页面</el-menu-item>
+            <el-menu-item index="/shopManage">店铺管理</el-menu-item>
+            <el-menu-item index="/expertPage">专家页面</el-menu-item>
           </el-menu>
         </el-aside>
 
@@ -104,6 +104,7 @@ export default {
     margin-left: 18px;
     margin-bottom: -10px;
   }
+  margin-bottom: 30px;
 }
 .lxl-box {
   width: 1150px;

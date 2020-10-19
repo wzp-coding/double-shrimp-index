@@ -2,78 +2,87 @@
   <div class="shop-info">
     <el-row class="shop-info-title">基础信息</el-row>
     <el-row class="shop-info-header">
-      <el-col class="shop-info-name">仲恺农业信科院养猪场</el-col>
-      <el-col class="shop-info-time"
-        >注册时间：2020-09-17 联系人：哒哒哒</el-col
-      >
+      <el-col class="shop-info-name">{{ shopInfo.merchantName }}</el-col>
+      <el-col class="shop-info-time">注册时间：{{ shopInfo.created }}</el-col>
+      <el-col class="shop-info-time">联系人：{{ shopInfo.createBy }} </el-col>
     </el-row>
     <el-row class="shop-info-shoper">
       <el-row style="font-weight: bold">商家介绍</el-row>
       <el-row class="shop-info-shoper-content">
-        <el-col :span="12" class="content-left"
-          >阿八八八八八阿八八八八八阿八八八八八阿八八八八八阿八八八八八阿八八八八八阿八八八八八阿八八八八八阿八八八八八阿八八八八八阿八八八八八阿八八八八八</el-col
-        >
+        <el-col :span="12" class="content-left">{{
+          shopInfo.merchantDesc
+        }}</el-col>
         <el-col :span="12" class="content-right">
           <div>
-            <div class="info-label"> <i class="el-icon-s-home" style="margin:3px 5px 0 0;"></i> 企业名称：</div>
-            <div class="info-content">广州市仲恺农业养猪基地</div>
+            <div class="info-label">
+              <i class="el-icon-s-home" style="margin: 3px 5px 0 0"></i>
+              企业名称：
+            </div>
+            <div class="info-content">{{ shopInfo.merchantName }}</div>
           </div>
           <div>
-            <div class="info-label"><i class="el-icon-s-custom" style="margin:3px 5px 0 0;"></i>法人代表：</div>
-            <div class="info-content">哒哒哒</div>
+            <div class="info-label">
+              <i class="el-icon-s-custom" style="margin: 3px 5px 0 0"></i
+              >法人代表：
+            </div>
+            <div class="info-content">{{ shopInfo.createBy }}</div>
           </div>
           <div>
-            <div class="info-label"><i class="el-icon-s-check" style="margin:3px 5px 0 0;"></i>注册号：</div>
-            <div class="info-content">1010101010101</div>
+            <div class="info-label">
+              <i class="el-icon-s-check" style="margin: 3px 5px 0 0"></i
+              >注册号：
+            </div>
+            <div class="info-content">{{ shopInfo.merchantNumber }}</div>
           </div>
           <div>
-            <div class="info-label"><i class="el-icon-location" style="margin:3px 5px 0 0;"></i>经营地址：</div>
-            <div class="info-content">广州市海珠区</div>
-          </div>
-          <div>
-            <div class="info-label"><i class="el-icon-box" style="margin:3px 5px 0 0;"></i>主要项目：</div>
-            <div class="info-content">养猪、养虾</div>
+            <div class="info-label">
+              <i class="el-icon-location" style="margin: 3px 5px 0 0"></i
+              >经营地址：
+            </div>
+            <div class="info-content">{{ shopInfo.shopAddress }}</div>
           </div>
         </el-col>
       </el-row>
-      <el-row style="font-weight: bold;margin: 20px 0;">服务能力</el-row>
+      <el-row style="font-weight: bold; margin: 20px 0">服务能力</el-row>
       <el-row class="shop-info-ability" type="flex">
-          <el-col class="ability-item" :span="4">
-              <p class="item-count">￥147.7万元</p>
-              <p class="item-title">累积成交额</p>
-          </el-col>
-          <span></span>
-          <el-col class="ability-item" :span="4">
-              <p class="item-count">1084</p>
-              <p class="item-title">订单笔数</p>
-          </el-col>
-          <span></span>
-          <el-col class="ability-item" :span="4">
-              <p class="item-count">5</p>
-              <p class="item-title">店铺评分</p>
-          </el-col>
-          <span></span>
-          <el-col class="ability-item" :span="4">
-              <p class="item-count">1525</p>
-              <p class="item-title">粉丝</p>
-          </el-col>
-          <span></span>
-          <el-col class="ability-item" :span="4">
-              <p class="item-count">3498</p>
-              <p class="item-title">访客</p>
-          </el-col>
-          <span></span>
-          <el-col class="ability-item" :span="4">
-              <p class="item-count">7079</p>
-              <p class="item-title">联系</p>
-          </el-col>
+        <el-col class="ability-item" :span="4">
+          <p class="item-count">￥147.7万元</p>
+          <p class="item-title">累积成交额</p>
+        </el-col>
+        <span></span>
+        <el-col class="ability-item" :span="4">
+          <p class="item-count">1084</p>
+          <p class="item-title">订单笔数</p>
+        </el-col>
+        <span></span>
+        <el-col class="ability-item" :span="4">
+          <p class="item-count">5</p>
+          <p class="item-title">店铺评分</p>
+        </el-col>
+        <span></span>
+        <el-col class="ability-item" :span="4">
+          <p class="item-count">1525</p>
+          <p class="item-title">粉丝</p>
+        </el-col>
+        <span></span>
+        <el-col class="ability-item" :span="4">
+          <p class="item-count">3498</p>
+          <p class="item-title">访客</p>
+        </el-col>
+        <span></span>
+        <el-col class="ability-item" :span="4">
+          <p class="item-count">7079</p>
+          <p class="item-title">联系</p>
+        </el-col>
       </el-row>
     </el-row>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props: ["shopInfo"],
+};
 </script>
 
 <style lang="less" scoped>
@@ -144,26 +153,26 @@ export default {};
       }
     }
     .shop-info-ability {
-        border: 1px solid #eee;
-        align-items: center;
-        .ability-item {
-            text-align: center;
-            padding: 70px 0;
-            .item-count {
-                color: red;
-                font-weight: bold;
-            }
-            .item-title {
-                color: #7f767b;
-                font-size: 13px;
-                margin-top: 10px;
-            }
+      border: 1px solid #eee;
+      align-items: center;
+      .ability-item {
+        text-align: center;
+        padding: 70px 0;
+        .item-count {
+          color: red;
+          font-weight: bold;
         }
-        span {
-            width: 1px;
-            background-color: #eee;
-            height: 80px;
+        .item-title {
+          color: #7f767b;
+          font-size: 13px;
+          margin-top: 10px;
         }
+      }
+      span {
+        width: 1px;
+        background-color: #eee;
+        height: 80px;
+      }
     }
   }
 }
