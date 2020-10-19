@@ -20,14 +20,7 @@
             placeholder="请输入实体名称"
           ></el-input>
         </el-form-item>
-        <el-button
-          type="success"
-          @click="
-            searchConByName();
-            searchInfoByName();
-          "
-          >查询</el-button
-        >
+        <el-button type="success" @click="searchInfoByName()">查询</el-button>
         <el-form-item> </el-form-item>
         <el-form-item style="width: 150px">
           <el-select v-model="formInline.region" placeholder="常用查询">
@@ -37,8 +30,12 @@
         </el-form-item>
         <el-form-item style="width: 150px">
           <el-select v-model="formInline.region" placeholder="病害防治">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
+            <el-option
+              v-for="(item, i) in searchType.type1"
+              :value="item"
+              :key="i"
+              >{{ item.name }}</el-option
+            >
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -88,22 +85,17 @@
             </div>
           </div>
           <el-divider></el-divider>
+          <!--  -->
           <div>
             <el-badge value="病害防治" class="item"> </el-badge>
             <div class="lxl-tag">
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
+              <el-tag v-for="(item, i) in searchType.type1" :key="i">{{
+                item.name
+              }}</el-tag>
             </div>
           </div>
           <el-divider></el-divider>
+          <!--  -->
           <div>
             <el-badge value="养殖技术" class="item"> </el-badge>
             <div class="lxl-tag">
@@ -164,10 +156,9 @@
               <div>
                 <div class="block">
                   <el-carousel>
-                    <el-carousel-item v-for="item in 4" :key="item">
-                      <el-image
-                        src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
-                      ></el-image>
+                    <el-carousel-item v-for="(item, i) in infoData" :key="i">
+                      {{item.imgUrl}}
+                      <el-image :src="item.imgUrl"></el-image>
                     </el-carousel-item>
                   </el-carousel>
                 </div>
@@ -198,8 +189,11 @@ export default {
           name: "对虾大数据平台",
           baseInfo:
             "仲恺基地，创办于1927年，是一所以伟大的爱国主义者、近代民主革命家廖仲恺先生名字命名，以现代农业科学为特色，农学、工学为优势，农、工、理、经、管、文、艺、法八大学科协调发展的广东省省属高水平应用型大学，是教育部本科教学评估优秀学校及全国首批卓越农林人才教育培养计划高校。学校办学历史悠久，文脉深厚，坐落在历史文化名城——广州。现有海珠校区、白云校区、番禺教学科研基地，占地面积2000余亩。校园集云山之神秀，汇珠水之灵气，是读书治学的理想地。",
+          imgUrl:
+            "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
         },
       ],
+      searchType: { type1: [{ name: "暂无数据" }] },
     };
   },
   mounted() {
@@ -207,8 +201,7 @@ export default {
     this.chart2();
   },
   created() {
-    // this.bait();
-    // this.equipment();
+    this.searchTypeAll();
   },
   methods: {
     onSubmit() {
@@ -880,6 +873,7 @@ export default {
     },
     // 根据名称查询实体详细信息
     async searchInfoByName() {
+      console.log(111);
       const { data: res } = await this.reqM3Service(
         "/entity/info/" + this.formInline.searchData,
         "",
@@ -889,7 +883,11 @@ export default {
       if (res.code === 20000) {
         // 返回的数据
         console.log(res.data);
-        this.infoData = res.data;
+        if (res.data.length !== 0) {
+          this.infoData = res.data;
+        } else {
+          this.$message.warning("暂无相关数据");
+        }
       } else {
         this.$message({
           showClose: true,
@@ -897,49 +895,36 @@ export default {
           type: "error",
         });
       }
-      console.log("geti");
-      console.log(res);
     },
-    // async bait() {
-    //   const data = await this.reqM3Service("/bait", "", "get");
-    //   // 过滤
-    //   // if (res.code === 20000) {
-    //   //   // 返回的数据
-    //   //   console.log(res.data);
-    //   // } else {
-    //   //   this.$message({
-    //   //     showClose: true,
-    //   //     message: res.message,
-    //   //     type: "error",
-    //   //   });
-    //   // }
-    //   // console.log("bait");
-    //   // console.log(res);
-    //   console.log(data);
-    // },
-    // async equipment() {
-    //   const data = await this.reqM3Service("/equipment/culture/cate", "", "get");
-    //   // 过滤
-    //   // if (res.code === 20000) {
-    //   //   // 返回的数据
-    //   //   console.log(res.data);
-    //   // } else {
-    //   //   this.$message({
-    //   //     showClose: true,
-    //   //     message: res.message,
-    //   //     type: "error",
-    //   //   });
-    //   // }
-    //   // console.log("bait");
-    //   // console.log(res);
-    //   console.log(data);
-    // },
-    
-    // async getChartData1() {},
+    async searchTypeAll() {
+      const { data: res } = await this.reqM3Service(
+        "/entity/search/page?entityType=" + "Bait" + "&limit=20",
+        "",
+        "get"
+      );
+      // 过滤
+      if (res.code === 20000) {
+        // 返回的数据
+        console.log(res.data.rows);
+        this.searchType.type1 = res.data.rows;
+      } else {
+        this.$message({
+          showClose: true,
+          message: res.message,
+          type: "error",
+        });
+      }
+    },
   },
 };
 </script>
 <style lang="less" scoped>
+.el-tag {
+  cursor: pointer;
+}
+.el-tag:hover {
+  font-weight: 1000;
+}
 .lxl-body {
   display: flex;
   min-width: 1150px;
