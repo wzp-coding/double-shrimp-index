@@ -29,6 +29,7 @@ import expertInterrogation from '../components/expertSystem/expertInterrogation.
 import questionDetail from '../components/expertSystem/questionDetail.vue'
 import expertList from '../components/expertSystem/expertList.vue'
 import replyList from '../components/expertSystem/replyList.vue'
+import articleList from '../components/expertSystem/articleList.vue'
 // 专家系统->疾病自诊
 import autognosis from '../components/expertSystem/autognosis.vue'
 import diseaseDateil from '../components/expertSystem/diseaseDateil.vue'
@@ -156,31 +157,36 @@ const routes = [{
   // 专家问诊
   path: '/expertInterrogation',
   component: expertInterrogation,
-  name: 'expertInterrogation'
+  name: 'wzp_expertInterrogation'
 },
 {
   // 问答详情
   path: '/expertInterrogation/questionDetail/:id',
   component: questionDetail,
-  name: 'questionDetail'
+  name: 'wzp_questionDetail'
 },
 {
   // 专家列表
   path: '/expertInterrogation/expertList',
   component: expertList,
-  name: 'expertList'
+  name: 'wzp_expertList'
 },
 {
   // 问答列表
   path: '/expertInterrogation/replyList',
   component: replyList,
-  name: 'replyList'
+  name: 'wzp_replyList'
+},
+{
+  // 文章列表
+  path: '/expertInterrogation/articleList',
+  component: articleList,
+  name: 'wzp_articleList'
 },
 {
   // 疾病自诊
   path: '/autognosis',
   component: autognosis
-
 }, 
 {
   // 疾病详情

@@ -15,7 +15,7 @@
             </el-row>
             <el-row class="choices">
               <el-col :span="24">
-                <el-radio-group v-model="radio" @change="handleRadio">
+                <el-radio-group v-model="radio">
                   <el-radio
                     v-for="(item1, index1) in item.checkBoxs"
                     :key="index1"

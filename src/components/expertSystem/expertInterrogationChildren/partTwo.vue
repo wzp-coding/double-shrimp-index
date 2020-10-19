@@ -55,7 +55,7 @@ export default {
   methods: {
     // 跳转到帖子列表
     toReplyList(){
-      this.$router.push({name:'replyList'})
+      this.$router.push({name:'wzp_replyList'})
     },
     // 传入帖子id数组，并发请求回复内容
     async getOneReplyById(ids) {
@@ -63,7 +63,7 @@ export default {
       ids.forEach((id) => {
         httpTasks.push(
           this.$http.get(
-            `http://106.75.154.40:9005/details/findByPost/${id}/1/1`
+            `http://106.75.154.40:9012/info/details/findByPost/${id}/1/1`
           )
         );
       });
@@ -72,7 +72,7 @@ export default {
     // 获取8个帖子问题进行展示
     async getRepliesList() {
       await this.$http
-        .get(`http://106.75.154.40:9005/post/findAll/1/8`)
+        .get(`http://106.75.154.40:9012/info/post/findAll/1/8`)
         .then((res) => {
           res = res.data;
           if (res.code === 20000) {

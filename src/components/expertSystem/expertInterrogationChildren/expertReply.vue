@@ -20,7 +20,7 @@
           color: rgb(93, 183, 60);
           cursor: pointer;
         "
-        @click="toExpertList()"
+        @click="toReplyList()"
       >
         <span style="color: #9e9e9e"> 更多 </span>
         <i class="el-icon-caret-right"></i>
@@ -59,7 +59,7 @@ export default {
       ids.forEach((id) => {
         httpTasks.push(
           this.$http.get(
-            `http://106.75.154.40:9005/details/findByPost/${id}/1/1`
+            `http://106.75.154.40:9012/info/details/findByPost/${id}/1/1`
           )
         );
       });
@@ -67,7 +67,7 @@ export default {
     },
     async getRepliesList() {
       await this.$http
-        .get(`http://106.75.154.40:9005/post/findAll/1/6`)
+        .get(`http://106.75.154.40:9012/info/post/findAll/1/6`)
         .then((res) => {
           res = res.data;
           if (res.code === 20000) {
@@ -100,6 +100,9 @@ export default {
           this.loading = false;
         });
     },
+    toReplyList(){
+      this.$router.push({name:'wzp_replyList'})
+    }
   },
   mounted() {
     this.getRepliesList();
