@@ -51,6 +51,43 @@
               <el-divider class="ccy-drvider"></el-divider>
             </div>
             <div class="main">
+              <div class="mainson" v-for="item in pagelist" :key="item.id">
+                <div class="pic" v-html="item.content"></div>
+                <div class="sonr">
+                  <div class="h2" style="width: 100%">
+                    <h2>{{ item.title }}</h2>
+                  </div>
+                  <div class="pm" style="width: 100%; margin: 20px 0">
+                    <p>
+                      {{ item.content }}
+                      <span style="color: green">[详细]</span>
+                    </p>
+                  </div>
+                  <div class="lbtm" style="width: 100%">
+                    <p style="font-size: 13px; float: left">
+                      {{ item.creationTime }}}}<span style="margin-left: 15px">
+                        阅读： {{ item.clickNum }}</span
+                      >
+                    </p>
+                    <p
+                      style="
+                        color: green;
+                        font-size: 13px;
+                        float: right;
+                        padding-right: 3px;
+                      "
+                    >
+                      {{ item.summary }}
+                    </p>
+                    <p style="font-size: 13px; float: right">分类：</p>
+                  </div>
+                </div>
+                <div class="divf" style="width: 100%; margin-top: -23px">
+                  <el-divider></el-divider>
+                </div>
+              </div>
+
+              <!--
               <div class="mainson">
                 <div class="pic">
                   <el-image :src="src"></el-image>
@@ -127,50 +164,15 @@
                   <el-divider></el-divider>
                 </div>
               </div>
-              <div class="mainson">
-                <div class="pic">
-                  <el-image :src="src"></el-image>
-                </div>
-                <div class="sonr">
-                  <div class="h2" style="width: 100%">
-                    <h2>今日小麦行情如何？为何小麦价格持续走高</h2>
-                  </div>
-                  <div class="pm" style="width: 100%; margin: 20px 0">
-                    <p>
-                      农民朋友对粮食价格变化比较关系，因为粮食的价格上涨，就是农民朋友种植粮食最好
-                      的时候，就今年的小麦行情来看，总体出现了一路上涨的趋势，也有出现过短期价格...
-                      <span style="color: green">[详细]</span>
-                    </p>
-                  </div>
-                  <div class="lbtm" style="width: 100%">
-                    <p style="font-size: 13px; float: left">
-                      发布时间:2020-09-14 14:26<span style="margin-left: 15px">
-                        阅读： 533</span
-                      >
-                    </p>
-                    <p
-                      style="
-                        color: green;
-                        font-size: 13px;
-                        float: right;
-                        padding-right: 3px;
-                      "
-                    >
-                      财富手册
-                    </p>
-                    <p style="font-size: 13px; float: right">分类：</p>
-                  </div>
-                </div>
-                <div class="divf" style="width: 100%; margin-top: -23px">
-                  <el-divider></el-divider>
-                </div>
-              </div>
+              -->
             </div>
             <el-pagination
               background
               layout="prev, pager, next"
-              :total="1000"
-              style="margin-left: 180px;margin-bottom:30px"
+              :total="pagelist.length"
+              :page-size="3"
+              :current-page="1"
+              style="margin-left: 180px; margin-bottom: 30px"
             >
             </el-pagination>
           </div>
@@ -201,19 +203,23 @@
                 </h3>
                 <el-divider class="ccy-drvider"></el-divider>
                 <ul>
-                  <li style="font-size: 18px; font-weight: 800">
+                  <li style="font-size: 15.21px; font-weight: 800">
                     4G进村百户农民脱贫路上赛跑
                   </li>
                   <li>4G进村百户农民脱贫路上赛跑</li>
                   <li>4G进村百户农民脱贫路上赛跑</li>
                   <li>4G进村百户农民脱贫路上赛跑</li>
+                  <li>80后青年互联网上卖山货，助力家。</li>
+                  <li>80后青年互联网上卖山货，助力家。</li>
                 </ul>
                 <el-divider class="ccy-drvider"></el-divider>
                 <ul style="margin: 17px 0">
-                  <li style="font-size: 18px; font-weight: 800">
+                  <li style="font-size: 15.21px; font-weight: 800">
                     4G进村百户农民脱贫路上赛跑
                   </li>
                   <li>4G进村百户农民脱贫路上赛跑</li>
+                  <li>80后青年互联网上卖山货，助力家。</li>
+                  <li>80后青年互联网上卖山货，助力家。</li>
                   <li>4G进村百户农民脱贫路上赛跑</li>
                   <li>4G进村百户农民脱贫路上赛跑</li>
                 </ul>
@@ -244,23 +250,33 @@
               </div>
               <div class="rmid">
                 <ul>
-                  <li style="font-size: 18px; font-weight: 800">
+                  <li style="font-size: 15.21px; font-weight: 800">
                     80后青年互联网上卖山货，助力家
                   </li>
+                  <li>80后青年互联网上卖山货，助力家。</li>
+                  <li>80后青年互联网上卖山货，助力家。</li>
                   <li>80后青年互联网上卖山货，助力家。</li>
                   <li>80后青年互联网上卖山货，助力家。</li>
                   <li>80后青年互联网上卖山货，助力家。</li>
                 </ul>
                 <br />
                 <ul>
-                  <li style="font-size: 18px; font-weight: 800">
+                  <li style="font-size: 15.21px; font-weight: 800">
                     80后青年互联网上卖山货，助力家
                   </li>
                   <li>80后青年互联网上卖山货，助力家。</li>
                   <li>80后青年互联网上卖山货，助力家。</li>
                   <li>80后青年互联网上卖山货，助力家。</li>
+                  <li>80后青年互联网上卖山货，助力家。</li>
+                  <li>80后青年互联网上卖山货，助力家。</li>
                 </ul>
-                <h3 style="display: flex; justify-content: space-between;margin-top:15px">
+                <h3
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    margin-top: 15px;
+                  "
+                >
                   <div>
                     <span
                       style="
@@ -317,13 +333,55 @@
 export default {
   data() {
     return {
+      queryinfo: {
+        page: "1", //页数
+        size: "3", //每页数
+      },
+
+      //分页
+      pagelist: [],
+      //查询所有虾业专题
+      datalist: [],
       src:
         "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
     };
   },
+  created() {
+    //获取分页
+    this.getdata(),
+      //获取所有虾业专题
+      this.getdata1();
+  },
+  methods: {
+    async getdata() {
+      const { data: res } = await this.reqM2Service(
+        `/info/shrimpIndustry/${this.queryinfo.page}/${this.queryinfo.size}`,
+        "",
+        "post"
+      );
+      if (res.code !== 20000) {
+        return this.$message.error("失败");
+      }
+      console.log(res);
+
+      this.pagelist = res.data.rows;
+    },
+
+    async getdata1() {
+      const { data: res } = await this.reqM2Service(
+        "/info/shrimpIndustry",
+        "",
+        "get"
+      );
+      if (res.code !== 20000) {
+        return this.$message.error("获取失败");
+      }
+      console.log(res);
+    },
+  },
 };
 </script>
-<style lang="less" scoped>
+<style lang="less" >
 .ccy-drvider {
   margin: 10px 0 7px 0;
 }
@@ -397,11 +455,12 @@ export default {
         width: 100%;
         display: flex;
         flex-wrap: wrap;
-
         .pic {
           width: 29%;
-          .el-image {
-            height: 170px;
+          img {
+            width: 100%;
+            display: inline-block;
+            height: 150px;
           }
         }
         .sonr {
@@ -420,6 +479,9 @@ export default {
   .el-aside {
     width: 30%;
     .right {
+      li {
+        font-size: 13px;
+      }
       display: flex;
       flex-direction: column;
       flex-wrap: wrap;
