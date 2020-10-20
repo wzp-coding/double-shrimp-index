@@ -11,10 +11,10 @@ a<template>
       </el-breadcrumb>
       <el-divider></el-divider>
       <div class="main">
-        <div class="left">
+        <div class="left" v-for="item in numclicklist" :key="item.id">
           <div class="LeftTop">
             <span style="font-size: 36px"
-              >这么大的对虾见过吗？看看首届博兴虾王争霸赛的"巨无霸"</span
+              >{{item.title}}"</span
             >
             <el-divider></el-divider>
             <div class="pandc">
@@ -22,9 +22,9 @@ a<template>
                <el-avatar style="border:3px solid white" :size="70" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
               </div>
               <div class="lxl-title">
-                <h3>闪电新闻</h3>
+                <h3>{{item.editor}}</h3>
                 <p style="display: flex">
-                  发布时间 09 16 18:55<span style="margin-left: 15px">
+                  发布时间 {{item.creationTime}}<span style="margin-left: 15px">
                     山东养殖场专用工众号</span
                   >
                 </p>
@@ -266,8 +266,20 @@ export default {
         "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
       activeName: "second",
       activeName1: "second2",
-    };
+      //按点击量查询
+      numclicklist:[]
+    }
   },
+  created() {
+    this.getclickData()
+  },
+  methods : {
+    async getclickData(){
+      const {data :res} = await this.reqM2Service("/info/shrimpIndustry/findByClickNum", '' ,'get')
+      console.log(res)
+      this.numclicklist = res.data
+    }
+  }
 };
 </script>
 

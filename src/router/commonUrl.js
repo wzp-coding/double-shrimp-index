@@ -42,8 +42,11 @@ function requireData(url, params, type, item) {
         case 'M7':
             url = axios.defaults.baseM7URL + url
             break;
+        case 'M8':
+            url = axios.defaults.baseM8URL + url
+            break;    
         default:
-            url = axios.defaults.baseM4URL + url
+            url = axios.defaults.baseM8URL + url
     }
     if (type === 'get') {
         url = paramsToUrl(url, params)
@@ -98,7 +101,10 @@ export default {
         Vue.prototype.reqM7Service = function (url, params, type) {
             return requireData.call(this, url, params, type, 'M7')
         }
-
+        //->接口8的请求数据方法
+        Vue.prototype.reqM8Service = function (url, params, type) {
+            return requireData.call(this, url, params, type, 'M8')
+        }
     }
 
 }

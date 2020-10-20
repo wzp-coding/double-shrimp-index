@@ -9,7 +9,6 @@
         <el-breadcrumb-item>产业咨询</el-breadcrumb-item>
       </el-breadcrumb>
       <el-divider></el-divider>
-
       <el-container>
         <el-aside width="74%">
           <div class="left">
@@ -67,7 +66,7 @@
                   <el-divider class="ccy-drvider"></el-divider>
                   <ul>
                     <li>
-                      <span style="font-size: 19px; font-weight: 800"
+                      <span style="font-size: 15.21px; font-weight: 800"
                         >今日小麦价格多少钱一斤?...</span
                       >
                     </li>
@@ -100,7 +99,7 @@
                   <el-divider class="ccy-drvider"></el-divider>
                   <ul>
                     <li>
-                      <span style="font-size: 19px; font-weight: 800"
+                      <span style="font-size: 15.21px; font-weight: 800"
                         >今日小麦多少钱一斤? 2020...</span
                       >
                     </li>
@@ -112,7 +111,7 @@
                 </div>
               </div>
               <!--  -->
-              <div class="tail" style="width: 100%">
+              <div class="tail" style="width: 100%;margin:20px 0 10px 0">
                 <h3 style="display: flex; justify-content: space-between">
                   <div>
                     <span
@@ -146,7 +145,7 @@
                     <i class="el-icon-caret-right"></i>
                   </div>
                 </h3>
-                <el-divider class="ccy-drvider"></el-divider>
+                <el-divider  class="ccy-drvider"></el-divider>
               </div>
               <!--分割线-->
             </div>
@@ -164,7 +163,7 @@
                     </div>
                   </div>
                   <div class="onetoplb">
-                    <ul style="padding: 15px 0 0 7px">
+                    <ul style="margin: 15px 0 0 7px">
                       <li><span>今日桃子多少钱一斤? 2020...</span></li>
                       <li>今日小麦价格多少钱一斤? 2020年9月18...</li>
                       <li>今日小麦价格多少钱一斤? 2020年9月11...</li>
@@ -282,13 +281,13 @@
                   <el-divider class="ccy-drvider"></el-divider>
                 </div>
               </div>
-              <div class="onebottom">
+              <div class="onebottom" v-for="item in jingcai3" :key="item.id">
                 <div class="four">
                   <div class="pic">
-                    <el-image :src="src"></el-image>
+                    <el-image :src="item.picture"></el-image>
                   </div>
                   <div class="news">
-                    <h3>选择、坚持、热爱,他们把货从农村卖向全国</h3>
+                    <h3>{{ item.title }}</h3>
                     <p
                       style="
                         font-size: 16px;
@@ -296,135 +295,15 @@
                         padding-top: 10px;
                       "
                     >
-                      编者按:“我与惠农网的故事”征文比赛已圆满结束，本次活动我们收到了482个真实故事，感谢你
-                      们用文字和图片记录下了与惠农网的“独家记忆”.中感谢你们在故事...<span
+                      {{item.summary}}<span
                         style="color: green"
                         >[详细]</span
                       >
                     </p>
                     <p style="font-size: 13px; float: left">
-                      发布时间:2020-09-14 14:26<span style="margin-left: 15px"
-                        >阅读： 533</span
-                      >
-                    </p>
-                    <p
-                      style="
-                        color: green;
-                        font-size: 13px;
-                        float: right;
-                        padding-right: 3px;
-                      "
-                    >
-                      财富手册
-                    </p>
-                    <p style="font-size: 13px; float: right">分类：</p>
-                  </div>
-                </div>
-                <div class="driver" style="width: 100%; margin-top: -16px">
-                  <el-divider></el-divider>
-                </div>
-                <div class="four">
-                  <div class="pic">
-                    <el-image :src="src"></el-image>
-                  </div>
-                  <div class="news">
-                    <h3>选择、坚持、热爱,他们把货从农村卖向全国</h3>
-                    <p
-                      style="
-                        font-size: 16px;
-                        padding-bottom: 15px;
-                        padding-top: 10px;
-                      "
-                    >
-                      编者按:“我与惠农网的故事”征文比赛已圆满结束，本次活动我们收到了482个真实故事，感谢你
-                      们用文字和图片记录下了与惠农网的“独家记忆”.中感谢你们在故事...<span
-                        style="color: green"
-                        >[详细]</span
-                      >
-                    </p>
-                    <p style="font-size: 13px; float: left">
-                      发布时间:2020-09-14 14:26<span style="margin-left: 15px"
-                        >阅读： 533</span
-                      >
-                    </p>
-                    <p
-                      style="
-                        color: green;
-                        font-size: 13px;
-                        float: right;
-                        padding-right: 3px;
-                      "
-                    >
-                      财富手册
-                    </p>
-                    <p style="font-size: 13px; float: right">分类：</p>
-                  </div>
-                </div>
-                <div class="driver" style="width: 100%; margin-top: -16px">
-                  <el-divider></el-divider>
-                </div>
-                <div class="four">
-                  <div class="pic">
-                    <el-image :src="src"></el-image>
-                  </div>
-                  <div class="news">
-                    <h3>选择、坚持、热爱,他们把货从农村卖向全国</h3>
-                    <p
-                      style="
-                        font-size: 16px;
-                        padding-bottom: 15px;
-                        padding-top: 10px;
-                      "
-                    >
-                      编者按:“我与惠农网的故事”征文比赛已圆满结束，本次活动我们收到了482个真实故事，感谢你
-                      们用文字和图片记录下了与惠农网的“独家记忆”.中感谢你们在故事...<span
-                        style="color: green"
-                        >[详细]</span
-                      >
-                    </p>
-                    <p style="font-size: 13px; float: left">
-                      发布时间:2020-09-14 14:26<span style="margin-left: 15px"
-                        >阅读： 533</span
-                      >
-                    </p>
-                    <p
-                      style="
-                        color: green;
-                        font-size: 13px;
-                        float: right;
-                        padding-right: 3px;
-                      "
-                    >
-                      财富手册
-                    </p>
-                    <p style="font-size: 13px; float: right">分类：</p>
-                  </div>
-                </div>
-                <div class="driver" style="width: 100%; margin-top: -16px">
-                  <el-divider></el-divider>
-                </div>
-                <div class="four">
-                  <div class="pic">
-                    <el-image :src="src"></el-image>
-                  </div>
-                  <div class="news">
-                    <h3>选择、坚持、热爱,他们把货从农村卖向全国</h3>
-                    <p
-                      style="
-                        font-size: 16px;
-                        padding-bottom: 15px;
-                        padding-top: 10px;
-                      "
-                    >
-                      编者按:“我与惠农网的故事”征文比赛已圆满结束，本次活动我们收到了482个真实故事，感谢你
-                      们用文字和图片记录下了与惠农网的“独家记忆”.中感谢你们在故事...<span
-                        style="color: green"
-                        >[详细]</span
-                      >
-                    </p>
-                    <p style="font-size: 13px; float: left">
-                      发布时间:2020-09-14 14:26<span style="margin-left: 15px"
-                        >阅读： 533</span
+                      发布时间:{{ item.creationTime
+                      }}<span style="margin-left: 15px"
+                        >阅读： {{ item.clickNum }}</span
                       >
                     </p>
                     <p
@@ -444,6 +323,15 @@
                   <el-divider></el-divider>
                 </div>
               </div>
+              <el-pagination
+                background
+                layout="prev, pager, next"
+                :total="pagelist.length"
+                :page-size="3"
+                :current-page="1"
+                style="margin-left: 230px; margin-bottom: 30px"
+              >
+              </el-pagination>
             </div>
           </div>
         </el-aside>
@@ -478,7 +366,7 @@
             <div class="righttext">
               <ul style="margin-left: 17px">
                 <li>
-                  <span style="font-size: 19px; font-weight: 800"
+                  <span style="font-size: 15.21px; font-weight: 800"
                     >农村农业部关于完善农村...</span
                   ><span style="float: right">2天前</span>
                 </li>
@@ -620,7 +508,7 @@
             </div>
             <div class="rightmd">
               <ul style="margin-left: 17px">
-                <li style="font-size: 16px; font-weight: 800">
+                <li style="font-size: 15.21px; font-weight: 800">
                   惠农代卖：新手夫妇闯市场，一招...
                 </li>
                 <li>独家记忆|乘风破浪的90后姑娘:能成为果农眼...</li>
@@ -629,7 +517,7 @@
               </ul>
               <ul style="margin: 10px 0 30px 16px">
                 <li>
-                  <span style="font-size: 15px; font-weight: 800"
+                  <span style="font-size: 15.21px; font-weight: 800"
                     >惠农代卖：新手夫妇闯市场，一招...</span
                   ><span style="float: right">2天前</span>
                 </li>
@@ -667,7 +555,6 @@
               <div class="tageson">
                 <el-button size="medium" round>专家</el-button>
                 <el-button size="medium" round>火参果资源</el-button>
-                <el-button size="medium" round>橄榄</el-button>
               </div>
               <div class="tageson">
                 <el-button size="medium" round>红豆杉资源</el-button>
@@ -692,11 +579,71 @@
 export default {
   data() {
     return {
+      //产业行情及虾业专题
+      datalist: [],
+      //产业查询分页
+      //产业查询分页传入
+      queryInfo: {
+        page: "1",
+        size: "3",
+      },
+      //精彩专题3
+      queryInfo1: {
+        page: "1",
+        size: "3",
+      },
+      pagelist: [],
+
+      jingcai3: [],
       src:
         "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
     };
   },
-  created() {},
+  created() {
+    //产业行情及虾业专题
+    this.getAlldata(),
+      this.getPageData(),
+      //精彩专题3
+      this.getjingcai();
+  },
+  methods: {
+    async getAlldata() {
+      const { data: res } = await this.reqM2Service(
+        "/info/marketTypes",
+        "",
+        "get"
+      ); //地址，参数，获取类型
+      if (res.code !== 20000) {
+        return this.$message.error("获取失败");
+      }
+      //console.log(res);
+
+      this.datalist = res.data;
+    },
+    async getPageData() {
+      const { data: res } = await this.reqM2Service(
+        `/info/marketTypes/${this.queryInfo.page}/${this.queryInfo.size}`,
+        "",
+        ""
+      );
+      this.pagelist = res.data;
+      //console.log(res);
+    },
+    // async getjingcai() {
+    //   const {data: res} = await this.reqM2Service('')
+    // }
+
+    //按推荐 ，精彩专题3
+    async getjingcai() {
+      const { data: res } = await this.reqM2Service(
+        `/info/market/findByRecommend/${this.queryInfo1.page}/${this.queryInfo1.size}`,
+        "",
+        "get"
+      );
+      console.log(res);
+      this.jingcai3 = res.data.rows;
+    },
+  },
 };
 </script>
 <style lang="less" scoped>
@@ -705,15 +652,12 @@ export default {
   justify-content: center; //对齐方式
   min-width: 1150px;
   .lxl-breadcrumb {
-    margin-top: 25px;
     margin-left: 18px;
-    margin-bottom: -10px;
   }
 }
 .lxl-box {
   width: 1150px;
 }
-
 .header {
   width: 100%;
   display: flex;
@@ -748,13 +692,16 @@ export default {
       padding-top: 10px;
       ul {
         margin-left: 20px;
+        li {
+          font-size: 13px;
+        }
       }
     }
   }
 }
 
 .ccy-drvider {
-  margin: 10px 0 7px 0;
+  margin: 3px  0 3px 0;
 }
 
 .left {
@@ -776,6 +723,9 @@ export default {
   .onetop {
     display: flex;
     width: 100%;
+    li{
+      font-size: 13px;
+    }
     .onetopl {
       width: 50%;
       display: flex;
@@ -795,6 +745,7 @@ export default {
           }
         }
       }
+      
     }
     .onetopr {
       padding-left: 61px;
@@ -827,14 +778,18 @@ export default {
   }
   ul li span {
     //保留
-    font-size: 19px;
+    font-size: 15.21px;
     font-weight: 800;
   }
 }
 li {
   padding: 6px 0 3px 0;
 }
-
+.right{
+  li{
+    font-size: 13px;
+  }
+}
 .bot {
   margin-top: 12px;
   width: 100%;
@@ -850,7 +805,7 @@ li {
   margin-right: 55px;
 }
 .rightmd li {
-  font-size: 14.5px;
+  font-size: 13px;
   font-weight: 400;
 }
 .tage {
