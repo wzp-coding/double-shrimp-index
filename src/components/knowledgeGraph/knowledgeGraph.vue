@@ -22,74 +22,85 @@
         </el-form-item>
         <el-button type="success" @click="searchInfoByName()">查询</el-button>
         <el-form-item> </el-form-item>
-        <el-form-item style="width: 150px">
-          <el-select v-model="formInline.region" placeholder="常用查询">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item style="width: 150px">
-          <el-select v-model="formInline.region" placeholder="病害防治">
+        <el-form-item style="width: 140px">
+          <el-select v-model="formInline.showType[0]" placeholder="常用查询">
             <el-option
-              v-for="(item, i) in searchType.type1"
+              v-for="(item, i) in formInline.searchType[0]"
               :value="item"
               :key="i"
               >{{ item.name }}</el-option
             >
           </el-select>
         </el-form-item>
-        <el-form-item>
-          <el-select v-model="formInline.region" placeholder="养殖技术">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
+        <el-form-item style="width: 140px">
+          <el-select v-model="formInline.showType[0]" placeholder="对虾实体">
+            <el-option
+              v-for="(item, i) in formInline.searchType[1]"
+              :value="item"
+              :key="i"
+              >{{ item.name }}</el-option
+            >
           </el-select>
         </el-form-item>
-        <el-form-item>
-          <el-select v-model="formInline.region" placeholder="饲料">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
+        <el-form-item style="width: 140px">
+          <el-select v-model="formInline.showType[0]" placeholder="病害查询">
+            <el-option
+              v-for="(item, i) in formInline.searchType[2]"
+              :value="item"
+              :key="i"
+              >{{ item.name }}</el-option
+            >
+          </el-select>
+        </el-form-item>
+        <el-form-item style="width: 140px">
+          <el-select v-model="formInline.showType[0]" placeholder="药物查询">
+            <el-option
+              v-for="(item, i) in formInline.searchType[3]"
+              :value="item"
+              :key="i"
+              >{{ item.name }}</el-option
+            >
+          </el-select>
+        </el-form-item>
+        <el-form-item style="width: 140px">
+          <el-select v-model="formInline.showType[0]" placeholder="养殖技术">
+            <el-option
+              v-for="(item, i) in formInline.searchType[4]"
+              :value="item"
+              :key="i"
+              >{{ item.name }}</el-option
+            >
           </el-select>
         </el-form-item>
       </el-form>
       <el-container>
         <el-aside class="" style="margin-left: 18px">
           <div>
-            <el-badge value="热门搜索" class="item"> </el-badge>
+            <el-badge value="常用查询" class="item"> </el-badge>
             <div class="lxl-tag">
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
+              <el-tag v-for="(item, i) in formInline.searchType[0]" :key="i">{{
+                item.name
+              }}</el-tag>
             </div>
           </div>
           <el-divider></el-divider>
           <div>
-            <el-badge value="常用查询" class="item"> </el-badge>
+            <el-badge value="对虾实体" class="item"> </el-badge>
             <div class="lxl-tag">
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
+              <el-tag
+                type="success"
+                v-for="(item, i) in formInline.searchType[1]"
+                :key="i"
+                >{{ item.name }}</el-tag
+              >
             </div>
           </div>
           <el-divider></el-divider>
           <!--  -->
           <div>
-            <el-badge value="病害防治" class="item"> </el-badge>
+            <el-badge value="病害查询" class="item"> </el-badge>
             <div class="lxl-tag">
-              <el-tag v-for="(item, i) in searchType.type1" :key="i">{{
+              <el-tag v-for="(item, i) in formInline.searchType[2]" :key="i">{{
                 item.name
               }}</el-tag>
             </div>
@@ -97,51 +108,23 @@
           <el-divider></el-divider>
           <!--  -->
           <div>
-            <el-badge value="养殖技术" class="item"> </el-badge>
+            <el-badge value="药物查询" class="item"> </el-badge>
             <div class="lxl-tag">
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
+              <el-tag
+                type="success"
+                v-for="(item, i) in formInline.searchType[3]"
+                :key="i"
+                >{{ item.name }}</el-tag
+              >
             </div>
           </div>
           <el-divider></el-divider>
           <div>
-            <el-badge value="饲料" class="item"> </el-badge>
+            <el-badge value="养殖技术" class="item"> </el-badge>
             <div class="lxl-tag">
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
+              <el-tag v-for="(item, i) in formInline.searchType[4]" :key="i">{{
+                item.name
+              }}</el-tag>
             </div>
           </div>
           <el-divider></el-divider>
@@ -157,7 +140,7 @@
                 <div class="block">
                   <el-carousel>
                     <el-carousel-item v-for="(item, i) in infoData" :key="i">
-                      {{item.imgUrl}}
+                      {{ item.imgUrl }}
                       <el-image :src="item.imgUrl"></el-image>
                     </el-carousel-item>
                   </el-carousel>
@@ -178,9 +161,15 @@ export default {
   data() {
     return {
       formInline: {
-        user: "",
-        region: "",
         searchData: "",
+        searchType: [
+          { name: "暂无数据" },
+          { name: "暂无数据" },
+          { name: "暂无数据" },
+          { name: "暂无数据" },
+          { name: "暂无数据" },
+        ],
+        showType: ["", "", "", "", ""],
       },
       url: "",
       chartData1: {},
@@ -193,7 +182,6 @@ export default {
             "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
         },
       ],
-      searchType: { type1: [{ name: "暂无数据" }] },
     };
   },
   mounted() {
@@ -201,7 +189,17 @@ export default {
     this.chart2();
   },
   created() {
-    this.searchTypeAll();
+    // 常用
+    this.searchTypeAll("Bait", 0);
+    // 对虾
+    this.searchTypeAll("PrawnBreed", 1);
+    // 疾病
+    this.searchTypeAll("Disease", 2);
+    // 药物
+    this.searchTypeAll("Medicine", 3);
+    // 养殖技术类型实体
+    this.searchTypeAll("CultureTechnology", 4);
+    console.log(this.formInline.searchType);
   },
   methods: {
     onSubmit() {
@@ -896,17 +894,18 @@ export default {
         });
       }
     },
-    async searchTypeAll() {
+    async searchTypeAll(typeType, searchTypeIndex) {
+      console.log(typeType, searchTypeIndex);
       const { data: res } = await this.reqM3Service(
-        "/entity/search/page?entityType=" + "Bait" + "&limit=20",
+        "/entity/search/page?entityType=" + typeType + "&limit=20",
         "",
         "get"
       );
       // 过滤
       if (res.code === 20000) {
         // 返回的数据
-        console.log(res.data.rows);
-        this.searchType.type1 = res.data.rows;
+        console.log(res.data);
+        this.formInline.searchType[searchTypeIndex] = res.data.rows;
       } else {
         this.$message({
           showClose: true,
