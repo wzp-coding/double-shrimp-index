@@ -33,7 +33,7 @@ import articleList from '../components/expertSystem/articleList.vue'
 // 专家系统->疾病自诊
 import autognosis from '../components/expertSystem/autognosis.vue'
 import expertSystemManage from '../components/expertSystem/expertSystemManage.vue'
-import diseaseDateil from '../components/expertSystem/autognosisChildren/diseaseDateil.vue'
+import diseaseDateil from '../components/expertSystem/diseaseDateil.vue'
 import expertOne from '../components/expertSystem/expertManage/expertOne.vue'
 import expertAnswer from '../components/expertSystem/expertManage/expertAnswer.vue'
 import articleManage from '../components/expertSystem/expertManage/articleManage.vue'

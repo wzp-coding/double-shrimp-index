@@ -1,5 +1,5 @@
 <template>
-  <div class="waterfallReply">
+  <div class="waterfallReply" ref="waterfallReply">
     <h3
       style="
         display: flex;
@@ -27,7 +27,7 @@
       </div>
     </h3>
     <el-divider class="ccy-drvider"></el-divider>
-    <div class="waterfallReply_content">
+    <div class="waterfallReply_content" v-loading="loading">
       <el-row :gutter="20">
         <el-col :span="8">
           <div ref="col1">
@@ -35,7 +35,7 @@
               <div
                 class="item"
                 v-for="item in dataList1"
-                :key="item ? item.id : ''"
+                :key="!!item ? (item.id ? item.id : '') : ''"
               >
                 <miniReplyCard :oneReply="item"></miniReplyCard>
               </div>
@@ -48,7 +48,7 @@
               <div
                 class="item"
                 v-for="item in dataList2"
-                :key="item ? item.id : ''"
+                :key="!!item ? (item.id ? item.id : '') : ''"
               >
                 <miniReplyCard :oneReply="item"></miniReplyCard>
               </div>
@@ -58,7 +58,11 @@
         <el-col :span="8"
           ><div ref="col3">
             <transition-group name="list">
-              <div class="item" v-for="item in dataList3" :key="item.id">
+              <div
+                class="item"
+                v-for="item in dataList3"
+                :key="!!item ? (item.id ? item.id : '') : ''"
+              >
                 <miniReplyCard :oneReply="item"></miniReplyCard>
               </div>
             </transition-group>
@@ -73,88 +77,21 @@ import miniReplyCard from "../expertInterrogationChildren/miniReplyCard";
 export default {
   data() {
     return {
-      replyList: [
-        {
-          id: "1",
-          title:
-            "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia veritatis tempora sapiente dolores nobis in explicabo, sint fugiat dicta beatae.",
-          reply:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit, neque?",
-          creationTime: "2020-08-03 10:40:40",
-        },
-        {
-          id: "2",
-          title:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui, nesciunt!",
-          reply: "Lorem ipsum dolor sit amet.",
-          creationTime: "2020-08-03 10:40:40",
-        },
-        {
-          id: "3",
-          title:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem ab aut, sunt earum tenetur officia hic ipsam error, aperiam, perspiciatis fugiat neque molestias modi nisi omnis inventore quasi? Repudiandae, dolorum.",
-          reply:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit, magnam! Quo soluta ipsum nisi, officiis voluptas maiores repudiandae nihil perspiciatis.",
-          creationTime: "2020-08-03 10:40:40",
-        },
-        {
-          id: "4",
-          title:
-            "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Mollitia distinctio officia, sed inventore nostrum repellat quisquam facilis quae iusto id?",
-          reply:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam, itaque.",
-          creationTime: "2020-08-03 10:40:40",
-        },
-        {
-          id: "5",
-          title:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius, molestias. Soluta inventore nam nostrum!",
-          reply:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet, nihil cupiditate.",
-          creationTime: "2020-08-03 10:40:40",
-        },
-        {
-          id: "6",
-          title:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius, molestias. Soluta inventore nam nostrum!",
-          reply:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet, nihil cupiditate.",
-          creationTime: "2020-08-03 10:40:40",
-        },
-        {
-          id: "7",
-          title:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius, molestias. Soluta inventore nam nostrum!",
-          reply:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet, nihil cupiditate.",
-          creationTime: "2020-08-03 10:40:40",
-        },
-        {
-          id: "8",
-          title:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius, molestias. Soluta inventore nam nostrum!",
-          reply:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet, nihil cupiditate.",
-          creationTime: "2020-08-03 10:40:40",
-        },
-        {
-          id: "9",
-          title:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius, molestias. Soluta inventore nam nostrum!",
-          reply:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet, nihil cupiditate.",
-          creationTime: "2020-08-03 10:40:40",
-        },
-      ],
+      replyList: [],
       dataList1: [],
       dataList2: [],
       dataList3: [],
+      page: 1,
+      size: 3,
+      count: 0,
+      loading:true
     };
   },
   components: {
     miniReplyCard,
   },
   methods: {
+    // 通过一个帖子id获取一条回复(并发请求)
     async getOneReplyById(ids) {
       let httpTasks = [];
       ids.forEach((id) => {
@@ -166,13 +103,23 @@ export default {
       });
       return this.$http.all(httpTasks);
     },
-    async getRepliesList(page = 1, size = 9) {
+    // 发送请求获取帖子
+    async getRepliesList(page = 1, size = 3) {
+      this.page = page;
+      this.size = size;
       await this.$http
         .get(`http://106.75.154.40:9012/info/post/findAll/${page}/${size}`)
         .then((res) => {
           res = res.data;
           if (res.code === 20000) {
             res = res.data;
+            if (res.rows.length == 0) {
+              this.$message({
+                message: "没有下一页数据了",
+              });
+              this.loading = false;
+              return;
+            }
             let ids = [];
             res.rows.forEach((item) => ids.push(item.id));
             this.getOneReplyById(ids).then(
@@ -185,6 +132,10 @@ export default {
                   );
                 });
                 this.replyList.push(...res.rows);
+                this.loading = false;
+                this.mountData(this.count);
+                // 等渲染完再绑定滚动监听
+                this.$refs.waterfallReply.ownerDocument.onscroll = this.reloadNextPage;
               })
             );
           } else {
@@ -195,14 +146,15 @@ export default {
           this.loading = false;
         });
     },
-
+    // 递归挂载帖子
     mountData(count = 0) {
-      if (this.replyList.length < count) return;
+      this.count = count;
+      if (this.replyList.length <= count) return;
       let listName = this.selectCol();
-      console.log(listName);
       this[listName].push(this.replyList[count]);
       this.$nextTick(() => this.mountData(count + 1));
     },
+    // 选择高度比较小的列
     selectCol() {
       let getHeight = (col) => this.$refs[col].offsetHeight;
       let height1 = getHeight("col1"),
@@ -221,11 +173,36 @@ export default {
           break;
       }
     },
+    // 难点：触底加载下一页
+    reloadNextPage(e) {
+      // console.log("scrollTop: " + e.target.scrollingElement.scrollTop);
+      // console.log("scrollHeight: " + e.target.scrollingElement.scrollHeight);
+      // console.dir("clientHeight: " + e.target.scrollingElement.clientHeight);
+      // console.dir(e.target)
+      // 滚动过的高度
+      let scrollTop = e.target.scrollingElement.scrollTop;
+      // 客户端的高度
+      let clientHeight = e.target.scrollingElement.clientHeight;
+      // 总的滚动高度
+      let scrollHeight = e.target.scrollingElement.scrollHeight;
+      // console.log('scrollHeight: ', scrollHeight);
+      // console.log('scrollTop + clientHeight: ', scrollTop + clientHeight);
+      if (scrollTop + clientHeight >= scrollHeight - 5) {
+        console.log("触底");
+        // 先取消监听事件，防止重复触发
+        e.target.onscroll = "";
+        // 加载下一页
+        this.loading = true;
+        this.getRepliesList(this.page + 1, this.size);
+      }
+    },
   },
- async mounted() {
-   this.mountData();
-   await this.getRepliesList()
-    console.log(this.replyList)
+  async mounted() {
+    await this.getRepliesList();
+    // 监听根元素的滚动事件
+    this.$refs.waterfallReply.ownerDocument.onscroll = this.reloadNextPage.bind(
+      this
+    );
   },
 };
 </script>
