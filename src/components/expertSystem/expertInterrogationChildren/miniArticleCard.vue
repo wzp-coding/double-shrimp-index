@@ -3,16 +3,15 @@
     <el-card :body-style="{ padding: '0px' }">
       <div class="article_item">
         <div class="img">
-          <img src="../../../assets/111111.png" alt="" />
+          <img :src="oneArticle?(oneArticle.picture):'../../../assets/error.jpg'" alt="暂无" />
         </div>
         <div class="info">
           <div class="title">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque,
-            assumenda.
+            {{oneArticle?oneArticle.title:'暂无'}}
           </div>
           <div class="detail_info">
-            <span>Lorem, ipsum.</span>
-            <span>768人阅读</span>
+            <span>{{oneArticle?oneArticle.editor:'暂无'}}</span>
+            <span>{{oneArticle?oneArticle.clickNum:'0'}}人阅读</span>
           </div>
         </div>
       </div>
@@ -20,7 +19,9 @@
   </div>
 </template>
 <script>
-export default {};
+export default {
+  props:["oneArticle"]
+};
 </script>
 <style lang="less" scoped>
 .mini_article_card {
@@ -36,9 +37,10 @@ export default {};
     border-radius: 5px;
     .img {
       flex: 1;
-      img {
-        width: 100%;
         height: 109px;
+      img {
+        height: 100%;
+        width: 100%;
       }
     }
 

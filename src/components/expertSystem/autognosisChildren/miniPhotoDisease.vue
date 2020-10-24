@@ -3,20 +3,28 @@
     <el-card :body-style="{ padding: '0px' }">
       <div class="article_item">
         <div class="img">
-          <img src="../../../assets/111111.png" alt="" />
+          <img :src="info.pic" alt="" />
         </div>
         <div class="info">
+          <router-link
+          :to="{ path: '/autognosis/diseaseDateil', query: { id: info.id } }"
+        >
           <div class="title">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque,
-            assumenda.
+            {{info.diseaseName}}
           </div>
+          </router-link>
         </div>
       </div>
     </el-card>
   </div>
 </template>
 <script>
-export default {};
+export default {
+  props:["info"],
+  mounted(){
+    console.log('this.info: ', this.info);
+  }
+};
 </script>
 <style lang="less" scoped>
 .mini_photo_disease {
