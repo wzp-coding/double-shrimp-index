@@ -15,7 +15,7 @@
 export default {
   data() {
     return {
-      size:1,
+      size:2,
       page:1
     };
   },
