@@ -179,7 +179,11 @@
               <div>
                 <div class="block">
                   <el-carousel>
-                    <el-carousel-item indicator-position="outside" v-for="(item, i) in infoData" :key="i">
+                    <el-carousel-item
+                      indicator-position="outside"
+                      v-for="(item, i) in infoData"
+                      :key="i"
+                    >
                       <el-image :src="item.imgUrl"></el-image>
                     </el-carousel-item>
                   </el-carousel>
@@ -948,7 +952,7 @@ export default {
       await this.searchTypeAll("Bait", 0);
       await this.searchTypeAll("PrawnBreed", 1);
       await this.searchTypeAll("Disease", 2);
-      await this.searchTypeAll("Medicine", 3);
+      await this.searchTypeAll("BreedMedicine", 3);
       await this.searchTypeAll("CultureTechnology", 4);
     },
   },

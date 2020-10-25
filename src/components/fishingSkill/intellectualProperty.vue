@@ -294,7 +294,7 @@
   }
 }
 </script>
-
+// 知识产权
 <style lang="less" scoped>
 body {
   margin: 0;
@@ -303,12 +303,6 @@ body {
 a {
     text-decoration: none;
     color: black;
-}
-div a:hover {
-  color: black;
-}
-li a:hover {
-  color: #39b8ed;
 }
 
 .lxl-body {
@@ -335,8 +329,9 @@ li a:hover {
 // 左栏
 .left {
   flex: 20%;
-  padding: 40px 30px 0 0;
+  padding: 40px 25px 0 0;
 }
+
 
 // 左栏上
 .lsec1 {
@@ -370,18 +365,19 @@ li a:hover {
     font-size: 13px;
     line-height: 2.2em;
     margin-bottom: 10px;
+    a {
+      color: #403a3e;
+    }
+    a:hover {
+    color: #39b8ed;
+    }
+    li {
+      white-space:nowrap;
+      overflow: hidden;
+      text-overflow:ellipsis;
+    }
     }
   }
-
-  
-}
-.lsec1rword a {
-  color: #403a3e;
-}
-.lsec1rword li {
-  white-space:nowrap;
-  overflow: hidden;
-  text-overflow:ellipsis;
 }
 
 
@@ -394,6 +390,20 @@ li a:hover {
     line-height: 2em;
     margin-bottom: 10px;
     margin-left: 10px;
+    a {
+      color: #403a3e;
+    }
+    a:hover {
+    color: #39b8ed;
+    }
+    ul {
+      list-style-position:inside
+    }
+    li {
+      white-space:nowrap;
+      overflow: hidden;
+      text-overflow:ellipsis;
+    }
   }
   .lsec2more {
   width: 285px;
@@ -401,22 +411,14 @@ li a:hover {
   font-size: 12px;
   border-bottom: 1px solid #b7b7b5;
   margin-bottom: 5px;
+    a{
+      float: right;
+      color: #b7b7b5;
+    }
+    a:hover {
+      color: black;
+    }
   }
-}
-.lsec2word a {
-  color: #403a3e;
-}
-.lsec2word ul {
-  list-style-position:inside
-}
-.lsec2word li {
-  white-space:nowrap;
-  overflow: hidden;
-  text-overflow:ellipsis;
-}
-.lsec2more a{
-  float: right;
-  color: #b7b7b5;
 }
 .lsec1rwordhead:nth-child(1) {
   font-size: 15px;
@@ -431,3 +433,8 @@ li a:hover {
   }
 }
 </style>
+
+
+
+
+

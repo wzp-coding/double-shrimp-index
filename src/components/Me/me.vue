@@ -85,12 +85,16 @@ export default {
     return {
       isPath: this.$route.path,
       userData: {},
+      shopList: [],
     };
   },
   created() {
-    console.log(this.$route.path);
+    // 用户数据渲染
     this.userData = this.$store.state.userData;
-    console.log(this.userData);
+  
+  },
+  methods: {
+
   },
 };
 </script>
