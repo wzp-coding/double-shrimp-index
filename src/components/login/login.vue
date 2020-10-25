@@ -109,41 +109,52 @@ export default {
       // 表单预验证
       this.$refs.loginForm.validate(async (valid) => {
         if (!valid) return;
-        const data = await this.reqM1Service(
-          "/user/login" +
-            "?captcha=" +
-            this.loginForm.captcha +
-            "&cToken=" +
-            this.cToken,
-          {
-            loginId: this.loginForm.userName,
-            password: this.loginForm.password,
-          },
-          "post"
-        );
-        // 过滤
-        if (data.data.code === 20000) {
-          // 提示登录词语
-          this.$message.success(data.data.message);
-          // 将用户数据存入vuex和sessionStorage
-          this.$store.dispatch("loginAsycn", data);
-          console.log(this.$store.state);
-          this.$router.push("/me");
-        } else {
-          this.$message({
-            showClose: true,
-            message: data.data.message,
-            type: "error",
-          });
+        try {
+          const { data: res } = await this.reqM1Service(
+            "/authority/user/login" +
+              "?captcha=" +
+              this.loginForm.captcha +
+              "&cToken=" +
+              this.cToken,
+            {
+              loginId: this.loginForm.userName,
+              password: this.loginForm.password,
+            },
+            "post"
+          );
+          // 过滤
+          if (res.code === 20000) {
+            // 提示登录词语
+            this.$message.success(res.message);
+            // 将用户数据存入vuex和sessionStorage
+            this.$store.dispatch("loginAsycn", data);
+            console.log(this.$store.state);
+            this.$router.push("/me");
+          } else {
+            this.$message({
+              showClose: true,
+              message: res.message,
+              type: "error",
+            });
+          }
+        } catch (error) {
+          this.$message.error("登录出错!");
         }
-        console.log(data);
       });
     },
     // 获取验证码
     async getCaptcha() {
-      const { data: res } = await this.reqM1Service("/captcha/getCaptcha");
-      this.url = "data:image/png;base64," + res.data.img;
-      this.cToken = res.data.cToken;
+      try {
+        const { data: res } = await this.reqM1Service(
+          "/authority/captcha/getCaptcha",
+          "",
+          "post"
+        );
+        this.url = "data:image/png;base64," + res.data.img;
+        this.cToken = res.data.cToken;
+      } catch (error) {
+        this.$message.error("验证码出错");
+      }
     },
   },
 };

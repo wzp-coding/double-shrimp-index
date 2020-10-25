@@ -10,7 +10,6 @@ import policies from '../components/policies/policies.vue'
 
 import edu from '../components/fishingSkill/edu.vue'
 import fishingSkillArticles from '../components/fishingSkill/fishingSkillArticles.vue'
-import figureLibrary from '../components/fishingSkill/figureLibrary.vue'
 import powerPoint from '../components/fishingSkill/powerPoint.vue'
 import intellectualProperty from '../components/fishingSkill/intellectualProperty.vue'
 import videoPlay from '../components/fishingSkill/videoPlay.vue'
@@ -154,11 +153,6 @@ const routes = [{
 {
   path: '/fishingSkillArticles',
   component: fishingSkillArticles
-
-},
-{
-  path: '/figureLibrary',
-  component: figureLibrary
 
 },
 {

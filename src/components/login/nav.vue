@@ -59,7 +59,6 @@
             <template slot="title">渔技学堂</template>
             <el-menu-item index="/edu">远程教育</el-menu-item>
             <el-menu-item index="/fishingSkillArticles">渔技文章</el-menu-item>
-            <el-menu-item index="/figureLibrary">图文库</el-menu-item>
             <el-menu-item index="/powerPoint">演示文稿</el-menu-item>
             <el-menu-item index="/intellectualProperty">知识产权</el-menu-item>
           </el-submenu>
