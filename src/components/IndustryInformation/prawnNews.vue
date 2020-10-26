@@ -27,7 +27,7 @@
               </div>
             </div>
             <div class="tail" style="width: 100%; margin-top: 15px">
-              <h3 style="display: flex; justify-content: space-between">
+              <h3 style="margin-bottom:-20px;display: flex; justify-content: space-between">
                 <div>
                   <span
                     style="
@@ -65,7 +65,7 @@
                   </div>
                   <div class="lbtm" style="width: 100%">
                     <p style="font-size: 13px; float: left">
-                      {{ item.creationTime }}}}<span style="margin-left: 15px">
+                      {{ item.creationTime | timefilters }}<span style="margin-left: 15px">
                         阅读： {{ item.clickNum }}</span
                       >
                     </p>
@@ -82,89 +82,10 @@
                     <p style="font-size: 13px; float: right">分类：</p>
                   </div>
                 </div>
-                <div class="divf" style="width: 100%; margin-top: -23px">
+                <div class="divf" style="width: 100%;">
                   <el-divider></el-divider>
                 </div>
               </div>
-
-              <!--
-              <div class="mainson">
-                <div class="pic">
-                  <el-image :src="src"></el-image>
-                </div>
-                <div class="sonr">
-                  <div class="h2" style="width: 100%">
-                    <h2>今日小麦行情如何？为何小麦价格持续走高</h2>
-                  </div>
-                  <div class="pm" style="width: 100%; margin: 20px 0">
-                    <p>
-                      农民朋友对粮食价格变化比较关系，因为粮食的价格上涨，就是农民朋友种植粮食最好
-                      的时候，就今年的小麦行情来看，总体出现了一路上涨的趋势，也有出现过短期价格...
-                      <span style="color: green">[详细]</span>
-                    </p>
-                  </div>
-                  <div class="lbtm" style="width: 100%">
-                    <p style="font-size: 13px; float: left">
-                      发布时间:2020-09-14 14:26<span style="margin-left: 15px">
-                        阅读： 533</span
-                      >
-                    </p>
-                    <p
-                      style="
-                        color: green;
-                        font-size: 13px;
-                        float: right;
-                        padding-right: 3px;
-                      "
-                    >
-                      财富手册
-                    </p>
-                    <p style="font-size: 13px; float: right">分类：</p>
-                  </div>
-                </div>
-                <div class="divf" style="width: 100%; margin-top: -23px">
-                  <el-divider></el-divider>
-                </div>
-              </div>
-              <div class="mainson">
-                <div class="pic">
-                  <el-image :src="src"></el-image>
-                </div>
-                <div class="sonr">
-                  <div class="h2" style="width: 100%">
-                    <h2>今日小麦行情如何？为何小麦价格持续走高</h2>
-                  </div>
-                  <div class="pm" style="width: 100%; margin: 20px 0">
-                    <p>
-                      农民朋友对粮食价格变化比较关系，因为粮食的价格上涨，就是农民朋友种植粮食最好
-                      的时候，就今年的小麦行情来看，总体出现了一路上涨的趋势，也有出现过短期价格...
-                      <span style="color: green">[详细]</span>
-                    </p>
-                  </div>
-                  <div class="lbtm" style="width: 100%">
-                    <p style="font-size: 13px; float: left">
-                      发布时间:2020-09-14 14:26<span style="margin-left: 15px">
-                        阅读： 533</span
-                      >
-                    </p>
-                    <p
-                      style="
-                        color: green;
-                        font-size: 13px;
-                        float: right;
-                        padding-right: 3px;
-                      "
-                    >
-                      财富手册
-                    </p>
-                    <p style="font-size: 13px; float: right">分类：</p>
-                  </div>
-                </div>
-                <div class="divf" style="width: 100%; margin-top: -23px">
-                  <el-divider></el-divider>
-                </div>
-              </div>
-              -->
             </div>
             <el-pagination
               background
@@ -172,16 +93,15 @@
               :total="pagelist.length"
               :page-size="3"
               :current-page="1"
-              style="margin-left: 180px; margin-bottom: 30px"
+              style="display:flex; justify-content:center;margin-top:10px"
             >
             </el-pagination>
           </div>
-
           <el-aside>
             <div class="right">
               <div class="rtop">
-                <h3 style="display: flex; justify-content: space-between">
-                  <div>
+                <h3 style="margin-bottom:-20px;display: flex; justify-content: space-between">
+                  <div >
                     <span
                       style="
                         margin-right: 5px;
@@ -201,7 +121,7 @@
                     <i class="el-icon-caret-right"></i>
                   </div>
                 </h3>
-                <el-divider class="ccy-drvider"></el-divider>
+                <el-divider class="ccy-drvider" ></el-divider>
                 <ul>
                   <li style="font-size: 15.21px; font-weight: 800">
                     4G进村百户农民脱贫路上赛跑
@@ -212,7 +132,7 @@
                   <li>80后青年互联网上卖山货，助力家。</li>
                   <li>80后青年互联网上卖山货，助力家。</li>
                 </ul>
-                <el-divider class="ccy-drvider"></el-divider>
+                <el-divider class="ccy-drvider" style="display:inline-block;margin-top:-30px"></el-divider>
                 <ul style="margin: 17px 0">
                   <li style="font-size: 15.21px; font-weight: 800">
                     4G进村百户农民脱贫路上赛跑
@@ -223,7 +143,7 @@
                   <li>4G进村百户农民脱贫路上赛跑</li>
                   <li>4G进村百户农民脱贫路上赛跑</li>
                 </ul>
-                <h3 style="display: flex; justify-content: space-between">
+                <h3 style="margin-bottom:-22px;display: flex; justify-content: space-between">
                   <div>
                     <span
                       style="
@@ -272,6 +192,7 @@
                 </ul>
                 <h3
                   style="
+                    margin-bottom:-20px;
                     display: flex;
                     justify-content: space-between;
                     margin-top: 15px;
@@ -331,13 +252,31 @@
 </template>
 <script>
 export default {
+  //局部时间过滤器
+    filters: {
+    timefilters(val) {
+      if (val == null || val == "") {
+        return "暂无时间";
+      } else {
+        let d = new Date(val);   //val 为表格内取到的后台时间
+        let month =
+          d.getMonth() + 1 < 10 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
+        let day = d.getDate() < 10 ? "0" + d.getDate() : d.getDate();
+        let hours = d.getHours() < 10 ? "0" + d.getHours() : d.getHours();
+        let min = d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes();
+        let sec = d.getSeconds() < 10 ? "0" + d.getSeconds() : d.getSeconds();
+        let times=d.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + min + ':' + sec;
+        return times;
+      }
+    }
+  },
   data() {
     return {
       queryinfo: {
         page: "1", //页数
         size: "3", //每页数
       },
-
+      
       //分页
       pagelist: [],
       //查询所有虾业专题
@@ -350,7 +289,8 @@ export default {
     //获取分页
     this.getdata(),
       //获取所有虾业专题
-      this.getdata1();
+    this.getdata1()
+    //时间转换器
   },
   methods: {
     async getdata() {
@@ -362,8 +302,8 @@ export default {
       if (res.code !== 20000) {
         return this.$message.error("失败");
       }
-      console.log(res);
 
+      //console.log(res);
       this.pagelist = res.data.rows;
     },
 
@@ -382,23 +322,25 @@ export default {
 };
 </script>
 <style lang="less" >
-.ccy-drvider {
-  margin: 10px 0 7px 0;
-}
+
 .lxl-body {
   display: flex;
-  justify-content: center; //对齐方式
+  justify-content: center; //对齐方式-
   min-width: 1150px;
   .lxl-breadcrumb {
-    margin-top: 25px;
+    margin-top: 15px;
     margin-left: 18px;
-    margin-bottom: -10px;
+    margin-bottom: -15px;
   }
 }
 .lxl-box {
   width: 1150px;
 }
 
+.ccy-drvider{
+  
+  margin-top: 30px;
+}
 .top {
   display: flex;
   justify-content: space-between;
@@ -454,8 +396,10 @@ export default {
       .mainson {
         width: 100%;
         display: flex;
+        height:220px;
         flex-wrap: wrap;
         .pic {
+          height: 90%;
           width: 29%;
           img {
             width: 100%;
@@ -486,6 +430,7 @@ export default {
       flex-direction: column;
       flex-wrap: wrap;
       .rbtm {
+        margin-bottom: 15px;
         .el-button {
           margin-bottom: 8px;
           background-color: rgb(240, 249, 235);

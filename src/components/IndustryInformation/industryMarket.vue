@@ -17,14 +17,30 @@
               <!-- 图片 -->
               <div class="pictop">
                 <div class="block1">
-                  <el-image :src="src"></el-image>
+                  <router-link to="/instructdetail">
+                    <el-image
+                      style="height: 220px"
+                      :src="datalist[12].picture"
+                    ></el-image>
+                  </router-link>
                 </div>
                 <div class="block2">
                   <div>
-                    <el-image class="pic1" :src="src"> </el-image>
+                    <router-link to="/instructdetail">
+                      <el-image
+                        style="height: 165px"
+                        :src="datalist[13].picture"
+                      ></el-image>
+                    </router-link>
                   </div>
                   <div>
-                    <el-image class="pic2" :src="src"> </el-image>
+                    <router-link to="/instructdetail">
+                      <el-image
+                        style="height: 165px"
+                        :src="datalist[14].picture"
+                      >
+                      </el-image>
+                    </router-link>
                   </div>
                 </div>
               </div>
@@ -65,14 +81,19 @@
                   </h3>
                   <el-divider class="ccy-drvider"></el-divider>
                   <ul>
-                    <li>
-                      <span style="font-size: 15.21px; font-weight: 800"
-                        >今日小麦价格多少钱一斤?...</span
+                    <!-- slice(0, 5)限制读取条数 -->
+                    <li
+                      v-for="(item, index) in datalist.slice(0, 5)"
+                      :key="index"
+                    >
+                      <span class="index==1? ccy-css: ;"
+                        ><router-link
+                          to="/instructdetail"
+                          :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
+                          >{{ item.title }}</router-link
+                        ></span
                       >
                     </li>
-                    <li>今日小麦价格多少钱一斤? 2020年9月18...</li>
-                    <li>今日小麦价格多少钱一斤? 2020年9月11...</li>
-                    <li>今日全国各地小麦价格最新行情分析</li>
                   </ul>
                   <br />
                   <h3 style="display: flex; justify-content: space-between">
@@ -92,26 +113,39 @@
                         color: rgb(93, 183, 60);
                       "
                     >
-                      <span style="color: #9e9e9e"> 更多 </span>
+                      <span>
+                        <router-link
+                          to="/instructdetail"
+                          style="
+                            color: #9e9e9e;
+                            text-decoration: none;
+                            font-size: 13px;
+                            font-weight: 780;
+                            margin-right: 4px;
+                          "
+                          >更多</router-link
+                        >
+                      </span>
                       <i class="el-icon-caret-right"></i>
                     </div>
                   </h3>
                   <el-divider class="ccy-drvider"></el-divider>
                   <ul>
-                    <li>
-                      <span style="font-size: 15.21px; font-weight: 800"
-                        >今日小麦多少钱一斤? 2020...</span
+                    <li
+                      v-for="(item, index) in datalist.slice(0, 6)"
+                      :key="index"
+                    >
+                      <router-link
+                        to="/instructdetail"
+                        :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
+                        >{{ item.title }}</router-link
                       >
                     </li>
-                    <li>今日小麦价格多少钱一斤? 2020年9月18...</li>
-                    <li>今日小麦价格多少钱一斤? 2020年9月11...</li>
-                    <li>今日全国各地小麦价格最新行情分析</li>
-                    <li>今日全国各地小麦价格最新行情分析</li>
                   </ul>
                 </div>
               </div>
               <!--  -->
-              <div class="tail" style="width: 100%;margin:20px 0 10px 0">
+              <div class="tail" style="width: 100%; margin: 20px 0 10px 0">
                 <h3 style="display: flex; justify-content: space-between">
                   <div>
                     <span
@@ -145,7 +179,7 @@
                     <i class="el-icon-caret-right"></i>
                   </div>
                 </h3>
-                <el-divider  class="ccy-drvider"></el-divider>
+                <el-divider class="ccy-drvider"></el-divider>
               </div>
               <!--分割线-->
             </div>
@@ -154,20 +188,30 @@
                 <div class="onetopl">
                   <div class="block">
                     <div class="blockson">
-                      <el-image :src="src"></el-image>
-                      <span>现在猕猴桃行情怎样</span>
+                      <router-link to="/instructdetail" style="text-decoration:none">
+                        <el-image style="height:120px" :src="RecommendList[3].picture"></el-image>
+                        <span>{{ RecommendList[3].title }}</span>
+                      </router-link>
                     </div>
                     <div class="blockson">
-                      <el-image :src="src"></el-image>
-                      <span>现在猕猴桃行情怎样</span>
+                      <router-link to="/instructdetail" style="text-decoration:none">
+                        <el-image style="height:120px" :src="RecommendList[3].picture"></el-image>
+                        <span>{{ RecommendList[3].title }}</span>
+                      </router-link>
                     </div>
                   </div>
                   <div class="onetoplb">
-                    <ul style="margin: 15px 0 0 7px">
-                      <li><span>今日桃子多少钱一斤? 2020...</span></li>
-                      <li>今日小麦价格多少钱一斤? 2020年9月18...</li>
-                      <li>今日小麦价格多少钱一斤? 2020年9月11...</li>
-                      <li>下半年生猪肉会涨价吗</li>
+                    <ul style="margin: 15px 0 0 17px">
+                      <li
+                        v-for="(item, index) in RecommendList.slice(0, 4)"
+                        :key="index"
+                      >
+                        <router-link
+                          to="/instructdetail"
+                          :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
+                          >{{ item.title }}</router-link
+                        >
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -175,18 +219,30 @@
                 <div class="onetopr">
                   <div class="onetopr1" style="margin-bottom: 10px">
                     <ul>
-                      <li><span>今日菠萝多少钱一斤? 2020...</span></li>
-                      <li>今日小麦价格多少钱一斤? 2020年9月18...</li>
-                      <li>今日小麦价格多少钱一斤? 2020年9月11...</li>
-                      <li>今日全国各地小麦价格最新行情分析</li>
+                      <li
+                        v-for="(item, index) in RecommendList.slice(0, 4)"
+                        :key="index"
+                      >
+                        <router-link
+                          to="/instructdetail"
+                          :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
+                          >{{ item.title }}</router-link
+                        >
+                      </li>
                     </ul>
                   </div>
                   <div class="onetopr2">
                     <ul>
-                      <li><span>今日苹果多少钱一斤? 2020...</span></li>
-                      <li>今日小麦价格多少钱一斤? 2020年9月18...</li>
-                      <li>今日小麦价格多少钱一斤? 2020年9月11...</li>
-                      <li>今日全国各地小麦价格最新行情分析</li>
+                      <li
+                        v-for="(item, index) in RecommendList.slice(0, 4)"
+                        :key="index"
+                      >
+                        <router-link
+                          to="/instructdetail"
+                          :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
+                          >{{ item.summary }}</router-link
+                        >
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -228,21 +284,11 @@
                 <el-divider class="ccy-drvider"></el-divider>
               </div>
               <div class="onemide">
-                <div class="zhuangti">
-                  <el-image :src="src"></el-image>
-                  <span>现在桃子行情怎么样....</span>
-                </div>
-                <div class="zhuangti">
-                  <el-image :src="src"></el-image>
-                  <span>现在桃子行情怎么样....</span>
-                </div>
-                <div class="zhuangti">
-                  <el-image :src="src"></el-image>
-                  <span>现在桃子行情怎么样....</span>
-                </div>
-                <div class="zhuangti">
-                  <el-image :src="src"></el-image>
-                  <span>现在桃子行情怎么样....</span>
+                <div class="zhuangti" v-for="(item, index) in dataTimeList.slice(0, 4)" :key="index">
+                  <router-link to="/instructdetail" style="text-decoration:none">
+                    <el-image :src="item.picture" ></el-image>
+                    <li>{{item.title}}</li>
+                  </router-link>
                 </div>
                 <div class="tail" style="width: 100%; margin-top: 15px">
                   <h3 style="display: flex; justify-content: space-between">
@@ -281,27 +327,28 @@
                   <el-divider class="ccy-drvider"></el-divider>
                 </div>
               </div>
-              <div class="onebottom" v-for="item in jingcai3" :key="item.id">
+              <!-- 精彩专题3 -->
+              <div class="onebottom" v-for="(item, index) in pagelist" :key="index">
                 <div class="four">
                   <div class="pic">
-                    <el-image :src="item.picture"></el-image>
+                    <router-link to="/instructdetail" style="text-decoration:none">
+                      <el-image :src="item.picture"></el-image>
+                    </router-link>
                   </div>
                   <div class="news">
                     <h3>{{ item.title }}</h3>
                     <p
                       style="
-                        font-size: 16px;
-                        padding-bottom: 15px;
-                        padding-top: 10px;
+                        font-size: 15px;
+                        margin-bottom: 15px;
+                        margin-top: 10px;
                       "
                     >
-                      {{item.summary}}<span
-                        style="color: green"
-                        >[详细]</span
-                      >
+                      {{ item.summary }} <router-link  to="/instructdetail" style="text-decoration:none;color:green">[详情]</router-link> 
                     </p>
-                    <p style="font-size: 13px; float: left">
-                      发布时间:{{ item.creationTime
+                    <!--底部区域--->
+                    <p style="font-size: 13px; position: absolute; bottom: 0">
+                      发布时间:{{ item.creationTime | timefilters
                       }}<span style="margin-left: 15px"
                         >阅读： {{ item.clickNum }}</span
                       >
@@ -310,26 +357,41 @@
                       style="
                         color: green;
                         font-size: 13px;
-                        float: right;
+                        right: 0;
                         padding-right: 3px;
+                        position: absolute;
+                        bottom: 0;
                       "
                     >
-                      财富手册
+                      {{ classificationList[0].name }}
                     </p>
-                    <p style="font-size: 13px; float: right">分类：</p>
+                    <p
+                      style="
+                        font-size: 13px;
+                        right: 50px;
+                        position: absolute;
+                        bottom: 0;
+                      "
+                    >
+                      分类：
+                    </p>
                   </div>
                 </div>
-                <div class="driver" style="width: 100%; margin-top: -16px">
+                <div style="margin-top: -15px; margin-bottom: -20px">
                   <el-divider></el-divider>
                 </div>
               </div>
               <el-pagination
                 background
                 layout="prev, pager, next"
-                :total="pagelist.length"
+                :total="3"
                 :page-size="3"
                 :current-page="1"
-                style="margin-left: 230px; margin-bottom: 30px"
+                style="
+                  display: flex;
+                  justify-content: center;
+                  margin-bottom: 30px;
+                "
               >
               </el-pagination>
             </div>
@@ -577,71 +639,128 @@
 </template>
 <script>
 export default {
+  //局部时间过滤器
+  filters: {
+    timefilters(val) {
+      if (val == null || val == "") {
+        return "暂无时间";
+      } else {
+        let d = new Date(val); //val 为表格内取到的后台时间
+        let month =
+          d.getMonth() + 1 < 10 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
+        let day = d.getDate() < 10 ? "0" + d.getDate() : d.getDate();
+        let hours = d.getHours() < 10 ? "0" + d.getHours() : d.getHours();
+        let min = d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes();
+        let sec = d.getSeconds() < 10 ? "0" + d.getSeconds() : d.getSeconds();
+        let times =
+          d.getFullYear() +
+          "-" +
+          month +
+          "-" +
+          day +
+          " " +
+          hours +
+          ":" +
+          min +
+          ":" +
+          sec;
+        return times;
+      }
+    },
+  },
   data() {
     return {
-      //产业行情及虾业专题
+      //分类
+      classificationList: [],
+
+      //虾业专题
       datalist: [],
+
+      //推荐，精彩专题 2
+      RecommendList: [],
       //产业查询分页
-      //产业查询分页传入
+
+      //按时间
+      dataTimeList:[],
+
+      //精彩专题3 分页
       queryInfo: {
         page: "1",
         size: "3",
       },
-      //精彩专题3
-      queryInfo1: {
-        page: "1",
-        size: "3",
-      },
+      //精彩专题3 数组
       pagelist: [],
 
-      jingcai3: [],
       src:
         "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
     };
   },
   created() {
-    //产业行情及虾业专题
-    this.getAlldata(),
-      this.getPageData(),
-      //精彩专题3
+    //分类信息
+    this.getclassification(),
+      //虾业专题
+      this.getAlldata(),
+      //精彩专题1 2 推荐 不分页
+      //按时间
+      this.getTimeData(),
+
+      this.getRecommend(),
+      //精彩专题3 分页
       this.getjingcai();
+      
   },
   methods: {
-    async getAlldata() {
+    //分类  (财富手册 对虾养殖)
+    async getclassification() {
       const { data: res } = await this.reqM2Service(
         "/info/marketTypes",
         "",
         "get"
-      ); //地址，参数，获取类型
-      if (res.code !== 20000) {
-        return this.$message.error("获取失败");
-      }
+      );
+      this.classificationList = res.data;
       //console.log(res);
+    },
 
+    //获取虾业专题全部信息
+    async getAlldata() {
+      const { data: res } = await this.reqM2Service(
+        "/info/shrimpIndustry",
+        "",
+        "get"
+      ); //地址，参数，获取类型
       this.datalist = res.data;
     },
-    async getPageData() {
-      const { data: res } = await this.reqM2Service(
-        `/info/marketTypes/${this.queryInfo.page}/${this.queryInfo.size}`,
-        "",
-        ""
-      );
-      this.pagelist = res.data;
-      //console.log(res);
-    },
-    // async getjingcai() {
-    //   const {data: res} = await this.reqM2Service('')
-    // }
 
-    //按推荐 ，精彩专题3
+    //按时间
+    async getTimeData() {
+      const { data: res } = await this.reqM2Service(
+        "/info/shrimpIndustry/findByTime",
+        "",
+        "get"
+      );
+      this.dataTimeList = res.data;
+    },
+
+    //精彩专题1 2 不分页
+    async getRecommend() {
+      const { data: res } = await this.reqM2Service(
+        "/info/shrimpIndustry/findByRecommend",
+        "",
+        "get"
+      );
+      //console.log(res);
+      this.RecommendList = res.data;
+    },
+
+    //按推荐 ，精彩专题3 分页
     async getjingcai() {
       const { data: res } = await this.reqM2Service(
-        `/info/market/findByRecommend/${this.queryInfo1.page}/${this.queryInfo1.size}`,
+        `/info/shrimpIndustry/findByRecommend/${this.queryInfo.page}/${this.queryInfo.size}`,
         "",
         "get"
       );
       console.log(res);
-      this.jingcai3 = res.data.rows;
+      this.pagelist = res.data.rows;
     },
   },
 };
@@ -658,6 +777,16 @@ export default {
 .lxl-box {
   width: 1150px;
 }
+.ccy-css {
+  color: black;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 800;
+}
+.ccy-cssn {
+  text-decoration: none;
+  color: black;
+}
 .header {
   width: 100%;
   display: flex;
@@ -668,7 +797,7 @@ export default {
     flex: 4.7;
     .block1 {
       width: 100%;
-      height: 200px;
+
       margin-bottom: 5px;
       .el-image {
         width: 100%;
@@ -678,6 +807,7 @@ export default {
     .block2 {
       width: 100%;
       display: flex;
+
       justify-content: space-between;
       > * {
         width: 225px;
@@ -693,6 +823,11 @@ export default {
       ul {
         margin-left: 20px;
         li {
+          width: 100%;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          list-style-position: inside;
+          white-space: nowrap;
           font-size: 13px;
         }
       }
@@ -701,7 +836,7 @@ export default {
 }
 
 .ccy-drvider {
-  margin: 3px  0 3px 0;
+  margin: 3px 0 3px 0;
 }
 
 .left {
@@ -723,7 +858,7 @@ export default {
   .onetop {
     display: flex;
     width: 100%;
-    li{
+    li {
       font-size: 13px;
     }
     .onetopl {
@@ -731,6 +866,14 @@ export default {
       display: flex;
       flex-wrap: wrap;
       flex-direction: column;
+      li {
+        width: 320px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        list-style-position: inside;
+        margin-left: -15px;
+      }
       .block {
         display: flex;
         justify-content: space-between;
@@ -743,33 +886,67 @@ export default {
             width: 208px;
             height: 90px;
           }
+          span {
+            width: 190px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+          }
         }
       }
-      
     }
     .onetopr {
       padding-left: 61px;
+      li {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        list-style-position: inside;
+        margin-left: -15px;
+        width: 310px;
+        font-size: 13px;
+      }
     }
   }
   .onemide {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
-    width: 99%;
+    justify-content: space-between;
+    width: 100%;
     .zhuangti {
       width: 24%;
+      .el-image{
+        width: 205px;
+        height: 150px;
+      }
+      li{
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        width:180px;
+        list-style: none;
+        font-size: 13px;
+        color: black;
+        padding-left: 8px;
+      }
     }
   }
   .onebottom {
     flex-direction: column;
     .four {
-      width: 100%;
+      height: 150px;
+      position: relative;
+      width: 99%;
       display: flex;
       align-content: space-between;
       padding-left: 2px;
       .pic {
         width: 25%;
         padding-right: 15px;
+        .el-image{
+          width: 100%;
+          height:155px;
+        }
       }
       .news {
         width: 72%;
@@ -785,8 +962,8 @@ export default {
 li {
   padding: 6px 0 3px 0;
 }
-.right{
-  li{
+.right {
+  li {
     font-size: 13px;
   }
 }
@@ -809,7 +986,7 @@ li {
   font-weight: 400;
 }
 .tage {
-  padding: 0 0 0 8px;
+  padding: 10px 0 0 8px;
   margin-top: 4px;
   .tageson {
     margin-bottom: 12px;
