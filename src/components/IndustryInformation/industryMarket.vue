@@ -188,14 +188,26 @@
                 <div class="onetopl">
                   <div class="block">
                     <div class="blockson">
-                      <router-link to="/instructdetail" style="text-decoration:none">
-                        <el-image style="height:120px" :src="RecommendList[3].picture"></el-image>
+                      <router-link
+                        to="/instructdetail"
+                        style="text-decoration: none"
+                      >
+                        <el-image
+                          style="height: 120px"
+                          :src="RecommendList[3].picture"
+                        ></el-image>
                         <span>{{ RecommendList[3].title }}</span>
                       </router-link>
                     </div>
                     <div class="blockson">
-                      <router-link to="/instructdetail" style="text-decoration:none">
-                        <el-image style="height:120px" :src="RecommendList[3].picture"></el-image>
+                      <router-link
+                        to="/instructdetail"
+                        style="text-decoration: none"
+                      >
+                        <el-image
+                          style="height: 120px"
+                          :src="RecommendList[3].picture"
+                        ></el-image>
                         <span>{{ RecommendList[3].title }}</span>
                       </router-link>
                     </div>
@@ -284,10 +296,17 @@
                 <el-divider class="ccy-drvider"></el-divider>
               </div>
               <div class="onemide">
-                <div class="zhuangti" v-for="(item, index) in dataTimeList.slice(0, 4)" :key="index">
-                  <router-link to="/instructdetail" style="text-decoration:none">
-                    <el-image :src="item.picture" ></el-image>
-                    <li>{{item.title}}</li>
+                <div
+                  class="zhuangti"
+                  v-for="(item, index) in dataTimeList.slice(0, 4)"
+                  :key="index"
+                >
+                  <router-link
+                    to="/instructdetail"
+                    style="text-decoration: none"
+                  >
+                    <el-image :src="item.picture"></el-image>
+                    <li>{{ item.title }}</li>
                   </router-link>
                 </div>
                 <div class="tail" style="width: 100%; margin-top: 15px">
@@ -328,10 +347,17 @@
                 </div>
               </div>
               <!-- 精彩专题3 -->
-              <div class="onebottom" v-for="(item, index) in pagelist" :key="index">
+              <div
+                class="onebottom"
+                v-for="(item, index) in pagelist"
+                :key="index"
+              >
                 <div class="four">
                   <div class="pic">
-                    <router-link to="/instructdetail" style="text-decoration:none">
+                    <router-link
+                      to="/instructdetail"
+                      style="text-decoration: none"
+                    >
                       <el-image :src="item.picture"></el-image>
                     </router-link>
                   </div>
@@ -344,7 +370,12 @@
                         margin-top: 10px;
                       "
                     >
-                      {{ item.summary }} <router-link  to="/instructdetail" style="text-decoration:none;color:green">[详情]</router-link> 
+                      {{ item.summary }}
+                      <router-link
+                        to="/instructdetail"
+                        style="text-decoration: none; color: green"
+                        >[详情]</router-link
+                      >
                     </p>
                     <!--底部区域--->
                     <p style="font-size: 13px; position: absolute; bottom: 0">
@@ -420,57 +451,33 @@
                   color: rgb(93, 183, 60);
                 "
               >
-                <span style="color: #9e9e9e"> 更多 </span>
+                <router-link style="text-decoration: none" to="/instructdetail">
+                  <span style="color: #9e9e9e"> 更多 </span>
+                </router-link>
                 <i class="el-icon-caret-right"></i>
               </div>
             </h3>
             <el-divider class="ccy-drvider"></el-divider>
             <div class="righttext">
               <ul style="margin-left: 17px">
-                <li>
-                  <span style="font-size: 15.21px; font-weight: 800"
-                    >农村农业部关于完善农村...</span
-                  ><span style="float: right">2天前</span>
-                </li>
-                <li>
-                  农村干什么挣钱投资小?首要...<span style="float: right"
-                    >2天前</span
+                <li class="ccy-li"
+                  v-for="(item, index) in dataTimeList.slice(0, 9)"
+                  :key="index"
+                >
+                  <router-link
+                    style="text-decoration: none"
+                    to="/instructdetail"
                   >
-                </li>
-                <li>
-                  今日小麦价格多少钱一斤? 2020<span style="float: right"
-                    >2天前</span
-                  >
-                </li>
-                <li>
-                  今日全国各地小麦价格最新行情<span style="float: right"
-                    >2天前</span
-                  >
-                </li>
-                <li>
-                  农村干什么挣钱投资小?首要...<span style="float: right"
-                    >2天前</span
-                  >
-                </li>
-                <li>
-                  今日小麦价格多少钱一斤? 2020<span style="float: right"
-                    >2天前</span
-                  >
-                </li>
-                <li>
-                  今日全国各地小麦价格最新行情<span style="float: right"
-                    >2天前</span
-                  >
-                </li>
-                <li>
-                  农村干什么挣钱投资小?首要...<span style="float: right"
-                    >2天前</span
-                  >
-                </li>
-                <li>
-                  4G进村百户农民脱贫路上赛跑<span style="float: right"
-                    >2天前</span
-                  >
+                    <span
+                      :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
+                      style="margin-left: -5px; width: 180px"
+                      >{{ item.title }}</span
+                    ><span
+                      style="float: right; color: black"
+                      :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
+                      >2天前</span
+                    >
+                  </router-link>
                 </li>
               </ul>
               <br />
@@ -494,20 +501,29 @@
                     color: rgb(93, 183, 60);
                   "
                 >
-                  <span style="color: #9e9e9e"> 更多 </span>
+                  <router-link
+                    style="text-decoration: none"
+                    to="/instructdetail"
+                  >
+                    <span style="color: #9e9e9e"> 更多 </span>
+                  </router-link>
                   <i class="el-icon-caret-right"></i>
                 </div>
               </h3>
               <el-divider class="ccy-drvider"></el-divider>
-              <li>
-                <span style="font-size: 15px; font-weight: 800"
-                  >4G进村百户农民脱贫路上赛跑</span
-                >
+              <li 
+                v-for="(item, index) in dataTimeList.slice(0, 5)"
+                :key="index"
+                class="ccy-rightLi"
+                style="width:180px"
+                :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
+              >
+                <router-link style="text-decoration: none;color:black" to="/instructdetail">
+                  {{ item.title }}
+                </router-link>
               </li>
-              <li>赤土花果园:脐橙，甜柚即将进入采摘季</li>
-              <li>赤土花果园:脐橙，甜柚即将进入采摘季</li>
-              <li>赤土花果园:脐橙，甜柚即将进入采摘季</li>
-              <br /><br />
+
+              <br/>
               <h3 style="display: flex; justify-content: space-between">
                 <div>
                   <span
@@ -528,19 +544,24 @@
                     color: rgb(93, 183, 60);
                   "
                 >
-                  <span style="color: #9e9e9e"> 更多 </span>
+                  <router-link
+                    style="text-decoration: none"
+                    to="/instructdetail"
+                  >
+                    <span style="color: #9e9e9e"> 更多 </span>
+                  </router-link>
                   <i class="el-icon-caret-right"></i>
                 </div>
               </h3>
               <el-divider class="ccy-drvider"></el-divider>
-              <li>
-                <span style="font-size: 15px; font-weight: 800"
-                  >4G进村百户农民脱贫路上赛跑</span
-                >
+              <li v-for="(item, index) in dataTimeList.slice(0, 4)"
+                :key="index"
+                class="ccy-rightLi"
+                style="width:180px"
+                :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']" >
+                 {{ item.title }}
               </li>
-              <li>赤土花果园:脐橙，甜柚即将进入采摘季</li>
-              <li>赤土花果园:脐橙，甜柚即将进入采摘季</li>
-              <li>赤土花果园:脐橙，甜柚即将进入采摘季</li>
+              
               <br />
               <h3 style="display: flex; justify-content: space-between">
                 <div>
@@ -562,7 +583,12 @@
                     color: rgb(93, 183, 60);
                   "
                 >
-                  <span style="color: #9e9e9e"> 更多 </span>
+                  <router-link
+                    style="text-decoration: none"
+                    to="/instructdetail"
+                  >
+                    <span style="color: #9e9e9e"> 更多 </span>
+                  </router-link>
                   <i class="el-icon-caret-right"></i>
                 </div>
               </h3>
@@ -570,22 +596,22 @@
             </div>
             <div class="rightmd">
               <ul style="margin-left: 17px">
-                <li style="font-size: 15.21px; font-weight: 800">
-                  惠农代卖：新手夫妇闯市场，一招...
-                </li>
-                <li>独家记忆|乘风破浪的90后姑娘:能成为果农眼...</li>
-                <li>80后青年互联网上卖山货，助力家乡脱贫致富！</li>
-                <li>精准卖货，他是农产品的“经纪人”</li>
+                <li v-for="(item, index) in dataTimeList.slice(0, 5)"
+                :key="index"
+                class="ccy-rightLi"
+                style="width:180px"
+                :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']" >
+                 {{ item.title }}
+              </li>
               </ul>
               <ul style="margin: 10px 0 30px 16px">
-                <li>
-                  <span style="font-size: 15.21px; font-weight: 800"
-                    >惠农代卖：新手夫妇闯市场，一招...</span
-                  ><span style="float: right">2天前</span>
-                </li>
-                <li>独家记忆|乘风破浪的90后姑娘：能成为果农眼...</li>
-                <li>80后青年互联网上卖山货，助力家乡脱贫致富！</li>
-                <li>精准卖货，他是农产品的“经纪人”</li>
+                <li v-for="(item, index) in dataTimeList.slice(0, 6)"
+                :key="index"
+                class="ccy-rightLi"
+                style="width:180px"
+                :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']" >
+                 {{ item.title }}
+              </li>
               </ul>
               <h3 style="display: flex; justify-content: space-between">
                 <div>
@@ -607,7 +633,12 @@
                     color: rgb(93, 183, 60);
                   "
                 >
-                  <span style="color: #9e9e9e"> 更多 </span>
+                  <router-link
+                    style="text-decoration: none"
+                    to="/instructdetail"
+                  >
+                    <span style="color: #9e9e9e"> 更多 </span>
+                  </router-link>
                   <i class="el-icon-caret-right"></i>
                 </div>
               </h3>
@@ -681,7 +712,7 @@ export default {
       //产业查询分页
 
       //按时间
-      dataTimeList:[],
+      dataTimeList: [],
 
       //精彩专题3 分页
       queryInfo: {
@@ -703,11 +734,9 @@ export default {
       //精彩专题1 2 推荐 不分页
       //按时间
       this.getTimeData(),
-
       this.getRecommend(),
       //精彩专题3 分页
       this.getjingcai();
-      
   },
   methods: {
     //分类  (财富手册 对虾养殖)
@@ -780,12 +809,14 @@ export default {
 .ccy-css {
   color: black;
   text-decoration: none;
-  font-size: 18px;
-  font-weight: 800;
+  font-size: 15px;
+  font-weight: 700;
 }
 .ccy-cssn {
   text-decoration: none;
   color: black;
+  font-size: 13px;
+  font-weight: 500;
 }
 .header {
   width: 100%;
@@ -807,7 +838,6 @@ export default {
     .block2 {
       width: 100%;
       display: flex;
-
       justify-content: space-between;
       > * {
         width: 225px;
@@ -915,15 +945,15 @@ export default {
     width: 100%;
     .zhuangti {
       width: 24%;
-      .el-image{
+      .el-image {
         width: 205px;
         height: 150px;
       }
-      li{
+      li {
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
-        width:180px;
+        width: 180px;
         list-style: none;
         font-size: 13px;
         color: black;
@@ -943,9 +973,9 @@ export default {
       .pic {
         width: 25%;
         padding-right: 15px;
-        .el-image{
+        .el-image {
           width: 100%;
-          height:155px;
+          height: 155px;
         }
       }
       .news {
@@ -963,8 +993,20 @@ li {
   padding: 6px 0 3px 0;
 }
 .right {
-  li {
-    font-size: 13px;
+  .ccy-li {
+    span {
+      display: inline-block;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      list-style-position: inside;
+      white-space: nowrap;
+    }
+  }
+  .ccy-rightLi{
+      text-overflow: ellipsis;
+      overflow: hidden;
+      list-style-position: inside;
+      white-space: nowrap;
   }
 }
 .bot {
@@ -980,10 +1022,6 @@ li {
 }
 .el-col {
   margin-right: 55px;
-}
-.rightmd li {
-  font-size: 13px;
-  font-weight: 400;
 }
 .tage {
   padding: 10px 0 0 8px;
