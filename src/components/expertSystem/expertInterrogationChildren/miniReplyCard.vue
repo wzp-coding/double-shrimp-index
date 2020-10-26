@@ -35,7 +35,7 @@ export default {
   methods: {
     toQuestionDetail() {
       this.$router.push({
-        name: "questionDetail",
+        name: "wzp_questionDetail",
         params: { id: this.oneReply.id },
       });
       location.reload();

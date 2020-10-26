@@ -137,6 +137,7 @@ export default {
         res = res.data;
         if (res.code === 20000) {
           res = res.data;
+          console.log('res: ', res);
           this.total = res.total;
           this.expertList = [];
           res.rows.forEach((item) => this.expertList.push(item));
@@ -145,6 +146,7 @@ export default {
             message: "获取专家信息失败",
           });
         }
+        this.loading = false;
       });
     },
     // 点击不同的排序方式时，获取专家列表排序方式
@@ -171,6 +173,7 @@ export default {
       } else {
         // 如果不是搜索全部专家而只是某种类型的专家
         // 则需要再判断是哪种排序方式的
+        // 等师姐接口···········
         let httpUrl = "";
         switch (sortTypeId) {
           // 咨询量

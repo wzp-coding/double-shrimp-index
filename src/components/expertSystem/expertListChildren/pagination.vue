@@ -16,7 +16,8 @@ export default {
   data() {
     return {
       size:2,
-      page:1
+      page:1,
+      flag:this.resetPage
     };
   },
   props:["total","resetPage"],
@@ -32,9 +33,10 @@ export default {
   },
   watch:{
     resetPage(){
-      if(this.resetPage){
+      this.flag = this.resetPage;
+      if(this.flag){
         this.page = 1
-        this.resetPage = !this.resetPage
+        this.flag = !this.flag
       }
     }
   }

@@ -6,32 +6,54 @@
       v-model="tabIndex"
       @tab-click="handleClick"
     >
+      <!-- 提问我的----开始 -->
       <el-tab-pane label="提问我的">
-        <el-table :data="quesList" style="width: 100%" max-height="250">
+        <el-table :data="quesList" style="width: 100%" max-height="500">
           <el-table-column type="expand">
             <template slot-scope="props">
-              <el-form label-position="left"  class="demo-table-expand">
+              <el-form label-position="left" class="demo-table-expand">
                 <el-form-item label="帖子id">
-                  <span>{{ props.row.title }}</span>
+                  <span>: {{ props.row.id }}</span>
                 </el-form-item>
                 <el-form-item label="创建时间">
-                  <span>{{ props.row.creationTime }}</span>
+                  <span>: {{ props.row.creationTime }}</span>
                 </el-form-item>
                 <el-form-item label="审核状态">
-                  <span>{{ props.row.id }}</span>
+                  <span>: {{ props.row.stateInfo }}</span>
                 </el-form-item>
                 <el-form-item label="帖子问题">
-                  <span>{{ props.row.id }}</span>
+                  <span>: {{ props.row.title }}</span>
+                </el-form-item>
+                <el-form-item
+                  label="图片说明"
+                  v-if="props.row.images.length != 0"
+                  >:
+                  <div class="demo-image__preview" style="margin-top: 10px">
+                    <el-image
+                      v-for="(item, index) in props.row.images"
+                      :key="index"
+                      style="width: 100px; height: 100px; margin-right: 10px"
+                      :src="item"
+                      :preview-src-list="props.row.images"
+                      fit="cover"
+                    >
+                    </el-image>
+                  </div>
                 </el-form-item>
                 <el-form-item label="提问者">
-                  <span>{{ props.row.id }}</span>
+                  <span
+                    >:
+                    {{
+                      props.row.userName == "" ? "暂无" : props.row.userName
+                    }}</span
+                  >
                 </el-form-item>
               </el-form>
             </template>
           </el-table-column>
           <el-table-column fixed prop="creationTime" label="日期" width="180">
           </el-table-column>
-          <el-table-column prop="title" label="帖子" width="450">
+          <el-table-column prop="title" label="帖子" width="400">
           </el-table-column>
           <el-table-column prop="stateInfo" label="审核状态" width="100">
           </el-table-column>
@@ -54,11 +76,83 @@
           </el-table-column>
         </el-table>
       </el-tab-pane>
+      <!-- 修改对话框--开始 -->
+      <el-dialog title="修改帖子" :visible.sync="dialogFormVisible">
+        <el-form :model="form">
+          <el-form-item label="问题内容">
+            <el-input type="textarea" v-model="form.title"></el-input>
+          </el-form-item>
+          <el-form-item label="上传图片">
+            <el-upload
+              action="http://106.75.154.40:9005/information/upload"
+              list-type="picture-card"
+              :on-preview="handlePictureCardPreview"
+              :on-remove="handleRemove"
+            >
+              <i class="el-icon-plus"></i>
+            </el-upload>
+            <!-- <el-dialog :visible.sync="dialogVisible" v-for="(item,index) in form.images" :key="index">
+              <img width="100%" :src="item" alt="" />
+            </el-dialog> -->
+            <div>{{form.images}}</div>
+            <el-dialog :visible.sync="dialogVisible">
+              <img width="100%" :src="dialogImageUrl" alt="" />
+            </el-dialog>
+            
+          </el-form-item> 
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormVisible = false">取 消</el-button>
+          <el-button type="primary" @click="dialogFormVisible = false"
+            >确 定</el-button
+          >
+        </div>
+      </el-dialog>
+      <!-- 修改对话框--结束 -->
+      <!-- 提问我的----结束 -->
+      <!-- 我的回复----开始 -->
       <el-tab-pane label="我的回复">
-        <el-table :data="replyList" style="width: 100%" max-height="250">
+        <el-table :data="replyList" style="width: 100%" max-height="500">
+          <el-table-column type="expand">
+            <template slot-scope="props">
+              <el-form label-position="left" class="demo-table-expand">
+                <el-form-item label="回帖id">
+                  <span>: {{ props.row.id }}</span>
+                </el-form-item>
+                <el-form-item label="创建时间">
+                  <span>: {{ props.row.creationTime }}</span>
+                </el-form-item>
+                <el-form-item label="审核状态">
+                  <span>: {{ props.row.stateInfo }}</span>
+                </el-form-item>
+                <el-form-item label="回复内容">
+                  <span>: {{ props.row.reply }}</span>
+                </el-form-item>
+                <el-form-item
+                  label="图片说明"
+                  v-if="props.row.images.length != 0"
+                  >:
+                  <div class="demo-image__preview" style="margin-top: 10px">
+                    <el-image
+                      v-for="(item, index) in props.row.images"
+                      :key="index"
+                      style="width: 100px; height: 100px; margin-right: 10px"
+                      :src="item"
+                      :preview-src-list="props.row.images"
+                      fit="cover"
+                    >
+                    </el-image>
+                  </div>
+                </el-form-item>
+                <el-form-item label="回复者">
+                  <span>: {{ props.row.replierName }}</span>
+                </el-form-item>
+              </el-form>
+            </template>
+          </el-table-column>
           <el-table-column fixed prop="creationTime" label="日期" width="180">
           </el-table-column>
-          <el-table-column prop="reply" label="回复" width="450">
+          <el-table-column prop="reply" label="回复" width="400">
           </el-table-column>
           <el-table-column prop="stateInfo" label="审核状态" width="100">
           </el-table-column>
@@ -82,6 +176,8 @@
         </el-table>
       </el-tab-pane>
     </el-tabs>
+    <!-- 我的回复----结束 -->
+    <!-- 换页 -->
     <div class="pagination">
       <pagination
         :total="total"
@@ -89,6 +185,7 @@
         @pageChange="handlePageChange"
       ></pagination>
     </div>
+    <!-- 换页 -->
   </div>
 </template>
 <script>
@@ -106,18 +203,63 @@ export default {
       userId: "1264238099769200640",
       expertId: "",
       tabIndex: 0,
+      dialogFormVisible: false,
+      form: {
+        title: "",
+        images:[]
+      },
+      formLabelWidth: "120px",
+      dialogImageUrl: "",
+      dialogVisible: false,
     };
   },
   components: {
     pagination,
   },
   methods: {
+    // 删除图片
+    handleRemove(file, fileList) {
+      console.log('file: ', file);
+      console.log('fileList: ', fileList);
+    },
+    // 图片预览
+    handlePictureCardPreview(file) {
+      console.log('file: ', file);
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
+    },
     // 编辑帖子或者回复
-    handleEdit(index, rows) {
-      let id = rows[index].id;
+    handleEdit(index, row) {
+      this.dialogFormVisible = true;
+      let id = row.id;
+      // console.log('id: ', id);
+      this.getQuesInfoById(id);
+    },
+    // 根据id请求单个问题的信息
+    getQuesInfoById(id){
+      this.$http
+        .get(`http://106.75.154.40:9012/info/post/findById/${id}`)
+        .then(res=>{
+          res = res.data;
+          // console.log('res: ', res);
+          if(res.code == 20000){
+            res = res.data;
+            this.form.title = res.title;
+            if(!!res.images){
+              this.$set(this.form,"images",res.images.split(','));
+            }else{
+              this.$set(this.form,"images",[]);
+            }
+            this.form.images.forEach(url=>{
+              this.handlePictureCardPreview({url})
+            })
+          }
+        })
     },
     // 删除帖子或者回复
     deleteRow(index, rows) {
+      // console.log('rows: ', rows);
+      // console.log('index: ', index);
       let id = rows[index].id;
       this.$confirm("此操作将永久删除该信息，是否继续？", "提示", {
         confirmButtonText: "确定",
@@ -222,6 +364,7 @@ export default {
           if (res.code === 20000) {
             res = res.data;
             this.total = res.total;
+            this.quesList = [];
             res.rows.forEach((item) => {
               // 处理状态state
               switch (item.state) {
@@ -237,8 +380,14 @@ export default {
               }
               // 处理时间格式
               item.creationTime = this.formatTime(item.creationTime);
+              // 处理图片字符串
+              if (!!item.images) {
+                this.$set(item, "images", item.images.split(","));
+              } else {
+                this.$set(item, "images", []);
+              }
+              this.quesList.push(item);
             });
-            this.quesList = res.rows;
           } else {
             this.$message({
               message: "获取帖子信息失败",
@@ -256,10 +405,12 @@ export default {
           `http://106.75.154.40:9012/info/details/findByReplier/${id}/${page}/${size}`
         )
         .then((res) => {
+          
           res = res.data;
           if (res.code === 20000) {
             res = res.data;
             this.total = res.total;
+            this.replyList = [];
             res.rows.forEach((item) => {
               // 处理状态state
               switch (item.state) {
@@ -275,8 +426,14 @@ export default {
               }
               // 处理时间格式
               item.creationTime = this.formatTime(item.creationTime);
+              // 处理图片字符串
+              if (!!item.images) {
+                this.$set(item, "images", item.images.split(","));
+              } else {
+                this.$set(item, "images", []);
+              }
+              this.replyList.push(item);
             });
-            this.replyList = res.rows;
           } else {
             this.$message({
               message: "获取帖子信息失败",
