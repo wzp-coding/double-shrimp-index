@@ -352,7 +352,7 @@ export default {
 </script>
 
 
-// 政策法规
+
 <style lang="less" scoped>
 body {
   margin: 0;
@@ -385,33 +385,31 @@ a {
   // 左栏
   .left {
     flex: 75%;
-    display: flex;
-    flex-direction: column;
   }
   // 右栏
   .right {
     flex: 25%;
-    display: flex;
-    flex-direction: column;
     // margin: 0 3px 0 25px;
   }
 }
 
 // 左栏第一栏
 .lsec1 {
-  flex: 28%;
+  width:820px;
+  height: 300px;
   display: flex;
+  margin-bottom: 10px;
   // 轮播图
   .rotationpics {
     width: 35%;
     // background-image: url(img/1.jpg);
-    .el-carousel__item h3 {
-      color: #475669;
-      font-size: 18px;
-      opacity: 0.75;
-      line-height: 300px;
-      margin: 0;
-    }
+    // .el-carousel__item h3 {
+    //   color: #475669;
+    //   font-size: 18px;
+    //   opacity: 0.75;
+    //   line-height: 300px;
+    //   margin: 0;
+    // }
     .el-carousel__item:nth-child(2n) {
       background-color: #99a9bf;
     }
@@ -432,7 +430,7 @@ a {
         width: 85%;
         margin-left: 8px;
         font-size: 13px;
-        line-height: 2.2em;
+        line-height: 2em;
         a {
           color: #403a3e;
         }
@@ -444,7 +442,7 @@ a {
         width: 15%;
         font-size: 8px;
         margin: 7px 0 0 5px;
-        line-height: 2.1em;
+        line-height: 2em;
         color: #b3b3b3;
       }
     }
@@ -453,17 +451,17 @@ a {
 
 // 第二栏
 .lsec2 {
-  flex: 36%;
-  width: 805px;
+  height: 325px;
+  width: 820px;
 }
 
 // 第二栏标题
 .lsec2head {
-  width: 805px;
+  width: 810px;
   height: 44px;
   display: flex;
   background-color: #f7f7f7;
-  margin: 10px 3px 0 3px;
+  margin: 0 3px 0 3px;
   border-bottom: 2px solid #004787;
   .lsec2headl {
     height: 34px;
@@ -480,7 +478,7 @@ a {
   }
   .lsec2headr {
     margin-top: 10px;
-    padding: 3px 15px 3px 680px;
+    padding: 3px 15px 3px 685px;
     font-size: 13px;
     a {
       color: #7a776e;
@@ -493,17 +491,17 @@ a {
 
 // 第三栏
 .lsec3 {
-  flex: 36%;
-  width: 805px;
+  height: 325px;
+  width: 820px;
 }
 
 // 第三栏标题
 .lsec3head {
-  width: 805px;
+  width: 810px;
   height: 44px;
   display: flex;
   background-color: #f7f7f7;
-  margin: 20px 3px 0 3px;
+  margin: 0 3px 0 3px;
   border-bottom: 2px solid #004787;
   .lsec3headl {
     height: 34px;
@@ -520,7 +518,7 @@ a {
   }
   .lsec3headr {
     margin-top: 10px;
-    padding: 3px 15px 3px 680px;
+    padding: 3px 15px 3px 685px;
     font-size: 13px;
     a {
       color: #7a776e;
@@ -599,7 +597,7 @@ a {
   .rsec2word {
     font-size: 13px;
     line-height: 2em;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     margin-left: 10px;
     a {
       color: #403a3e;
