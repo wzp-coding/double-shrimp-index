@@ -136,6 +136,7 @@ export default {
     async requestAllData() {
       try {
         const { data: res } = await this.reqM3Service("/industry", "", "get");
+        console.log(res)
         if (res.code === 20000) {
           this.industry = res.data;
           this.chart1(this.industry[2]);

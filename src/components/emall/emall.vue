@@ -25,11 +25,10 @@
             <el-input
               placeholder="搜索您要的货品"
               v-model="input"
-              class="searchClass"
               prefix-icon="el-icon-search"
             >
               <div slot="prepend">
-                <div class="centerClass">
+                <div >
                   <el-select
                     v-model="select"
                     placeholder="供应"
@@ -41,7 +40,9 @@
                   </el-select>
                 </div>
               </div>
-              <el-button slot="append" @click="goToSearch">搜索</el-button>
+              <el-button slot="append" @click="goToSearch" icon="el-icon-search"
+                >搜索</el-button
+              >
             </el-input>
           </el-col>
         </el-row>
@@ -148,7 +149,9 @@
           <el-tab-pane label="土地流转" name="land">土地流转</el-tab-pane>
           <el-tab-pane label="包装" name="pack">包装</el-tab-pane>
           <el-tab-pane label="飞防服务" name="fly">飞防服务</el-tab-pane>
-          <el-tab-pane label="农工服务" name="farmService">农工服务</el-tab-pane>
+          <el-tab-pane label="农工服务" name="farmService"
+            >农工服务</el-tab-pane
+          >
           <el-tab-pane label="农业防治" name="farmCue">农业防治</el-tab-pane>
           <el-tab-pane label="农业检测" name="farmCheck">农业检测</el-tab-pane>
           <el-tab-pane label="租赁服务" name="rent">租赁服务</el-tab-pane>
@@ -737,8 +740,8 @@ export default {
   methods: {
     choseItem() {},
     goToSearch() {
-      this.$router.push('/emallSearch')
-    }
+      this.$router.push("/emallSearch");
+    },
   },
   filters: {
     ellipsis(value) {
@@ -797,53 +800,7 @@ export default {
 .el-icon-s-order {
   padding: 0 8px 0 15px;
 }
-.searchClass {
-  border: 2px solid #39bf3e;
-  border-radius: 20px;
-  background: #f4f4f4;
-}
-.searchClass >>> .el-input-group__prepend {
-  border: none;
-  background-color: transparent;
-  padding: 0 10px 0 15px;
-  color: #333;
-}
-.searchClass >>> .el-input-group__append {
-  border: none;
-  border-top-right-radius: 20px;
-  border-bottom-right-radius: 20px;
-  background-color: #39bf3e;
-  color: #fff;
-}
-.searchClass >>> .el-input__inner {
-  height: 36px;
-  line-height: 36px;
-  border: none;
-  background-color: transparent;
-}
-.searchClass >>> .el-icon-search {
-  font-size: 20px;
-}
-.searchClass >>> .centerClass {
-  height: 100%;
-  line-height: 100%;
-  display: inline-block;
-  vertical-align: middle;
-  text-align: right;
-}
-.searchClass >>> .line {
-  width: 1px;
-  height: 26px;
-  background-color: #c5c5c5;
-  margin-left: 14px;
-}
-.searchClass:hover >>> .line {
-  background-color: #d5e3e8;
-}
-.searchClass:hover >>> .el-icon-search {
-  color: #409eff;
-  font-size: 16px;
-}
+
 .search >>> .el-button {
   width: 100px;
 }
@@ -1138,9 +1095,6 @@ a:focus {
 }
 .lateAdvice {
   margin-top: 40px;
-}
-.centerClass >>> .el-select {
-  border-radius: 12px;
 }
 .mainPic {
   width: 100%;

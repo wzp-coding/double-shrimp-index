@@ -7,60 +7,44 @@
         <el-button size="small" plain round>购买</el-button>
       </div>
     </div>
+    <!-- 展示区 -->
     <div class="favorite-container">
       <div class="lxl-goods">
         <el-table :data="favoriteList" stripe style="width: 100%">
           <el-table-column type="selection" width="55"></el-table-column>
-          <el-table-column prop="productName" label="商品名" width="180">
-          </el-table-column>
-          <el-table-column prop="price" label="商品价格" width="180">
-          </el-table-column>
-          <el-table-column prop="productTitle" label="商品介绍">
-          </el-table-column>
-          <el-table-column label="移除">
+          <el-table-column label="图片" width="120">
             <template slot-scope="scope">
-              <i class="el-icon-delete" @click="delShop(scope.row)"></i>
+              <el-image :src="scope.row.picture" style="width:100px;height:100px"> </el-image>
             </template>
           </el-table-column>
-        </el-table>
-        <!-- <el-row :gutter="20">
-            <el-col style="width:15rem">
-              <el-checkbox v-model="checked">选中</el-checkbox>
-            </el-col>
-            <el-col :span="3">
-              <el-image
-                style="width: 60px; height: 60px"
-                src="https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg"
-              ></el-image>
-            </el-col>
-            <el-col :span="12">{{ item.productName }} </el-col>
-            <el-col :span="3">￥{{ item.price }} </el-col>
-            <el-col class="lxl-p" :span="36"> {{ item.productTitle }}</el-col>
-            <el-col>
-              <el-select v-model="value" placeholder="请选择">
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option> </el-select
-            ></el-col>
-            <el-col :span="4">
-              <el-input-number
-                v-model="item.num"
-                @change="handleChange"
+          <el-table-column prop="productName" label="商品名" width="120">
+          </el-table-column>
+          <el-table-column prop="price" label="商品价格" width="80">
+          </el-table-column>
+          <el-table-column prop="productTitle" label="商品介绍" width="220">
+          </el-table-column>
+          <el-table-column label="数量" width="200">
+            <template slot-scope="scope">
+             <el-input-number
+                v-model="num"
+                @change="handleChange(scope)"
                 :min="1"
                 :max="10"
                 label="描述文字"
                 size="small"
               >
               </el-input-number>
-            </el-col>
-            <el-col><i class="el-icon-delete"></i></el-col>
-          </el-row> -->
+            </template>
+          </el-table-column>    
+           <el-table-column label="移除">
+            <template slot-scope="scope">
+              <i class="el-icon-delete" @click="delShop(scope.row)"></i>
+            </template>
+          </el-table-column>
+        </el-table>
       </div>
     </div>
+    <!-- 展示区结束 -->
     <!-- <div class="empty-list" v-if="favoriteList.length === 0">
         暂无收藏的商品
       </div> -->
@@ -156,7 +140,7 @@ export default {
       }
     },
     delShop(shopDetail) {
-      console.log(shopDetail)
+      console.log(shopDetail);
     },
   },
 };
