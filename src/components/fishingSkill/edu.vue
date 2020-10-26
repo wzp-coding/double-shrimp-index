@@ -13,49 +13,59 @@
       <el-divider></el-divider>
       <!-- 导航栏 -->
       <div class="Tabs">
-        <el-tabs v-model="activeName" @tab-click="handleClick">
-          <el-tab-pane label="课程分类：" disabled></el-tab-pane>
-          <el-tab-pane label="热门推荐" name="first">
+        <el-tabs v-model="activeName" @tab-click="classChange">
+          <el-tab-pane label="课程分类：" disabled name="zero"></el-tab-pane>
+          <el-tab-pane v-for="(nav, index) in classNav" :key="nav.id" :label="nav.name" :name="index + ''" :id="nav.id">
             <!-- 视频区域 -->
-            <div class="vedioArea">
+            <div class="videoArea">
               <el-row :gutter="20">
-                <el-col :span="6" v-for="item in vedioItems" :key="item.id">
+                <el-col :span="6" v-for="(item, index) in videoItems" :key="item.id">
                   <div>
-                    <el-card class="adviseCard">
+                    <el-card class="adviseCard bottom">
                       <div class="video">
-                        <video :src="item.src" class="videoItem"></video>
-                        <i class="el-icon-video-play" @click="goVideo"></i>
+                        <el-image :src="item.pic" class="videoItem"></el-image>
+                        <i class="el-icon-video-play" @click="goVideo(item)"></i>
                       </div>
                       <div style="padding: 14px">
-                        <span>{{ item.title }}</span>
-                        <div class="bottom clearfix information">
+                        <span>{{ item.title | ellipsis }}</span>
+                        <div class="clearfix information">
                           <span class="studyCounter"
-                            >{{ item.learnerNum }}人已学习</span
+                            >{{ item.clickNum }}人已学习</span
                           >
-                          <el-button
+                        </div>
+                        <el-button
                             type="text"
                             :class="[
                               'learnButton',
-                              item.id < 2
+                              index < 1
                                 ? 'specialButton_a'
-                                : item.id < 3
+                                : index < 2
                                 ? 'specialButton_b'
                                 : 'learnButton',
                             ]"
-                            @click="goVideo"
+                            @click="goVideo(item)"
                             >立即学习</el-button
                           >
-                        </div>
                       </div>
                     </el-card>
                   </div>
                 </el-col>
               </el-row>
             </div>
+            <div class="pagination">
+              <el-pagination
+              @current-change="handleCurrentChange"
+              :current-page="videoInfo.page"
+              :page-size="videoInfo.size"
+              layout="prev, pager, next, jumper"
+              :hide-on-single-page="true"
+              :total="videoTotal">
+            </el-pagination>
+            </div>
           </el-tab-pane>
-          <el-tab-pane label="基础操作" name="second">基础操作</el-tab-pane>
+          <!-- <el-tab-pane label="基础操作" name="second">基础操作</el-tab-pane>
           <el-tab-pane label="工具与使用" name="third">工具与使用</el-tab-pane>
-          <el-tab-pane label="数据转换" name="fourth">数据转换</el-tab-pane>
+          <el-tab-pane label="数据转换" name="fourth">数据转换</el-tab-pane> -->
         </el-tabs>
       </div>
     </div>
@@ -65,44 +75,78 @@
 export default {
   data() {
     return {
-      activeName: "first",
-      vedioItems: [
-        {
-          id: 1,
-          src: "https://www.runoob.com/try/demo_source/movie.ogg",
-          title: "视频1",
-          learnerNum: 3675,
-        },
-        {
-          id: 2,
-          src: "https://www.runoob.com/try/demo_source/movie.ogg",
-          title: "视频2",
-          learnerNum: 3675,
-        },
-        {
-          id: 3,
-          src: "https://www.runoob.com/try/demo_source/movie.ogg",
-          title: "视频3",
-          learnerNum: 3644,
-        },
-        {
-          id: 4,
-          src: "https://www.runoob.com/try/demo_source/movie.ogg",
-          title: "视频4",
-          learnerNum: 3621,
-        },
-        {
-          id: 5,
-          src: "https://www.runoob.com/try/demo_source/movie.ogg",
-          title: "视频5",
-          learnerNum: 3655,
-        },
-      ],
+      activeName: '0',
+      // 分类导航
+      classNav: [],
+      // 课程分类的 id
+      classId: 0,
+      // 视频参数
+      videoInfo: {
+        page: 1,
+        size: 8
+      },
+      // 视频
+      videoItems: [],
+      videoTotal: 0
     };
   },
+  created() {
+    this.getClassNav()
+  },
   methods: {
-    goVideo() {
-      this.$router.push("/videoPlay");
+    async goVideo(item) {
+      item.clickNum++
+      this.$router.push({
+        path: '/videoPlay',
+        name: 'videoPlay',
+        query: item
+      })
+    },
+    async getClassNav() {
+      const { data: res } = await this.reqM2Service("/education/educationTypes",'','get')
+      if (res.code !== 20000) {
+        return this.$message.error('请求导航数据失败！')
+      }
+      this.classNav = res.data
+      // console.log(this.classNav[0].id)
+      this.classId = this.classNav[0].id
+      this.getClass(this.classNav[0].id)
+    },
+    // async getAllClass() {
+    //   const { data: res } = await this.reqM2Service(`/education/findAll/${this.videoInfo.page}/${this.videoInfo.size}`,'','get')
+    //   this.videoItems = res.data.rows
+    //   this.videoTotal = res.data.total
+    //   console.log(this.videoItems)
+    //   console.log(this.videoTotal)
+    // },
+    async getClass(typeId) {
+      // const { data: res } = await this.$http.get('http://106.75.154.40:9012/education/education')
+      const { data: res } = await this.reqM2Service(`/education/education/search/searchByTypeId/${typeId}/${this.videoInfo.page}/${this.videoInfo.size}`,'','get')
+      this.videoItems = res.data.rows
+      this.videoTotal = res.data.total
+      // console.log(this.videoItems)
+    },
+    classChange(tab) {
+      // 获取 id
+      this.classId = tab.$attrs['id']
+      // 恢复默认
+      this.videoInfo.page = 1
+      // 根据 id 改变网络请求
+      this.getClass(this.classId)
+    },
+    // 监听 pagenum 改变
+    handleCurrentChange(newPage) {
+      this.videoInfo.page = newPage
+      this.getClass(this.classId)
+    }
+  },
+  filters: {
+    ellipsis(value) {
+      if (!value) return "";
+      if (value.length > 11) {
+        return value.slice(0, 11) + "...";
+      }
+      return value;
     },
   },
 };
@@ -136,8 +180,9 @@ export default {
 }
 .Tabs {
   .el-tabs__item.is-active {
+    color: #46c048;
   }
-  color: #46c048;
+  
 }
 .Tabs {
   .el-tabs__active-bar {
@@ -151,12 +196,13 @@ export default {
   font-size: 13px;
   color: #999;
 }
-.vedioArea {
+.videoArea {
   margin-left: 15px;
   margin-top: 20px;
 }
 .adviseCard {
   padding: 0px;
+  margin-bottom: 15px;
 }
 .adviseCard {
   .el-card__body {
@@ -174,8 +220,8 @@ export default {
 }
 .el-icon-video-play {
   position: absolute;
-  left: 50%;
-  top: 50%;
+  left: 54%;
+  top: 54%;
   transform: translate(-50%, -50%);
   font-size: 40px;
   background-color: rgba(0, 0, 0, 0.6);
@@ -183,10 +229,15 @@ export default {
   color: #fff;
   cursor: pointer;
 }
+.bottom {
+  position: relative;
+}
 .learnButton {
   width: 80px;
   height: 30px;
-  float: right;
+  position: absolute;
+  right: 0;
+  bottom: 0;
   color: #000;
   border: 1px solid #fff;
   border-radius: 15px;
@@ -207,9 +258,11 @@ export default {
   background-color: #fff;
   color: #46c048;
 }
-.information {
-  .el-button {
-    line-height: 0;
-  }
+.el-button {
+  line-height: 0;
+}
+.pagination {
+  margin: 20px auto;
+  text-align: center;
 }
 </style>

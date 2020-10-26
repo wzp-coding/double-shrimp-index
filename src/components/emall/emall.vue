@@ -41,7 +41,7 @@
                   </el-select>
                 </div>
               </div>
-              <el-button slot="append">搜索</el-button>
+              <el-button slot="append" @click="goToSearch">搜索</el-button>
             </el-input>
           </el-col>
         </el-row>
@@ -148,9 +148,7 @@
           <el-tab-pane label="土地流转" name="land">土地流转</el-tab-pane>
           <el-tab-pane label="包装" name="pack">包装</el-tab-pane>
           <el-tab-pane label="飞防服务" name="fly">飞防服务</el-tab-pane>
-          <el-tab-pane label="农工服务" name="farmService"
-            >农工服务</el-tab-pane
-          >
+          <el-tab-pane label="农工服务" name="farmService">农工服务</el-tab-pane>
           <el-tab-pane label="农业防治" name="farmCue">农业防治</el-tab-pane>
           <el-tab-pane label="农业检测" name="farmCheck">农业检测</el-tab-pane>
           <el-tab-pane label="租赁服务" name="rent">租赁服务</el-tab-pane>
@@ -738,6 +736,9 @@ export default {
   },
   methods: {
     choseItem() {},
+    goToSearch() {
+      this.$router.push('/emallSearch')
+    }
   },
   filters: {
     ellipsis(value) {
@@ -1071,6 +1072,9 @@ a:focus {
 .goods {
   margin: 15px 0;
 }
+.goods >>> .el-image {
+  cursor: pointer;
+}
 .sellPrice {
   color: red;
   font-size: 15px;
@@ -1092,6 +1096,7 @@ a:focus {
 }
 .title {
   font-size: 14px;
+  cursor: pointer;
 }
 .goodsPosition {
   float: right;

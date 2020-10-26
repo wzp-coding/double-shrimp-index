@@ -48,6 +48,8 @@ import visualizationPlatform from '../components/visualizationPlatform/visualiza
 
 // 店铺详情
 import emall from '../components/emall/emall.vue'
+import emallDetail from '../components/emall/emallDetail.vue'
+import emallSearch from '../components/emall/emallSearch.vue'
 import shopDetail from '../components/emall/shopDetail.vue'
 import shopMangerDetail from '../components/emall/shopMangerDetail.vue'
 import orderManage from '../components/emall/shopComponents/orderManage.vue'
@@ -157,8 +159,8 @@ const routes = [{
 },
 {
   path: '/videoPlay',
-  component: videoPlay
-
+  component: videoPlay,
+  name:'videoPlay'
 },
 {
   path: '/intellectualPropertyArticle',
@@ -291,6 +293,16 @@ const routes = [{
 {
   path: '/emall',
   component: emall
+
+},
+{
+  path: '/emallDetail',
+  component: emallDetail
+
+},
+{
+  path: '/emallSearch',
+  component: emallSearch
 
 },
 {
