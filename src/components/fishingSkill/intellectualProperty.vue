@@ -294,7 +294,6 @@
   }
 }
 </script>
-// 知识产权
 <style lang="less" scoped>
 body {
   margin: 0;

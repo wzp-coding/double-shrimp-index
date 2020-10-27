@@ -36,8 +36,10 @@
                   <div class="lsec1rword1">
                     <a href="#"><i></i>{{ item.title }}</a>
                   </div>
-                  <!-- this.formatTime(item.creationTime) -->
-                  <div class="lsec1rword2">{{ item.creationTime }}</div>
+
+                  <div class="lsec1rword2">
+                    {{ formatTime(item.creationTime) }}
+                  </div>
                 </li>
               </ul>
             </div>
@@ -48,7 +50,11 @@
             <!-- 标题区 -->
             <div class="lsec2head">
               <div class="lsec2headl">专家</div>
-              <div class="lsec2headr"><a href="#">更多>></a></div>
+              <div class="lsec2headr">
+                <router-link to=""
+                  >更多 <i class="el-icon-d-arrow-right"></i>
+                </router-link>
+              </div>
             </div>
             <!-- 第二栏内容区 -->
             <div class="lsec23rword">
@@ -186,6 +192,7 @@
 export default {
   data() {
     return {
+      
       list: [],
       zjlist: [],
       mtlist: [],
@@ -354,10 +361,6 @@ export default {
 
 
 <style lang="less" scoped>
-body {
-  margin: 0;
-  padding: 0;
-}
 a {
   text-decoration: none;
 }
@@ -379,37 +382,26 @@ a {
 // 内容区
 .all {
   display: flex;
-  width: 1130px;
-  height: 1020px;
-  margin: 25px 10px 25px 10px;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
   // 左栏
   .left {
-    flex: 75%;
+    width: 69%;
   }
   // 右栏
   .right {
-    flex: 25%;
-    // margin: 0 3px 0 25px;
+    width: 30%;
   }
 }
 
 // 左栏第一栏
 .lsec1 {
-  width:820px;
-  height: 300px;
   display: flex;
   margin-bottom: 10px;
   // 轮播图
   .rotationpics {
     width: 35%;
-    // background-image: url(img/1.jpg);
-    // .el-carousel__item h3 {
-    //   color: #475669;
-    //   font-size: 18px;
-    //   opacity: 0.75;
-    //   line-height: 300px;
-    //   margin: 0;
-    // }
     .el-carousel__item:nth-child(2n) {
       background-color: #99a9bf;
     }
@@ -422,13 +414,12 @@ a {
   // 第一栏右栏
   .lsec1rword {
     width: 65%;
-    margin-left: 30px;
+    padding-left: 10px;
     .lsec1rword0 {
-      width: 516px;
       display: flex;
+      justify-content: space-between;
+      padding-bottom: 12px;
       .lsec1rword1 {
-        width: 85%;
-        margin-left: 8px;
         font-size: 13px;
         line-height: 2em;
         a {
@@ -439,9 +430,7 @@ a {
         }
       }
       .lsec1rword2 {
-        width: 15%;
-        font-size: 8px;
-        margin: 7px 0 0 5px;
+        font-size: 13px;
         line-height: 2em;
         color: #b3b3b3;
       }
@@ -449,20 +438,13 @@ a {
   }
 }
 
-// 第二栏
-.lsec2 {
-  height: 325px;
-  width: 820px;
-}
-
 // 第二栏标题
 .lsec2head {
-  width: 810px;
-  height: 44px;
   display: flex;
   background-color: #f7f7f7;
-  margin: 0 3px 0 3px;
-  border-bottom: 2px solid #004787;
+  // border-bottom: 2px solid #004787;
+  justify-content: space-between;
+  align-items: center;
   .lsec2headl {
     height: 34px;
     width: 48px;
@@ -477,8 +459,7 @@ a {
     border-top-right-radius: 4px;
   }
   .lsec2headr {
-    margin-top: 10px;
-    padding: 3px 15px 3px 685px;
+    padding-right: 30px;
     font-size: 13px;
     a {
       color: #7a776e;
@@ -489,16 +470,8 @@ a {
   }
 }
 
-// 第三栏
-.lsec3 {
-  height: 325px;
-  width: 820px;
-}
-
 // 第三栏标题
 .lsec3head {
-  width: 810px;
-  height: 44px;
   display: flex;
   background-color: #f7f7f7;
   margin: 0 3px 0 3px;
@@ -531,7 +504,6 @@ a {
 
 // 第二三栏内容区共用样式
 .lsec23rword {
-  width: 820px;
   margin: 10px 5px 10px 25px;
   line-height: 2.4em;
   font-size: 14px;
@@ -543,14 +515,8 @@ a {
   }
 }
 
-// 右栏上
-.rsec1 {
-  width: 285px;
-  flex: 25%;
-}
 // 右侧第一栏
 .rsec1rword0 {
-  width: 265px;
   margin: 10px 3px 10px 10px;
   .rsec1rword {
     font-size: 13px;
@@ -571,7 +537,6 @@ a {
 }
 // 右栏上标题
 .rsec1head {
-  width: 285px;
   height: 32px;
   display: flex;
   background-color: #f7f7f7;
@@ -592,8 +557,6 @@ a {
 
 // 右栏第二栏
 .rsec2 {
-  width: 285px;
-  flex: 45%;
   .rsec2word {
     font-size: 13px;
     line-height: 2em;
@@ -617,7 +580,6 @@ a {
 }
 
 .rsec2more {
-  width: 285px;
   height: 20px;
   font-size: 12px;
   border-bottom: 1px solid #b7b7b5;
@@ -635,13 +597,7 @@ a {
   font-weight: 800;
 }
 
-// 右栏第三栏
-.rsec3 {
-  width: 285px;
-  flex: 30%;
-}
 .rsec3more {
-  width: 285px;
   height: 20px;
   font-size: 12px;
   border-bottom: 1px solid #b7b7b5;
@@ -655,7 +611,6 @@ a {
 }
 
 .tage {
-  width: 280px;
   margin: 20px 3px 10px 10px;
 }
 .el-button {

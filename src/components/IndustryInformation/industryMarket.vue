@@ -460,7 +460,8 @@
             <el-divider class="ccy-drvider"></el-divider>
             <div class="righttext">
               <ul style="margin-left: 17px">
-                <li class="ccy-li"
+                <li
+                  class="ccy-li"
                   v-for="(item, index) in dataTimeList.slice(0, 9)"
                   :key="index"
                 >
@@ -511,19 +512,22 @@
                 </div>
               </h3>
               <el-divider class="ccy-drvider"></el-divider>
-              <li 
+              <li
                 v-for="(item, index) in dataTimeList.slice(0, 5)"
                 :key="index"
                 class="ccy-rightLi"
-                style="width:180px"
+                style="width: 180px"
                 :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
               >
-                <router-link style="text-decoration: none;color:black" to="/instructdetail">
+                <router-link
+                  style="text-decoration: none; color: black"
+                  to="/instructdetail"
+                >
                   {{ item.title }}
                 </router-link>
               </li>
 
-              <br/>
+              <br />
               <h3 style="display: flex; justify-content: space-between">
                 <div>
                   <span
@@ -554,14 +558,16 @@
                 </div>
               </h3>
               <el-divider class="ccy-drvider"></el-divider>
-              <li v-for="(item, index) in dataTimeList.slice(0, 4)"
+              <li
+                v-for="(item, index) in dataTimeList.slice(0, 4)"
                 :key="index"
                 class="ccy-rightLi"
-                style="width:180px"
-                :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']" >
-                 {{ item.title }}
+                style="width: 180px"
+                :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
+              >
+                {{ item.title }}
               </li>
-              
+
               <br />
               <h3 style="display: flex; justify-content: space-between">
                 <div>
@@ -596,22 +602,26 @@
             </div>
             <div class="rightmd">
               <ul style="margin-left: 17px">
-                <li v-for="(item, index) in dataTimeList.slice(0, 5)"
-                :key="index"
-                class="ccy-rightLi"
-                style="width:180px"
-                :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']" >
-                 {{ item.title }}
-              </li>
+                <li
+                  v-for="(item, index) in dataTimeList.slice(0, 5)"
+                  :key="index"
+                  class="ccy-rightLi"
+                  style="width: 180px"
+                  :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
+                >
+                  {{ item.title }}
+                </li>
               </ul>
               <ul style="margin: 10px 0 30px 16px">
-                <li v-for="(item, index) in dataTimeList.slice(0, 6)"
-                :key="index"
-                class="ccy-rightLi"
-                style="width:180px"
-                :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']" >
-                 {{ item.title }}
-              </li>
+                <li
+                  v-for="(item, index) in dataTimeList.slice(0, 6)"
+                  :key="index"
+                  class="ccy-rightLi"
+                  style="width: 180px"
+                  :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
+                >
+                  {{ item.title }}
+                </li>
               </ul>
               <h3 style="display: flex; justify-content: space-between">
                 <div>
@@ -1002,11 +1012,11 @@ li {
       white-space: nowrap;
     }
   }
-  .ccy-rightLi{
-      text-overflow: ellipsis;
-      overflow: hidden;
-      list-style-position: inside;
-      white-space: nowrap;
+  .ccy-rightLi {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    list-style-position: inside;
+    white-space: nowrap;
   }
 }
 .bot {
