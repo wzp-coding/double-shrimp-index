@@ -233,6 +233,7 @@ export default {
   },
 
   created() {
+    // 异步操作管理
     this.yibu();
   },
   methods: {
