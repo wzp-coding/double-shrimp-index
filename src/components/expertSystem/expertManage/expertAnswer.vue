@@ -24,6 +24,7 @@
                 <el-form-item label="帖子问题">
                   <span>: {{ props.row.title }}</span>
                 </el-form-item>
+                <!-- 预览图片有bug -->
                 <el-form-item
                   label="图片说明"
                   v-if="props.row.images.length != 0"
@@ -53,62 +54,12 @@
           </el-table-column>
           <el-table-column fixed prop="creationTime" label="日期" width="180">
           </el-table-column>
-          <el-table-column prop="title" label="帖子" width="400">
+          <el-table-column prop="title" label="帖子" width="480">
           </el-table-column>
-          <el-table-column prop="stateInfo" label="审核状态" width="100">
-          </el-table-column>
-          <el-table-column fixed="right" label="操作" width="120">
-            <template slot-scope="scope">
-              <el-button
-                @click.native.prevent="deleteRow(scope.$index, quesList)"
-                type="text"
-                size="small"
-              >
-                删除
-              </el-button>
-              <el-button
-                @click="handleEdit(scope.$index, scope.row)"
-                type="text"
-                size="small"
-                >编辑</el-button
-              >
-            </template>
+          <el-table-column prop="stateInfo" label="审核状态" width="140">
           </el-table-column>
         </el-table>
       </el-tab-pane>
-      <!-- 修改对话框--开始 -->
-      <el-dialog title="修改帖子" :visible.sync="dialogFormVisible">
-        <el-form :model="form">
-          <el-form-item label="问题内容">
-            <el-input type="textarea" v-model="form.title"></el-input>
-          </el-form-item>
-          <el-form-item label="上传图片">
-            <el-upload
-              action="http://106.75.154.40:9005/information/upload"
-              list-type="picture-card"
-              :on-preview="handlePictureCardPreview"
-              :on-remove="handleRemove"
-            >
-              <i class="el-icon-plus"></i>
-            </el-upload>
-            <!-- <el-dialog :visible.sync="dialogVisible" v-for="(item,index) in form.images" :key="index">
-              <img width="100%" :src="item" alt="" />
-            </el-dialog> -->
-            <div>{{form.images}}</div>
-            <el-dialog :visible.sync="dialogVisible">
-              <img width="100%" :src="dialogImageUrl" alt="" />
-            </el-dialog>
-            
-          </el-form-item> 
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="dialogFormVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogFormVisible = false"
-            >确 定</el-button
-          >
-        </div>
-      </el-dialog>
-      <!-- 修改对话框--结束 -->
       <!-- 提问我的----结束 -->
       <!-- 我的回复----开始 -->
       <el-tab-pane label="我的回复">
@@ -177,6 +128,35 @@
       </el-tab-pane>
     </el-tabs>
     <!-- 我的回复----结束 -->
+    <!-- 修改对话框--开始 -->
+      <el-dialog title="修改回复" :visible.sync="dialogFormVisible">
+        <el-form :model="form">
+          <el-form-item label="问题内容">
+            <el-input type="textarea" v-model="form.title"></el-input>
+          </el-form-item>
+          <el-form-item label="上传图片">
+            <el-upload
+              action="http://106.75.154.40:9005/information/upload"
+              list-type="picture-card"
+              :on-preview="handlePictureCardPreview"
+              :on-remove="handleRemove"
+              :on-success="handleOnSuccess"
+              :on-error="handleOnError"
+              :file-list="fileList"
+            >
+              <i class="el-icon-plus"></i>
+            </el-upload>
+            <el-dialog :visible.sync="dialogVisible">
+              <img width="100%" :src="dialogImageUrl" alt="" />
+            </el-dialog>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormVisible = false">取 消</el-button>
+          <el-button type="primary" @click="handleSubmitQues">确 定</el-button>
+        </div>
+      </el-dialog>
+      <!-- 修改对话框--结束 -->
     <!-- 换页 -->
     <div class="pagination">
       <pagination
@@ -206,55 +186,146 @@ export default {
       dialogFormVisible: false,
       form: {
         title: "",
-        images:[]
+        images: [],
       },
       formLabelWidth: "120px",
       dialogImageUrl: "",
       dialogVisible: false,
+      fileList: [],
+      oneQuesInfo: {},
+      oneReplyInfo: {},
     };
   },
   components: {
     pagination,
   },
   methods: {
+    // 提交帖子修改
+    handleSubmitQues() {
+      this.dialogFormVisible = false;
+      this.oneQuesInfo.images = this.oneQuesInfo.images.join(",");
+      console.log(this.oneQuesInfo);
+      this.putQuesById(this.oneQuesInfo.id, this.oneQuesInfo);
+    },
+    // 根据帖子id提交修改
+    putQuesById(id, data) {
+      this.$http
+        .put(`http://106.75.154.40:9005/post/update/${id}`, data)
+        .then((res) => {
+          res = res.data;
+          // console.log("res: ", res);
+          if (res.code == 20000) {
+            this.$message({
+              type: "success",
+              message: "修改成功",
+            });
+          } else {
+            this.$message({
+              type: "info",
+              message: "修改失败",
+            });
+          }
+        });
+    },
     // 删除图片
     handleRemove(file, fileList) {
-      console.log('file: ', file);
-      console.log('fileList: ', fileList);
+      // console.log("file: ", file);
+      let delUrl = file.response.data;
+      // console.log('delUrl: ', delUrl);
+      this.deleteImgByDelUrl(delUrl);
+    },
+    // 根据delUrl删除图片
+    deleteImgByDelUrl(delUrl) {
+      this.$http
+        .delete(
+          `http://106.75.154.40:9012/education/file/delPic?delUrl=${delUrl}`
+        )
+        .then((res) => {
+          // console.log('res: ', res);
+          res = res.data;
+          if (res.code == 20000) {
+            this.$message({
+              type: "success",
+              message: "删除成功",
+            });
+          } else {
+            this.$message({
+              type: "info",
+              message: "删除失败",
+            });
+          }
+        });
     },
     // 图片预览
     handlePictureCardPreview(file) {
-      console.log('file: ', file);
       this.dialogImageUrl = file.url;
       this.dialogVisible = true;
     },
+    // 上传成功
+    handleOnSuccess(res, file, fileList) {
+      // console.log("file: ", file);
+      // console.log("res: ", res);
+      if (res.code == 20000) {
+        res = res.data;
+        this.oneQuesInfo.images.push(res);
+        this.$message({
+          type: "success",
+          message: "上传成功",
+        });
+        // console.log('this.oneQuesInfo: ', this.oneQuesInfo);
+      } else {
+        this.$message({
+          type: "info",
+          message: "上传失败",
+        });
+      }
+    },
+    // 上传图片失败
+    handleOnError(err, file, fileList) {
+      console.log("err: ", err);
+      if (err) {
+        this.$message({
+          type: "info",
+          message: "上传失败",
+        });
+      }
+    },
     // 编辑帖子或者回复
-    handleEdit(index, row) {
+    async handleEdit(index, row) {
       this.dialogFormVisible = true;
       let id = row.id;
       // console.log('id: ', id);
-      this.getQuesInfoById(id);
+      await this.getQuesInfoById(id);
+      console.log("this.fileList: ", this.fileList);
     },
     // 根据id请求单个问题的信息
-    getQuesInfoById(id){
-      this.$http
+    async getQuesInfoById(id) {
+      await this.$http
         .get(`http://106.75.154.40:9012/info/post/findById/${id}`)
-        .then(res=>{
+        .then((res) => {
           res = res.data;
           // console.log('res: ', res);
-          if(res.code == 20000){
+          if (res.code == 20000) {
             res = res.data;
+            this.oneQuesInfo = res;
             this.form.title = res.title;
-            if(!!res.images){
-              this.$set(this.form,"images",res.images.split(','));
-            }else{
-              this.$set(this.form,"images",[]);
+            if (!!res.images) {
+              this.$set(this.form, "images", res.images.split(","));
+              this.oneQuesInfo.images = res.images.split(",");
+            } else {
+              this.$set(this.form, "images", []);
+              this.oneQuesInfo.images = [];
             }
-            this.form.images.forEach(url=>{
-              this.handlePictureCardPreview({url})
-            })
+            this.form.images.forEach((url) => {
+              this.fileList.push({ url });
+            });
+          } else {
+            this.$message({
+              type: "info",
+              message: "获取信息失败",
+            });
           }
-        })
+        });
     },
     // 删除帖子或者回复
     deleteRow(index, rows) {
@@ -405,7 +476,6 @@ export default {
           `http://106.75.154.40:9012/info/details/findByReplier/${id}/${page}/${size}`
         )
         .then((res) => {
-          
           res = res.data;
           if (res.code === 20000) {
             res = res.data;
