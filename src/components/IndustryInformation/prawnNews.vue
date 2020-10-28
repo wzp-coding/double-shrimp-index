@@ -13,17 +13,18 @@
         <div class="zhuti">
           <div class="left">
             <div class="block">
-              <div class="blockson">
-                <el-image :src="src"></el-image>
-                <span>水稻多少钱一斤</span>
-              </div>
-              <div class="blockson">
-                <el-image :src="src"></el-image>
-                <span>水稻多少钱一斤</span>
-              </div>
-              <div class="blockson">
-                <el-image :src="src"></el-image>
-                <span>水稻多少钱一斤</span>
+              <div
+                class="blockson"
+                v-for="(item, index) in datalist.slice(0, 3)"
+                :key="index"
+              >
+                <router-link
+                  to="/instructdetail"
+                  style="text-decoration: none; color: black"
+                >
+                  <el-image :src="item.picture"></el-image>
+                  <span>{{ item.title }}</span>
+                </router-link>
               </div>
             </div>
             <div class="tail" style="width: 100%; margin-top: 15px">
@@ -50,7 +51,12 @@
                     color: rgb(93, 183, 60);
                   "
                 >
-                  <span style="color: #9e9e9e"> 更多 </span>
+                  <router-link
+                    to="/instructdetail"
+                    style="text-decoration: none; color: black"
+                  >
+                    <span style="color: #9e9e9e"> 更多 </span>
+                  </router-link>
                   <i class="el-icon-caret-right"></i>
                 </div>
               </h3>
@@ -61,12 +67,13 @@
                 class="mainson"
                 v-for="(item, index) in pagelist"
                 :key="index"
+                style="border-bottom: 1px solid rgb(230, 230, 230)"
               >
                 <div class="pic">
                   <el-image :src="item.picture"></el-image>
                 </div>
                 <div class="sonr">
-                  <div class="h2" style="width: 100%;margin-top:10px">
+                  <div class="h2" style="width: 100%; margin-top: 18px">
                     <router-link
                       to="/instructdetail"
                       style="color: black; text-decoration: none"
@@ -74,8 +81,8 @@
                       <h2>{{ item.title }}</h2></router-link
                     >
                   </div>
-                  <div class="pm" style="width: 100%; margin: 20px 0">
-                    <p>
+                  <div class="pm" style="width: 100%; margin: 10px 0">
+                    <p style="width: 100%; background-color: pink">
                       {{ item.content }}
                       <router-link
                         to="/instructdetail"
@@ -95,17 +102,14 @@
                       style="
                         color: green;
                         font-size: 13px;
-                        float: right;
+                        right:3px
                         padding-right: 3px;
                       "
                     >
                       {{ item.summary }}
                     </p>
-                    <p style="font-size: 13px; float: right">分类：</p>
+                    <p style="font-size: 13px; right: 40px">分类：</p>
                   </div>
-                </div>
-                <div class="divf" style="width: 100%">
-                  <el-divider></el-divider>
                 </div>
               </div>
             </div>
@@ -115,7 +119,7 @@
               :total="pagelist.length"
               :page-size="3"
               :current-page="1"
-              style="display: flex; justify-content: center; margin-top: 10px"
+              style="display: flex; justify-content: center; margin-top: 20px"
             >
             </el-pagination>
           </div>
@@ -129,15 +133,18 @@
                     justify-content: space-between;
                   "
                 >
-                  <div>
+                  <div style="margin-right: -120px">
                     <span
                       style="
                         margin-right: 5px;
                         border-left: 6px solid rgb(93, 183, 60);
                       "
                     ></span>
-                    热门资讯
+                    最新资讯
                   </div>
+                  <el-tag type="danger" size="small" style="margin-top: 3px"
+                    >New</el-tag
+                  >
                   <div
                     style="
                       font-size: 0.8rem;
@@ -150,30 +157,22 @@
                   </div>
                 </h3>
                 <el-divider class="ccy-drvider"></el-divider>
+
                 <ul>
-                  <li style="font-size: 15.21px; font-weight: 800">
-                    4G进村百户农民脱贫路上赛跑
+                  <li
+                    v-for="(item, index) in dataTimeList.slice(0, 6)"
+                    :key="index"
+                    :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
+                  >
+                    <router-link
+                      style="text-decoration: none; color: black"
+                      to="/instructdetail"
+                    >
+                      {{ item.title }}
+                    </router-link>
                   </li>
-                  <li>4G进村百户农民脱贫路上赛跑</li>
-                  <li>4G进村百户农民脱贫路上赛跑</li>
-                  <li>4G进村百户农民脱贫路上赛跑</li>
-                  <li>80后青年互联网上卖山货，助力家。</li>
-                  <li>80后青年互联网上卖山货，助力家。</li>
                 </ul>
-                <el-divider
-                  class="ccy-drvider"
-                  style="display: inline-block; margin-top: -30px"
-                ></el-divider>
-                <ul style="margin: 17px 0">
-                  <li style="font-size: 15.21px; font-weight: 800">
-                    4G进村百户农民脱贫路上赛跑
-                  </li>
-                  <li>4G进村百户农民脱贫路上赛跑</li>
-                  <li>80后青年互联网上卖山货，助力家。</li>
-                  <li>80后青年互联网上卖山货，助力家。</li>
-                  <li>4G进村百户农民脱贫路上赛跑</li>
-                  <li>4G进村百户农民脱贫路上赛跑</li>
-                </ul>
+                <br />
                 <h3
                   style="
                     margin-bottom: -22px;
@@ -181,7 +180,7 @@
                     justify-content: space-between;
                   "
                 >
-                  <div>
+                  <div style="margin-right: -120px">
                     <span
                       style="
                         margin-right: 5px;
@@ -190,6 +189,9 @@
                     ></span>
                     热门资讯
                   </div>
+                  <el-tag type="danger" size="small" style="margin-top: 3px"
+                    >热卖</el-tag
+                  >
                   <div
                     style="
                       font-size: 0.8rem;
@@ -201,41 +203,33 @@
                     <i class="el-icon-caret-right"></i>
                   </div>
                 </h3>
-                <el-divider class="ccy-drvider"></el-divider>
-                <!--分割线-->
-                <div class="drive" style="width: 100%"></div>
-              </div>
-              <div class="rmid">
+                <el-divider
+                  class="ccy-drvider"
+                  style="display: inline-block; margin-top: -30px"
+                ></el-divider>
                 <ul>
-                  <li style="font-size: 15.21px; font-weight: 800">
-                    80后青年互联网上卖山货，助力家
+                  <li
+                    v-for="(item, index) in dataRecommList.slice(0, 6)"
+                    :key="index"
+                    :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
+                  >
+                    <router-link
+                      style="text-decoration: none; color: black"
+                      to="/instructdetail"
+                    >
+                      {{ item.title }}
+                    </router-link>
                   </li>
-                  <li>80后青年互联网上卖山货，助力家。</li>
-                  <li>80后青年互联网上卖山货，助力家。</li>
-                  <li>80后青年互联网上卖山货，助力家。</li>
-                  <li>80后青年互联网上卖山货，助力家。</li>
-                  <li>80后青年互联网上卖山货，助力家。</li>
                 </ul>
                 <br />
-                <ul>
-                  <li style="font-size: 15.21px; font-weight: 800">
-                    80后青年互联网上卖山货，助力家
-                  </li>
-                  <li>80后青年互联网上卖山货，助力家。</li>
-                  <li>80后青年互联网上卖山货，助力家。</li>
-                  <li>80后青年互联网上卖山货，助力家。</li>
-                  <li>80后青年互联网上卖山货，助力家。</li>
-                  <li>80后青年互联网上卖山货，助力家。</li>
-                </ul>
                 <h3
                   style="
                     margin-bottom: -20px;
                     display: flex;
                     justify-content: space-between;
-                    margin-top: 15px;
                   "
                 >
-                  <div>
+                  <div style="margin-right: -120px">
                     <span
                       style="
                         margin-right: 5px;
@@ -244,6 +238,9 @@
                     ></span>
                     热门资讯
                   </div>
+                  <el-tag type="danger" size="small" style="margin-top: 3px"
+                    >Hot</el-tag
+                  >
                   <div
                     style="
                       font-size: 0.8rem;
@@ -256,10 +253,24 @@
                   </div>
                 </h3>
                 <el-divider class="ccy-drvider"></el-divider>
+
+                <ul>
+                  <li
+                    v-for="(item, index) in dataRecommList.slice(0, 6)"
+                    :key="index"
+                    :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
+                  >
+                    <router-link
+                      style="text-decoration: none; color: black"
+                      to="/instructdetail"
+                    >
+                      {{ item.title }}
+                    </router-link>
+                  </li>
+                </ul>
+                <el-divider class="ccy-drvider"></el-divider>
                 <!--分割线-->
-                <div class="drive" style="margin-top: -25px; width: 100%">
-                  <el-divider></el-divider>
-                </div>
+                <div class="drive" style="width: 100%"></div>
               </div>
               <div class="rbtm">
                 <div class="tageson">
@@ -320,6 +331,9 @@ export default {
   },
   data() {
     return {
+      //分类
+      classificationList: [],
+
       //按点击量分页
       queryinfo: {
         page: "1", //页数
@@ -331,17 +345,40 @@ export default {
 
       //查询所有虾业专题
       datalist: [],
+
+      //按时间
+      dataTimeList: [],
+
+      //按推荐
+      dataRecommList: [],
+
       src:
         "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
     };
   },
   created() {
-    //获取分页
-    this.getClickData(),
+    //分类信息 type 根据其ID决定其
+    this.getclassification(),
+      //获取分页
+      this.getClickData(),
       //获取所有虾业专题
-      this.getdata1();
+      this.getdata();
+    //推荐
+    this.getHotData(),
+      //按时间  最新
+      this.getNewData();
   },
   methods: {
+    //分类  (财富手册 对虾养殖)
+    async getclassification() {
+      const { data: res } = await this.reqM2Service(
+        "/info/marketTypes",
+        "",
+        "get"
+      );
+      this.classificationList = res.data;
+      //console.log(res);
+    },
     //按点击量分页
     async getClickData() {
       const { data: res } = await this.reqM2Service(
@@ -357,7 +394,8 @@ export default {
       this.pagelist = res.data.rows;
     },
 
-    async getdata1() {
+    //查询全部
+    async getdata() {
       const { data: res } = await this.reqM2Service(
         "/info/shrimpIndustry",
         "",
@@ -366,7 +404,29 @@ export default {
       if (res.code !== 20000) {
         return this.$message.error("获取失败");
       }
-      console.log(res);
+      // console.log(res);
+      this.datalist = res.data;
+    },
+
+    //按时间
+    async getNewData() {
+      const { data: res } = await this.reqM2Service(
+        "/info/shrimpIndustry/findByTime",
+        "",
+        "get"
+      );
+      this.dataTimeList = res.data;
+      console.log(this.dataTimeList);
+    },
+    //按推荐
+
+    async getHotData() {
+      const { data: res } = await this.reqM2Service(
+        "/info/shrimpIndustry/findByRecommend",
+        "",
+        "get"
+      );
+      this.dataRecommList = res.data;
     },
   },
 };
@@ -385,7 +445,18 @@ export default {
 .lxl-box {
   width: 1150px;
 }
-
+.ccy-css {
+  color: black;
+  text-decoration: none;
+  font-size: 15.21px;
+  font-weight: 700;
+}
+.ccy-cssn {
+  text-decoration: none;
+  color: black;
+  font-size: 13px;
+  font-weight: 500;
+}
 .ccy-drvider {
   margin-top: 30px;
 }
@@ -419,6 +490,14 @@ export default {
     }
   }
 }
+.router-link {
+  span {
+    text-decoration: none;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+}
 .zhuti {
   display: flex;
   justify-content: space-between;
@@ -431,9 +510,20 @@ export default {
       display: flex;
       justify-content: space-between;
       .blockson {
+        height: 150px;
         width: 33%;
+        .el-image {
+          width: 98%;
+          height: 90%;
+        }
         span {
           padding-left: 10px;
+          width: 95%;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          list-style-position: inside;
+          white-space: nowrap;
+          font-size: 13px;
         }
       }
     }
@@ -444,21 +534,26 @@ export default {
       .mainson {
         width: 100%;
         display: flex;
-        margin-top: -10px;
-        height: 180px;
-        flex-wrap: wrap;
+        margin-top: -20px;
+        height: 190px;
+        position: relative;
         .pic {
           height: 90%;
           width: 29%;
-          display: flex;
-          .el-image{
-            margin-top: 20px;
+          .el-image {
+            margin-top: 25px;
             width: 100%;
             height: 90%;
-
           }
         }
         .sonr {
+          .pm {
+            p {
+              text-overflow: ellipsis;
+              overflow-wrap: normal;
+              overflow: hidden;
+            }
+          }
           display: flex;
           flex-direction: column;
           align-content: center;
@@ -473,6 +568,12 @@ export default {
           span {
             padding-top: 10px;
           }
+          .lbtm {
+            p {
+              position: absolute;
+              bottom: 3px;
+            }
+          }
         }
       }
     }
@@ -481,7 +582,11 @@ export default {
     width: 30%;
     .right {
       li {
-        font-size: 13px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        list-style-position: inside;
+        width: 220px;
       }
       display: flex;
       flex-direction: column;
@@ -493,9 +598,6 @@ export default {
           background-color: rgb(240, 249, 235);
           color: green;
         }
-      }
-      li {
-        padding-top: 6px;
       }
     }
   }

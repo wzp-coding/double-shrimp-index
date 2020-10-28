@@ -20,7 +20,7 @@
                   <router-link to="/instructdetail">
                     <el-image
                       style="height: 220px"
-                      :src="datalist[12].picture"
+                      :src="datalist[0].picture"
                     ></el-image>
                   </router-link>
                 </div>
@@ -29,7 +29,7 @@
                     <router-link to="/instructdetail">
                       <el-image
                         style="height: 165px"
-                        :src="datalist[13].picture"
+                        :src="datalist[1].picture"
                       ></el-image>
                     </router-link>
                   </div>
@@ -37,7 +37,7 @@
                     <router-link to="/instructdetail">
                       <el-image
                         style="height: 165px"
-                        :src="datalist[14].picture"
+                        :src="datalist[2].picture"
                       >
                       </el-image>
                     </router-link>
@@ -194,9 +194,9 @@
                       >
                         <el-image
                           style="height: 120px"
-                          :src="RecommendList[3].picture"
+                          :src="RecommendList[0].picture"
                         ></el-image>
-                        <span>{{ RecommendList[3].title }}</span>
+                        <span>{{ RecommendList[0].title }}</span>
                       </router-link>
                     </div>
                     <div class="blockson">
@@ -206,9 +206,9 @@
                       >
                         <el-image
                           style="height: 120px"
-                          :src="RecommendList[3].picture"
+                          :src="RecommendList[1].picture"
                         ></el-image>
-                        <span>{{ RecommendList[3].title }}</span>
+                        <span>{{ RecommendList[1].title }}</span>
                       </router-link>
                     </div>
                   </div>
@@ -329,7 +329,7 @@
                     >
                       <span>
                         <router-link
-                          to="/instructdetail"
+                          to="/instructpagedetail"
                           style="
                             color: #9e9e9e;
                             text-decoration: none;
@@ -460,7 +460,8 @@
             <el-divider class="ccy-drvider"></el-divider>
             <div class="righttext">
               <ul style="margin-left: 17px">
-                <li class="ccy-li"
+                <li
+                  class="ccy-li"
                   v-for="(item, index) in dataTimeList.slice(0, 9)"
                   :key="index"
                 >
@@ -470,12 +471,12 @@
                   >
                     <span
                       :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
-                      style="margin-left: -5px; width: 180px"
+                      style="margin-left: -5px; width: 150px"
                       >{{ item.title }}</span
                     ><span
                       style="float: right; color: black"
                       :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
-                      >2天前</span
+                      >{{ item.creationTime | timefilter }}</span
                     >
                   </router-link>
                 </li>
@@ -511,19 +512,22 @@
                 </div>
               </h3>
               <el-divider class="ccy-drvider"></el-divider>
-              <li 
+              <li
                 v-for="(item, index) in dataTimeList.slice(0, 5)"
                 :key="index"
                 class="ccy-rightLi"
-                style="width:180px"
+                style="width: 180px"
                 :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
               >
-                <router-link style="text-decoration: none;color:black" to="/instructdetail">
+                <router-link
+                  style="text-decoration: none; color: black"
+                  to="/instructdetail"
+                >
                   {{ item.title }}
                 </router-link>
               </li>
 
-              <br/>
+              <br />
               <h3 style="display: flex; justify-content: space-between">
                 <div>
                   <span
@@ -554,14 +558,21 @@
                 </div>
               </h3>
               <el-divider class="ccy-drvider"></el-divider>
-              <li v-for="(item, index) in dataTimeList.slice(0, 4)"
+              <li
+                v-for="(item, index) in dataTimeList.slice(0, 4)"
                 :key="index"
                 class="ccy-rightLi"
-                style="width:180px"
-                :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']" >
-                 {{ item.title }}
+                style="width: 180px"
+                :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
+              >
+                <router-link
+                  style="text-decoration: none; color: black"
+                  to="/instructdetail"
+                >
+                  {{ item.title }}
+                </router-link>
               </li>
-              
+
               <br />
               <h3 style="display: flex; justify-content: space-between">
                 <div>
@@ -595,23 +606,37 @@
               <el-divider class="ccy-drvider"></el-divider>
             </div>
             <div class="rightmd">
-              <ul style="margin-left: 17px">
-                <li v-for="(item, index) in dataTimeList.slice(0, 5)"
-                :key="index"
-                class="ccy-rightLi"
-                style="width:180px"
-                :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']" >
-                 {{ item.title }}
-              </li>
+              <ul>
+                <li
+                  v-for="(item, index) in dataTimeList.slice(0, 5)"
+                  :key="index"
+                  class="ccy-rightLi"
+                  style="width: 180px"
+                  :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
+                >
+                  <router-link
+                    style="text-decoration: none; color: black"
+                    to="/instructdetail"
+                  >
+                    {{ item.title }}
+                  </router-link>
+                </li>
               </ul>
-              <ul style="margin: 10px 0 30px 16px">
-                <li v-for="(item, index) in dataTimeList.slice(0, 6)"
-                :key="index"
-                class="ccy-rightLi"
-                style="width:180px"
-                :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']" >
-                 {{ item.title }}
-              </li>
+              <ul style="margin: 10px 0 30px 0">
+                <li
+                  v-for="(item, index) in dataTimeList.slice(0, 6)"
+                  :key="index"
+                  class="ccy-rightLi"
+                  style="width: 180px"
+                  :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
+                >
+                  <router-link
+                    style="text-decoration: none; color: black"
+                    to="/instructdetail"
+                  >
+                    {{ item.title }}
+                  </router-link>
+                </li>
               </ul>
               <h3 style="display: flex; justify-content: space-between">
                 <div>
@@ -698,7 +723,24 @@ export default {
         return times;
       }
     },
+    //过滤器2
+    timefilter(val) {
+      if (val == null || val == "") {
+        return "暂无时间";
+      } else {
+        let d = new Date(val); //val 为表格内取到的后台时间
+        let month =
+          d.getMonth() + 1 < 10 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
+        let day = d.getDate() < 10 ? "0" + d.getDate() : d.getDate();
+        let hours = d.getHours() < 10 ? "0" + d.getHours() : d.getHours();
+        let min = d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes();
+        let sec = d.getSeconds() < 10 ? "0" + d.getSeconds() : d.getSeconds();
+        let times = d.getFullYear() + "-" + month + "-" + day;
+        return times;
+      }
+    },
   },
+
   data() {
     return {
       //分类
@@ -727,7 +769,7 @@ export default {
     };
   },
   created() {
-    //分类信息
+    //分类信息 type 根据其ID决定其
     this.getclassification(),
       //虾业专题
       this.getAlldata(),
@@ -790,6 +832,7 @@ export default {
       );
       console.log(res);
       this.pagelist = res.data.rows;
+      for (var i = 0; i < this.pagelist.length; i++) {}
     },
   },
 };
@@ -828,7 +871,6 @@ export default {
     flex: 4.7;
     .block1 {
       width: 100%;
-
       margin-bottom: 5px;
       .el-image {
         width: 100%;
@@ -1002,11 +1044,11 @@ li {
       white-space: nowrap;
     }
   }
-  .ccy-rightLi{
-      text-overflow: ellipsis;
-      overflow: hidden;
-      list-style-position: inside;
-      white-space: nowrap;
+  .ccy-rightLi {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    list-style-position: inside;
+    white-space: nowrap;
   }
 }
 .bot {
