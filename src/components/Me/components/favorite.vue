@@ -14,7 +14,11 @@
           <el-table-column type="selection" width="55"></el-table-column>
           <el-table-column label="图片" width="120">
             <template slot-scope="scope">
-              <el-image :src="scope.row.picture" style="width:100px;height:100px"> </el-image>
+              <el-image
+                :src="scope.row.picture"
+                style="width: 100px; height: 100px"
+              >
+              </el-image>
             </template>
           </el-table-column>
           <el-table-column prop="productName" label="商品名" width="120">
@@ -25,7 +29,7 @@
           </el-table-column>
           <el-table-column label="数量" width="200">
             <template slot-scope="scope">
-             <el-input-number
+              <el-input-number
                 v-model="num"
                 @change="handleChange(scope)"
                 :min="1"
@@ -35,8 +39,8 @@
               >
               </el-input-number>
             </template>
-          </el-table-column>    
-           <el-table-column label="移除">
+          </el-table-column>
+          <el-table-column label="移除">
             <template slot-scope="scope">
               <i class="el-icon-delete" @click="delShop(scope.row)"></i>
             </template>
@@ -100,17 +104,7 @@ export default {
         },
       ],
       value: "",
-      favoriteList: [
-        {
-          num: 1,
-          picture:
-            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
-          price: 100,
-          productName: "对虾饲料",
-          productTitle:
-            "国产蒸汽鱼粉，粉末袋装，主要成分是海鱼，含有60％的蛋白质，营养成分丰富，能够明显提高饲料利用率，适用于家禽鸡鸭鹅猪狗宠物虾磅蟹等，增加食欲，降低料耗，营养价值高，增强体质。",
-        },
-      ],
+      favoriteList: [],
       num: 1,
       checked: "",
     };
@@ -122,6 +116,7 @@ export default {
     handleChange(value) {
       console.log(value);
     },
+    // 获得登录用户下的收藏夹列表
     async getShopByUserId() {
       try {
         const { data: res } = await this.reqM4Service(
@@ -139,9 +134,46 @@ export default {
         this.$message.error("网络开小差了，请稍后重试19999");
       }
     },
-    delShop(shopDetail) {
+    // 移除该商品
+    async delShop(shopDetail) {
       console.log(shopDetail);
+      try {
+        const { data: res } = await this.reqM4Service(
+          "/cart/" + shopDetail.cartId,
+          "",
+          "delete"
+        );
+        if (res.code === 20000) {
+          this.$message.success(res.message);
+          //  更新
+          this.getShopByUserId();
+        } else {
+          this.$message.error(res.message);
+        }
+      } catch (error) {
+        this.$message.error("网络开小差了，请稍后重试19999");
+      }
     },
+    //购买
+    async buyGoods(){
+      try {
+        const { data: res } = await this.reqM4Service(
+          "/cart/" + shopDetail.cartId,
+          "",
+          "delete"
+        );
+        if (res.code === 20000) {
+          this.$message.success(res.message);
+          //  更新
+          this.getShopByUserId();
+        } else {
+          this.$message.error(res.message);
+        }
+      } catch (error) {
+        this.$message.error("网络开小差了，请稍后重试19999");
+      }
+    }
+  
   },
 };
 </script>

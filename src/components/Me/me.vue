@@ -19,6 +19,7 @@
             <!-- active-text-color高亮颜色 -->
             <!-- router:是否使用 vue-router 的模式，启用该模式会在激活导航时以 index 作为 path 进行路由跳转 -->
             <el-menu-item index="/meHomePage">首页</el-menu-item>
+            <el-menu-item index="/message">我的消息</el-menu-item>
             <el-menu-item index="/favorite">收藏夹</el-menu-item>
             <el-menu-item index="/addressMan">收货地址管理</el-menu-item>
             <el-menu-item index="/changePassword">修改密码</el-menu-item>
@@ -190,7 +191,6 @@ export default {
       }
       .user-mainbox {
         width: 100%;
-        // height:300px;
         background-color: #f5f5f5;
         padding: 5px;
         box-sizing: border-box;

@@ -70,6 +70,7 @@ import addressMan from '../components/Me/components/addressMan.vue'
 import changePassword from '../components/Me/components/changePassword.vue'
 import shopManage from '../components/Me/components/shopManage.vue'
 import expertPage from '../components/Me/components/expertPage.vue'
+import message from '../components/Me/components/message.vue'
 
 // 登录页面
 import login from '../components/login/login.vue'
@@ -312,11 +313,15 @@ const routes = [{
     // 个人中心首页
     {
       path: '/',
-      redirect: '/meHomePage'
+      redirect: '/message'
     },
     {
       path: '/meHomePage',
       component: meHomePage
+    },
+    {
+      path: '/message',
+      component: message
     },
     // 个人中心收藏夹
     {

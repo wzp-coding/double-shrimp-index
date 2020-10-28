@@ -44,7 +44,7 @@ function requireData(url, params, type, item) {
             break;
         case 'M8':
             url = axios.defaults.baseM8URL + url
-            break;    
+            break;
         default:
             url = axios.defaults.baseM8URL + url
     }
@@ -57,7 +57,7 @@ function requireData(url, params, type, item) {
                 reject(err)
             })
         })
-    } else {
+    } else if (type === 'post') {
         return new Promise((resolve, reject) => {
             axios.post(url, params).then(res => {
                 resolve(res)
@@ -65,6 +65,24 @@ function requireData(url, params, type, item) {
                 reject(err)
             })
         })
+    } else if (type === 'put') {
+        return new Promise((resolve, reject) => {
+            axios.put(url, params).then(res => {
+                resolve(res)
+            }).catch(err => {
+                reject(err)
+            })
+        })
+    } else if (type === "delete") {
+        return new Promise((resolve, reject) => {
+            axios.delete(url, params).then(res => {
+                resolve(res)
+            }).catch(err => {
+                reject(err)
+            })
+        })
+    } else {
+        return "请求类型尚未添加"
     }
 }
 

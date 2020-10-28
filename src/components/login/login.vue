@@ -134,12 +134,12 @@ export default {
           } else {
             this.$message({
               showClose: true,
-              message: res.message,
+              message: data.data.message,
               type: "error",
             });
           }
         } catch (error) {
-          this.$message.error("登录出错!");
+          this.$message.error("登录出错! 19999");
           console.log(error)
         }
       });
