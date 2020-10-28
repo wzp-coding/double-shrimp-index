@@ -1,13 +1,21 @@
 <template>
   <div class="lxl-body">
     <div class="lxl-box">
-      <el-breadcrumb
+      <div class="top">
+        <div class="tl">
+          <el-breadcrumb
         separator-class="el-icon-arrow-right"
         class="lxl-breadcrumb"
       >
         <el-breadcrumb-item>当前位置</el-breadcrumb-item>
         <el-breadcrumb-item>产业咨询</el-breadcrumb-item>
       </el-breadcrumb>
+        </div>
+        <div class="tr">
+          <input type="text" placeholder="  搜索你想要的农产品资讯">
+          <i class="el-icon-search" ></i>
+        </div>
+      </div>
       <el-divider></el-divider>
       <el-container>
         <el-aside width="74%">
@@ -228,8 +236,8 @@
                   </div>
                 </div>
                 <!-- one 最顶部右边 -->
-                <div class="onetopr">
-                  <div class="onetopr1" style="margin-bottom: 10px">
+                <div class="onetopr" >
+                  <div class="onetopr1" style="margin-bottom: 50px">
                     <ul>
                       <li
                         v-for="(item, index) in RecommendList.slice(0, 4)"
@@ -415,8 +423,8 @@
               <el-pagination
                 background
                 layout="prev, pager, next"
-                :total="3"
-                :page-size="3"
+                :total="22"
+                :page-size="5"
                 :current-page="1"
                 style="
                   display: flex;
@@ -738,7 +746,7 @@ export default {
         let times = d.getFullYear() + "-" + month + "-" + day;
         return times;
       }
-    },
+    }
   },
 
   data() {
@@ -860,6 +868,28 @@ export default {
   color: black;
   font-size: 13px;
   font-weight: 500;
+}
+.top{
+  padding-top: 10px;
+  margin-bottom: -19px;
+  display: flex;
+  justify-content: space-between;
+  .tr{
+    position: relative;
+    input{
+      padding-left: 10px;
+      border: 2px solid #d8d8d8;
+      border-radius:100px;
+      width: 198px;
+      height: 38px;
+      outline: none;
+    }
+    i{
+      top: 13px;
+      position: absolute;
+      right: 20px;
+    }
+  }
 }
 .header {
   width: 100%;

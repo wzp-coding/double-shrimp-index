@@ -96,7 +96,7 @@ const routes = [{
 
 },
 {
-  path: './instructpagedetail',
+  path: '/instructpagedetail',
   component: instructpagedetail
 },
 {

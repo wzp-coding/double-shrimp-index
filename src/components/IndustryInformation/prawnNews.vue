@@ -1,14 +1,22 @@
 <template>
   <div class="lxl-body">
     <div class="lxl-box">
-      <el-breadcrumb
-        separator-class="el-icon-arrow-right"
-        class="lxl-breadcrumb"
-      >
-        <el-breadcrumb-item>当前位置</el-breadcrumb-item>
-        <el-breadcrumb-item>产业咨询</el-breadcrumb-item>
-      </el-breadcrumb>
-      <el-divider></el-divider>
+      <div class="top">
+         <div class="tl">
+           <el-breadcrumb
+          separator-class="el-icon-arrow-right"
+          class="lxl-breadcrumb"
+        >
+          <el-breadcrumb-item>当前位置</el-breadcrumb-item>
+          <el-breadcrumb-item>产业咨询</el-breadcrumb-item>
+        </el-breadcrumb>
+         </div>
+        <div class="tr">
+          <input type="text" placeholder="  搜索你想要的农产品资讯">
+          <i class="el-icon-search" ></i>
+        </div>
+      </div>
+      <el-divider ></el-divider>
       <el-container>
         <div class="zhuti">
           <div class="left">
@@ -82,7 +90,7 @@
                     >
                   </div>
                   <div class="pm" style="width: 100%; margin: 10px 0">
-                    <p style="width: 100%; background-color: pink">
+                    <p style="width: 100%; ">
                       {{ item.content }}
                       <router-link
                         to="/instructdetail"
@@ -444,6 +452,28 @@ export default {
 }
 .lxl-box {
   width: 1150px;
+}
+.top{
+  padding-top: 10px;
+  margin-bottom: -19px;
+  display: flex;
+  justify-content: space-between;
+  .tr{
+    position: relative;
+    input{
+      padding-left: 10px;
+      border: 2px solid #d8d8d8;
+      border-radius:100px;
+      width: 198px;
+      height: 38px;
+      outline: none;
+    }
+    i{
+      top: 13px;
+      position: absolute;
+      right: 20px;
+    }
+  }
 }
 .ccy-css {
   color: black;
