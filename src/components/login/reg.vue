@@ -35,7 +35,11 @@
               ></el-input>
             </el-form-item>
             <el-form-item label="验证码" prop="captcha">
-              <el-input style="width: 110px" v-model="regForm.captcha">
+              <el-input
+                placeholder="输入验证码"
+                style="width: 110px"
+                v-model="regForm.captcha"
+              >
               </el-input>
               <el-image
                 style="width: 100px; position: absolute; height: 42px"
@@ -51,10 +55,18 @@
               ></el-input>
             </el-form-item>
             <el-form-item label="邮箱验证" prop="emailCode">
-              <el-input style="width: 110px" v-model="regForm.emailCode">
+              <el-input
+                placeholder="邮箱验证码"
+                style="width: 110px"
+                v-model="regForm.emailCode"
+              >
               </el-input>
-              <el-button type="primary" @click="emailCode()"
-                >发送验证码</el-button
+              <el-button
+                :disabled="regForm.show"
+                type="primary"
+                @click="emailCode()"
+                ><span v-show="regForm.show">{{ count }} s</span>
+                发送验证码</el-button
               >
             </el-form-item>
             <el-form-item>
@@ -97,6 +109,9 @@ export default {
       }
     };
     return {
+      // 第1，2个为计时器
+      count: "",
+      timer: null,
       url: "",
       cToken: "",
       regForm: {
@@ -166,17 +181,25 @@ export default {
     this.getCaptcha();
   },
   methods: {
-    // 获取验证码
+    // 获取验证码**
     async getCaptcha() {
-      const { data: res } = await this.$http.post("/captcha/getCaptcha");
-      this.url = "data:image/png;base64," + res.data.img;
-      this.cToken = res.data.cToken;
+      try {
+        const { data: res } = await this.reqM1Service(
+          "/authority/captcha/getCaptcha",
+          "",
+          "post"
+        );
+        this.url = "data:image/png;base64," + res.data.img;
+        this.cToken = res.data.cToken;
+      } catch (error) {
+        this.$message.error("验证码出错");
+      }
     },
     // 注册
     register() {
       this.$refs.regForm.validate(async (valid) => {
         if (!valid) return;
-        const data = await this.$http.post(
+        const { data: res } = await this.reqM1Service(
           "/user/register/" +
             this.regForm.emailCode +
             "?captcha=" +
@@ -190,23 +213,61 @@ export default {
           }
         );
         // 过滤
-        if (data.data.code === 20000) {
+        if (res.code === 20000) {
           // 提示登录词语
-          this.$message.success(data.data.message);
+          this.$message.success(res.message);
           this.$router.push("/login");
         } else {
           this.$message({
             showClose: true,
-            message: data.data.message,
+            message: res.message,
             type: "error",
           });
         }
       });
     },
-    // 发送邮箱验证码
+    // 发送邮箱验证码**
     async emailCode() {
-      const data = await this.$http.get("/email/" + this.regForm.email);
+      if (this.regForm.email == "") {
+        return this.$message.error("未输入邮箱");
+      } else {
+        try {
+          const { data: res } = await this.reqM1Service(
+            "/authority/email/" + this.regForm.email,
+            "",
+            "get"
+          );
+          if (res.code === 20000) {
+            // 开启验证码延时
+            this.getCode();
+            this.regForm.show = true;
+            this.$message.success(res.message);
+          } else {
+            this.$message.error(res.message);
+          }
+        } catch (error) {
+          this.$message.error("邮箱发送失败 19999");
+        }
+      }
     },
+    // 验证莫延时**
+    getCode() {
+      const TIME_COUNT = 60;
+      if (!this.timer) {
+        this.count = TIME_COUNT;
+        this.timer = setInterval(() => {
+          if (this.count > 0 && this.count <= TIME_COUNT) {
+            this.count -= 1;
+          } else {
+            clearInterval(this.timer);
+            // 重新开启
+            this.regForm.show = false;
+            this.timer = null;
+          }
+        }, 1000);
+      }
+    },
+    //
   },
 };
 </script>

@@ -10,10 +10,10 @@ import policies from '../components/policies/policies.vue'
 
 import edu from '../components/fishingSkill/edu.vue'
 import fishingSkillArticles from '../components/fishingSkill/fishingSkillArticles.vue'
-import figureLibrary from '../components/fishingSkill/figureLibrary.vue'
 import powerPoint from '../components/fishingSkill/powerPoint.vue'
 import intellectualProperty from '../components/fishingSkill/intellectualProperty.vue'
 import videoPlay from '../components/fishingSkill/videoPlay.vue'
+import intellectualPropertyArticle from '../components/fishingSkill/intellectualPropertyArticle.vue'
 
 import environmentalMonitoring from '../components/environmentalMonitoring/environmentalMonitoring.vue'
 
@@ -48,6 +48,8 @@ import visualizationPlatform from '../components/visualizationPlatform/visualiza
 
 // 店铺详情
 import emall from '../components/emall/emall.vue'
+import emallDetail from '../components/emall/emallDetail.vue'
+import emallSearch from '../components/emall/emallSearch.vue'
 import shopDetail from '../components/emall/shopDetail.vue'
 import shopMangerDetail from '../components/emall/shopMangerDetail.vue'
 import orderManage from '../components/emall/shopComponents/orderManage.vue'
@@ -156,13 +158,13 @@ const routes = [{
 
 },
 {
-  path: '/figureLibrary',
-  component: figureLibrary
-
+  path: '/videoPlay',
+  component: videoPlay,
+  name:'videoPlay'
 },
 {
-  path: '/videoPlay',
-  component: videoPlay
+  path: '/intellectualPropertyArticle',
+  component: intellectualPropertyArticle
 
 },
 {
@@ -291,6 +293,16 @@ const routes = [{
 {
   path: '/emall',
   component: emall
+
+},
+{
+  path: '/emallDetail',
+  component: emallDetail
+
+},
+{
+  path: '/emallSearch',
+  component: emallSearch
 
 },
 {

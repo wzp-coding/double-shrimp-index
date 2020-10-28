@@ -7,54 +7,47 @@
         <el-button size="small" plain round>购买</el-button>
       </div>
     </div>
+    <!-- 展示区 -->
     <div class="favorite-container">
       <div class="lxl-goods">
-        <div class="lxl-good" v-for="item in 5" :key="item">
-          <el-row :gutter="20">
-            <el-col :span="3">
-              <el-checkbox v-model="checked">选中</el-checkbox>
-            </el-col>
-            <el-col :span="3">{{ item }}</el-col>
-            <el-col :span="3">
-              <el-image
-                style="width: 60px; height: 60px"
-                src="https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg"
-              ></el-image>
-            </el-col>
-            <el-col :span="4">name </el-col>
-            <el-col :span="4">￥1231 </el-col>
-            <el-col class="lxl-p">
-              暂无收藏的商品暂无收藏的商无收藏的藏的商品</el-col
-            >
-            <el-col>
-              <el-select v-model="value" placeholder="请选择">
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option> </el-select
-            ></el-col>
-            <el-col :span="4">
-              <el-input-number
+        <el-table :data="favoriteList" stripe style="width: 100%">
+          <el-table-column type="selection" width="55"></el-table-column>
+          <el-table-column label="图片" width="120">
+            <template slot-scope="scope">
+              <el-image :src="scope.row.picture" style="width:100px;height:100px"> </el-image>
+            </template>
+          </el-table-column>
+          <el-table-column prop="productName" label="商品名" width="120">
+          </el-table-column>
+          <el-table-column prop="price" label="商品价格" width="80">
+          </el-table-column>
+          <el-table-column prop="productTitle" label="商品介绍" width="220">
+          </el-table-column>
+          <el-table-column label="数量" width="200">
+            <template slot-scope="scope">
+             <el-input-number
                 v-model="num"
-                @change="handleChange"
+                @change="handleChange(scope)"
                 :min="1"
                 :max="10"
                 label="描述文字"
                 size="small"
               >
               </el-input-number>
-            </el-col>
-            <el-col><i class="el-icon-delete"></i></el-col>
-          </el-row>
-        </div>
+            </template>
+          </el-table-column>    
+           <el-table-column label="移除">
+            <template slot-scope="scope">
+              <i class="el-icon-delete" @click="delShop(scope.row)"></i>
+            </template>
+          </el-table-column>
+        </el-table>
       </div>
-      <!-- <div class="empty-list" v-if="favoriteList.length === 0">
+    </div>
+    <!-- 展示区结束 -->
+    <!-- <div class="empty-list" v-if="favoriteList.length === 0">
         暂无收藏的商品
       </div> -->
-    </div>
   </div>
 </template>
 
@@ -62,6 +55,28 @@
 export default {
   data() {
     return {
+      tableData: [
+        {
+          date: "2016-05-02",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄",
+        },
+        {
+          date: "2016-05-04",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1517 弄",
+        },
+        {
+          date: "2016-05-01",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1519 弄",
+        },
+        {
+          date: "2016-05-03",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1516 弄",
+        },
+      ],
       options: [
         {
           value: "选项1",
@@ -85,13 +100,47 @@ export default {
         },
       ],
       value: "",
-      favoriteList: [],
+      favoriteList: [
+        {
+          num: 1,
+          picture:
+            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+          price: 100,
+          productName: "对虾饲料",
+          productTitle:
+            "国产蒸汽鱼粉，粉末袋装，主要成分是海鱼，含有60％的蛋白质，营养成分丰富，能够明显提高饲料利用率，适用于家禽鸡鸭鹅猪狗宠物虾磅蟹等，增加食欲，降低料耗，营养价值高，增强体质。",
+        },
+      ],
       num: 1,
+      checked: "",
     };
+  },
+  created() {
+    this.getShopByUserId();
   },
   methods: {
     handleChange(value) {
       console.log(value);
+    },
+    async getShopByUserId() {
+      try {
+        const { data: res } = await this.reqM4Service(
+          "/cart/" + this.$store.state.userData.userId,
+          "",
+          "get"
+        );
+        console.log(res.data);
+        if (res.code === 20000) {
+          this.favoriteList = res.data;
+        } else {
+          this.$message.error("网络开小差了，请稍后重试 20001");
+        }
+      } catch (error) {
+        this.$message.error("网络开小差了，请稍后重试19999");
+      }
+    },
+    delShop(shopDetail) {
+      console.log(shopDetail);
     },
   },
 };

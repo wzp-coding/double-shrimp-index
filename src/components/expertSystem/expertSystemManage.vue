@@ -7,7 +7,7 @@
       >
         <el-breadcrumb-item>当前位置</el-breadcrumb-item>
         <el-breadcrumb-item to="/me">个人中心</el-breadcrumb-item>
-        <el-breadcrumb-item>我的店铺</el-breadcrumb-item>
+        <el-breadcrumb-item>专家页面</el-breadcrumb-item>
       </el-breadcrumb>
       <el-divider></el-divider>
       <el-container style="border: 1px solid #eee" class="user-container">

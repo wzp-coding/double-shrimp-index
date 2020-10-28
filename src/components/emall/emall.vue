@@ -25,11 +25,10 @@
             <el-input
               placeholder="搜索您要的货品"
               v-model="input"
-              class="searchClass"
               prefix-icon="el-icon-search"
             >
               <div slot="prepend">
-                <div class="centerClass">
+                <div >
                   <el-select
                     v-model="select"
                     placeholder="供应"
@@ -41,7 +40,9 @@
                   </el-select>
                 </div>
               </div>
-              <el-button slot="append">搜索</el-button>
+              <el-button slot="append" @click="goToSearch" icon="el-icon-search"
+                >搜索</el-button
+              >
             </el-input>
           </el-col>
         </el-row>
@@ -738,6 +739,9 @@ export default {
   },
   methods: {
     choseItem() {},
+    goToSearch() {
+      this.$router.push("/emallSearch");
+    },
   },
   filters: {
     ellipsis(value) {
@@ -796,53 +800,7 @@ export default {
 .el-icon-s-order {
   padding: 0 8px 0 15px;
 }
-.searchClass {
-  border: 2px solid #39bf3e;
-  border-radius: 20px;
-  background: #f4f4f4;
-}
-.searchClass >>> .el-input-group__prepend {
-  border: none;
-  background-color: transparent;
-  padding: 0 10px 0 15px;
-  color: #333;
-}
-.searchClass >>> .el-input-group__append {
-  border: none;
-  border-top-right-radius: 20px;
-  border-bottom-right-radius: 20px;
-  background-color: #39bf3e;
-  color: #fff;
-}
-.searchClass >>> .el-input__inner {
-  height: 36px;
-  line-height: 36px;
-  border: none;
-  background-color: transparent;
-}
-.searchClass >>> .el-icon-search {
-  font-size: 20px;
-}
-.searchClass >>> .centerClass {
-  height: 100%;
-  line-height: 100%;
-  display: inline-block;
-  vertical-align: middle;
-  text-align: right;
-}
-.searchClass >>> .line {
-  width: 1px;
-  height: 26px;
-  background-color: #c5c5c5;
-  margin-left: 14px;
-}
-.searchClass:hover >>> .line {
-  background-color: #d5e3e8;
-}
-.searchClass:hover >>> .el-icon-search {
-  color: #409eff;
-  font-size: 16px;
-}
+
 .search >>> .el-button {
   width: 100px;
 }
@@ -1071,6 +1029,9 @@ a:focus {
 .goods {
   margin: 15px 0;
 }
+.goods >>> .el-image {
+  cursor: pointer;
+}
 .sellPrice {
   color: red;
   font-size: 15px;
@@ -1092,6 +1053,7 @@ a:focus {
 }
 .title {
   font-size: 14px;
+  cursor: pointer;
 }
 .goodsPosition {
   float: right;
@@ -1133,9 +1095,6 @@ a:focus {
 }
 .lateAdvice {
   margin-top: 40px;
-}
-.centerClass >>> .el-select {
-  border-radius: 12px;
 }
 .mainPic {
   width: 100%;

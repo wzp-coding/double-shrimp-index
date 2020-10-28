@@ -5,6 +5,17 @@
         <div class="lxl-logo"></div>
 
         <div class="lxl-avatar" v-if="!isLogin">
+          <router-link to="/login">
+            <el-avatar
+              :size="50"
+              src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+            ></el-avatar>
+          </router-link>
+          <router-link to="/login">登录</router-link>
+          <router-link to="/reg">注册</router-link>
+        </div>
+
+        <div class="lxl-avatar" v-if="isLogin">
           <el-popover v-model="visible" width="200">
             <el-alert
               title="设置了回调置了回调置了回调置了回调置了回调置了回调置了回调的 alert"
@@ -26,17 +37,6 @@
               </el-badge>
             </el-button>
           </el-popover>
-          <router-link to="/login">
-            <el-avatar
-              :size="50"
-              src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-            ></el-avatar>
-          </router-link>
-          <router-link to="/login">登录</router-link>
-          <router-link to="/reg">注册</router-link>
-        </div>
-
-        <div class="lxl-avatar" v-if="isLogin">
           <el-avatar :size="50" :src="userData.photo"></el-avatar>
           <router-link to="/me">{{ userData.loginId }}</router-link>
           <el-link @click="outUser()">退出</el-link>
@@ -59,7 +59,6 @@
             <template slot="title">渔技学堂</template>
             <el-menu-item index="/edu">远程教育</el-menu-item>
             <el-menu-item index="/fishingSkillArticles">渔技文章</el-menu-item>
-            <el-menu-item index="/figureLibrary">图文库</el-menu-item>
             <el-menu-item index="/powerPoint">演示文稿</el-menu-item>
             <el-menu-item index="/intellectualProperty">知识产权</el-menu-item>
           </el-submenu>
