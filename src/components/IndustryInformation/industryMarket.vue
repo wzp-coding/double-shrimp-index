@@ -85,12 +85,11 @@
                       v-for="(item, index) in datalist.slice(0, 5)"
                       :key="index"
                     >
-                      <span class="index==1? ccy-css: ;"
-                        ><router-link
-                          to="/instructdetail"
-                          :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
-                          >{{ item.title }}</router-link
-                        ></span
+                      <span
+                        class="index==1? ccy-css: ;"
+                        @click="TonewPath(item.id)"
+                      >
+                        {{ item.title }}</span
                       >
                     </li>
                   </ul>
@@ -131,14 +130,12 @@
                   <el-divider class="ccy-drvider"></el-divider>
                   <ul>
                     <li
+                      @click="TonewPath(item.id)"
                       v-for="(item, index) in datalist.slice(0, 6)"
                       :key="index"
+                      :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
                     >
-                      <router-link
-                        to="/instructdetail"
-                        :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
-                        >{{ item.title }}</router-link
-                      >
+                      {{ item.title }}
                     </li>
                   </ul>
                 </div>
@@ -186,42 +183,36 @@
               <div class="onetop">
                 <div class="onetopl">
                   <div class="block">
-                    <div class="blockson">
-                      <router-link
-                        to="/instructdetail"
-                        style="text-decoration: none"
-                      >
-                        <el-image
-                          style="height: 120px"
-                          :src="RecommendList[0].picture"
-                        ></el-image>
-                        <span>{{ RecommendList[0].title }}</span>
-                      </router-link>
+                    <div
+                      class="blockson"
+                      @click="TonewPath(RecommendList[0].id)"
+                    >
+                      <el-image
+                        style="height: 120px"
+                        :src="RecommendList[0].picture"
+                      ></el-image>
+                      <span>{{ RecommendList[0].title }}</span>
                     </div>
-                    <div class="blockson">
-                      <router-link
-                        to="/instructdetail"
-                        style="text-decoration: none"
-                      >
-                        <el-image
-                          style="height: 120px"
-                          :src="RecommendList[1].picture"
-                        ></el-image>
-                        <span>{{ RecommendList[1].title }}</span>
-                      </router-link>
+                    <div
+                      class="blockson"
+                      @click="TonewPath(RecommendList[1].id)"
+                    >
+                      <el-image
+                        style="height: 120px"
+                        :src="RecommendList[1].picture"
+                      ></el-image>
+                      <span>{{ RecommendList[1].title }}</span>
                     </div>
                   </div>
                   <div class="onetoplb">
                     <ul style="margin: 15px 0 0 17px">
                       <li
+                        @click="TonewPath(item.id)"
                         v-for="(item, index) in RecommendList.slice(0, 4)"
                         :key="index"
+                        :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
                       >
-                        <router-link
-                          to="/instructdetail"
-                          :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
-                          >{{ item.title }}</router-link
-                        >
+                        {{ item.title }}
                       </li>
                     </ul>
                   </div>
@@ -231,14 +222,12 @@
                   <div class="onetopr1" style="margin-bottom: 50px">
                     <ul>
                       <li
+                        @click="TonewPath(item.id)"
                         v-for="(item, index) in RecommendList.slice(0, 4)"
                         :key="index"
+                        :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
                       >
-                        <router-link
-                          to="/instructdetail"
-                          :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
-                          >{{ item.title }}</router-link
-                        >
+                        {{ item.title }}
                       </li>
                     </ul>
                   </div>
@@ -247,12 +236,10 @@
                       <li
                         v-for="(item, index) in RecommendList.slice(0, 4)"
                         :key="index"
+                        :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
+                        @click="TonewPath(item.id)"
                       >
-                        <router-link
-                          to="/instructdetail"
-                          :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
-                          >{{ item.summary }}</router-link
-                        >
+                        {{ item.summary }}
                       </li>
                     </ul>
                   </div>
@@ -299,14 +286,10 @@
                   class="zhuangti"
                   v-for="(item, index) in dataTimeList.slice(0, 4)"
                   :key="index"
+                  @click="TonewPath(item.id)"
                 >
-                  <router-link
-                    to="/instructdetail"
-                    style="text-decoration: none"
-                  >
-                    <el-image :src="item.picture"></el-image>
-                    <li>{{ item.title }}</li>
-                  </router-link>
+                  <el-image :src="item.picture"></el-image>
+                  <li>{{ item.title }}</li>
                 </div>
                 <div class="tail" style="width: 100%; margin-top: 15px">
                   <h3 style="display: flex; justify-content: space-between">
@@ -350,15 +333,11 @@
                 class="onebottom"
                 v-for="(item, index) in pagelist"
                 :key="index"
+                @click="TonewPath(item.id)"
               >
                 <div class="four">
                   <div class="pic">
-                    <router-link
-                      to="/instructdetail"
-                      style="text-decoration: none"
-                    >
-                      <el-image :src="item.picture"></el-image>
-                    </router-link>
+                    <el-image :src="item.picture"></el-image>
                   </div>
                   <div class="news">
                     <h3>{{ item.title }}</h3>
@@ -370,10 +349,11 @@
                       "
                     >
                       {{ item.summary }}
-                      <router-link
-                        to="/instructdetail"
+
+                      <span
                         style="text-decoration: none; color: green"
-                        >[详情]</router-link
+                        @click="TonewPath(item.id)"
+                        >[详情]</span
                       >
                     </p>
                     <!--底部区域--->
@@ -462,24 +442,20 @@
             <div class="righttext">
               <ul style="margin-left: 17px">
                 <li
+                  @click="TonewPath(item.id)"
                   class="ccy-li"
                   v-for="(item, index) in dataTimeList.slice(0, 9)"
                   :key="index"
                 >
-                  <router-link
-                    style="text-decoration: none"
-                    to="/instructdetail"
+                  <span
+                    :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
+                    style="margin-left: -5px; width: 150px"
+                    >{{ item.title }}</span
+                  ><span
+                    style="float: right; color: black"
+                    :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
+                    >{{ item.creationTime | timefilter }}</span
                   >
-                    <span
-                      :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
-                      style="margin-left: -5px; width: 150px"
-                      >{{ item.title }}</span
-                    ><span
-                      style="float: right; color: black"
-                      :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
-                      >{{ item.creationTime | timefilter }}</span
-                    >
-                  </router-link>
                 </li>
               </ul>
               <br />
@@ -514,18 +490,14 @@
               </h3>
               <el-divider class="ccy-drvider"></el-divider>
               <li
+                @click="TonewPath(item.id)"
                 v-for="(item, index) in dataTimeList.slice(0, 5)"
                 :key="index"
                 class="ccy-rightLi"
                 style="width: 180px"
                 :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
               >
-                <router-link
-                  style="text-decoration: none; color: black"
-                  to="/instructdetail"
-                >
-                  {{ item.title }}
-                </router-link>
+                {{ item.title }}
               </li>
 
               <br />
@@ -562,16 +534,12 @@
               <li
                 v-for="(item, index) in dataTimeList.slice(0, 4)"
                 :key="index"
+                @click="TonewPath(item.id)"
                 class="ccy-rightLi"
                 style="width: 180px"
                 :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
               >
-                <router-link
-                  style="text-decoration: none; color: black"
-                  to="/instructdetail"
-                >
-                  {{ item.title }}
-                </router-link>
+                {{ item.title }}
               </li>
 
               <br />
@@ -611,16 +579,12 @@
                 <li
                   v-for="(item, index) in dataTimeList.slice(0, 5)"
                   :key="index"
+                  @click="TonewPath(item.id)"
                   class="ccy-rightLi"
                   style="width: 180px"
                   :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
                 >
-                  <router-link
-                    style="text-decoration: none; color: black"
-                    to="/instructdetail"
-                  >
-                    {{ item.title }}
-                  </router-link>
+                  {{ item.title }}
                 </li>
               </ul>
               <ul style="margin: 10px 0 30px 0">
@@ -629,14 +593,10 @@
                   :key="index"
                   class="ccy-rightLi"
                   style="width: 180px"
+                  @click="TonewPath(item.id)"
                   :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
                 >
-                  <router-link
-                    style="text-decoration: none; color: black"
-                    to="/instructdetail"
-                  >
-                    {{ item.title }}
-                  </router-link>
+                  {{ item.title }}
                 </li>
               </ul>
               <h3 style="display: flex; justify-content: space-between">
@@ -897,6 +857,9 @@ export default {
     }
   }
 }
+.el-image {
+  cursor: pointer;
+}
 .header {
   width: 100%;
   display: flex;
@@ -931,6 +894,7 @@ export default {
       ul {
         margin-left: 20px;
         li {
+          cursor: pointer;
           width: 100%;
           text-overflow: ellipsis;
           overflow: hidden;
@@ -968,6 +932,7 @@ export default {
     width: 100%;
     li {
       font-size: 13px;
+      cursor: pointer;
     }
     .onetopl {
       width: 50%;
@@ -995,6 +960,7 @@ export default {
             height: 90px;
           }
           span {
+            cursor: pointer;
             width: 190px;
             text-overflow: ellipsis;
             overflow: hidden;
@@ -1060,17 +1026,18 @@ export default {
         width: 72%;
       }
     }
-  }
-  ul li span {
-    //保留
-    font-size: 15.21px;
-    font-weight: 800;
+    span {
+      cursor: pointer;
+    }
   }
 }
 li {
   padding: 6px 0 3px 0;
 }
 .right {
+  li{
+    cursor: pointer;
+  }
   .ccy-li {
     span {
       display: inline-block;

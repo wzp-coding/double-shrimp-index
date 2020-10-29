@@ -2,21 +2,21 @@
   <div class="lxl-body">
     <div class="lxl-box">
       <div class="top">
-         <div class="tl">
-           <el-breadcrumb
-          separator-class="el-icon-arrow-right"
-          class="lxl-breadcrumb"
-        >
-          <el-breadcrumb-item>当前位置</el-breadcrumb-item>
-          <el-breadcrumb-item>产业咨询</el-breadcrumb-item>
-        </el-breadcrumb>
-         </div>
+        <div class="tl">
+          <el-breadcrumb
+            separator-class="el-icon-arrow-right"
+            class="lxl-breadcrumb"
+          >
+            <el-breadcrumb-item>当前位置</el-breadcrumb-item>
+            <el-breadcrumb-item>产业咨询</el-breadcrumb-item>
+          </el-breadcrumb>
+        </div>
         <div class="tr">
-          <input type="text" placeholder="  搜索你想要的农产品资讯">
-          <i class="el-icon-search" ></i>
+          <input type="text" placeholder="  搜索你想要的农产品资讯" />
+          <i class="el-icon-search"></i>
         </div>
       </div>
-      <el-divider ></el-divider>
+      <el-divider></el-divider>
       <el-container>
         <div class="zhuti">
           <div class="left">
@@ -25,14 +25,10 @@
                 class="blockson"
                 v-for="(item, index) in datalist.slice(0, 3)"
                 :key="index"
+                @click="TonewPath(item.id)"
               >
-                <router-link
-                  to="/instructdetail"
-                  style="text-decoration: none; color: black"
-                >
-                  <el-image :src="item.picture"></el-image>
-                  <span>{{ item.title }}</span>
-                </router-link>
+                <el-image :src="item.picture"></el-image>
+                <span>{{ item.title }}</span>
               </div>
             </div>
             <div class="tail" style="width: 100%; margin-top: 15px">
@@ -81,21 +77,18 @@
                   <el-image :src="item.picture"></el-image>
                 </div>
                 <div class="sonr">
-                  <div class="h2" style="width: 100%; margin-top: 18px">
-                    <router-link
-                      to="/instructdetail"
-                      style="color: black; text-decoration: none"
-                    >
-                      <h2>{{ item.title }}</h2></router-link
-                    >
+                  <div
+                    class="h2"
+                    @click="TonewPath(item.id)"
+                    style="width: 100%; margin-top: 18px"
+                  >
+                    <h2>{{ item.title }}</h2>
                   </div>
                   <div class="pm" style="width: 100%; margin: 10px 0">
-                    <p style="width: 100%; ">
+                    <p style="width: 100%">
                       {{ item.content }}
-                      <router-link
-                        to="/instructdetail"
-                        style="color: green; text-decoration: none"
-                        >[详细]</router-link
+                      <span style="color: green" @click="TonewPath(item.id)"
+                        >[详细]</span
                       >
                     </p>
                   </div>
@@ -170,14 +163,12 @@
                   <li
                     v-for="(item, index) in dataTimeList.slice(0, 6)"
                     :key="index"
+                    @click="TonewPath(item.id)"
                     :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
                   >
-                    <router-link
-                      style="text-decoration: none; color: black"
-                      to="/instructdetail"
-                    >
+                    
                       {{ item.title }}
-                    </router-link>
+                  
                   </li>
                 </ul>
                 <br />
@@ -219,14 +210,12 @@
                   <li
                     v-for="(item, index) in dataRecommList.slice(0, 6)"
                     :key="index"
+                    @click="TonewPath(item.id)"
                     :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
                   >
-                    <router-link
-                      style="text-decoration: none; color: black"
-                      to="/instructdetail"
-                    >
+                    
                       {{ item.title }}
-                    </router-link>
+                 
                   </li>
                 </ul>
                 <br />
@@ -266,14 +255,12 @@
                   <li
                     v-for="(item, index) in dataRecommList.slice(0, 6)"
                     :key="index"
+                    @click="TonewPath(item.id)"
                     :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
                   >
-                    <router-link
-                      style="text-decoration: none; color: black"
-                      to="/instructdetail"
-                    >
+                    
                       {{ item.title }}
-                    </router-link>
+                 
                   </li>
                 </ul>
                 <el-divider class="ccy-drvider"></el-divider>
@@ -377,6 +364,13 @@ export default {
       this.getNewData();
   },
   methods: {
+    //前往详情页
+    TonewPath(id) {
+      this.$router.push({
+        path: "/instructdetail",
+        query: { id: id },
+      });
+    },
     //分类  (财富手册 对虾养殖)
     async getclassification() {
       const { data: res } = await this.reqM2Service(
@@ -453,22 +447,22 @@ export default {
 .lxl-box {
   width: 1150px;
 }
-.top{
+.top {
   padding-top: 10px;
   margin-bottom: -19px;
   display: flex;
   justify-content: space-between;
-  .tr{
+  .tr {
     position: relative;
-    input{
+    input {
       padding-left: 10px;
       border: 2px solid #d8d8d8;
-      border-radius:100px;
+      border-radius: 100px;
       width: 198px;
       height: 38px;
       outline: none;
     }
-    i{
+    i {
       top: 13px;
       position: absolute;
       right: 20px;
@@ -486,6 +480,9 @@ export default {
   color: black;
   font-size: 13px;
   font-weight: 500;
+}
+.el-image {
+  cursor: pointer;
 }
 .ccy-drvider {
   margin-top: 30px;
@@ -590,6 +587,7 @@ export default {
           width: 65%;
           margin: 10px 0 0 19px;
           h2 {
+            cursor: pointer;
             text-overflow: ellipsis;
             overflow: hidden;
             list-style-position: inside;
@@ -597,6 +595,7 @@ export default {
           }
           span {
             padding-top: 10px;
+            cursor: pointer;
           }
           .lbtm {
             p {
@@ -617,6 +616,8 @@ export default {
         white-space: nowrap;
         list-style-position: inside;
         width: 220px;
+        cursor: pointer;
+        margin-bottom: 3px;
       }
       display: flex;
       flex-direction: column;
