@@ -84,7 +84,13 @@ Vue.use(VueRouter)
 
 const routes = [{
   path: '/',
-  redirect: '/industryMarket'
+  redirect: '/industryMarket',
+  children: [
+    {
+      path: '/',
+      redirect:'/instructdetail'
+    }
+  ]
 },
 {
   path: '/instructdetail',

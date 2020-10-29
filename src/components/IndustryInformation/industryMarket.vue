@@ -4,16 +4,16 @@
       <div class="top">
         <div class="tl">
           <el-breadcrumb
-        separator-class="el-icon-arrow-right"
-        class="lxl-breadcrumb"
-      >
-        <el-breadcrumb-item>当前位置</el-breadcrumb-item>
-        <el-breadcrumb-item>产业咨询</el-breadcrumb-item>
-      </el-breadcrumb>
+            separator-class="el-icon-arrow-right"
+            class="lxl-breadcrumb"
+          >
+            <el-breadcrumb-item>当前位置</el-breadcrumb-item>
+            <el-breadcrumb-item>产业咨询</el-breadcrumb-item>
+          </el-breadcrumb>
         </div>
         <div class="tr">
-          <input type="text" placeholder="  搜索你想要的农产品资讯">
-          <i class="el-icon-search" ></i>
+          <input type="text" placeholder="  搜索你想要的农产品资讯" />
+          <i class="el-icon-search"></i>
         </div>
       </div>
       <el-divider></el-divider>
@@ -24,31 +24,22 @@
             <div class="header">
               <!-- 图片 -->
               <div class="pictop">
-                <div class="block1">
-                  <router-link to="/instructdetail">
-                    <el-image
-                      style="height: 220px"
-                      :src="datalist[0].picture"
-                    ></el-image>
-                  </router-link>
+                <div class="block1" @click="TonewPath(datalist[0].id)">
+                  <el-image
+                    style="height: 220px"
+                    :src="datalist[4].picture"
+                  ></el-image>
                 </div>
                 <div class="block2">
-                  <div>
-                    <router-link to="/instructdetail">
-                      <el-image
-                        style="height: 165px"
-                        :src="datalist[1].picture"
-                      ></el-image>
-                    </router-link>
+                  <div @click="TonewPath(datalist[1].id)">
+                    <el-image
+                      style="height: 165px"
+                      :src="datalist[1].picture"
+                    ></el-image>
                   </div>
-                  <div>
-                    <router-link to="/instructdetail">
-                      <el-image
-                        style="height: 165px"
-                        :src="datalist[2].picture"
-                      >
-                      </el-image>
-                    </router-link>
+                  <div @click="TonewPath(datalist[2].id)">
+                    <el-image style="height: 165px" :src="datalist[2].picture">
+                    </el-image>
                   </div>
                 </div>
               </div>
@@ -236,7 +227,7 @@
                   </div>
                 </div>
                 <!-- one 最顶部右边 -->
-                <div class="onetopr" >
+                <div class="onetopr">
                   <div class="onetopr1" style="margin-bottom: 50px">
                     <ul>
                       <li
@@ -421,16 +412,18 @@
                 </div>
               </div>
               <el-pagination
+                :data="pagelist"
                 background
                 layout="prev, pager, next"
-                :total="22"
-                :page-size="5"
-                :current-page="1"
+                :total="queryInfo.total"
+                :page-size="queryInfo.size"
+                :current-page="page"
                 style="
                   display: flex;
                   justify-content: center;
                   margin-bottom: 30px;
                 "
+                @current-change="handleCurrentChange()"
               >
               </el-pagination>
             </div>
@@ -746,7 +739,7 @@ export default {
         let times = d.getFullYear() + "-" + month + "-" + day;
         return times;
       }
-    }
+    },
   },
 
   data() {
@@ -759,7 +752,6 @@ export default {
 
       //推荐，精彩专题 2
       RecommendList: [],
-      //产业查询分页
 
       //按时间
       dataTimeList: [],
@@ -767,7 +759,8 @@ export default {
       //精彩专题3 分页
       queryInfo: {
         page: "1",
-        size: "3",
+        size: "10",
+        total: "30",
       },
       //精彩专题3 数组
       pagelist: [],
@@ -789,6 +782,13 @@ export default {
       this.getjingcai();
   },
   methods: {
+    //前往详情页
+    TonewPath(id) {
+      this.$router.push({
+        path: "/instructdetail",
+        query: { id: id },
+      });
+    },
     //分类  (财富手册 对虾养殖)
     async getclassification() {
       const { data: res } = await this.reqM2Service(
@@ -834,13 +834,19 @@ export default {
     //按推荐 ，精彩专题3 分页
     async getjingcai() {
       const { data: res } = await this.reqM2Service(
-        `/info/shrimpIndustry/findByRecommend/${this.queryInfo.page}/${this.queryInfo.size}`,
+        `/info/shrimpIndustry/findByClickNum/${this.queryInfo.page}/${this.queryInfo.size}`,
         "",
         "get"
       );
       console.log(res);
       this.pagelist = res.data.rows;
-      for (var i = 0; i < this.pagelist.length; i++) {}
+      //this.queryInfo.total= this.pagelist.length;
+      console.log(this.queryInfo.total);
+      // for (var i = 0; i < this.pagelist.length; i++) {}
+    },
+    handleCurrentChange(newpage) {
+      this.queryInfo.page = newpage;
+      this.getjingcai();
     },
   },
 };
@@ -869,22 +875,22 @@ export default {
   font-size: 13px;
   font-weight: 500;
 }
-.top{
+.top {
   padding-top: 10px;
   margin-bottom: -19px;
   display: flex;
   justify-content: space-between;
-  .tr{
+  .tr {
     position: relative;
-    input{
+    input {
       padding-left: 10px;
       border: 2px solid #d8d8d8;
-      border-radius:100px;
+      border-radius: 100px;
       width: 198px;
       height: 38px;
       outline: none;
     }
-    i{
+    i {
       top: 13px;
       position: absolute;
       right: 20px;

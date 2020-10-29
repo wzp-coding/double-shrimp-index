@@ -21,7 +21,7 @@
         <div class="left" >
           <div class="LeftTop" >
             <span style="font-size: 36px"
-              >{{numclicklist[0].title}}"</span
+              >{{CurrentData.title}}"</span
             >
             <el-divider></el-divider>
             <div class="pandc">
@@ -29,17 +29,17 @@
                <el-avatar style="border:3px solid white" :size="70" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
               </div>
               <div class="lxl-title">
-                <h3>{{numclicklist[0].editor}}</h3>
+                <h3>{{CurrentData.editor}}</h3>
                 <p style="display: flex">
-                  发布时间 {{numclicklist[0].creationTime | timefilters}}<span style="margin-left: 15px">
-                   {{numclicklist[0].editor}}报告</span
+                  发布时间 {{CurrentData.creationTime | timefilters}}<span style="margin-left: 15px">
+                   {{CurrentData.editor}}报告</span
                   >
                 </p>
               </div>
             </div>
           </div>
           <div class="wenzhang">
-            <div v-html="numclicklist[0].content"></div>
+            <div v-html="CurrentData.content"></div>
             <span>江北鱼米之乡，中国博兴乔庄。</span><br /><br />
             <span>农民喜庆丰收节，—虾带来百业兴。</span><br /><br />
             <span
@@ -53,7 +53,7 @@
               县渔业服务中心、乔庄镇党委政府共同发起了本届博兴虾王争霸赛。
             </span>
             <div class="block">
-              <el-image :src="numclicklist[1].picture"></el-image>
+              <el-image :src="CurrentData.picture"></el-image>
             </div>
             <span>山东主持人国博兴乔庄</span><br /><br />
             <span
@@ -68,7 +68,7 @@
               虾""品牌影响力
             </span>
             <div class="block">
-              <el-image :src="numclicklist[1].picture" style="height: 430px"></el-image>
+              <el-image :src="CurrentData.picture" style="height: 430px"></el-image>
             </div>
             <span>
               说起博兴县南美白对虾产业，那可是有着“中国白对虾生态养殖第一县""的美誉，不管
@@ -183,11 +183,17 @@ export default {
       //按最新  时间
       newDataList:[],
       //推荐
-      RecommDataList:[]
-
+      RecommDataList:[],
+      // 全部数据
+      Alldata:[],
+      //当前页面
+      CurrentData:[],
+      
     }
   },
   created() {
+    //获取全部关于专题数据
+    this.getshrimpIndustryData()
     //点击量 热度
     this.getclickData()
     //时间 最新
@@ -195,7 +201,24 @@ export default {
     //推荐
     this.getRecommData()
   },
+  mounted() {
+      console.log(this.$route.query.id);
+     
+  },
   methods : {
+    
+    async getshrimpIndustryData (){
+    
+      const {data : res} = await this.reqM2Service("/info/shrimpIndustry","", "get")
+      this.Alldata = res.data;
+      
+      for(var i=0;i<this.Alldata.length;i++){
+        if(this.Alldata[i].id == this.$route.query.id){
+          this.CurrentData = this.Alldata[i]
+          console.log(this.CurrentData)
+        }
+      }
+    },
     async getclickData(){
       const {data :res} = await this.reqM2Service("/info/shrimpIndustry/findByClickNum", '' ,'get')
       this.numclicklist = res.data
@@ -207,6 +230,9 @@ export default {
     async getRecommData() {
       const {data: res} = await this.reqM2Service("/info/shrimpIndustry/findByRecommend","", "get")
       this.RecommDataList = res.data
+    },
+    handleClick(){
+
     }
   }
 };
