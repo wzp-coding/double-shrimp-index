@@ -35,7 +35,9 @@
           @province="onChangeProvince"
           @city="onChangeCity"
           @area="onChangeArea"
-          :province="select.province" :city="select.city" :area="select.area"
+          :province="select.province"
+          :city="select.city"
+          :area="select.area"
         ></VDistpicker>
       </el-form-item>
       <el-form-item label="详细地址" prop="addressDetail">
@@ -72,7 +74,7 @@
         <el-table-column prop="receiverAddress" label="状态" width="70">
           <el-tag> 默认 </el-tag>
         </el-table-column>
-        <el-table-column fixed="right" label="操作" width="130">
+        <el-table-column fixed="right" label="操作" width="80">
           <template slot-scope="scope">
             <el-button
               icon="el-icon-delete"
@@ -81,13 +83,6 @@
               style="color: red"
               @click="delAddressById(scope.row)"
               >删除</el-button
-            >
-            <el-button
-              icon="el-icon-view"
-              @click="handleClick(scope.row)"
-              type="text"
-              size="small"
-              >编辑</el-button
             >
           </template>
         </el-table-column>
@@ -131,7 +126,9 @@ export default {
     };
   },
   created() {
-    this.getAddress();
+    if (this.$store.state.userData.userId !== undefined) {
+      this.getAddress();
+    }
   },
   methods: {
     submitForm(formName) {
@@ -168,6 +165,9 @@ export default {
     },
     // 获得地址列表
     async getAddress() {
+      if (this.$store.state.userData.userId === undefined) {
+        return false;
+      }
       try {
         const { data: res } = await this.reqM4Service(
           "/address/" + this.$store.state.userData.userId,
@@ -197,6 +197,10 @@ export default {
       try {
         this.$refs.addressForm.validate(async (valid) => {
           if (!valid) return;
+          if (this.$store.state.userData.userId === undefined) {
+            this.$message.error("尚未登录！！");
+            return this.$router.push("/login");
+          }
           const { data: res } = await this.reqM4Service(
             "/address",
             {
