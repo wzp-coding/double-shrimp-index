@@ -20,7 +20,7 @@
       <el-container>
         <div class="zhuti">
           <div class="left">
-            <div class="block">
+            <div class="block" style="margin-bottom:8px">
               <div
                 class="blockson"
                 v-for="(item, index) in datalist.slice(0, 3)"
@@ -30,6 +30,18 @@
                 <el-image :src="item.picture"></el-image>
                 <span>{{ item.title }}</span>
               </div>
+            </div>
+            <div class="sort">
+              <el-row>
+                <span style="font-size:15px">分类：</span>
+                <el-button type="success" size="mini" plain>全部</el-button>
+                <el-button type="success" size="mini" plain>对虾养殖</el-button>
+                <el-button type="success" size="mini" plain>财富手册</el-button>
+                <el-button type="success" size="mini" plain>虾业行情</el-button>
+                <el-button type="success" size="mini" plain>虾业行情</el-button>
+                
+              </el-row>
+              
             </div>
             <div class="tail" style="width: 100%; margin-top: 15px">
               <h3
@@ -56,7 +68,7 @@
                   "
                 >
                   <router-link
-                    to="/instructdetail"
+                    to="/instructpagedetail"
                     style="text-decoration: none; color: black"
                   >
                     <span style="color: #9e9e9e"> 更多 </span>
@@ -73,7 +85,7 @@
                 :key="index"
                 style="border-bottom: 1px solid rgb(230, 230, 230)"
               >
-                <div class="pic">
+                <div class="pic" @click="TonewPath(item.id)">
                   <el-image :src="item.picture"></el-image>
                 </div>
                 <div class="sonr">
@@ -537,20 +549,26 @@ export default {
       display: flex;
       justify-content: space-between;
       .blockson {
-        height: 150px;
+        height: 170px;
         width: 33%;
+        position: relative;
+        display: flex;
         .el-image {
           width: 98%;
           height: 90%;
+          cursor: pointer!important;
         }
         span {
-          padding-left: 10px;
-          width: 95%;
+          text-align: center;
+          background-color:#333;
+          position: absolute;
+          width: 98%;
+          opacity: 0.7;
+          bottom: 19px;
           text-overflow: ellipsis;
           overflow: hidden;
-          list-style-position: inside;
           white-space: nowrap;
-          font-size: 13px;
+          font-size: 14.5px;
         }
       }
     }

@@ -82,7 +82,8 @@ import footer from '../components/login/footer.vue'
 
 Vue.use(VueRouter)
 
-const routes = [{
+const routes = [
+{
   path: '/',
   redirect: '/industryMarket',
   children: [
@@ -107,13 +108,9 @@ const routes = [{
 },
 {
   path: '/prawnNews',
-  component: prawnNews
+  component: prawnNews,
+},
 
-},
-{
-  path: '/instructdetail',
-  component: instructdetail
-},
 {
   path: '/shopDetail',
   component: shopDetail

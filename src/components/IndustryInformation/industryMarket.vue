@@ -289,7 +289,7 @@
                   @click="TonewPath(item.id)"
                 >
                   <el-image :src="item.picture"></el-image>
-                  <li>{{ item.title }}</li>
+                  <span>{{ item.title }}</span>
                 </div>
                 <div class="tail" style="width: 100%; margin-top: 15px">
                   <h3 style="display: flex; justify-content: space-between">
@@ -331,8 +331,9 @@
               <!-- 精彩专题3 -->
               <div
                 class="onebottom"
-                v-for="(item, index) in pagelist"
+                v-for="(item, index) in pagelist.slice((Currentpage-1)*pagesize, pagesize)"
                 :key="index"
+                
                 @click="TonewPath(item.id)"
               >
                 <div class="four">
@@ -391,19 +392,18 @@
                   <el-divider></el-divider>
                 </div>
               </div>
-              <el-pagination
-                :data="pagelist"
+              <el-pagination 
                 background
                 layout="prev, pager, next"
-                :total="queryInfo.total"
-                :page-size="queryInfo.size"
-                :current-page="page"
+                :total="this.queryInfo.total"
+                :page-size="this.queryInfo.pagesize"
+                :current-page="this.queryInfo.Currentpage"
                 style="
                   display: flex;
                   justify-content: center;
                   margin-bottom: 30px;
                 "
-                @current-change="handleCurrentChange()"
+                @current-change="handleCurrentChange"
               >
               </el-pagination>
             </div>
@@ -718,9 +718,12 @@ export default {
 
       //精彩专题3 分页
       queryInfo: {
-        page: "1",
-        size: "10",
-        total: "30",
+        //当前页
+        Currentpage: "1",
+        //每页条数
+        pagesize: "5",
+        //总条数
+        total: "",
       },
       //精彩专题3 数组
       pagelist: [],
@@ -794,18 +797,18 @@ export default {
     //按推荐 ，精彩专题3 分页
     async getjingcai() {
       const { data: res } = await this.reqM2Service(
-        `/info/shrimpIndustry/findByClickNum/${this.queryInfo.page}/${this.queryInfo.size}`,
+       `/info/shrimpIndustry/findByClickNum/${this.queryInfo.Currentpage}/${this.queryInfo.pagesize}`,
         "",
         "get"
       );
-      console.log(res);
       this.pagelist = res.data.rows;
-      //this.queryInfo.total= this.pagelist.length;
+      this.queryInfo.total= res.data.total
       console.log(this.queryInfo.total);
-      // for (var i = 0; i < this.pagelist.length; i++) {}
+  
     },
     handleCurrentChange(newpage) {
-      this.queryInfo.page = newpage;
+      //改变页码
+      this.queryInfo.Currentpage = newpage;
       this.getjingcai();
     },
   },
@@ -955,22 +958,29 @@ export default {
           display: block;
         }
         .blockson {
+          position: relative;
           .el-image {
             width: 208px;
-            height: 90px;
+            height: 130px;
+            cursor: pointer!important;
           }
           span {
             cursor: pointer;
-            width: 190px;
+            width: 204px;
+            position: absolute;
+            background-color: #333;
+            opacity: 0.7;
             text-overflow: ellipsis;
+            bottom: 5px;
             overflow: hidden;
             white-space: nowrap;
+            text-align: center;
           }
         }
       }
     }
     .onetopr {
-      padding-left: 61px;
+      padding-left: 76px;
       li {
         text-overflow: ellipsis;
         overflow: hidden;
@@ -989,19 +999,24 @@ export default {
     width: 100%;
     .zhuangti {
       width: 24%;
+      position: relative;
       .el-image {
-        width: 205px;
+        width: 100%;
         height: 150px;
       }
-      li {
+      span {
+        position: absolute;
+        display: block;
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
-        width: 180px;
-        list-style: none;
-        font-size: 13px;
+        width: 100%;
+        background-color: #333;
+        opacity: 0.8;
+        font-size: 14.5px;
+        bottom: 5px;
         color: black;
-        padding-left: 8px;
+        text-align: center;
       }
     }
   }
