@@ -331,7 +331,7 @@
               <!-- 精彩专题3 -->
               <div
                 class="onebottom"
-                v-for="(item, index) in pagelist.slice((Currentpage-1)*pagesize, pagesize)"
+                v-for="(item, index) in pagelist.slice(0, pagesize)"
                 :key="index"
                 
                 @click="TonewPath(item.id)"
@@ -349,7 +349,7 @@
                         margin-top: 10px;
                       "
                     >
-                      {{ item.summary }}
+                      {{ item.summary| limitword }}
 
                       <span
                         style="text-decoration: none; color: green"
@@ -700,6 +700,21 @@ export default {
         return times;
       }
     },
+    //限制文字个数
+    limitword(val){
+      if(val == null || val == ""){
+        return "暂无数据"
+      }else{
+        var len=val.length;   
+        if(len>80){
+           var str="";
+           str=val.substring(0,80)+"......"; 
+           return str 
+        }else{
+          return val
+        }
+      }
+    }
   },
 
   data() {
@@ -794,7 +809,7 @@ export default {
       this.RecommendList = res.data;
     },
 
-    //按推荐 ，精彩专题3 分页
+    // 分页
     async getjingcai() {
       const { data: res } = await this.reqM2Service(
        `/info/shrimpIndustry/findByClickNum/${this.queryInfo.Currentpage}/${this.queryInfo.pagesize}`,

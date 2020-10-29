@@ -20,7 +20,7 @@
       <el-container>
         <div class="zhuti">
           <div class="left">
-            <div class="block" style="margin-bottom:8px">
+            <div class="block" style="margin-bottom: 8px">
               <div
                 class="blockson"
                 v-for="(item, index) in datalist.slice(0, 3)"
@@ -33,15 +33,13 @@
             </div>
             <div class="sort">
               <el-row>
-                <span style="font-size:15px">分类：</span>
+                <span style="font-size: 15px">分类：</span>
                 <el-button type="success" size="mini" plain>全部</el-button>
                 <el-button type="success" size="mini" plain>对虾养殖</el-button>
                 <el-button type="success" size="mini" plain>财富手册</el-button>
                 <el-button type="success" size="mini" plain>虾业行情</el-button>
                 <el-button type="success" size="mini" plain>虾业行情</el-button>
-                
               </el-row>
-              
             </div>
             <div class="tail" style="width: 100%; margin-top: 15px">
               <h3
@@ -81,7 +79,7 @@
             <div class="main">
               <div
                 class="mainson"
-                v-for="(item, index) in pagelist"
+                v-for="(item, index) in pagelist.slice(0, pagesize)"
                 :key="index"
                 style="border-bottom: 1px solid rgb(230, 230, 230)"
               >
@@ -97,12 +95,13 @@
                     <h2>{{ item.title }}</h2>
                   </div>
                   <div class="pm" style="width: 100%; margin: 10px 0">
-                    <p style="width: 100%">
-                      {{ item.content }}
-                      <span style="color: green" @click="TonewPath(item.id)"
-                        >[详细]</span
-                      >
-                    </p>
+                    <span style="width: 100%">
+                      {{ item.summary |limitword}} 
+                      
+                    </span>
+                    <span style="color: green" @click="TonewPath(item.id)"
+                      >[详细]</span
+                    >
                   </div>
                   <div class="lbtm" style="width: 100%">
                     <p style="font-size: 13px; float: left">
@@ -111,27 +110,19 @@
                         阅读： {{ item.clickNum }}</span
                       >
                     </p>
-                    <p
-                      style="
-                        color: green;
-                        font-size: 13px;
-                        right:3px
-                        padding-right: 3px;
-                      "
-                    >
-                      {{ item.summary }}
-                    </p>
-                    <p style="font-size: 13px; right: 40px">分类：</p>
+                    <p style="font-size: 13px; right: 40px">分类：<span style="color:green">{{classificationList[0].name}}</span></p>
                   </div>
                 </div>
               </div>
             </div>
+            <!-- 分页 -->
             <el-pagination
               background
               layout="prev, pager, next"
-              :total="pagelist.length"
-              :page-size="3"
-              :current-page="1"
+              :total="this.queryInfo.total"
+              :page-size="this.queryInfo.pagesize"
+              :current-page="this.queryInfo.Currentpage"
+              @current-change="handleCurrentChange"
               style="display: flex; justify-content: center; margin-top: 20px"
             >
             </el-pagination>
@@ -178,9 +169,7 @@
                     @click="TonewPath(item.id)"
                     :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
                   >
-                    
-                      {{ item.title }}
-                  
+                    {{ item.title }}
                   </li>
                 </ul>
                 <br />
@@ -225,9 +214,7 @@
                     @click="TonewPath(item.id)"
                     :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
                   >
-                    
-                      {{ item.title }}
-                 
+                    {{ item.title }}
                   </li>
                 </ul>
                 <br />
@@ -270,9 +257,7 @@
                     @click="TonewPath(item.id)"
                     :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
                   >
-                    
-                      {{ item.title }}
-                 
+                    {{ item.title }}
                   </li>
                 </ul>
                 <el-divider class="ccy-drvider"></el-divider>
@@ -335,6 +320,21 @@ export default {
         return times;
       }
     },
+    //限制文字个数
+    limitword(val){
+      if(val == null || val == ""){
+        return "暂无数据"
+      }else{
+        var len=val.length;   
+        if(len>80){
+           var str="";
+           str=val.substring(0,80)+"......"; 
+           return str 
+        }else{
+          return val
+        }
+      }
+    }
   },
   data() {
     return {
@@ -342,9 +342,10 @@ export default {
       classificationList: [],
 
       //按点击量分页
-      queryinfo: {
-        page: "1", //页数
-        size: "3", //每页数
+      queryInfo: {
+        Currentpage: "1", //页数
+        pagesize: "5", //每页数
+        total: "", //总页数
       },
 
       // 点击量分页
@@ -391,21 +392,17 @@ export default {
         "get"
       );
       this.classificationList = res.data;
-      //console.log(res);
     },
     //按点击量分页
     async getClickData() {
       const { data: res } = await this.reqM2Service(
-        `/info/shrimpIndustry/findByClickNum/${this.queryinfo.page}/${this.queryinfo.size}`,
+        `/info/shrimpIndustry/findByClickNum/${this.queryInfo.Currentpage}/${this.queryInfo.pagesize}`,
         "",
         "get"
       );
-      if (res.code !== 20000) {
-        return this.$message.error("失败");
-      }
-
-      //console.log(res);
+      this.queryInfo.total = res.data.total;
       this.pagelist = res.data.rows;
+      console.log(this, queryInfo.total);
     },
 
     //查询全部
@@ -415,10 +412,6 @@ export default {
         "",
         "get"
       );
-      if (res.code !== 20000) {
-        return this.$message.error("获取失败");
-      }
-      // console.log(res);
       this.datalist = res.data;
     },
 
@@ -430,10 +423,9 @@ export default {
         "get"
       );
       this.dataTimeList = res.data;
-      console.log(this.dataTimeList);
     },
-    //按推荐
 
+    //按推荐
     async getHotData() {
       const { data: res } = await this.reqM2Service(
         "/info/shrimpIndustry/findByRecommend",
@@ -441,6 +433,12 @@ export default {
         "get"
       );
       this.dataRecommList = res.data;
+    },
+
+    handleCurrentChange(newpage) {
+      //改变页码
+      this.queryInfo.Currentpage = newpage;
+      this.getClickData();
     },
   },
 };
@@ -556,11 +554,11 @@ export default {
         .el-image {
           width: 98%;
           height: 90%;
-          cursor: pointer!important;
+          cursor: pointer !important;
         }
         span {
           text-align: center;
-          background-color:#333;
+          background-color: #333;
           position: absolute;
           width: 98%;
           opacity: 0.7;
@@ -592,12 +590,16 @@ export default {
           }
         }
         .sonr {
-          .pm {
-            p {
-              text-overflow: ellipsis;
-              overflow-wrap: normal;
-              overflow: hidden;
+          width: 60%;
+          .pm {    
+            width: 100%;
+            a{
+             
+              color:green;
+              list-style: none;
+              text-decoration: none;
             }
+            
           }
           display: flex;
           flex-direction: column;
