@@ -40,7 +40,7 @@
           </div>
           <div class="wenzhang">
             <div v-html="CurrentData.content"></div>
-            <span>江北鱼米之乡，中国博兴乔庄。</span><br /><br />
+            <!-- <span>江北鱼米之乡，中国博兴乔庄。</span><br /><br />
             <span>农民喜庆丰收节，—虾带来百业兴。</span><br /><br />
             <span
               >齐鲁网·闪电新闻9月16日讯山东·博兴中国农民丰收节系列活动，今天拉开了帷幕，
@@ -51,11 +51,11 @@
               是养殖规模，还是对虾品质，那可都是响当当的全国第一。为了进一步增强"博兴对
               虾""品牌影响力，增强养殖户信心，搭建养殖对虾信息交流平台，博兴县总工会、博兴
               县渔业服务中心、乔庄镇党委政府共同发起了本届博兴虾王争霸赛。
-            </span>
+            </span> -->
             <div class="block">
               <el-image :src="CurrentData.picture"></el-image>
             </div>
-            <span>山东主持人国博兴乔庄</span><br /><br />
+            <!-- <span>山东主持人国博兴乔庄</span><br /><br />
             <span
               >说起博兴县南美白对虾产业，那可是有着“中国白对虾生态养殖第一县""的美誉，不管
               是养殖规模，还是对虾品质，那可都是响当当的全国第一。为了进一步增强"博兴对
@@ -66,15 +66,15 @@
               虾""品牌影响力
                 是养殖规模，还是对虾品质，那可都是响当当的全国第一。为了进一步增强"博兴对
               虾""品牌影响力
-            </span>
+            </span> -->
             <div class="block">
               <el-image :src="CurrentData.picture" style="height: 430px"></el-image>
             </div>
-            <span>
+            <!-- <span>
               说起博兴县南美白对虾产业，那可是有着“中国白对虾生态养殖第一县""的美誉，不管
               是养殖规模，还是对虾品质，那可都是响当当的全国第一。为了进一步增强"博兴对
               虾""品牌影响力，那可都是响当起博兴县南美白对虾产业，那可是有着“中国白对虾生态养殖第一县""的美誉，不 </span
-            >
+            > -->
               <el-divider></el-divider>
             <h3 style="margin-bottom:30px;font-family: btt;">{{numclicklist[1].editor}}报告</h3>
           </div>
@@ -110,7 +110,7 @@
           </el-tabs>
           <el-tabs v-model="activeName1" @tab-click="handleClick">
             <el-tab-pane label="本周热门" name="first明">
-              <div class="list" v-for="(item, index) in RecommDataList.slice(0, 5)" :key="index">
+              <div class="list" v-for="(item, index) in WeekDataList.slice(0, 5)" :key="index">
               
                 <div class="block">
                   <el-image :src="item.picture"></el-image>
@@ -124,7 +124,7 @@
               </div>
             </el-tab-pane>
             <el-tab-pane label="本月热门" name="second2">
-              <div class="list" v-for="(item, index) in newDataList.slice(0, 5)" :key="index">
+              <div class="list" v-for="(item, index) in MonthData.slice(0, 5)" :key="index">
                 <div class="block">
                   <el-image :src="item.picture"></el-image>
                   <div class="rightspan">
@@ -180,14 +180,19 @@ export default {
       activeName1: "second2",
       //按点击量查询
       numclicklist:[],
+
       //按最新  时间
       newDataList:[],
-      //推荐
-      RecommDataList:[],
+
+      //每周
+      WeekDataList:[],
       // 全部数据
       Alldata:[],
       //当前页面
       CurrentData:[],
+
+      //每月
+      MonthData:[]
       
     }
   },
@@ -198,15 +203,20 @@ export default {
     this.getclickData()
     //时间 最新
     this.getnewData()
-    //推荐
-    this.getRecommData()
-  },
+
+
+    //每周
+    this.getWeekData()
+    
+    //每月
+    this.getMonthData()
+ },
   mounted() {
       console.log(this.$route.query.id);
      
   },
   methods : {
-    
+    //找到相应ID
     async getshrimpIndustryData (){
     
       const {data : res} = await this.reqM2Service("/info/shrimpIndustry","", "get")
@@ -227,10 +237,16 @@ export default {
       const {data :res} = await this.reqM2Service("/info/shrimpIndustry/findByTime","", "get")
       this.newDataList = res.data
     },
-    async getRecommData() {
-      const {data: res} = await this.reqM2Service("/info/shrimpIndustry/findByRecommend","", "get")
-      this.RecommDataList = res.data
+
+    async getWeekData() {
+      const {data: res} = await this.reqM2Service("/info/shrimpIndustry/findByClickWeekly","", "get")
+      this.WeekDataList = res.data
     },
+    async getMonthData(){
+      const {data: res} = await this.reqM2Service("/info/shrimpIndustry/findByClickMonthly","", "get")
+      this.MonthData = res.data
+    }
+    ,
     handleClick(){
 
     }
@@ -251,6 +267,7 @@ export default {
     margin-top: 25px;
     margin-left: 18px;
     margin-bottom: -10px;
+    
   }
 }
 .lxl-box {

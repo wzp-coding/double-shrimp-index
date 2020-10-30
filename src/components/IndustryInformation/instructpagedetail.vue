@@ -2,93 +2,94 @@
   <div class="lxl-body">
     <div class="lxl-box">
       <div class="top">
-        <div class="tl"><el-breadcrumb
-        separator-class="el-icon-arrow-right"
-        class="lxl-breadcrumb"
-      >
-        <el-breadcrumb-item>当前位置</el-breadcrumb-item>
-        <el-breadcrumb-item to="/industryMarket">产业资讯</el-breadcrumb-item>
-        <el-breadcrumb-item>详情</el-breadcrumb-item>
-      </el-breadcrumb></div>
+        <div class="tl">
+          <el-breadcrumb
+            separator-class="el-icon-arrow-right"
+            class="lxl-breadcrumb"
+          >
+            <el-breadcrumb-item>当前位置</el-breadcrumb-item>
+            <el-breadcrumb-item to="/industryMarket"
+              >产业资讯</el-breadcrumb-item
+            >
+            <el-breadcrumb-item>详情</el-breadcrumb-item>
+          </el-breadcrumb>
+        </div>
         <div class="tr"></div>
       </div>
-      
+
       <el-divider></el-divider>
       <el-container>
         <el-aside width="67%">
-          <div class="header">
-            <div class="pic">
-              <el-image> </el-image>
-            </div>
-            <div class="pic">
-              <el-image> </el-image>
-            </div>
-            <div class="pic">
-              <el-image> </el-image>
-            </div>
+          <div class="header">      
+              <el-input placeholder="请输入实体名称"></el-input>
+              <el-button type="success">查询</el-button>
           </div>
-          <div class="body" v-for="(item, index) in numPageClickList" :key="index">
+          <div
+            class="body"
+            v-for="item in TypeDataList"
+            :key="item.id"
+          >
             <div class="block">
-            <div class="pic">
-              <router-link to="/instructdetail" style="text-decoration: none">
-                <el-image :src="item.picture"></el-image>
-              </router-link>
-            </div>
-            <div class="news">
-              <h3 style="margin-top:3px">{{ item.title }}</h3>
-              <p class="textover" style="font-size: 15px; margin-bottom: 15px; margin-top: 10px">
-                {{ item.summary }}
-                <router-link
-                  to="/instructdetail"
-                  style="text-decoration: none; color: green"
-                  >[详情]</router-link
+              <div class="pic">
+                <router-link to="/instructdetail" style="text-decoration: none">
+                  <el-image :src="item.picture"></el-image>
+                </router-link>
+              </div>
+              <div class="news">
+                <h3 style="margin-top: 3px">{{ item.title }}</h3>
+                <p
+                  class="textover"
+                  style="font-size: 15px; margin-bottom: 15px; margin-top: 10px"
                 >
-              </p>
-              <!--底部区域--->
-              <p style="font-size: 13px; position: absolute; bottom: 4px">
-                发布时间:{{ item.creationTime | timefilters
-                }}<span style="margin-left: 15px"
-                  >阅读： {{ item.clickNum }}</span
+                  {{ item.summary }}
+                  <router-link
+                    to="/instructdetail"
+                    style="text-decoration: none; color: green"
+                    >[详情]</router-link
+                  >
+                </p>
+                <!--底部区域--->
+                <p style="font-size: 13px; position: absolute; bottom: 4px">
+                  发布时间:{{ item.creationTime | timefilters
+                  }}<span style="margin-left: 15px"
+                    >阅读： {{ item.clickNum }}</span
+                  >
+                </p>
+                <p
+                  style="
+                    color: green;
+                    font-size: 13px;
+                    right: 0;
+                    padding-right: 3px;
+                    position: absolute;
+                    bottom: 4px;
+                  "
                 >
-              </p>
-              <p
-                style="
-                  color: green;
-                  font-size: 13px;
-                  right: 0;
-                  padding-right: 3px;
-                  position: absolute;
-                  bottom: 4px;
-                "
-              >
-                财富
-              </p>
-              <p
-                style="
-                  font-size: 13px;
-                  right: 50px;
-                  position: absolute;
-                  bottom: 4px;
-                "
-              >
-                分类：
-              </p>
-            </div>
+                  {{TypeName}}
+                </p>
+                <p
+                  style="
+                    font-size: 13px;
+                    right: 50px;
+                    position: absolute;
+                    bottom: 4px;
+                  "
+                >
+                  分类：
+                </p>
+              </div>
             </div>
           </div>
           <el-pagination
-                background
-                layout="prev, pager, next"
-                :total="10"
-                :page-size="3"
-                :current-page="1"
-                style="
-                  display: flex;
-                  justify-content: center;
-                  margin-bottom: 30px;
-                "
-              >
-            </el-pagination>
+            background
+            layout="prev, pager, next"
+            :total="queryinfo.total"
+            :page-size="queryinfo.size"
+            :current-page="queryinfo.page"
+            @current-change="handleCurrentChange"
+            style="display: flex; justify-content: center; margin-bottom: 30px"
+          >
+          </el-pagination>
         </el-aside>
         <el-main width="30%">
           <el-tabs v-model="activeName" @tab-click="handleClick">
@@ -130,7 +131,7 @@
             <el-tab-pane label="本周热门" name="first明">
               <div
                 class="list"
-                v-for="(item, index) in RecommDataList.slice(0, 5)"
+                v-for="(item, index) in WeekDataList.slice(0, 5)"
                 :key="index"
               >
                 <div class="block">
@@ -144,7 +145,7 @@
             <el-tab-pane label="本月热门" name="second2">
               <div
                 class="list"
-                v-for="(item, index) in newDataList.slice(0, 5)"
+                v-for="(item, index) in MonthData.slice(0, 5)"
                 :key="index"
               >
                 <div class="block">
@@ -199,31 +200,48 @@ export default {
       activeName: "second",
       activeName1: "second2",
 
-      queryinfo:{
-        page:'3',
-        size:'3'
+      queryinfo: {
+        page: 1,
+        size: 3,
+        total:null
       },
       //按点击量查询
       numclicklist: [],
-      //按点击量分页 
-      numPageClickList:[],
-      //按最新  时间
+     
+       //每月
+      MonthData:[],//按最新  时间
       newDataList: [],
-      //推荐
-      RecommDataList: [],
+      //每周
+      WeekDataList:[],
+      //分类信息查询
+      TypeDataList:[],
+      //得到分类名称
+      TypeName:''
     };
   },
   created() {
+    //根据传过来的TypeID 搜索
+    this.getTypeData();
     //点击量 热度
     this.getclickData();
     //时间 最新
     this.getnewData();
     //推荐
     this.getRecommData();
-    //点击量 分页
-    this.getClickPageData();
+   
+    //每周
+    this.getWeekData()
+    //每月
+    this.getMonthData()
+
+    //得到分类名
+    this.getTypeName()
+  },
+  mounted() {
+      console.log(this.$route.query.id); 
   },
   methods: {
+
     async getclickData() {
       const { data: res } = await this.reqM2Service(
         "/info/shrimpIndustry/findByClickNum",
@@ -248,10 +266,41 @@ export default {
       );
       this.RecommDataList = res.data;
     },
-    //点击量分页
-    async getClickPageData() {
-      const {data :res} = await this.reqM2Service(`/info/shrimpIndustry/findByClickNum/${this.queryinfo.page}/${this.queryinfo.size}`,"","get")
-      this.numPageClickList = res.data.rows
+    
+    async getWeekData() {
+      const {data: res} = await this.reqM2Service("/info/shrimpIndustry/findByClickWeekly","", "get")
+      this.WeekDataList = res.data
+    },
+    async getMonthData(){
+      const {data: res} = await this.reqM2Service("/info/shrimpIndustry/findByClickMonthly","", "get")
+      this.MonthData = res.data
+    },
+    
+    async getTypeData(){
+      const {data :res} = await this.reqM2Service(`/info/shrimpIndustry/search/searchByTypeId/${this.$route.query.id}/${this.queryinfo.page}/${this.queryinfo.size}`,"","post")
+      this.TypeDataList = res.data.rows
+      this.queryinfo.total = res.data.total
+      //console.log(this.$route.query.id)
+    },
+    handleCurrentChange(newpage) {
+      //改变页码
+      this.queryinfo.page = newpage;
+      this.getTypeData();
+    },
+    async getTypeName(){
+      const {data :res} = await this.reqM2Service("/info/shrimpIndustryTypes", "", "get")
+     
+      for(var i=0;i<res.data.length;i++){
+        if(res.data[i].id==this.$route.query.id){
+          this.TypeName=res.data[i].name; 
+          console.log(this.TypeName)
+          break;
+         
+        }
+      }
+    },
+    handleClick(){
+
     }
   },
 };
@@ -275,41 +324,36 @@ export default {
 }
 .el-aside {
   .header {
-    display: flex;
-    justify-content: space-between;
-    .pic {
-      height: 160px;
-      background-color: #fff;
-      width: 33%;
-      .el-image {
-        width: 100%;
-        height: 100%;
-      }
+    .el-input{
+      margin-right: 10px;
+      width: 50%;
+    
     }
+    background-color: #fff;
   }
-  .body{
+  .body {
     margin-top: 15px;
     display: flex;
     flex-direction: column;
-    .block{
+    .block {
       width: 100%;
       height: 185px;
       display: flex;
       justify-content: space-between;
-      border-bottom: 1px solid rgb(230,230,230);
-      .pic{
+      border-bottom: 1px solid rgb(230, 230, 230);
+      .pic {
         margin-left: 5px;
         margin-top: 5px;
-        width:33%;
-        .el-image{
+        width: 33%;
+        .el-image {
           height: 95%;
           width: 100%;
         }
       }
-      .news{
+      .news {
         position: relative;
-        width:65%;
-        .textover{
+        width: 65%;
+        .textover {
           text-overflow: ellipsis;
         }
       }
