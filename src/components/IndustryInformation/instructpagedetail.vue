@@ -20,20 +20,16 @@
       <el-divider></el-divider>
       <el-container>
         <el-aside width="67%">
-          <div class="header">      
-              <el-input placeholder="请输入实体名称"></el-input>
-              <el-button type="success">查询</el-button>
+          <div class="header">
+            <el-input placeholder="请输入实体名称"></el-input>
+            <el-button type="success">查询</el-button>
           </div>
-          <div
-            class="body"
-            v-for="item in TypeDataList"
-            :key="item.id"
-          >
+          <div class="body" v-for="item in TypeDataList" :key="item.id">
             <div class="block">
               <div class="pic">
-                <router-link to="/instructdetail" style="text-decoration: none">
+                
                   <el-image :src="item.picture"></el-image>
-                </router-link>
+                
               </div>
               <div class="news">
                 <h3 style="margin-top: 3px">{{ item.title }}</h3>
@@ -41,13 +37,10 @@
                   class="textover"
                   style="font-size: 15px; margin-bottom: 15px; margin-top: 10px"
                 >
-                  {{ item.summary }}
-                  <router-link
-                    to="/instructdetail"
-                    style="text-decoration: none; color: green"
-                    >[详情]</router-link
-                  >
+                  {{ item.summary | limitword}}
+                  <span style="color:green;cursor: pointer;" @click="TonewPath(item.id)" >[详情]</span>
                 </p>
+                
                 <!--底部区域--->
                 <p style="font-size: 13px; position: absolute; bottom: 4px">
                   发布时间:{{ item.creationTime | timefilters
@@ -65,7 +58,7 @@
                     bottom: 4px;
                   "
                 >
-                  {{TypeName}}
+                  {{ TypeName }}
                 </p>
                 <p
                   style="
@@ -99,17 +92,14 @@
                 v-for="(item, index) in newDataList.slice(0, 5)"
                 :key="index"
               >
-                <router-link
-                  to="/instructdetail"
-                  style="text-decoration: none; color: black"
-                >
-                  <div class="block">
+                
+                  <div class="block" @click="TonewPath(item.id)">
                     <el-image :src="item.picture"></el-image>
                     <div class="rightspan">
                       <span>{{ item.title }}</span>
                     </div>
                   </div>
-                </router-link>
+                
               </div>
             </el-tab-pane>
             <el-tab-pane label="热门资讯" name="second">
@@ -118,7 +108,7 @@
                 v-for="(item, index) in numclicklist.slice(0, 5)"
                 :key="index"
               >
-                <div class="block">
+                <div class="block"  @click="TonewPath(item.id)">
                   <el-image :src="item.picture"></el-image>
                   <div class="rightspan">
                     <span>{{ item.title }}</span>
@@ -134,7 +124,7 @@
                 v-for="(item, index) in WeekDataList.slice(0, 5)"
                 :key="index"
               >
-                <div class="block">
+                <div class="block"  @click="TonewPath(item.id)">
                   <el-image :src="item.picture"></el-image>
                   <div class="rightspan">
                     <span>{{ item.title }}</span>
@@ -148,7 +138,7 @@
                 v-for="(item, index) in MonthData.slice(0, 5)"
                 :key="index"
               >
-                <div class="block">
+                <div class="block"  @click="TonewPath(item.id)">
                   <el-image :src="item.picture"></el-image>
                   <div class="rightspan">
                     <span>{{ item.title }}</span>
@@ -165,6 +155,7 @@
 
 <script>
 export default {
+  //局部时间过滤器
   filters: {
     timefilters(val) {
       if (val == null || val == "") {
@@ -192,6 +183,21 @@ export default {
         return times;
       }
     },
+    //限制文字个数
+    limitword(val) {
+      if (val == null || val == "") {
+        return "暂无数据";
+      } else {
+        var len = val.length;
+        if (len > 80) {
+          var str = "";
+          str = val.substring(0, 80) + "......";
+          return str;
+        } else {
+          return val;
+        }
+      }
+    },
   },
   data() {
     return {
@@ -203,20 +209,20 @@ export default {
       queryinfo: {
         page: 1,
         size: 3,
-        total:null
+        total: null,
       },
       //按点击量查询
       numclicklist: [],
-     
-       //每月
-      MonthData:[],//按最新  时间
+
+      //每月
+      MonthData: [], //按最新  时间
       newDataList: [],
       //每周
-      WeekDataList:[],
+      WeekDataList: [],
       //分类信息查询
-      TypeDataList:[],
+      TypeDataList: [],
       //得到分类名称
-      TypeName:''
+      TypeName: "",
     };
   },
   created() {
@@ -228,20 +234,25 @@ export default {
     this.getnewData();
     //推荐
     this.getRecommData();
-   
+
     //每周
-    this.getWeekData()
+    this.getWeekData();
     //每月
-    this.getMonthData()
+    this.getMonthData();
 
     //得到分类名
-    this.getTypeName()
+    this.getTypeName();
   },
   mounted() {
-      console.log(this.$route.query.id); 
+    console.log(this.$route.query.id);
   },
   methods: {
-
+    TonewPath(id) {
+      this.$router.push({
+        path: "/instructdetail",
+        query: { id: id },
+      });
+    },
     async getclickData() {
       const { data: res } = await this.reqM2Service(
         "/info/shrimpIndustry/findByClickNum",
@@ -266,20 +277,32 @@ export default {
       );
       this.RecommDataList = res.data;
     },
-    
+
     async getWeekData() {
-      const {data: res} = await this.reqM2Service("/info/shrimpIndustry/findByClickWeekly","", "get")
-      this.WeekDataList = res.data
+      const { data: res } = await this.reqM2Service(
+        "/info/shrimpIndustry/findByClickWeekly",
+        "",
+        "get"
+      );
+      this.WeekDataList = res.data;
     },
-    async getMonthData(){
-      const {data: res} = await this.reqM2Service("/info/shrimpIndustry/findByClickMonthly","", "get")
-      this.MonthData = res.data
+    async getMonthData() {
+      const { data: res } = await this.reqM2Service(
+        "/info/shrimpIndustry/findByClickMonthly",
+        "",
+        "get"
+      );
+      this.MonthData = res.data;
     },
-    
-    async getTypeData(){
-      const {data :res} = await this.reqM2Service(`/info/shrimpIndustry/search/searchByTypeId/${this.$route.query.id}/${this.queryinfo.page}/${this.queryinfo.size}`,"","post")
-      this.TypeDataList = res.data.rows
-      this.queryinfo.total = res.data.total
+
+    async getTypeData() {
+      const { data: res } = await this.reqM2Service(
+        `/info/shrimpIndustry/search/searchByTypeId/${this.$route.query.id}/${this.queryinfo.page}/${this.queryinfo.size}`,
+        "",
+        "post"
+      );
+      this.TypeDataList = res.data.rows;
+      this.queryinfo.total = res.data.total;
       //console.log(this.$route.query.id)
     },
     handleCurrentChange(newpage) {
@@ -287,21 +310,22 @@ export default {
       this.queryinfo.page = newpage;
       this.getTypeData();
     },
-    async getTypeName(){
-      const {data :res} = await this.reqM2Service("/info/shrimpIndustryTypes", "", "get")
-     
-      for(var i=0;i<res.data.length;i++){
-        if(res.data[i].id==this.$route.query.id){
-          this.TypeName=res.data[i].name; 
-          console.log(this.TypeName)
+    async getTypeName() {
+      const { data: res } = await this.reqM2Service(
+        "/info/shrimpIndustryTypes",
+        "",
+        "get"
+      );
+
+      for (var i = 0; i < res.data.length; i++) {
+        if (res.data[i].id == this.$route.query.id) {
+          this.TypeName = res.data[i].name;
+          console.log(this.TypeName);
           break;
-         
         }
       }
     },
-    handleClick(){
-
-    }
+    handleClick() {},
   },
 };
 </script>
@@ -324,10 +348,9 @@ export default {
 }
 .el-aside {
   .header {
-    .el-input{
+    .el-input {
       margin-right: 10px;
       width: 50%;
-    
     }
     background-color: #fff;
   }

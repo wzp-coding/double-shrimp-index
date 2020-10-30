@@ -639,6 +639,7 @@ export default {
             p {
               position: absolute;
               bottom: 3px;
+              
             }
           }
         }

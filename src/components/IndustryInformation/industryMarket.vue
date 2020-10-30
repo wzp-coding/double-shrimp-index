@@ -166,18 +166,8 @@
                       color: rgb(93, 183, 60);
                     "
                   >
-                    <span>
-                      <router-link
-                        to="/instructdetail"
-                        style="
-                          color: #9e9e9e;
-                          text-decoration: none;
-                          font-size: 13px;
-                          font-weight: 780;
-                          margin-right: 4px;
-                        "
-                        >更多</router-link
-                      >
+                    <span style="cursor: pointer;color:black" @click="ToMorePage(queryInfo1.TypeID1)">
+                      更多
                     </span>
                     <i class="el-icon-caret-right"></i>
                   </div>
@@ -271,18 +261,8 @@
                       color: rgb(93, 183, 60);
                     "
                   >
-                    <span>
-                      <router-link
-                        to="/instructdetail"
-                        style="
-                          color: #9e9e9e;
-                          text-decoration: none;
-                          font-size: 13px;
-                          font-weight: 780;
-                          margin-right: 4px;
-                        "
-                        >更多</router-link
-                      >
+                    <span style="cursor: pointer;color:black"  @click="ToMorePage(queryInfo2.TypeID2)">
+                      更多
                     </span>
                     <i class="el-icon-caret-right"></i>
                   </div>
@@ -320,7 +300,7 @@
                         color: rgb(93, 183, 60);
                       "
                     >
-                      <span style="color:black;cursor: pointer;" @click="ToMorePage(TypeID3)">
+                      <span style="color:black;cursor: pointer;" @click="ToMorePage(queryInfo3.TypeID3)">
                         更多
                       </span>
                       <i class="el-icon-caret-right"></i>
@@ -779,7 +759,7 @@ export default {
     },
     //前往更多页面
     ToMorePage(id) {
-      this.$$router.push({
+      this.$router.push({
         path: "/instructpagedetail",
         query: { id: id },
       });
