@@ -24,7 +24,7 @@
                 <el-form-item label="帖子问题">
                   <span>: {{ props.row.title }}</span>
                 </el-form-item>
-                <!-- 预览图片有bug -->
+
                 <el-form-item
                   label="图片说明"
                   v-if="props.row.images.length != 0"
@@ -79,6 +79,7 @@
                 <el-form-item label="回复内容">
                   <span>: {{ props.row.reply }}</span>
                 </el-form-item>
+                <!-- 预览图片有bug -->
                 <el-form-item
                   label="图片说明"
                   v-if="props.row.images.length != 0"
@@ -129,34 +130,34 @@
     </el-tabs>
     <!-- 我的回复----结束 -->
     <!-- 修改对话框--开始 -->
-      <el-dialog title="修改回复" :visible.sync="dialogFormVisible">
-        <el-form :model="form">
-          <el-form-item label="问题内容">
-            <el-input type="textarea" v-model="form.title"></el-input>
-          </el-form-item>
-          <el-form-item label="上传图片">
-            <el-upload
-              action="http://106.75.154.40:9005/information/upload"
-              list-type="picture-card"
-              :on-preview="handlePictureCardPreview"
-              :on-remove="handleRemove"
-              :on-success="handleOnSuccess"
-              :on-error="handleOnError"
-              :file-list="fileList"
-            >
-              <i class="el-icon-plus"></i>
-            </el-upload>
-            <el-dialog :visible.sync="dialogVisible">
-              <img width="100%" :src="dialogImageUrl" alt="" />
-            </el-dialog>
-          </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="dialogFormVisible = false">取 消</el-button>
-          <el-button type="primary" @click="handleSubmitQues">确 定</el-button>
-        </div>
-      </el-dialog>
-      <!-- 修改对话框--结束 -->
+    <el-dialog title="修改回复" :visible.sync="dialogFormVisible">
+      <el-form :model="form">
+        <el-form-item label="回复内容">
+          <el-input type="textarea" v-model="form.reply"></el-input>
+        </el-form-item>
+        <el-form-item label="上传图片">
+          <el-upload
+            action="http://106.75.154.40:9005/information/upload"
+            list-type="picture-card"
+            :on-preview="handlePictureCardPreview"
+            :on-remove="handleRemove"
+            :on-success="handleOnSuccess"
+            :on-error="handleOnError"
+            :file-list="fileList"
+          >
+            <i class="el-icon-plus"></i>
+          </el-upload>
+          <el-dialog :visible.sync="dialogVisible">
+            <img width="100%" :src="dialogImageUrl" alt="" />
+          </el-dialog>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="handleSubmitReply">确 定</el-button>
+      </div>
+    </el-dialog>
+    <!-- 修改对话框--结束 -->
     <!-- 换页 -->
     <div class="pagination">
       <pagination
@@ -185,14 +186,13 @@ export default {
       tabIndex: 0,
       dialogFormVisible: false,
       form: {
-        title: "",
+        reply: "",
         images: [],
       },
       formLabelWidth: "120px",
       dialogImageUrl: "",
       dialogVisible: false,
       fileList: [],
-      oneQuesInfo: {},
       oneReplyInfo: {},
     };
   },
@@ -201,36 +201,39 @@ export default {
   },
   methods: {
     // 提交帖子修改
-    handleSubmitQues() {
+    handleSubmitReply() {
       this.dialogFormVisible = false;
-      this.oneQuesInfo.images = this.oneQuesInfo.images.join(",");
-      console.log(this.oneQuesInfo);
-      this.putQuesById(this.oneQuesInfo.id, this.oneQuesInfo);
+      this.oneReplyInfo.images = this.form.images.join(",");
+      this.oneReplyInfo.reply = this.form.reply;
+      console.log(this.oneReplyInfo);
+      this.putReplyById(this.oneReplyInfo.id, this.oneReplyInfo);
     },
     // 根据帖子id提交修改
-    putQuesById(id, data) {
-      this.$http
-        .put(`http://106.75.154.40:9005/post/update/${id}`, data)
-        .then((res) => {
-          res = res.data;
-          // console.log("res: ", res);
-          if (res.code == 20000) {
-            this.$message({
-              type: "success",
-              message: "修改成功",
-            });
-          } else {
-            this.$message({
-              type: "info",
-              message: "修改失败",
-            });
-          }
-        });
+    putReplyById(id, params) {
+      // this.reqM8Service(`/details/update/${id}`, params, "put")
+      this.$http.put(`http://106.75.154.40:9005/details/update/${id}`,params)
+      .then((res) => {
+        res = res.data;
+        console.log("res: ", res);
+        if (res.code == 20000) {
+          this.$message({
+            type: "success",
+            message: "修改成功",
+          });
+        } else {
+          this.$message({
+            type: "info",
+            message: "修改失败",
+          });
+        }
+      }).then(()=>{
+        this.getReplyListByExpertId(this.expertId,this.page,this.size);
+      });
     },
     // 删除图片
     handleRemove(file, fileList) {
-      // console.log("file: ", file);
-      let delUrl = file.response.data;
+      console.log("file: ", file);
+      let delUrl = file.response?.data;
       // console.log('delUrl: ', delUrl);
       this.deleteImgByDelUrl(delUrl);
     },
@@ -267,12 +270,12 @@ export default {
       // console.log("res: ", res);
       if (res.code == 20000) {
         res = res.data;
-        this.oneQuesInfo.images.push(res);
+        this.form.images.push(res);
         this.$message({
           type: "success",
           message: "上传成功",
         });
-        // console.log('this.oneQuesInfo: ', this.oneQuesInfo);
+        // console.log('this.oneReplyInfo: ', this.oneReplyInfo);
       } else {
         this.$message({
           type: "info",
@@ -292,29 +295,30 @@ export default {
     },
     // 编辑帖子或者回复
     async handleEdit(index, row) {
+      // 清空fileList
+      this.fileList = [];
       this.dialogFormVisible = true;
       let id = row.id;
       // console.log('id: ', id);
-      await this.getQuesInfoById(id);
-      console.log("this.fileList: ", this.fileList);
+      await this.getReplyInfoById(id);
+      // console.log("this.fileList: ", this.fileList);
     },
-    // 根据id请求单个问题的信息
-    async getQuesInfoById(id) {
-      await this.$http
-        .get(`http://106.75.154.40:9012/info/post/findById/${id}`)
-        .then((res) => {
+    // 根据id请求单个回复的信息
+    async getReplyInfoById(id) {
+      await this.reqM2Service(`/details/findById/${id}`, {}, "get").then(
+        (res) => {
           res = res.data;
           // console.log('res: ', res);
           if (res.code == 20000) {
             res = res.data;
-            this.oneQuesInfo = res;
-            this.form.title = res.title;
+            this.oneReplyInfo = res;
+            this.form.reply = res.reply;
             if (!!res.images) {
               this.$set(this.form, "images", res.images.split(","));
-              this.oneQuesInfo.images = res.images.split(",");
+              this.oneReplyInfo.images = res.images.split(",");
             } else {
               this.$set(this.form, "images", []);
-              this.oneQuesInfo.images = [];
+              this.oneReplyInfo.images = [];
             }
             this.form.images.forEach((url) => {
               this.fileList.push({ url });
@@ -325,7 +329,8 @@ export default {
               message: "获取信息失败",
             });
           }
-        });
+        }
+      );
     },
     // 删除帖子或者回复
     deleteRow(index, rows) {
