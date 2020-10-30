@@ -1,13 +1,21 @@
 <template>
   <div class="lxl-body">
     <div class="lxl-box">
-      <el-breadcrumb
-        separator-class="el-icon-arrow-right"
-        class="lxl-breadcrumb"
-      >
-        <el-breadcrumb-item>当前位置</el-breadcrumb-item>
-        <el-breadcrumb-item>产业咨询</el-breadcrumb-item>
-      </el-breadcrumb>
+      <div class="top">
+        <div class="tl">
+          <el-breadcrumb
+            separator-class="el-icon-arrow-right"
+            class="lxl-breadcrumb"
+          >
+            <el-breadcrumb-item>当前位置</el-breadcrumb-item>
+            <el-breadcrumb-item>产业咨询</el-breadcrumb-item>
+          </el-breadcrumb>
+        </div>
+        <div class="tr">
+          <input type="text" placeholder="  搜索你想要的农产品资讯" />
+          <i class="el-icon-search"></i>
+        </div>
+      </div>
       <el-divider></el-divider>
       <el-container>
         <el-aside width="74%">
@@ -16,31 +24,22 @@
             <div class="header">
               <!-- 图片 -->
               <div class="pictop">
-                <div class="block1">
-                  <router-link to="/instructdetail">
-                    <el-image
-                      style="height: 220px"
-                      :src="datalist[12].picture"
-                    ></el-image>
-                  </router-link>
+                <div class="block1" @click="TonewPath(datalist[0].id)">
+                  <el-image
+                    style="height: 220px"
+                    :src="datalist[4].picture"
+                  ></el-image>
                 </div>
                 <div class="block2">
-                  <div>
-                    <router-link to="/instructdetail">
-                      <el-image
-                        style="height: 165px"
-                        :src="datalist[13].picture"
-                      ></el-image>
-                    </router-link>
+                  <div @click="TonewPath(datalist[1].id)">
+                    <el-image
+                      style="height: 165px"
+                      :src="datalist[1].picture"
+                    ></el-image>
                   </div>
-                  <div>
-                    <router-link to="/instructdetail">
-                      <el-image
-                        style="height: 165px"
-                        :src="datalist[14].picture"
-                      >
-                      </el-image>
-                    </router-link>
+                  <div @click="TonewPath(datalist[2].id)">
+                    <el-image style="height: 165px" :src="datalist[2].picture">
+                    </el-image>
                   </div>
                 </div>
               </div>
@@ -86,12 +85,11 @@
                       v-for="(item, index) in datalist.slice(0, 5)"
                       :key="index"
                     >
-                      <span class="index==1? ccy-css: ;"
-                        ><router-link
-                          to="/instructdetail"
-                          :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
-                          >{{ item.title }}</router-link
-                        ></span
+                      <span
+                        class="index==1? ccy-css: ;"
+                        @click="TonewPath(item.id)"
+                      >
+                        {{ item.title }}</span
                       >
                     </li>
                   </ul>
@@ -132,14 +130,12 @@
                   <el-divider class="ccy-drvider"></el-divider>
                   <ul>
                     <li
+                      @click="TonewPath(item.id)"
                       v-for="(item, index) in datalist.slice(0, 6)"
                       :key="index"
+                      :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
                     >
-                      <router-link
-                        to="/instructdetail"
-                        :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
-                        >{{ item.title }}</router-link
-                      >
+                      {{ item.title }}
                     </li>
                   </ul>
                 </div>
@@ -187,59 +183,51 @@
               <div class="onetop">
                 <div class="onetopl">
                   <div class="block">
-                    <div class="blockson">
-                      <router-link
-                        to="/instructdetail"
-                        style="text-decoration: none"
-                      >
-                        <el-image
-                          style="height: 120px"
-                          :src="RecommendList[3].picture"
-                        ></el-image>
-                        <span>{{ RecommendList[3].title }}</span>
-                      </router-link>
+                    <div
+                      class="blockson"
+                      @click="TonewPath(RecommendList[0].id)"
+                    >
+                      <el-image
+                        style="height: 120px"
+                        :src="RecommendList[0].picture"
+                      ></el-image>
+                      <span>{{ RecommendList[0].title }}</span>
                     </div>
-                    <div class="blockson">
-                      <router-link
-                        to="/instructdetail"
-                        style="text-decoration: none"
-                      >
-                        <el-image
-                          style="height: 120px"
-                          :src="RecommendList[3].picture"
-                        ></el-image>
-                        <span>{{ RecommendList[3].title }}</span>
-                      </router-link>
+                    <div
+                      class="blockson"
+                      @click="TonewPath(RecommendList[1].id)"
+                    >
+                      <el-image
+                        style="height: 120px"
+                        :src="RecommendList[1].picture"
+                      ></el-image>
+                      <span>{{ RecommendList[1].title }}</span>
                     </div>
                   </div>
                   <div class="onetoplb">
                     <ul style="margin: 15px 0 0 17px">
                       <li
+                        @click="TonewPath(item.id)"
                         v-for="(item, index) in RecommendList.slice(0, 4)"
                         :key="index"
+                        :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
                       >
-                        <router-link
-                          to="/instructdetail"
-                          :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
-                          >{{ item.title }}</router-link
-                        >
+                        {{ item.title }}
                       </li>
                     </ul>
                   </div>
                 </div>
                 <!-- one 最顶部右边 -->
                 <div class="onetopr">
-                  <div class="onetopr1" style="margin-bottom: 10px">
+                  <div class="onetopr1" style="margin-bottom: 50px">
                     <ul>
                       <li
+                        @click="TonewPath(item.id)"
                         v-for="(item, index) in RecommendList.slice(0, 4)"
                         :key="index"
+                        :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
                       >
-                        <router-link
-                          to="/instructdetail"
-                          :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
-                          >{{ item.title }}</router-link
-                        >
+                        {{ item.title }}
                       </li>
                     </ul>
                   </div>
@@ -248,12 +236,10 @@
                       <li
                         v-for="(item, index) in RecommendList.slice(0, 4)"
                         :key="index"
+                        :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
+                        @click="TonewPath(item.id)"
                       >
-                        <router-link
-                          to="/instructdetail"
-                          :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
-                          >{{ item.summary }}</router-link
-                        >
+                        {{ item.summary }}
                       </li>
                     </ul>
                   </div>
@@ -300,14 +286,10 @@
                   class="zhuangti"
                   v-for="(item, index) in dataTimeList.slice(0, 4)"
                   :key="index"
+                  @click="TonewPath(item.id)"
                 >
-                  <router-link
-                    to="/instructdetail"
-                    style="text-decoration: none"
-                  >
-                    <el-image :src="item.picture"></el-image>
-                    <li>{{ item.title }}</li>
-                  </router-link>
+                  <el-image :src="item.picture"></el-image>
+                  <span>{{ item.title }}</span>
                 </div>
                 <div class="tail" style="width: 100%; margin-top: 15px">
                   <h3 style="display: flex; justify-content: space-between">
@@ -329,7 +311,7 @@
                     >
                       <span>
                         <router-link
-                          to="/instructdetail"
+                          to="/instructpagedetail"
                           style="
                             color: #9e9e9e;
                             text-decoration: none;
@@ -349,17 +331,14 @@
               <!-- 精彩专题3 -->
               <div
                 class="onebottom"
-                v-for="(item, index) in pagelist"
+                v-for="(item, index) in pagelist.slice(0, pagesize)"
                 :key="index"
+                
+                @click="TonewPath(item.id)"
               >
                 <div class="four">
                   <div class="pic">
-                    <router-link
-                      to="/instructdetail"
-                      style="text-decoration: none"
-                    >
-                      <el-image :src="item.picture"></el-image>
-                    </router-link>
+                    <el-image :src="item.picture"></el-image>
                   </div>
                   <div class="news">
                     <h3>{{ item.title }}</h3>
@@ -370,11 +349,12 @@
                         margin-top: 10px;
                       "
                     >
-                      {{ item.summary }}
-                      <router-link
-                        to="/instructdetail"
+                      {{ item.summary| limitword }}
+
+                      <span
                         style="text-decoration: none; color: green"
-                        >[详情]</router-link
+                        @click="TonewPath(item.id)"
+                        >[详情]</span
                       >
                     </p>
                     <!--底部区域--->
@@ -412,17 +392,18 @@
                   <el-divider></el-divider>
                 </div>
               </div>
-              <el-pagination
+              <el-pagination 
                 background
                 layout="prev, pager, next"
-                :total="3"
-                :page-size="3"
-                :current-page="1"
+                :total="this.queryInfo.total"
+                :page-size="this.queryInfo.pagesize"
+                :current-page="this.queryInfo.Currentpage"
                 style="
                   display: flex;
                   justify-content: center;
                   margin-bottom: 30px;
                 "
+                @current-change="handleCurrentChange"
               >
               </el-pagination>
             </div>
@@ -461,24 +442,20 @@
             <div class="righttext">
               <ul style="margin-left: 17px">
                 <li
+                  @click="TonewPath(item.id)"
                   class="ccy-li"
                   v-for="(item, index) in dataTimeList.slice(0, 9)"
                   :key="index"
                 >
-                  <router-link
-                    style="text-decoration: none"
-                    to="/instructdetail"
+                  <span
+                    :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
+                    style="margin-left: -5px; width: 150px"
+                    >{{ item.title }}</span
+                  ><span
+                    style="float: right; color: black"
+                    :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
+                    >{{ item.creationTime | timefilter }}</span
                   >
-                    <span
-                      :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
-                      style="margin-left: -5px; width: 180px"
-                      >{{ item.title }}</span
-                    ><span
-                      style="float: right; color: black"
-                      :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
-                      >2天前</span
-                    >
-                  </router-link>
                 </li>
               </ul>
               <br />
@@ -513,18 +490,14 @@
               </h3>
               <el-divider class="ccy-drvider"></el-divider>
               <li
+                @click="TonewPath(item.id)"
                 v-for="(item, index) in dataTimeList.slice(0, 5)"
                 :key="index"
                 class="ccy-rightLi"
                 style="width: 180px"
                 :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
               >
-                <router-link
-                  style="text-decoration: none; color: black"
-                  to="/instructdetail"
-                >
-                  {{ item.title }}
-                </router-link>
+                {{ item.title }}
               </li>
 
               <br />
@@ -561,6 +534,7 @@
               <li
                 v-for="(item, index) in dataTimeList.slice(0, 4)"
                 :key="index"
+                @click="TonewPath(item.id)"
                 class="ccy-rightLi"
                 style="width: 180px"
                 :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
@@ -601,10 +575,11 @@
               <el-divider class="ccy-drvider"></el-divider>
             </div>
             <div class="rightmd">
-              <ul style="margin-left: 17px">
+              <ul>
                 <li
                   v-for="(item, index) in dataTimeList.slice(0, 5)"
                   :key="index"
+                  @click="TonewPath(item.id)"
                   class="ccy-rightLi"
                   style="width: 180px"
                   :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
@@ -612,12 +587,13 @@
                   {{ item.title }}
                 </li>
               </ul>
-              <ul style="margin: 10px 0 30px 16px">
+              <ul style="margin: 10px 0 30px 0">
                 <li
                   v-for="(item, index) in dataTimeList.slice(0, 6)"
                   :key="index"
                   class="ccy-rightLi"
                   style="width: 180px"
+                  @click="TonewPath(item.id)"
                   :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
                 >
                   {{ item.title }}
@@ -708,7 +684,39 @@ export default {
         return times;
       }
     },
+    //过滤器2
+    timefilter(val) {
+      if (val == null || val == "") {
+        return "暂无时间";
+      } else {
+        let d = new Date(val); //val 为表格内取到的后台时间
+        let month =
+          d.getMonth() + 1 < 10 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
+        let day = d.getDate() < 10 ? "0" + d.getDate() : d.getDate();
+        let hours = d.getHours() < 10 ? "0" + d.getHours() : d.getHours();
+        let min = d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes();
+        let sec = d.getSeconds() < 10 ? "0" + d.getSeconds() : d.getSeconds();
+        let times = d.getFullYear() + "-" + month + "-" + day;
+        return times;
+      }
+    },
+    //限制文字个数
+    limitword(val){
+      if(val == null || val == ""){
+        return "暂无数据"
+      }else{
+        var len=val.length;   
+        if(len>80){
+           var str="";
+           str=val.substring(0,80)+"......"; 
+           return str 
+        }else{
+          return val
+        }
+      }
+    }
   },
+
   data() {
     return {
       //分类
@@ -719,15 +727,18 @@ export default {
 
       //推荐，精彩专题 2
       RecommendList: [],
-      //产业查询分页
 
       //按时间
       dataTimeList: [],
 
       //精彩专题3 分页
       queryInfo: {
-        page: "1",
-        size: "3",
+        //当前页
+        Currentpage: "1",
+        //每页条数
+        pagesize: "5",
+        //总条数
+        total: "",
       },
       //精彩专题3 数组
       pagelist: [],
@@ -737,7 +748,7 @@ export default {
     };
   },
   created() {
-    //分类信息
+    //分类信息 type 根据其ID决定其
     this.getclassification(),
       //虾业专题
       this.getAlldata(),
@@ -749,6 +760,13 @@ export default {
       this.getjingcai();
   },
   methods: {
+    //前往详情页
+    TonewPath(id) {
+      this.$router.push({
+        path: "/instructdetail",
+        query: { id: id },
+      });
+    },
     //分类  (财富手册 对虾养殖)
     async getclassification() {
       const { data: res } = await this.reqM2Service(
@@ -791,15 +809,22 @@ export default {
       this.RecommendList = res.data;
     },
 
-    //按推荐 ，精彩专题3 分页
+    // 分页
     async getjingcai() {
       const { data: res } = await this.reqM2Service(
-        `/info/shrimpIndustry/findByRecommend/${this.queryInfo.page}/${this.queryInfo.size}`,
+       `/info/shrimpIndustry/findByClickNum/${this.queryInfo.Currentpage}/${this.queryInfo.pagesize}`,
         "",
         "get"
       );
-      console.log(res);
       this.pagelist = res.data.rows;
+      this.queryInfo.total= res.data.total
+      console.log(this.queryInfo.total);
+  
+    },
+    handleCurrentChange(newpage) {
+      //改变页码
+      this.queryInfo.Currentpage = newpage;
+      this.getjingcai();
     },
   },
 };
@@ -828,6 +853,31 @@ export default {
   font-size: 13px;
   font-weight: 500;
 }
+.top {
+  padding-top: 10px;
+  margin-bottom: -19px;
+  display: flex;
+  justify-content: space-between;
+  .tr {
+    position: relative;
+    input {
+      padding-left: 10px;
+      border: 2px solid #d8d8d8;
+      border-radius: 100px;
+      width: 198px;
+      height: 38px;
+      outline: none;
+    }
+    i {
+      top: 13px;
+      position: absolute;
+      right: 20px;
+    }
+  }
+}
+.el-image {
+  cursor: pointer;
+}
 .header {
   width: 100%;
   display: flex;
@@ -838,7 +888,6 @@ export default {
     flex: 4.7;
     .block1 {
       width: 100%;
-
       margin-bottom: 5px;
       .el-image {
         width: 100%;
@@ -863,6 +912,7 @@ export default {
       ul {
         margin-left: 20px;
         li {
+          cursor: pointer;
           width: 100%;
           text-overflow: ellipsis;
           overflow: hidden;
@@ -900,6 +950,7 @@ export default {
     width: 100%;
     li {
       font-size: 13px;
+      cursor: pointer;
     }
     .onetopl {
       width: 50%;
@@ -922,21 +973,29 @@ export default {
           display: block;
         }
         .blockson {
+          position: relative;
           .el-image {
             width: 208px;
-            height: 90px;
+            height: 130px;
+            cursor: pointer!important;
           }
           span {
-            width: 190px;
+            cursor: pointer;
+            width: 204px;
+            position: absolute;
+            background-color: #333;
+            opacity: 0.7;
             text-overflow: ellipsis;
+            bottom: 5px;
             overflow: hidden;
             white-space: nowrap;
+            text-align: center;
           }
         }
       }
     }
     .onetopr {
-      padding-left: 61px;
+      padding-left: 76px;
       li {
         text-overflow: ellipsis;
         overflow: hidden;
@@ -955,19 +1014,24 @@ export default {
     width: 100%;
     .zhuangti {
       width: 24%;
+      position: relative;
       .el-image {
-        width: 205px;
+        width: 100%;
         height: 150px;
       }
-      li {
+      span {
+        position: absolute;
+        display: block;
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
-        width: 180px;
-        list-style: none;
-        font-size: 13px;
+        width: 100%;
+        background-color: #333;
+        opacity: 0.8;
+        font-size: 14.5px;
+        bottom: 5px;
         color: black;
-        padding-left: 8px;
+        text-align: center;
       }
     }
   }
@@ -992,17 +1056,18 @@ export default {
         width: 72%;
       }
     }
-  }
-  ul li span {
-    //保留
-    font-size: 15.21px;
-    font-weight: 800;
+    span {
+      cursor: pointer;
+    }
   }
 }
 li {
   padding: 6px 0 3px 0;
 }
 .right {
+  li{
+    cursor: pointer;
+  }
   .ccy-li {
     span {
       display: inline-block;

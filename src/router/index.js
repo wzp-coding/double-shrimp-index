@@ -4,7 +4,7 @@ import VueRouter from 'vue-router'
 import industryMarket from '../components/IndustryInformation/industryMarket.vue'
 import prawnNews from '../components/IndustryInformation/prawnNews.vue'
 import instructdetail from '../components/IndustryInformation/instructdetail.vue'
-
+import instructpagedetail from '../components/IndustryInformation/instructpagedetail.vue'
 
 import policies from '../components/policies/policies.vue'
 
@@ -87,9 +87,16 @@ import footer from '../components/login/footer.vue'
 
 Vue.use(VueRouter)
 
-const routes = [{
+const routes = [
+{
   path: '/',
-  redirect: '/industryMarket'
+  redirect: '/industryMarket',
+  children: [
+    {
+      path: '/',
+      redirect:'/instructdetail'
+    }
+  ]
 },
 {
   path: '/instructdetail',
@@ -101,14 +108,14 @@ const routes = [{
 
 },
 {
-  path: '/prawnNews',
-  component: prawnNews
-
+  path: '/instructpagedetail',
+  component: instructpagedetail
 },
 {
-  path: '/instructdetail',
-  component: instructdetail
+  path: '/prawnNews',
+  component: prawnNews,
 },
+
 {
   path: '/shopDetail',
   component: shopDetail

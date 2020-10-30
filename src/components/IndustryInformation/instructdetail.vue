@@ -1,20 +1,27 @@
-a<template>
+<template>
   <div class="lxl-body">
     <div class="lxl-box">
-      <el-breadcrumb
-        separator-class="el-icon-arrow-right"
-        class="lxl-breadcrumb"
-      >
-        <el-breadcrumb-item>当前位置</el-breadcrumb-item>
-        <el-breadcrumb-item to="/industryMarket">产业资讯</el-breadcrumb-item>
-        <el-breadcrumb-item>详情</el-breadcrumb-item>
-      </el-breadcrumb>
+       <div class="top">
+         <div class="tl">
+           <el-breadcrumb
+          separator-class="el-icon-arrow-right"
+          class="lxl-breadcrumb"
+        >
+          <el-breadcrumb-item>当前位置</el-breadcrumb-item>
+          <el-breadcrumb-item>产业咨询</el-breadcrumb-item>
+        </el-breadcrumb>
+         </div>
+        <div class="tr">
+          <input type="text" placeholder="  搜索你想要的农产品资讯">
+          <i class="el-icon-search" ></i>
+        </div>
+      </div>
       <el-divider></el-divider>
       <div class="main">
         <div class="left" >
           <div class="LeftTop" >
             <span style="font-size: 36px"
-              >{{numclicklist[0].title}}"</span
+              >{{CurrentData.title}}"</span
             >
             <el-divider></el-divider>
             <div class="pandc">
@@ -22,16 +29,17 @@ a<template>
                <el-avatar style="border:3px solid white" :size="70" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
               </div>
               <div class="lxl-title">
-                <h3>{{numclicklist[0].editor}}</h3>
+                <h3>{{CurrentData.editor}}</h3>
                 <p style="display: flex">
-                  发布时间 {{numclicklist.creationTime}}<span style="margin-left: 15px">
-                    山东养殖场专用工众号</span
+                  发布时间 {{CurrentData.creationTime | timefilters}}<span style="margin-left: 15px">
+                   {{CurrentData.editor}}报告</span
                   >
                 </p>
               </div>
             </div>
           </div>
           <div class="wenzhang">
+            <div v-html="CurrentData.content"></div>
             <span>江北鱼米之乡，中国博兴乔庄。</span><br /><br />
             <span>农民喜庆丰收节，—虾带来百业兴。</span><br /><br />
             <span
@@ -45,7 +53,7 @@ a<template>
               县渔业服务中心、乔庄镇党委政府共同发起了本届博兴虾王争霸赛。
             </span>
             <div class="block">
-              <el-image :src="src"></el-image>
+              <el-image :src="CurrentData.picture"></el-image>
             </div>
             <span>山东主持人国博兴乔庄</span><br /><br />
             <span
@@ -60,7 +68,7 @@ a<template>
               虾""品牌影响力
             </span>
             <div class="block">
-              <el-image :src="src" style="height: 430px"></el-image>
+              <el-image :src="CurrentData.picture" style="height: 430px"></el-image>
             </div>
             <span>
               说起博兴县南美白对虾产业，那可是有着“中国白对虾生态养殖第一县""的美誉，不管
@@ -68,94 +76,32 @@ a<template>
               虾""品牌影响力，那可都是响当起博兴县南美白对虾产业，那可是有着“中国白对虾生态养殖第一县""的美誉，不 </span
             >
               <el-divider></el-divider>
-            <h3 style="margin-bottom:30px;font-family: btt;">闪电新闻报纸 嘉文 报道</h3>
+            <h3 style="margin-bottom:30px;font-family: btt;">{{numclicklist[1].editor}}报告</h3>
           </div>
         </div>
         <div class="right">
           <el-tabs v-model="activeName" @tab-click="handleClick">
             <el-tab-pane label="最新资讯" name="first">
-              <div class="list">
+              <div class="list" v-for="(item, index) in newDataList.slice(0, 5)" :key="index">
+                <router-link to="/instructdetail" style="text-decoration:none;color:black">
                 <div class="block">
-                  <el-image :src="src"></el-image>
+                  <el-image :src="item.picture"></el-image>
                   <div class="rightspan">
                     <span
-                      >明日小麦价格多少钱一斤？2020年9月12日小麦价格行情分析预测</span
+                      >{{item.title}}</span
                     >
                   </div>
                 </div>
-                <div class="block">
-                  <el-image :src="src"></el-image>
-                  <div class="rightspan">
-                    <span
-                      >明日小麦价格2452多少钱一斤？xx2020年9月12日小麦价格行情分析预测</span
-                    >
-                  </div>
-                </div>
-                <div class="block">
-                  <el-image :src="src"></el-image>
-                  <div class="rightspan">
-                    <span
-                      >明日小麦价格多少钱一斤？2020年9月12日小麦价格行情分析预测</span
-                    >
-                  </div>
-                </div>
-                <div class="block">
-                  <el-image :src="src"></el-image>
-                  <div class="rightspan">
-                    <span
-                      >明日小麦价格多少钱一斤？2020年9月12日小麦价格行情分析预测</span
-                    >
-                  </div>
-                </div>
-                <div class="block">
-                  <el-image :src="src"></el-image>
-                  <div class="rightspan">
-                    <span
-                      >明日小麦价格多少钱一斤？2020年9月12日小麦价格行情分析预测</span
-                    >
-                  </div>
-                </div>
+                </router-link>
               </div>
             </el-tab-pane>
             <el-tab-pane label="热门资讯" name="second">
-              <div class="list">
+              <div class="list" v-for="(item, index) in numclicklist.slice(0,5)" :key="index">
                 <div class="block">
-                  <el-image :src="src"></el-image>
+                  <el-image :src="item.picture"></el-image>
                   <div class="rightspan">
                     <span
-                      >今日小麦价格多少钱一斤？2020年9月12日小麦价格行情分析预测</span
-                    >
-                  </div>
-                </div>
-                <div class="block">
-                  <el-image :src="src"></el-image>
-                  <div class="rightspan">
-                    <span
-                      >今日小麦价格2452多少钱一斤？2020年9月12日小麦价格行情分析预测</span
-                    >
-                  </div>
-                </div>
-                <div class="block">
-                  <el-image :src="src"></el-image>
-                  <div class="rightspan">
-                    <span
-                      >今日小麦价格多少钱一斤？2020年9月12日小麦价格行情分析预测</span
-                    >
-                  </div>
-                </div>
-                <div class="block">
-                  <el-image :src="src"></el-image>
-                  <div class="rightspan">
-                    <span
-                      >今日小麦价格多少钱一斤？2020年9月12日小麦价格行情分析预测</span
-                    >
-                  </div>
-                </div>
-                <div class="block">
-                  <el-image :src="src"></el-image>
-                  <div class="rightspan">
-                    <span
-                      >今日小麦价格多少钱一斤？2020年9月12日小麦价格行情分析预测</span
+                      >{{item.title}}</span
                     >
                   </div>
                 </div>
@@ -164,88 +110,26 @@ a<template>
           </el-tabs>
           <el-tabs v-model="activeName1" @tab-click="handleClick">
             <el-tab-pane label="本周热门" name="first明">
-              <div class="list">
+              <div class="list" v-for="(item, index) in RecommDataList.slice(0, 5)" :key="index">
+              
                 <div class="block">
-                  <el-image :src="src"></el-image>
+                  <el-image :src="item.picture"></el-image>
                   <div class="rightspan">
                     <span
-                      >明日小麦价格多少钱一斤？2020年9月12日小麦价格行情分析预测</span
+                      >{{item.title}}</span
                     >
                   </div>
                 </div>
-                <div class="block">
-                  <el-image :src="src"></el-image>
-                  <div class="rightspan">
-                    <span
-                      >明日小麦价格2452多少钱一斤？2020年9月12日小麦价格行情分析预测</span
-                    >
-                  </div>
-                </div>
-                <div class="block">
-                  <el-image :src="src"></el-image>
-                  <div class="rightspan">
-                    <span
-                      >明日小麦价格多少钱一斤？2020年9月12日小麦价格行情分析预测</span
-                    >
-                  </div>
-                </div>
-                <div class="block">
-                  <el-image :src="src"></el-image>
-                  <div class="rightspan">
-                    <span
-                      >明日小麦价格多少钱一斤？2020年9月12日小麦价格行情分析预测</span
-                    >
-                  </div>
-                </div>
-                <div class="block">
-                  <el-image :src="src"></el-image>
-                  <div class="rightspan">
-                    <span
-                      >明日小麦价格多少钱一斤？2020年9月12日小麦价格行情分析预测</span
-                    >
-                  </div>
-                </div>
+               
               </div>
             </el-tab-pane>
             <el-tab-pane label="本月热门" name="second2">
-              <div class="list">
+              <div class="list" v-for="(item, index) in newDataList.slice(0, 5)" :key="index">
                 <div class="block">
-                  <el-image :src="src"></el-image>
+                  <el-image :src="item.picture"></el-image>
                   <div class="rightspan">
                     <span
-                      >今日小麦价格多少钱一斤？2020年9月12日小麦价格行情分析预测</span
-                    >
-                  </div>
-                </div>
-                <div class="block">
-                  <el-image :src="src"></el-image>
-                  <div class="rightspan">
-                    <span
-                      >今日小麦价格2452多少钱一斤？2020年9月12日小麦价格行情分析预测</span
-                    >
-                  </div>
-                </div>
-                <div class="block">
-                  <el-image :src="src"></el-image>
-                  <div class="rightspan">
-                    <span
-                      >今日小麦价格多少钱一斤？2020年9月12日小麦价格行情分析预测</span
-                    >
-                  </div>
-                </div>
-                <div class="block">
-                  <el-image :src="src"></el-image>
-                  <div class="rightspan">
-                    <span
-                      >今日小麦价格多少钱一斤？2020年9月12日小麦价格行情分析预测</span
-                    >
-                  </div>
-                </div>
-                <div class="block">
-                  <el-image :src="src"></el-image>
-                  <div class="rightspan">
-                    <span
-                      >今日小麦价格多少钱一斤？2020年9月12日小麦价格行情分析预测</span
+                      >{{item.title}}</span
                     >
                   </div>
                 </div>
@@ -260,6 +144,34 @@ a<template>
 
 <script>
 export default {
+    filters: {
+    timefilters(val) {
+      if (val == null || val == "") {
+        return "暂无时间";
+      } else {
+        let d = new Date(val); //val 为表格内取到的后台时间
+        let month =
+          d.getMonth() + 1 < 10 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
+        let day = d.getDate() < 10 ? "0" + d.getDate() : d.getDate();
+        let hours = d.getHours() < 10 ? "0" + d.getHours() : d.getHours();
+        let min = d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes();
+        let sec = d.getSeconds() < 10 ? "0" + d.getSeconds() : d.getSeconds();
+        let times =
+          d.getFullYear() +
+          "-" +
+          month +
+          "-" +
+          day +
+          " " +
+          hours +
+          ":" +
+          min +
+          ":" +
+          sec;
+        return times;
+      }
+    },
+  },
   data() {
     return {
       src:
@@ -267,18 +179,60 @@ export default {
       activeName: "second",
       activeName1: "second2",
       //按点击量查询
-      numclicklist:[]
+      numclicklist:[],
+      //按最新  时间
+      newDataList:[],
+      //推荐
+      RecommDataList:[],
+      // 全部数据
+      Alldata:[],
+      //当前页面
+      CurrentData:[],
+      
     }
   },
   created() {
+    //获取全部关于专题数据
+    this.getshrimpIndustryData()
+    //点击量 热度
     this.getclickData()
+    //时间 最新
+    this.getnewData()
+    //推荐
+    this.getRecommData()
+  },
+  mounted() {
+      console.log(this.$route.query.id);
+     
   },
   methods : {
+    
+    async getshrimpIndustryData (){
+    
+      const {data : res} = await this.reqM2Service("/info/shrimpIndustry","", "get")
+      this.Alldata = res.data;
+      
+      for(var i=0;i<this.Alldata.length;i++){
+        if(this.Alldata[i].id == this.$route.query.id){
+          this.CurrentData = this.Alldata[i]
+          console.log(this.CurrentData)
+        }
+      }
+    },
     async getclickData(){
       const {data :res} = await this.reqM2Service("/info/shrimpIndustry/findByClickNum", '' ,'get')
-      console.log(res)
       this.numclicklist = res.data
-      console.log(this.numclicklist)
+    },
+    async getnewData() {
+      const {data :res} = await this.reqM2Service("/info/shrimpIndustry/findByTime","", "get")
+      this.newDataList = res.data
+    },
+    async getRecommData() {
+      const {data: res} = await this.reqM2Service("/info/shrimpIndustry/findByRecommend","", "get")
+      this.RecommDataList = res.data
+    },
+    handleClick(){
+
     }
   }
 };
@@ -301,6 +255,31 @@ export default {
 }
 .lxl-box {
   width: 1150px;
+}
+.top{
+  padding-top: 10px;
+  margin-bottom: -19px;
+  display: flex;
+  justify-content: space-between;
+  .tl{
+    margin-top: -10px;
+  }
+  .tr{
+    position: relative;
+    input{
+      padding-left: 5px;
+      border: 2px solid #d8d8d8;
+      border-radius:100px;
+      width: 198px;
+      height: 38px;
+      outline: none;
+    }
+    i{
+      top: 13px;
+      position: absolute;
+      right: 20px;
+    }
+  }
 }
 .main {
   margin-top: -30px;
@@ -346,7 +325,6 @@ export default {
   }
   .right {
     float: right;
-    height: 700px;
     width: 30%;
     .el-tabs {
       padding-top: 8px;
@@ -354,6 +332,7 @@ export default {
     .list {
       padding-top: 13px;
       width: 100%;
+      font-size: 14.21px;
       .block {
         display: flex;
         display: block;
@@ -362,7 +341,7 @@ export default {
         padding-bottom: 5px;
         .el-image {
           position: absolute;
-          width: 28%;
+          width: 30%;
           height: 100px;
           float: left;
           display: block;

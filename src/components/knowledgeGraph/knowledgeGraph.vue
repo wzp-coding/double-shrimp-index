@@ -1,4 +1,4 @@
-<template>
+`<template>
   <div class="lxl-body">
     <div class="lxl-box">
       <el-breadcrumb

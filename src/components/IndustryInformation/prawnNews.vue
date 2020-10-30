@@ -1,33 +1,54 @@
 <template>
   <div class="lxl-body">
     <div class="lxl-box">
-      <el-breadcrumb
-        separator-class="el-icon-arrow-right"
-        class="lxl-breadcrumb"
-      >
-        <el-breadcrumb-item>当前位置</el-breadcrumb-item>
-        <el-breadcrumb-item>产业咨询</el-breadcrumb-item>
-      </el-breadcrumb>
+      <div class="top">
+        <div class="tl">
+          <el-breadcrumb
+            separator-class="el-icon-arrow-right"
+            class="lxl-breadcrumb"
+          >
+            <el-breadcrumb-item>当前位置</el-breadcrumb-item>
+            <el-breadcrumb-item>产业咨询</el-breadcrumb-item>
+          </el-breadcrumb>
+        </div>
+        <div class="tr">
+          <input type="text" placeholder="  搜索你想要的农产品资讯" />
+          <i class="el-icon-search"></i>
+        </div>
+      </div>
       <el-divider></el-divider>
       <el-container>
         <div class="zhuti">
           <div class="left">
-            <div class="block">
-              <div class="blockson">
-                <el-image :src="src"></el-image>
-                <span>水稻多少钱一斤</span>
-              </div>
-              <div class="blockson">
-                <el-image :src="src"></el-image>
-                <span>水稻多少钱一斤</span>
-              </div>
-              <div class="blockson">
-                <el-image :src="src"></el-image>
-                <span>水稻多少钱一斤</span>
+            <div class="block" style="margin-bottom: 8px">
+              <div
+                class="blockson"
+                v-for="(item, index) in datalist.slice(0, 3)"
+                :key="index"
+                @click="TonewPath(item.id)"
+              >
+                <el-image :src="item.picture"></el-image>
+                <span>{{ item.title }}</span>
               </div>
             </div>
+            <div class="sort">
+              <el-row>
+                <span style="font-size: 15px">分类：</span>
+                <el-button type="success" size="mini" plain>全部</el-button>
+                <el-button type="success" size="mini" plain>对虾养殖</el-button>
+                <el-button type="success" size="mini" plain>财富手册</el-button>
+                <el-button type="success" size="mini" plain>虾业行情</el-button>
+                <el-button type="success" size="mini" plain>虾业行情</el-button>
+              </el-row>
+            </div>
             <div class="tail" style="width: 100%; margin-top: 15px">
-              <h3 style="margin-bottom:-20px;display: flex; justify-content: space-between">
+              <h3
+                style="
+                  margin-bottom: -20px;
+                  display: flex;
+                  justify-content: space-between;
+                "
+              >
                 <div>
                   <span
                     style="
@@ -44,72 +65,90 @@
                     color: rgb(93, 183, 60);
                   "
                 >
-                  <span style="color: #9e9e9e"> 更多 </span>
+                  <router-link
+                    to="/instructpagedetail"
+                    style="text-decoration: none; color: black"
+                  >
+                    <span style="color: #9e9e9e"> 更多 </span>
+                  </router-link>
                   <i class="el-icon-caret-right"></i>
                 </div>
               </h3>
               <el-divider class="ccy-drvider"></el-divider>
             </div>
             <div class="main">
-              <div class="mainson" v-for="item in pagelist" :key="item.id">
-                <div class="pic" v-html="item.content"></div>
+              <div
+                class="mainson"
+                v-for="(item, index) in pagelist.slice(0, pagesize)"
+                :key="index"
+                style="border-bottom: 1px solid rgb(230, 230, 230)"
+              >
+                <div class="pic" @click="TonewPath(item.id)">
+                  <el-image :src="item.picture"></el-image>
+                </div>
                 <div class="sonr">
-                  <div class="h2" style="width: 100%">
+                  <div
+                    class="h2"
+                    @click="TonewPath(item.id)"
+                    style="width: 100%; margin-top: 18px"
+                  >
                     <h2>{{ item.title }}</h2>
                   </div>
-                  <div class="pm" style="width: 100%; margin: 20px 0">
-                    <p>
-                      {{ item.content }}
-                      <span style="color: green">[详细]</span>
-                    </p>
+                  <div class="pm" style="width: 100%; margin: 10px 0">
+                    <span style="width: 100%">
+                      {{ item.summary |limitword}} 
+                      
+                    </span>
+                    <span style="color: green" @click="TonewPath(item.id)"
+                      >[详细]</span
+                    >
                   </div>
                   <div class="lbtm" style="width: 100%">
                     <p style="font-size: 13px; float: left">
-                      {{ item.creationTime | timefilters }}<span style="margin-left: 15px">
+                      {{ item.creationTime | timefilters
+                      }}<span style="margin-left: 15px">
                         阅读： {{ item.clickNum }}</span
                       >
                     </p>
-                    <p
-                      style="
-                        color: green;
-                        font-size: 13px;
-                        float: right;
-                        padding-right: 3px;
-                      "
-                    >
-                      {{ item.summary }}
-                    </p>
-                    <p style="font-size: 13px; float: right">分类：</p>
+                    <p style="font-size: 13px; right: 40px">分类：<span style="color:green">{{classificationList[0].name}}</span></p>
                   </div>
-                </div>
-                <div class="divf" style="width: 100%;">
-                  <el-divider></el-divider>
                 </div>
               </div>
             </div>
+            <!-- 分页 -->
             <el-pagination
               background
               layout="prev, pager, next"
-              :total="pagelist.length"
-              :page-size="3"
-              :current-page="1"
-              style="display:flex; justify-content:center;margin-top:10px"
+              :total="this.queryInfo.total"
+              :page-size="this.queryInfo.pagesize"
+              :current-page="this.queryInfo.Currentpage"
+              @current-change="handleCurrentChange"
+              style="display: flex; justify-content: center; margin-top: 20px"
             >
             </el-pagination>
           </div>
           <el-aside>
             <div class="right">
               <div class="rtop">
-                <h3 style="margin-bottom:-20px;display: flex; justify-content: space-between">
-                  <div >
+                <h3
+                  style="
+                    margin-bottom: -20px;
+                    display: flex;
+                    justify-content: space-between;
+                  "
+                >
+                  <div style="margin-right: -120px">
                     <span
                       style="
                         margin-right: 5px;
                         border-left: 6px solid rgb(93, 183, 60);
                       "
                     ></span>
-                    热门资讯
+                    最新资讯
                   </div>
+                  <el-tag type="danger" size="small" style="margin-top: 3px"
+                    >New</el-tag
+                  >
                   <div
                     style="
                       font-size: 0.8rem;
@@ -121,30 +160,27 @@
                     <i class="el-icon-caret-right"></i>
                   </div>
                 </h3>
-                <el-divider class="ccy-drvider" ></el-divider>
+                <el-divider class="ccy-drvider"></el-divider>
+
                 <ul>
-                  <li style="font-size: 15.21px; font-weight: 800">
-                    4G进村百户农民脱贫路上赛跑
+                  <li
+                    v-for="(item, index) in dataTimeList.slice(0, 6)"
+                    :key="index"
+                    @click="TonewPath(item.id)"
+                    :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
+                  >
+                    {{ item.title }}
                   </li>
-                  <li>4G进村百户农民脱贫路上赛跑</li>
-                  <li>4G进村百户农民脱贫路上赛跑</li>
-                  <li>4G进村百户农民脱贫路上赛跑</li>
-                  <li>80后青年互联网上卖山货，助力家。</li>
-                  <li>80后青年互联网上卖山货，助力家。</li>
                 </ul>
-                <el-divider class="ccy-drvider" style="display:inline-block;margin-top:-30px"></el-divider>
-                <ul style="margin: 17px 0">
-                  <li style="font-size: 15.21px; font-weight: 800">
-                    4G进村百户农民脱贫路上赛跑
-                  </li>
-                  <li>4G进村百户农民脱贫路上赛跑</li>
-                  <li>80后青年互联网上卖山货，助力家。</li>
-                  <li>80后青年互联网上卖山货，助力家。</li>
-                  <li>4G进村百户农民脱贫路上赛跑</li>
-                  <li>4G进村百户农民脱贫路上赛跑</li>
-                </ul>
-                <h3 style="margin-bottom:-22px;display: flex; justify-content: space-between">
-                  <div>
+                <br />
+                <h3
+                  style="
+                    margin-bottom: -22px;
+                    display: flex;
+                    justify-content: space-between;
+                  "
+                >
+                  <div style="margin-right: -120px">
                     <span
                       style="
                         margin-right: 5px;
@@ -153,6 +189,9 @@
                     ></span>
                     热门资讯
                   </div>
+                  <el-tag type="danger" size="small" style="margin-top: 3px"
+                    >热卖</el-tag
+                  >
                   <div
                     style="
                       font-size: 0.8rem;
@@ -164,65 +203,66 @@
                     <i class="el-icon-caret-right"></i>
                   </div>
                 </h3>
+                <el-divider
+                  class="ccy-drvider"
+                  style="display: inline-block; margin-top: -30px"
+                ></el-divider>
+                <ul>
+                  <li
+                    v-for="(item, index) in dataRecommList.slice(0, 6)"
+                    :key="index"
+                    @click="TonewPath(item.id)"
+                    :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
+                  >
+                    {{ item.title }}
+                  </li>
+                </ul>
+                <br />
+                <h3
+                  style="
+                    margin-bottom: -20px;
+                    display: flex;
+                    justify-content: space-between;
+                  "
+                >
+                  <div style="margin-right: -120px">
+                    <span
+                      style="
+                        margin-right: 5px;
+                        border-left: 6px solid rgb(93, 183, 60);
+                      "
+                    ></span>
+                    热门资讯
+                  </div>
+                  <el-tag type="danger" size="small" style="margin-top: 3px"
+                    >Hot</el-tag
+                  >
+                  <div
+                    style="
+                      font-size: 0.8rem;
+                      margin-top: 6px;
+                      color: rgb(93, 183, 60);
+                    "
+                  >
+                    <span style="color: #9e9e9e"> 更多 </span>
+                    <i class="el-icon-caret-right"></i>
+                  </div>
+                </h3>
+                <el-divider class="ccy-drvider"></el-divider>
+
+                <ul>
+                  <li
+                    v-for="(item, index) in dataRecommList.slice(0, 6)"
+                    :key="index"
+                    @click="TonewPath(item.id)"
+                    :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
+                  >
+                    {{ item.title }}
+                  </li>
+                </ul>
                 <el-divider class="ccy-drvider"></el-divider>
                 <!--分割线-->
                 <div class="drive" style="width: 100%"></div>
-              </div>
-              <div class="rmid">
-                <ul>
-                  <li style="font-size: 15.21px; font-weight: 800">
-                    80后青年互联网上卖山货，助力家
-                  </li>
-                  <li>80后青年互联网上卖山货，助力家。</li>
-                  <li>80后青年互联网上卖山货，助力家。</li>
-                  <li>80后青年互联网上卖山货，助力家。</li>
-                  <li>80后青年互联网上卖山货，助力家。</li>
-                  <li>80后青年互联网上卖山货，助力家。</li>
-                </ul>
-                <br />
-                <ul>
-                  <li style="font-size: 15.21px; font-weight: 800">
-                    80后青年互联网上卖山货，助力家
-                  </li>
-                  <li>80后青年互联网上卖山货，助力家。</li>
-                  <li>80后青年互联网上卖山货，助力家。</li>
-                  <li>80后青年互联网上卖山货，助力家。</li>
-                  <li>80后青年互联网上卖山货，助力家。</li>
-                  <li>80后青年互联网上卖山货，助力家。</li>
-                </ul>
-                <h3
-                  style="
-                    margin-bottom:-20px;
-                    display: flex;
-                    justify-content: space-between;
-                    margin-top: 15px;
-                  "
-                >
-                  <div>
-                    <span
-                      style="
-                        margin-right: 5px;
-                        border-left: 6px solid rgb(93, 183, 60);
-                      "
-                    ></span>
-                    热门资讯
-                  </div>
-                  <div
-                    style="
-                      font-size: 0.8rem;
-                      margin-top: 6px;
-                      color: rgb(93, 183, 60);
-                    "
-                  >
-                    <span style="color: #9e9e9e"> 更多 </span>
-                    <i class="el-icon-caret-right"></i>
-                  </div>
-                </h3>
-                <el-divider class="ccy-drvider"></el-divider>
-                <!--分割线-->
-                <div class="drive" style="margin-top: -25px; width: 100%">
-                  <el-divider></el-divider>
-                </div>
               </div>
               <div class="rbtm">
                 <div class="tageson">
@@ -253,76 +293,157 @@
 <script>
 export default {
   //局部时间过滤器
-    filters: {
+  filters: {
     timefilters(val) {
       if (val == null || val == "") {
         return "暂无时间";
       } else {
-        let d = new Date(val);   //val 为表格内取到的后台时间
+        let d = new Date(val); //val 为表格内取到的后台时间
         let month =
           d.getMonth() + 1 < 10 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
         let day = d.getDate() < 10 ? "0" + d.getDate() : d.getDate();
         let hours = d.getHours() < 10 ? "0" + d.getHours() : d.getHours();
         let min = d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes();
         let sec = d.getSeconds() < 10 ? "0" + d.getSeconds() : d.getSeconds();
-        let times=d.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + min + ':' + sec;
+        let times =
+          d.getFullYear() +
+          "-" +
+          month +
+          "-" +
+          day +
+          " " +
+          hours +
+          ":" +
+          min +
+          ":" +
+          sec;
         return times;
+      }
+    },
+    //限制文字个数
+    limitword(val){
+      if(val == null || val == ""){
+        return "暂无数据"
+      }else{
+        var len=val.length;   
+        if(len>80){
+           var str="";
+           str=val.substring(0,80)+"......"; 
+           return str 
+        }else{
+          return val
+        }
       }
     }
   },
   data() {
     return {
-      queryinfo: {
-        page: "1", //页数
-        size: "3", //每页数
+      //分类
+      classificationList: [],
+
+      //按点击量分页
+      queryInfo: {
+        Currentpage: "1", //页数
+        pagesize: "5", //每页数
+        total: "", //总页数
       },
-      
-      //分页
+
+      // 点击量分页
       pagelist: [],
+
       //查询所有虾业专题
       datalist: [],
+
+      //按时间
+      dataTimeList: [],
+
+      //按推荐
+      dataRecommList: [],
+
       src:
         "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
     };
   },
   created() {
-    //获取分页
-    this.getdata(),
+    //分类信息 type 根据其ID决定其
+    this.getclassification(),
+      //获取分页
+      this.getClickData(),
       //获取所有虾业专题
-    this.getdata1()
-    //时间转换器
+      this.getdata();
+    //推荐
+    this.getHotData(),
+      //按时间  最新
+      this.getNewData();
   },
   methods: {
-    async getdata() {
+    //前往详情页
+    TonewPath(id) {
+      this.$router.push({
+        path: "/instructdetail",
+        query: { id: id },
+      });
+    },
+    //分类  (财富手册 对虾养殖)
+    async getclassification() {
       const { data: res } = await this.reqM2Service(
-        `/info/shrimpIndustry/${this.queryinfo.page}/${this.queryinfo.size}`,
+        "/info/marketTypes",
         "",
-        "post"
+        "get"
       );
-      if (res.code !== 20000) {
-        return this.$message.error("失败");
-      }
-
-      //console.log(res);
+      this.classificationList = res.data;
+    },
+    //按点击量分页
+    async getClickData() {
+      const { data: res } = await this.reqM2Service(
+        `/info/shrimpIndustry/findByClickNum/${this.queryInfo.Currentpage}/${this.queryInfo.pagesize}`,
+        "",
+        "get"
+      );
+      this.queryInfo.total = res.data.total;
       this.pagelist = res.data.rows;
+      console.log(this, queryInfo.total);
     },
 
-    async getdata1() {
+    //查询全部
+    async getdata() {
       const { data: res } = await this.reqM2Service(
         "/info/shrimpIndustry",
         "",
         "get"
       );
-      if (res.code !== 20000) {
-        return this.$message.error("获取失败");
-      }
-      console.log(res);
+      this.datalist = res.data;
+    },
+
+    //按时间
+    async getNewData() {
+      const { data: res } = await this.reqM2Service(
+        "/info/shrimpIndustry/findByTime",
+        "",
+        "get"
+      );
+      this.dataTimeList = res.data;
+    },
+
+    //按推荐
+    async getHotData() {
+      const { data: res } = await this.reqM2Service(
+        "/info/shrimpIndustry/findByRecommend",
+        "",
+        "get"
+      );
+      this.dataRecommList = res.data;
+    },
+
+    handleCurrentChange(newpage) {
+      //改变页码
+      this.queryInfo.Currentpage = newpage;
+      this.getClickData();
     },
   },
 };
 </script>
 <style lang="less" >
-
 .lxl-body {
   display: flex;
   justify-content: center; //对齐方式-
@@ -336,9 +457,44 @@ export default {
 .lxl-box {
   width: 1150px;
 }
-
-.ccy-drvider{
-  
+.top {
+  padding-top: 10px;
+  margin-bottom: -19px;
+  display: flex;
+  justify-content: space-between;
+  .tr {
+    position: relative;
+    input {
+      padding-left: 10px;
+      border: 2px solid #d8d8d8;
+      border-radius: 100px;
+      width: 198px;
+      height: 38px;
+      outline: none;
+    }
+    i {
+      top: 13px;
+      position: absolute;
+      right: 20px;
+    }
+  }
+}
+.ccy-css {
+  color: black;
+  text-decoration: none;
+  font-size: 15.21px;
+  font-weight: 700;
+}
+.ccy-cssn {
+  text-decoration: none;
+  color: black;
+  font-size: 13px;
+  font-weight: 500;
+}
+.el-image {
+  cursor: pointer;
+}
+.ccy-drvider {
   margin-top: 30px;
 }
 .top {
@@ -371,6 +527,14 @@ export default {
     }
   }
 }
+.router-link {
+  span {
+    text-decoration: none;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+}
 .zhuti {
   display: flex;
   justify-content: space-between;
@@ -383,9 +547,26 @@ export default {
       display: flex;
       justify-content: space-between;
       .blockson {
+        height: 170px;
         width: 33%;
+        position: relative;
+        display: flex;
+        .el-image {
+          width: 98%;
+          height: 90%;
+          cursor: pointer !important;
+        }
         span {
-          padding-left: 10px;
+          text-align: center;
+          background-color: #333;
+          position: absolute;
+          width: 98%;
+          opacity: 0.7;
+          bottom: 19px;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+          font-size: 14.5px;
         }
       }
     }
@@ -396,25 +577,51 @@ export default {
       .mainson {
         width: 100%;
         display: flex;
-        height:220px;
-        flex-wrap: wrap;
+        margin-top: -20px;
+        height: 190px;
+        position: relative;
         .pic {
           height: 90%;
           width: 29%;
-          img {
+          .el-image {
+            margin-top: 25px;
             width: 100%;
-            display: inline-block;
-            height: 150px;
+            height: 90%;
           }
         }
         .sonr {
+          width: 60%;
+          .pm {    
+            width: 100%;
+            a{
+             
+              color:green;
+              list-style: none;
+              text-decoration: none;
+            }
+            
+          }
           display: flex;
           flex-direction: column;
           align-content: center;
           width: 65%;
           margin: 10px 0 0 19px;
+          h2 {
+            cursor: pointer;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            list-style-position: inside;
+            white-space: nowrap;
+          }
           span {
             padding-top: 10px;
+            cursor: pointer;
+          }
+          .lbtm {
+            p {
+              position: absolute;
+              bottom: 3px;
+            }
           }
         }
       }
@@ -424,7 +631,13 @@ export default {
     width: 30%;
     .right {
       li {
-        font-size: 13px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        list-style-position: inside;
+        width: 220px;
+        cursor: pointer;
+        margin-bottom: 3px;
       }
       display: flex;
       flex-direction: column;
@@ -436,9 +649,6 @@ export default {
           background-color: rgb(240, 249, 235);
           color: green;
         }
-      }
-      li {
-        padding-top: 6px;
       }
     }
   }
