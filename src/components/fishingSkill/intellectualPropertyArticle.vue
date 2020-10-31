@@ -6,10 +6,17 @@
         class="lxl-breadcrumb"
       >
         <el-breadcrumb-item>当前位置</el-breadcrumb-item>
-        <el-breadcrumb-item>政策法规</el-breadcrumb-item>
+        <el-breadcrumb-item>渔技学堂</el-breadcrumb-item>
+        <el-breadcrumb-item><template>
+              <router-link to="/intellectualProperty"><span style="cursor:pointer">知识产权</span></router-link>
+              </template></el-breadcrumb-item>
       </el-breadcrumb>
       <el-divider></el-divider>
       <div class="article">
+        <div>
+          <el-button class="download"><a href="http://134.175.208.235/group1/M00/00/20/rBAAD1-JnKKACJO3AAA81Oz8uUg43.docx" download="http://134.175.208.235/group1/M00/00/20/rBAAD1-JnKKACJO3AAA81Oz8uUg43.docx">全文下载
+          <i class="el-icon-download"></i></a></el-button>
+        </div>
         <div class="passage" :data="passage">
           <h2 style="text-align:center;">{{passage.title}}</h2><br>
           <h3>成果完成人：</h3>
@@ -33,15 +40,8 @@
           <h3>成果入库时间：</h3>
              <p>2019</p>
           
-        </div>
-          
-            
-                
-        <div class="download">
-          <div class="sides"></div>
-          <div class="between"><a href="http://134.175.208.235/group1/M00/00/20/rBAAD1-JnKKACJO3AAA81Oz8uUg43.docx" download="http://134.175.208.235/group1/M00/00/20/rBAAD1-JnKKACJO3AAA81Oz8uUg43.docx">全文下载</a></div>
-          <div class="sides"></div>
-        </div>
+        </div>       
+        
       </div>
       
 
@@ -101,8 +101,8 @@ body {
   padding: 0;
 }
 a {
-    text-decoration: none;
-    color: #fff;
+  text-decoration: none;
+  
 }
 div a:hover {
   color: black;
@@ -128,33 +128,25 @@ li a:hover {
 
 // 内容区
 .article {
-  margin: 10px 10px 10px 10px;
-  height: 530px;
   .passage {
-  height: 500px;
-  margin-left: 10px;
-  line-height: 2.2em;
-  overflow:auto;
+    margin-left: 10px;
+    line-height: 2.2em;
   }
   .download {
-  height: 30px;
-  display: flex;
-  .sides{
-    flex: 35%;
-    background-color: #f1f6f9;
-  }
-  .between{
-    flex: 30%;
-    background-color: #1968df;
-    color: #fff;
-    text-align: center;
-    padding-top: 5px;
-  }
+    width: 150px;
+    height: 50px;
+    float: right;
+    background-color: #39b8ed;
+    a{
+      color: #fff;
+      font-size: 16px;
+      padding-bottom: 5px;
+    }
+    
   }
 }
-
-.property {
-  margin: 20px 10px 10px 10px;
-  height: 100px;
+  .property {
+    margin: 20px 10px 10px 10px;
+    height: 100px;
 }
 </style>

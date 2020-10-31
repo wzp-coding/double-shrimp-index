@@ -7,6 +7,12 @@ import instructdetail from '../components/IndustryInformation/instructdetail.vue
 import instructpagedetail from '../components/IndustryInformation/instructpagedetail.vue'
 
 import policies from '../components/policies/policies.vue'
+// 政策法规详情页
+import policiesListArticle from '../components/policies/policiesListArticle.vue'
+// 政策法规专家查看更多列表页
+import policiesExpertMoreArticle from '../components/policies/policiesExpertMoreArticle.vue'
+// 政策法规媒体查看更多列表页
+import policiesMediaMoreArticle from '../components/policies/policiesMediaMoreArticle.vue'
 
 import edu from '../components/fishingSkill/edu.vue'
 import fishingSkillArticles from '../components/fishingSkill/fishingSkillArticles.vue'
@@ -156,6 +162,30 @@ const routes = [
     component: policies
 
   },
+
+  // 知识产权详情页
+  {
+    path: '/intellectualPropertyArticle',
+    component: intellectualPropertyArticle
+
+  },
+  // 政策法规详情页
+  {
+    path: '/policiesListArticle',
+    component: policiesListArticle
+  },
+  // 政策法规专家查看更多列表页
+  {
+    path: '/policiesExpertMoreArticle',
+    component: policiesExpertMoreArticle
+  },
+  // 政策法规媒体查看更多列表页
+  {
+    path: '/policiesMediaMoreArticle',
+    component: policiesMediaMoreArticle
+  },
+
+
   {
     path: '/edu',
     component: edu
