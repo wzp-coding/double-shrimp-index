@@ -67,18 +67,8 @@
                         color: rgb(93, 183, 60);
                       "
                     >
-                      <span>
-                        <router-link
-                          to="/instructdetail"
-                          style="
-                            color: #9e9e9e;
-                            text-decoration: none;
-                            font-size: 13px;
-                            font-weight: 780;
-                            margin-right: 4px;
-                          "
-                          >更多</router-link
-                        >
+                      <span style=" cursor: pointer;color: #9e9e9e;" @click="ToOtherMore(waybyall)">
+                       更多
                       </span>
                       <i class="el-icon-caret-right"></i>
                     </div>
@@ -117,18 +107,8 @@
                         color: rgb(93, 183, 60);
                       "
                     >
-                      <span>
-                        <router-link
-                          to="/instructdetail"
-                          style="
-                            color: #9e9e9e;
-                            text-decoration: none;
-                            font-size: 13px;
-                            font-weight: 780;
-                            margin-right: 4px;
-                          "
-                          >更多</router-link
-                        >
+                      <span style=" cursor: pointer;color:#9e9e9e" @click="ToOtherMore(waybyweek)">
+                        更多
                       </span>
                       <i class="el-icon-caret-right"></i>
                     </div>
@@ -166,7 +146,7 @@
                       color: rgb(93, 183, 60);
                     "
                   >
-                    <span style="cursor: pointer;color:black" @click="ToMorePage(queryInfo1.TypeID1)">
+                    <span style="cursor: pointer;color: #9e9e9e;" @click="ToMorePage(queryInfo1.TypeID1)">
                       更多
                     </span>
                     <i class="el-icon-caret-right"></i>
@@ -261,7 +241,7 @@
                       color: rgb(93, 183, 60);
                     "
                   >
-                    <span style="cursor: pointer;color:black"  @click="ToMorePage(queryInfo2.TypeID2)">
+                    <span style="cursor: pointer;color:#9e9e9e;"  @click="ToMorePage(queryInfo2.TypeID2)">
                       更多
                     </span>
                     <i class="el-icon-caret-right"></i>
@@ -300,7 +280,7 @@
                         color: rgb(93, 183, 60);
                       "
                     >
-                      <span style="color:black;cursor: pointer;" @click="ToMorePage(queryInfo3.TypeID3)">
+                      <span style="color:#9e9e9e;;cursor: pointer;" @click="ToMorePage(queryInfo3.TypeID3)">
                         更多
                       </span>
                       <i class="el-icon-caret-right"></i>
@@ -412,9 +392,9 @@
                   color: rgb(93, 183, 60);
                 "
               >
-                <router-link style="text-decoration: none" to="/instructdetail">
-                  <span style="color: #9e9e9e"> 更多 </span>
-                </router-link>
+                
+                  <span style="cursor: pointer;color: #9e9e9e" @click="ToOtherMore(waybytime)"> 更多 </span>
+                
                 <i class="el-icon-caret-right"></i>
               </div>
             </h3>
@@ -465,12 +445,9 @@
                     color: rgb(93, 183, 60);
                   "
                 >
-                  <router-link
-                    style="text-decoration: none"
-                    to="/instructdetail"
-                  >
-                    <span style="color: #9e9e9e"> 更多 </span>
-                  </router-link>
+                  
+                    <span style="cursor: pointer;color: #9e9e9e" @click="ToOtherMore(waybyclick)"> 更多 </span>
+                 
                   <i class="el-icon-caret-right"></i>
                 </div>
               </h3>
@@ -507,12 +484,9 @@
                     color: rgb(93, 183, 60);
                   "
                 >
-                  <router-link
-                    style="text-decoration: none"
-                    to="/instructdetail"
-                  >
-                    <span style="color: #9e9e9e"> 更多 </span>
-                  </router-link>
+                  
+                    <span style="cursor: pointer;color: #9e9e9e" @click="ToOtherMore(waybymonth)"> 更多 </span>
+                 
                   <i class="el-icon-caret-right"></i>
                 </div>
               </h3>
@@ -556,7 +530,7 @@
                     style="text-decoration: none"
                     to="/instructdetail"
                   >
-                    <span style="color: #9e9e9e"> 更多 </span>
+                    <span style="cursor: pointer;color: #9e9e9e"> 更多 </span>
                   </router-link>
                   <i class="el-icon-caret-right"></i>
                 </div>
@@ -717,7 +691,12 @@ export default {
       MonthDataList:[],
 
       //热度 点击量
-
+      waybytime: "info/shrimpIndustry/findByTime",
+      waybyclick:"info/shrimpIndustry/findByClickNum",
+      waybyrecommed:"info/shrimpIndustry/findByRecommend",
+      waybyweek:"info/shrimpIndustry/findByClickWeekly",
+      waybymonth:'info/shrimpIndustry/findByClickMonthly',
+      waybyall:"info/shrimpIndustry",
       ClickDataList:[],
 
       src:
@@ -762,6 +741,12 @@ export default {
       this.$router.push({
         path: "/instructpagedetail",
         query: { id: id },
+      });
+    },
+    ToOtherMore(path) {
+      this.$router.push({
+        path: "/industryothermore",
+        query: { path: path },
       });
     },
     //查询全部产业资讯
@@ -1009,6 +994,7 @@ export default {
             overflow: hidden;
             white-space: nowrap;
             text-align: center;
+           
           }
         }
       }

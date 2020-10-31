@@ -34,8 +34,15 @@
             <div class="sort">
               <el-row>
                 <span style="font-size: 15px">分类：</span>
-                <el-button type="success" size="mini" plain>全部</el-button>
-                <el-button type="success" size="mini" plain v-for="(item,index) in TypeDataList.slice(0,6)" :key="index" @click="TypeChange(item.id,item.name)">{{item.name}}</el-button>
+                <el-button
+                  type="success"
+                  size="mini"
+                  plain
+                  v-for="(item, index) in TypeDataList.slice(0, 9)"
+                  :key="index"
+                  @click="TypeChange(item.id, item.name)"
+                  >{{ item.name }}</el-button
+                >
               </el-row>
             </div>
             <div class="tail" style="width: 100%; margin-top: 15px">
@@ -62,19 +69,19 @@
                     color: rgb(93, 183, 60);
                   "
                 >
-                  
-                    <span style="color: #9e9e9e;cursor: pointer;" @click="ToMorePage(queryInfo.TypeID)"> 更多 </span>
-                  
+                  <span
+                    style="color: #9e9e9e; cursor: pointer"
+                    @click="ToMorePage(queryInfo.TypeID)"
+                  >
+                    更多
+                  </span>
+
                   <i class="el-icon-caret-right"></i>
                 </div>
               </h3>
               <el-divider class="ccy-drvider"></el-divider>
             </div>
-            <div
-              class="main"
-              v-for="item in pagelist"
-              :key="item.id"
-            >
+            <div class="main" v-for="item in pagelist" :key="item.id">
               <div
                 class="mainson"
                 style="border-bottom: 1px solid rgb(230, 230, 230)"
@@ -106,7 +113,8 @@
                       >
                     </p>
                     <p style="font-size: 13px; right: 40px">
-                      分类：<span style="color: green">{{queryInfo.TypeName
+                      分类：<span style="color: green">{{
+                        queryInfo.TypeName
                       }}</span>
                     </p>
                   </div>
@@ -154,7 +162,12 @@
                       color: rgb(93, 183, 60);
                     "
                   >
-                    <span style="color: #9e9e9e"> 更多 </span>
+                    <span
+                      @click="ToOtherMore(waybytime)"
+                      style=" cursor: pointer;color: #9e9e9e"
+                    >
+                      更多
+                    </span>
                     <i class="el-icon-caret-right"></i>
                   </div>
                 </h3>
@@ -187,8 +200,10 @@
                     ></span>
                     热门资讯
                   </div>
-                  <el-tag type="danger" size="small" style="margin-top: 3px"
-                    >热卖</el-tag
+                  <router-link to="/industryothermore">
+                    <el-tag type="danger" size="small" style="margin-top: 3px"
+                      >热卖</el-tag
+                    ></router-link
                   >
                   <div
                     style="
@@ -197,7 +212,7 @@
                       color: rgb(93, 183, 60);
                     "
                   >
-                    <span style="color: #9e9e9e"> 更多 </span>
+                    <span style=" cursor: pointer;color: #9e9e9e" @click="ToOtherMore(waybyrecommed)"> 更多 </span>
                     <i class="el-icon-caret-right"></i>
                   </div>
                 </h3>
@@ -242,7 +257,7 @@
                       color: rgb(93, 183, 60);
                     "
                   >
-                    <span style="color: #9e9e9e"> 更多 </span>
+                    <span style=" cursor: pointer;color: #9e9e9e" @click="ToOtherMore(waybyclick)"> 更多 </span>
                     <i class="el-icon-caret-right"></i>
                   </div>
                 </h3>
@@ -341,12 +356,15 @@ export default {
         Currentpage: 1, //页数
         pagesize: 3, //每页数
         total: null, //总页数
-        
+
         //默认 1316745747953225728
-        TypeID:'1316743601669148672',
-        TypeName:'财富手册'
+        TypeID: "1316743601669148672",
+        TypeName: "财富手册",
       },
 
+      waybytime: "info/shrimpIndustry/findByTime",
+      waybyclick:"info/shrimpIndustry/findByClickNum",
+      waybyrecommed:"info/shrimpIndustry/findByRecommend",
       // 类型分页
       pagelist: [],
 
@@ -360,12 +378,10 @@ export default {
       dataRecommList: [],
 
       //按点击量
-      dataClickList:[],
- 
-      //分类信息查询
-      TypeDataList:[],
+      dataClickList: [],
 
-      
+      //分类信息查询
+      TypeDataList: [],
 
       src:
         "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
@@ -380,11 +396,10 @@ export default {
       this.getNewData(),
       //按推荐
       this.getRecommedData(),
-
       //按热度 点击量
       this.getHotData(),
       //分类信息获取
-      this.getTypeData()
+      this.getTypeData();
   },
   methods: {
     //前往详情页
@@ -395,11 +410,18 @@ export default {
       });
     },
     //前往更多页面   传入类型ID
-    ToMorePage(id){
-        this.$router.push({
-          path:"/instructpagedetail",
-          query:{id : id}
-        })
+    ToMorePage(id) {
+      this.$router.push({
+        path: "/instructpagedetail",
+        query: { id: id },
+      });
+    },
+    ///info/shrimpIndustry/findByTime
+    ToOtherMore(path) {
+      this.$router.push({
+        path: "/industryothermore",
+        query: { path: path },
+      });
     },
     //查询全部
     async getAllData() {
@@ -419,8 +441,8 @@ export default {
         "",
         "post"
       );
-      console.log(this.queryInfo.TypeID)
-      console.log(res)
+      console.log(this.queryInfo.TypeID);
+      console.log(res);
       this.pagelist = res.data.rows;
       this.queryInfo.total = res.data.rows.length;
       console.log(res.data.rows);
@@ -433,32 +455,50 @@ export default {
       this.queryInfo.Currentpage = newpage;
       this.getPageList();
     },
-    async getNewData() {  ///info/shrimpIndustry/findByTime
-      const { data: res } = await this.reqM2Service("/info/shrimpIndustry/findByTime","" ,"get")
-      this.dataTimeList = res.data
+    async getNewData() {
+      ///info/shrimpIndustry/findByTime
+      const { data: res } = await this.reqM2Service(
+        "/info/shrimpIndustry/findByTime",
+        "",
+        "get"
+      );
+      this.dataTimeList = res.data;
     },
-    async getRecommedData() {  ///info/shrimpIndustry/findByTime
-      const { data: res } = await this.reqM2Service("/info/shrimpIndustry/findByRecommend","" ,"get")
+    async getRecommedData() {
+      ///info/shrimpIndustry/findByTime
+      const { data: res } = await this.reqM2Service(
+        "/info/shrimpIndustry/findByRecommend",
+        "",
+        "get"
+      );
       this.dataRecommList = res.data;
-     
     },
-    async getHotData() {  ///info/shrimpIndustry/findByTime
-      const { data: res } = await this.reqM2Service("/info/shrimpIndustry/findByClickNum","" ,"get")
-      this.dataClickList = res.data
+    async getHotData() {
+      ///info/shrimpIndustry/findByTime
+      const { data: res } = await this.reqM2Service(
+        "/info/shrimpIndustry/findByClickNum",
+        "",
+        "get"
+      );
+      this.dataClickList = res.data;
     },
     //获取所有分类信息
-    async getTypeData(){
-      const { data: res } = await this.reqM2Service("/info/shrimpIndustryTypes","" ,"get")
-      this.TypeDataList = res.data
+    async getTypeData() {
+      const { data: res } = await this.reqM2Service(
+        "/info/shrimpIndustryTypes",
+        "",
+        "get"
+      );
+      this.TypeDataList = res.data;
     },
 
-    TypeChange(ChangeID,ChangeName){
+    TypeChange(ChangeID, ChangeName) {
       //console.log(ChangeID)
-      this.queryInfo.TypeID= ChangeID;
-      this.queryInfo.TypeName=ChangeName
+      this.queryInfo.TypeID = ChangeID;
+      this.queryInfo.TypeName = ChangeName;
       //console.log(this.queryInfo.TypeID)
-      this.getPageList()
-    }
+      this.getPageList();
+    },
   },
 };
 </script>
@@ -543,6 +583,7 @@ export default {
       outline: none;
       border-radius: 20px;
       font-size-adjust: inherit;
+     
     }
   }
 }
@@ -639,7 +680,6 @@ export default {
             p {
               position: absolute;
               bottom: 3px;
-              
             }
           }
         }
