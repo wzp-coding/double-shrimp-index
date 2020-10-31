@@ -82,7 +82,7 @@
           <el-col :span="7">
             <div>
               <h2 class="HotClass">热门课程推荐</h2>
-              <el-card class="box-card_2">
+              <el-card class="box-card_2" shadow="never">
                 <div slot="header" class="clearfix">
                   <span>热门推荐</span>
                 </div>
@@ -360,7 +360,7 @@ export default {
   position: relative;
   .el-image {
     width: 120px;
-    height: auto;
+    height: 100px;
   }
 }
 .el-icon-video-play {
@@ -390,11 +390,6 @@ export default {
   .el-card__body {
     padding: 18px 0px;
   }
-}
-.el-card.is-always-shadow,
-.el-card.is-hover-shadow:focus,
-.el-card.is-hover-shadow:hover {
-  box-shadow: none;
 }
 .card_Title,
 .videoInfo {

@@ -21,16 +21,16 @@
               <el-row :gutter="20">
                 <el-col :span="6" v-for="(item, index) in videoItems" :key="item.id">
                   <div>
-                    <el-card class="adviseCard bottom">
+                    <el-card class="adviseCard bottom" :body-style="{ padding: '0px' }">
                       <div class="video">
                         <el-image :src="item.pic" class="videoItem"></el-image>
                         <i class="el-icon-video-play" @click="goVideo(item)"></i>
                       </div>
-                      <div style="padding: 14px">
+                      <div style="padding: 14px; height: 60px">
                         <span>{{ item.title | ellipsis }}</span>
                         <div class="clearfix information">
                           <span class="studyCounter"
-                            >{{ item.clickNum }}人已学习</span
+                            >查看次数：{{ item.clickNum }}</span
                           >
                         </div>
                         <el-button
@@ -108,7 +108,7 @@ export default {
         return this.$message.error('请求导航数据失败！')
       }
       this.classNav = res.data
-      // console.log(this.classNav[0].id)
+      console.log(this.classNav[0].id)
       this.classId = this.classNav[0].id
       this.getClass(this.classNav[0].id)
     },
@@ -201,27 +201,19 @@ export default {
   margin-top: 20px;
 }
 .adviseCard {
-  padding: 0px;
   margin-bottom: 15px;
-}
-.adviseCard {
-  .el-card__body {
-    padding: 0;
-    margin-top: 10px;
-    margin-bottom: 30px;
-  }
 }
 .video {
   position: relative;
 }
 .videoItem {
-  width: 245px;
+  width: 100%;
   height: 200px;
 }
 .el-icon-video-play {
   position: absolute;
-  left: 54%;
-  top: 54%;
+  left: 50%;
+  top: 50%;
   transform: translate(-50%, -50%);
   font-size: 40px;
   background-color: rgba(0, 0, 0, 0.6);
@@ -236,8 +228,8 @@ export default {
   width: 80px;
   height: 30px;
   position: absolute;
-  right: 0;
-  bottom: 0;
+  right: 10px;
+  bottom: 10px;
   color: #000;
   border: 1px solid #fff;
   border-radius: 15px;

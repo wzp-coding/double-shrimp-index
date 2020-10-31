@@ -6,7 +6,9 @@
         class="lxl-breadcrumb"
       >
         <el-breadcrumb-item>当前位置</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/emall' }">电子商城</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/emall' }"
+          >电子商城</el-breadcrumb-item
+        >
         <el-breadcrumb-item>查询页面</el-breadcrumb-item>
       </el-breadcrumb>
       <el-divider></el-divider>
@@ -20,12 +22,11 @@
         <el-col :span="15" class="search">
           <el-input
             placeholder="搜索您要的货品"
-            v-model="input"
-            class="searchClass"
+            v-model="inputRuleForm.productTitle"
             prefix-icon="el-icon-search"
           >
             <div slot="prepend">
-              <div class="centerClass">
+              <div>
                 <el-select
                   v-model="select"
                   placeholder="供应"
@@ -37,59 +38,84 @@
                 </el-select>
               </div>
             </div>
-            <el-button slot="append">搜索</el-button>
+            <div slot="append">
+              <el-button
+                @click="goTo(inputRuleForm.productTitle)"
+                icon="el-icon-search"
+                >搜索</el-button
+              >
+            </div>
           </el-input>
         </el-col>
       </el-row>
+      <!--  -->
       <div class="menu">
         <el-menu
-          default-active="1"
+          :default-active="defaultActive"
           class="el-menu-demo"
           mode="horizontal"
           @select="handleSelect"
-          v-for="item in menuItem"
-          :key="item.id"
+          v-for="(item, i) in menuItem"
+          :key="i"
         >
           <el-menu-item index="0" disabled class="menuTitle">{{
-            item.title
+            item.categoryName
           }}</el-menu-item>
-          <el-menu-item index="1">不限</el-menu-item>
           <el-menu-item
-            :index="index"
-            v-for="(nav, index) in item.navs"
-            :key="index"
-            >{{ nav }}</el-menu-item
+            v-for="(nav, i) in item.children"
+            :key="i"
+            :index="nav.categoryId"
+            >{{ nav.categoryName }}</el-menu-item
           >
         </el-menu>
       </div>
+      <!--  -->
       <div class="goods">
         <el-row :gutter="20">
-          <el-col :span="5" v-for="item in animalCate" :key="item.id">
-            <el-image :src="item.img" class="goodsImage" @click="goToGoodsDetail"></el-image>
+          <el-col :span="5" v-for="(item, i) in goods" :key="i">
+            <el-image
+              v-if="item.productImages"
+              :src="item.productImages[0]"
+              class="goodsImage"
+              @click="goToGoodsDetail(item)"
+            >
+              <div slot="error" class="image-slot">
+                <el-image
+                  src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=386535230,3956809074&fm=26&gp=0.jpg"
+                ></el-image>
+              </div>
+            </el-image>
             <div class="price">
-              <span class="sellPrice">{{ item.price }}元/斤</span>
-              <span class="totalCount">成交{{ item.total }}万元</span>
+              <span class="sellPrice"
+                >{{ item.productPrice }}元{{ item.productUnit }}</span
+              >
+              <span class="totalCount">成交{{ item.productNum }}万元</span>
             </div>
-            <div class="titleArea" @click="goToGoodsDetail">
-              <el-tag effect="dark" type="danger" size="mini">优选</el-tag>
-              <span class="title">{{ item.title | ellipsis }}</span>
+            <div class="titleArea" @click="goToGoodsDetail(item)">
+              <el-tag
+                effect="dark"
+                type="danger"
+                size="mini"
+                v-if="item.productNum > 50"
+                >优选</el-tag
+              >
+              <span class="title">{{ item.productTitle | goodsName }}</span>
             </div>
             <!-- 地址和图标 -->
             <div>
-              <span class="goodsPosition">{{ item.position }}</span>
+              <span class="goodsPosition">{{ item.productArea | e }}</span>
             </div>
           </el-col>
         </el-row>
       </div>
       <div class="pagination">
         <el-pagination
-          @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="currentPage"
-          :page-size="100"
+          :page-size="25"
           background
           layout="prev, pager, next, total, jumper"
-          :total="400"
+          :total="goodsNum"
         >
         </el-pagination>
       </div>
@@ -100,20 +126,32 @@
             <span>同类推荐</span>
           </div>
           <el-row :gutter="20">
-            <el-col :span="4"  v-for="item in sameAdvise" :key="item.id">
-                <el-image :src="item.img" @click="goToGoodsDetail"></el-image>
-            <div class="price">
-              <span class="sellPrice">{{ item.price }}元/斤</span>
-              <span class="totalCount">成交{{ item.total }}万元</span>
-            </div>
-            <div class="titleArea" @click="goToGoodsDetail">
-              <el-tag effect="dark" type="danger" size="mini">优选</el-tag>
-              <span class="title">{{ item.title | ellipsis }}</span>
-            </div>
-            <!-- 地址和图标 -->
-            <div>
-              <span class="goodsPosition">{{ item.position }}</span>
-            </div>
+            <el-col :span="4" v-for="item in sameRecommend" :key="item.id">
+              <el-image
+                v-if="item.productImages"
+                :src="item.productImages[0]"
+                class="goodsImage"
+                @click="goToGoodsDetail(item)"
+              >
+                <div slot="error" class="image-slot">
+                  <el-image
+                    src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=386535230,3956809074&fm=26&gp=0.jpg"
+                  ></el-image>
+                </div>
+              </el-image>
+              <div class="price">
+                <span class="sellPrice"
+                  >{{ item.productPrice }}元{{ item.productUnit }}</span
+                >
+              </div>
+              <div class="titleArea" @click="goToGoodsDetail(item)">
+                <el-tag effect="dark" type="danger" size="mini">优选</el-tag>
+                <span class="title">{{ item.productTitle | ellipsis }}</span>
+              </div>
+              <!-- 地址和图标 -->
+              <div>
+                <span class="goodsPosition">{{ item.productArea | e }}</span>
+              </div>
             </el-col>
           </el-row>
         </el-card>
@@ -125,20 +163,36 @@
             <span>最新推荐</span>
           </div>
           <el-row :gutter="20">
-            <el-col :span="4"  v-for="item in advisePic" :key="item.id">
-                <el-image :src="item.img" @click="goToGoodsDetail"></el-image>
-            <div class="price">
-              <span class="sellPrice">{{ item.price }}元/斤</span>
-              <span class="totalCount">成交{{ item.total }}万元</span>
-            </div>
-            <div class="titleArea" @click="goToGoodsDetail">
-              <el-tag effect="dark" type="danger" size="mini">优选</el-tag>
-              <span class="title">{{ item.title | ellipsis }}</span>
-            </div>
-            <!-- 地址和图标 -->
-            <div>
-              <span class="goodsPosition">{{ item.position }}</span>
-            </div>
+            <el-col
+              :span="4"
+              v-for="(item, i) in hotRecommend"
+              :key="i"
+              class="goods"
+            >
+              <el-image
+                v-if="item.productImages"
+                :src="item.productImages[0]"
+                @click="goToGoodsDetail(item)"
+              >
+                <div slot="error" class="image-slot">
+                  <el-image
+                    src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=386535230,3956809074&fm=26&gp=0.jpg"
+                  ></el-image>
+                </div>
+              </el-image>
+              <div class="price">
+                <span class="sellPrice"
+                  >{{ item.productPrice }}元{{ item.productUnit }}</span
+                >
+              </div>
+              <div class="titleArea" @click="goToGoodsDetail(item)">
+                <el-tag effect="dark" type="danger" size="mini">优选</el-tag>
+                <span class="title">{{ item.productTitle | ellipsis }}</span>
+              </div>
+              <!-- 地址和图标 -->
+              <div>
+                <span class="goodsPosition">{{ item.productArea | e }}</span>
+              </div>
             </el-col>
           </el-row>
         </el-card>
@@ -151,13 +205,32 @@
 export default {
   data() {
     return {
+      inputRuleForm: {
+        productTitle: "",
+      },
+      // 输入框验证规则
+      inputRules: {
+        productTitle: [
+          { required: true, message: "搜索内容不能为空", trigger: "blur" },
+        ],
+      },
+      cateItem: [],
       input: "",
+      // 搜索信息
+      searchInfo: {
+        productTitle: '',
+        level: "10"
+      },
+      inputForm: {
+        productTitle: ''
+      },
       select: "",
+      defaultActive: "",
       menuItem: [
         {
-          id: 2,
-          title: "品种",
-          navs: ["近源新对虾", "日本车虾", "刀额新对虾"],
+          categoryId: 2,
+          categoryName: "品种",
+          children: ["近源新对虾", "日本车虾", "刀额新对虾"],
         },
         { id: 3, title: "饲养方式", navs: ["野生", "人工养植"] },
         {
@@ -181,7 +254,8 @@ export default {
           navs: ["近源新对虾", "日本车虾", "刀额新对虾"],
         },
       ],
-      animalCate: [
+      // 商品列表
+      goods: [
         {
           id: 1,
           img:
@@ -273,8 +347,19 @@ export default {
           position: "兴化南",
         },
       ],
+      // 商品数目
+      goodsNum: 0,
+      // 商品页码
+      goodsPage: 1,
+      // 用于查询分类商品总数的对象
+      params: {
+        categoryId: "",
+      },
+      // 二级分类的Id
+      allId: 0,
       currentPage: 0,
-      sameAdvise: [
+      // 同类推荐
+      sameRecommend: [
         {
           id: 1,
           img:
@@ -328,8 +413,10 @@ export default {
           total: 44.3,
           title: "测试测试测试测试测试",
           position: "广州东",
-        }],
-      advisePic: [
+        },
+      ],
+      // 最新推荐
+      hotRecommend: [
         {
           id: 1,
           img:
@@ -378,24 +465,204 @@ export default {
           title: "法国3001带舌猪头,耳大头白，进口猪肉中的“劳力士”",
           position: "郑州",
         },
-      ] 
+      ],
     };
   },
-  methods: {
-    handleSelect() {},
-    handleSizeChange() {},
-    handleCurrentChange() {},
-    goToGoodsDetail() {
-      this.$router.push('/emallDetail')
-    }
+  created() {
+    this.getQuery();
+    this.getItem();
+    // 获取最新推荐
+    this.getHotRecommend();
   },
+  methods: {
+    searchGoods() {},
+    async handleSelect(index) {
+      this.defaultActive = index;
+      console.log(this.defaultActive)
+      const { data: res } = await this.reqM4Service(
+        `/category/${index}`,
+        "",
+        "get"
+      );
+      this.$router.push({
+        path: "/emallSearch",
+        name: "emallSearch",
+        query: res.data,
+      });
+
+      // window.location.reload();
+    },
+    bindIndex(Id) {
+      this.allId = Id;
+    },
+    handleCurrentChange(newPage) {
+      this.goodsPage = newPage;
+      this.getGoods();
+    },
+    goToGoodsDetail(item) {
+      this.$router.push({
+        path: "/emallDetail",
+        name: "emallDetail",
+        query: item,
+      });
+    },
+    async goTo(title) {
+      if (title === '') {
+        return this.$message.error('请输入搜索内容')
+      }
+      this.searchInfo.productTitle = this.inputRuleForm.productTitle
+      this.goToSearch(this.searchInfo)
+    },
+    goToSearch(item) {
+      this.$router.push({
+        path: "/emallSearch",
+        name: "emallSearch",
+        query: item,
+      });
+      window.location.reload();
+    },
+    async getItem() {
+      this.cateItem = this.$route.query;
+      console.log(this.cateItem);
+      // if(this.cateItem instanceof Array) {
+      //   // console.log(this.cateItem)
+      //   this.defaultActive = this.cateItem[0].categoryId;
+      //   this.goods = this.cateItem
+      //   this.goodsNum = this.cateItem.length
+      //   this.goods.forEach(element => {
+      //     element.productImages = element.productImages.split(',')
+      //   });
+      //   // console.log(this.defaultActive)
+      //   // 获取同类推荐
+      //   this.getSameRecommend()
+      // } else {
+      if (this.cateItem.level == 3) {
+        const { data: res } = await this.reqM4Service(
+          `/category/${this.cateItem.parentId}`,
+          "",
+          "get"
+        );
+        if (res.code !== 20000) {
+          return this.$message.error("获取所属分类信息失败！");
+        }
+        // console.log(res)
+        this.defaultActive = res.data.categoryId;
+        console.log(this.defaultActive)
+
+        this.getGoods();
+      } else if (this.cateItem.level == 2) {
+        this.defaultActive = this.cateItem.categoryId;
+        console.log(this.defaultActive)
+
+        this.getGoods();
+        
+      } else {
+        this.inputForm.productTitle = this.cateItem.productTitle;
+        const { data: res } = await this.reqM4Service(
+          "/product/search",
+          this.inputForm,
+          "post"
+        );
+        if (res.code !== 20000) {
+          return this.$message.error("获取商品信息失败！");
+        }
+        this.goods = res.data;
+        this.goodsNum = res.data.length;
+        this.defaultActive = res.data[0].categoryId;
+        console.log(this.defaultActive)
+        this.goods.forEach(element => {
+          element.productImages = element.productImages.split(',');
+        });
+      }
+      this.params.categoryId = this.defaultActive;
+      // 获取同类推荐
+      this.getSameRecommend();
+      // }
+    },
+    // 获取前台树形结构
+    async getQuery() {
+      const { data: res } = await this.reqM4Service(
+        "/category/queryAll",
+        "",
+        "get"
+      );
+      // console.log(res)
+      if (res.code !== 20000) {
+        return this.$message.error("获取分类信息失败！");
+      }
+      this.menuItem = res.data;
+      // console.log(this.menuItem)
+    },
+    // 获取对应类别商品
+    async getGoods() {
+      const { data: res } = await this.reqM4Service(
+        `/product/search/${this.goodsPage}/25`,
+        this.params,
+        "post"
+      );
+      // console.log(res)
+      if (res.code !== 20000) {
+        return this.$message.error("获取商品信息失败！");
+      }
+      this.goods = res.data.rows;
+      this.goodsNum = res.data.total;
+      // console.log(this.goods)
+      this.goods.forEach((element) => {
+        element.productImages = element.productImages.split(",");
+      });
+    },
+    // 获取最新推荐
+    async getHotRecommend() {
+      const { data: res } = await this.reqM4Service(
+        "/product/stars/sort/1/6",
+        "",
+        "get"
+      );
+      // console.log(res)
+      if (res.code !== 20000) {
+        return this.$message.error("获取最新推荐信息失败！");
+      }
+      this.hotRecommend = res.data.content;
+      this.hotRecommend.forEach((element) => {
+        element.productImages = element.productImages.split(",");
+      });
+    },
+    // 获取同类推荐
+    async getSameRecommend() {
+      const { data: res } = await this.reqM4Service(
+        `/product/queryBycategoryId/${this.defaultActive}/1/6`,
+        "",
+        "get"
+      );
+      // console.log(res)
+      if (res.code !== 20000) {
+        return this.$message.error("获取同类推荐信息失败！");
+      }
+      this.sameRecommend = res.data;
+      this.sameRecommend.forEach((element) => {
+        element.productImages = element.productImages.split(",");
+      });
+    },
+  },
+
   filters: {
-    ellipsis(value) {
+    // 商品列表过滤器
+    goodsName(value) {
       if (!value) return "";
-      if (value.length > 23) {
-        return value.slice(0, 23) + "...";
+      if (value.length > 28) {
+        return value.slice(0, 28) + "...";
       }
       return value;
+    },
+    ellipsis(value) {
+      if (!value) return "";
+      if (value.length > 20) {
+        return value.slice(0, 20) + "...";
+      }
+      return value;
+    },
+    e(position) {
+      return position || "未知地址";
     },
   },
 };
@@ -511,9 +778,19 @@ export default {
 }
 .goods {
   margin: 15px 0;
+  .el-image {
+    cursor: pointer;
+    width: 100%;
+    height: 175px;
+  }
+  .el-col {
+    margin-top: 15px;
+  }
 }
 .goodsImage {
   cursor: pointer;
+  width: 100%;
+  height: 120px;
 }
 .sellPrice {
   color: red;

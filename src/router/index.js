@@ -10,6 +10,7 @@ import policies from '../components/policies/policies.vue'
 
 import edu from '../components/fishingSkill/edu.vue'
 import fishingSkillArticles from '../components/fishingSkill/fishingSkillArticles.vue'
+import fishingSkillArticlesDetail from '../components/fishingSkill/fishingSkillArticlesDetail.vue'
 import powerPoint from '../components/fishingSkill/powerPoint.vue'
 import intellectualProperty from '../components/fishingSkill/intellectualProperty.vue'
 import videoPlay from '../components/fishingSkill/videoPlay.vue'
@@ -88,299 +89,305 @@ import footer from '../components/login/footer.vue'
 Vue.use(VueRouter)
 
 const routes = [
-{
-  path: '/',
-  redirect: '/industryMarket',
-  children: [
-    {
-      path: '/',
-      redirect:'/instructdetail'
-    }
-  ]
-},
-{
-  path: '/instructdetail',
-  component: instructdetail
-},
-{
-  path: '/industryMarket',
-  component: industryMarket
+  {
+    path: '/',
+    redirect: '/industryMarket',
+    children: [
+      {
+        path: '/',
+        redirect: '/instructdetail'
+      }
+    ]
+  },
+  {
+    path: '/instructdetail',
+    component: instructdetail
+  },
+  {
+    path: '/industryMarket',
+    component: industryMarket
 
-},
-{
-  path: '/instructpagedetail',
-  component: instructpagedetail
-},
-{
-  path: '/prawnNews',
-  component: prawnNews,
-},
+  },
+  {
+    path: '/instructpagedetail',
+    component: instructpagedetail
+  },
+  {
+    path: '/prawnNews',
+    component: prawnNews,
+  },
 
-{
-  path: '/shopDetail',
-  component: shopDetail
-},
-{
-  path: '/shopMangerDetail',
-  component: shopMangerDetail,
-  children: [
-    {
-      path: '/',
-      redirect: '/infoManger'
-    },
-    {
-      path: '/advertising',
-      component: advertising
-    },
-    {
-      path: '/orderManage',
-      component: orderManage
-    },
-    {
-      path: '/infoManger',
-      component: infoManger
-    },
-    {
-      path: '/goodsManage',
-      component: goodsManage
-    },
-    {
-      path: '/shopInfoManage',
-      component: shopInfoManage
-    }
-  ]
-},
-{
-  path: '/policies',
-  component: policies
+  {
+    path: '/shopDetail',
+    component: shopDetail
+  },
+  {
+    path: '/shopMangerDetail',
+    component: shopMangerDetail,
+    children: [
+      {
+        path: '/',
+        redirect: '/infoManger'
+      },
+      {
+        path: '/advertising',
+        component: advertising
+      },
+      {
+        path: '/orderManage',
+        component: orderManage
+      },
+      {
+        path: '/infoManger',
+        component: infoManger
+      },
+      {
+        path: '/goodsManage',
+        component: goodsManage
+      },
+      {
+        path: '/shopInfoManage',
+        component: shopInfoManage
+      }
+    ]
+  },
+  {
+    path: '/policies',
+    component: policies
 
-},
-{
-  path: '/edu',
-  component: edu
+  },
+  {
+    path: '/edu',
+    component: edu
 
-},
-{
-  path: '/fishingSkillArticles',
-  component: fishingSkillArticles
+  },
+  {
+    path: '/fishingSkillArticles',
+    component: fishingSkillArticles
 
-},
-{
-  path: '/videoPlay',
-  component: videoPlay,
-  name:'videoPlay'
-},
-{
-  path: '/intellectualPropertyArticle',
-  component: intellectualPropertyArticle
+  },
+  {
+    path: '/fishingSkillArticlesDetail',
+    component: fishingSkillArticlesDetail,
+    name: "fishingSkillArticlesDetail"
 
-},
-{
-  path: '/powerPoint',
-  component: powerPoint
+  },
+  {
+    path: '/videoPlay',
+    component: videoPlay,
+    name: 'videoPlay'
+  },
+  {
+    path: '/intellectualPropertyArticle',
+    component: intellectualPropertyArticle
 
-},
-{
-  path: '/intellectualProperty',
-  component: intellectualProperty
+  },
+  {
+    path: '/powerPoint',
+    component: powerPoint
 
-},
-{
-  path: '/environmentalMonitoring',
-  component: environmentalMonitoring
+  },
+  {
+    path: '/intellectualProperty',
+    component: intellectualProperty
 
-},
-{
-  path: '/productTraceability',
-  component: productTraceability
+  },
+  {
+    path: '/environmentalMonitoring',
+    component: environmentalMonitoring
 
-},
-{
-  // 溯源详情页
-  path: '/traceabilityDetails',
-  component: traceabilityDetails
+  },
+  {
+    path: '/productTraceability',
+    component: productTraceability
 
-},
-{
-  path: '/knowledgeGraph',
-  component: knowledgeGraph
+  },
+  {
+    // 溯源详情页
+    path: '/traceabilityDetails',
+    component: traceabilityDetails
 
-},
-{
-  // 专家问诊
-  path: '/expertInterrogation',
-  component: expertInterrogation,
-  name: 'wzp_expertInterrogation'
-},
-{
-  // 问答详情
-  path: '/expertInterrogation/questionDetail/:id',
-  component: questionDetail,
-  name: 'wzp_questionDetail'
-},
-{
-  // 专家列表
-  path: '/expertInterrogation/expertList',
-  component: expertList,
-  name: 'wzp_expertList'
-},
-{
-  // 问答列表
-  path: '/expertInterrogation/replyList',
-  component: replyList,
-  name: 'wzp_replyList'
-},
-{
-  // 文章列表
-  path: '/expertInterrogation/articleList',
-  component: articleList,
-  name: 'wzp_articleList'
-},
-{
-  // 疾病自诊
-  path: '/autognosis',
-  component: autognosis
+  },
+  {
+    path: '/knowledgeGraph',
+    component: knowledgeGraph
 
-},
-{
-  path: '/expertSystemManage',
-  component: expertSystemManage,
-  children: [  // 个人中心首页
-    {
-      path: '/',
-      redirect: '/expertOne'
-    },
-    {
-      path: '/expertOne',
-      component: expertOne
-    },
-    // 个人中心收藏夹
-    {
-      path: '/expertAnswer',
-      component: expertAnswer
-    },
-    // 个人中心收货地址管理
-    {
-      path: '/articleManage',
-      component: articleManage
-    }
-  ]
+  },
+  {
+    // 专家问诊
+    path: '/expertInterrogation',
+    component: expertInterrogation,
+    name: 'wzp_expertInterrogation'
+  },
+  {
+    // 问答详情
+    path: '/expertInterrogation/questionDetail/:id',
+    component: questionDetail,
+    name: 'wzp_questionDetail'
+  },
+  {
+    // 专家列表
+    path: '/expertInterrogation/expertList',
+    component: expertList,
+    name: 'wzp_expertList'
+  },
+  {
+    // 问答列表
+    path: '/expertInterrogation/replyList',
+    component: replyList,
+    name: 'wzp_replyList'
+  },
+  {
+    // 文章列表
+    path: '/expertInterrogation/articleList',
+    component: articleList,
+    name: 'wzp_articleList'
+  },
+  {
+    // 疾病自诊
+    path: '/autognosis',
+    component: autognosis
 
-},
-{
-  // 疾病详情
-  path: '/autognosis/diseaseDateil',
-  component: diseaseDateil
+  },
+  {
+    path: '/expertSystemManage',
+    component: expertSystemManage,
+    children: [  // 个人中心首页
+      {
+        path: '/',
+        redirect: '/expertOne'
+      },
+      {
+        path: '/expertOne',
+        component: expertOne
+      },
+      // 个人中心收藏夹
+      {
+        path: '/expertAnswer',
+        component: expertAnswer
+      },
+      // 个人中心收货地址管理
+      {
+        path: '/articleManage',
+        component: articleManage
+      }
+    ]
 
-},
-{
-  path: '/breedingPlan',
-  component: breedingPlan
+  },
+  {
+    // 疾病详情
+    path: '/autognosis/diseaseDateil',
+    component: diseaseDateil
 
-},
-{
-  path: '/waterQualityForecastAndWarning',
-  component: waterQualityForecastAndWarning
+  },
+  {
+    path: '/breedingPlan',
+    component: breedingPlan
 
-},
-{
-  path: '/informationRecommendation',
-  component: informationRecommendation
+  },
+  {
+    path: '/waterQualityForecastAndWarning',
+    component: waterQualityForecastAndWarning
 
-},
-{
-  path: '/precisionFeeding',
-  component: precisionFeeding
+  },
+  {
+    path: '/informationRecommendation',
+    component: informationRecommendation
 
-},
-{
-  path: '/visualizationPlatform',
-  component: visualizationPlatform
+  },
+  {
+    path: '/precisionFeeding',
+    component: precisionFeeding
 
-},
-{
-  path: '/emall',
-  component: emall
+  },
+  {
+    path: '/visualizationPlatform',
+    component: visualizationPlatform
 
-},
-{
-  path: '/emallDetail',
-  component: emallDetail
+  },
+  {
+    path: '/emall',
+    component: emall
 
-},
-{
-  path: '/emallSearch',
-  component: emallSearch
+  },
+  {
+    path: '/emallDetail',
+    component: emallDetail,
+    name: 'emallDetail'
+  },
+  {
+    path: '/emallSearch',
+    component: emallSearch,
+    name: 'emallSearch'
+  },
+  {
+    path: '/me',
+    component: me,
+    children: [
+      // 个人中心首页
+      {
+        path: '/',
+        redirect: '/message'
+      },
+      {
+        path: '/meHomePage',
+        component: meHomePage
+      },
+      {
+        path: '/message',
+        component: message
+      },
+      // 个人中心收藏夹
+      {
+        path: '/favorite',
+        component: favorite
+      },
+      // 个人中心收货地址管理
+      {
+        path: '/addressMan',
+        component: addressMan
+      },
+      // 个人中心修改密码
+      {
+        path: '/changePassword',
+        component: changePassword
+      },
+      // 个人中心修改密码
+      {
+        path: '/shopManage',
+        component: shopManage
+      },
+      // 个人中心修改密码
+      {
+        path: '/expertPage',
+        component: expertPage
+      }
+    ]
 
-},
-{
-  path: '/me',
-  component: me,
-  children: [
-    // 个人中心首页
-    {
-      path: '/',
-      redirect: '/message'
-    },
-    {
-      path: '/meHomePage',
-      component: meHomePage
-    },
-    {
-      path: '/message',
-      component: message
-    },
-    // 个人中心收藏夹
-    {
-      path: '/favorite',
-      component: favorite
-    },
-    // 个人中心收货地址管理
-    {
-      path: '/addressMan',
-      component: addressMan
-    },
-    // 个人中心修改密码
-    {
-      path: '/changePassword',
-      component: changePassword
-    },
-    // 个人中心修改密码
-    {
-      path: '/shopManage',
-      component: shopManage
-    },
-    // 个人中心修改密码
-    {
-      path: '/expertPage',
-      component: expertPage
-    }
-  ]
-
-},
-{
-  path: '/login',
-  component: login
-},
-{
-  path: '/forgetPass',
-  component: forgetPass
-},
-{
-  path: '/reg',
-  component: reg
-}
+  },
+  {
+    path: '/login',
+    component: login
+  },
+  {
+    path: '/forgetPass',
+    component: forgetPass
+  },
+  {
+    path: '/reg',
+    component: reg
+  }
   ,
-{
-  path: '/nav',
-  component: nav
+  {
+    path: '/nav',
+    component: nav
 
-},
-{
-  path: '/footer',
-  component: footer
+  },
+  {
+    path: '/footer',
+    component: footer
 
-}
+  }
 ]
 
 const router = new VueRouter({

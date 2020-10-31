@@ -1,24 +1,26 @@
 <template>
-    <div class="lxl-body">
-      <div class="lxl-box">
-        <!-- 面包屑导航区域 -->
-        <el-breadcrumb
-          separator-class="el-icon-arrow-right"
-          class="lxl-breadcrumb"
+  <div class="lxl-body">
+    <div class="lxl-box">
+      <!-- 面包屑导航区域 -->
+      <el-breadcrumb
+        separator-class="el-icon-arrow-right"
+        class="lxl-breadcrumb"
+      >
+        <el-breadcrumb-item>当前位置</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/emall' }"
+          >电子商城</el-breadcrumb-item
         >
-          <el-breadcrumb-item>当前位置</el-breadcrumb-item>
-          <el-breadcrumb-item :to="{ path: '/emall' }">电子商城</el-breadcrumb-item>
-          <el-breadcrumb-item>商品详情页面</el-breadcrumb-item>
-        </el-breadcrumb>
-        <!-- 分割线 -->
-        <el-divider></el-divider>
+        <el-breadcrumb-item>商品详情页面</el-breadcrumb-item>
+      </el-breadcrumb>
+      <!-- 分割线 -->
+      <el-divider></el-divider>
 
-        <!-- 商品图片介绍与购买 -->
-        <div class="goodsIntroduceArea">
-            <el-row :gutter="20">
+      <!-- 商品图片介绍与购买 -->
+      <div class="goodsIntroduceArea">
+        <el-row :gutter="20">
           <!-- 左侧图片 -->
           <el-col :span="9">
-            <div class="goodDetails_name_img">
+            <!-- <div class="goodDetails_name_img">
               <div style="width: 400px;height: 400px">
                 <img :src="ImgUrl" style="width: 100%;height: 100%">
               </div>
@@ -29,6 +31,16 @@
                   </li>
                 </ul>
               </div>
+            </div> -->
+            <div class="block">
+              <el-carousel height="300px">
+                <el-carousel-item
+                  v-for="item in cateItem.productImages"
+                  :key="item"
+                >
+                  <el-image :src="item"></el-image>
+                </el-carousel-item>
+              </el-carousel>
             </div>
           </el-col>
 
@@ -37,27 +49,38 @@
             <!-- 标题 -->
             <div>
               <el-tag effect="dark" type="danger" size="mini">优选</el-tag>
-              <span class="goodsTitle">潜江小龙虾</span>
+              <span class="goodsTitle">{{ cateItem.productTitle }}</span>
             </div>
             <!-- 更新时间 -->
-            <div class="updateTime">更新时间：2020年9月27日 20:28:00</div>
+            <div class="updateTime">
+              更新时间：{{ cateItem.productUpdated }}
+            </div>
             <!-- 价格 -->
             <div class="priceBackground">
               <span style="font-size: 14px; color: #aaa">价格</span>
-              <span style="font-size: 24px; color: red">8-60元</span>
+              <span style="font-size: 24px; color: red"
+                >{{ cateItem.productPrice }}元</span
+              >
             </div>
             <!-- 发货地址 -->
             <div class="address">
               <span style="color: #aaa">发货地址：</span>
-              <span>湖北省潜江市</span>
+              <span>{{ cateItem.productArea }}</span>
             </div>
             <el-divider></el-divider>
             <!-- 阅读量 -->
             <div>
               <el-row>
-                <el-col :span="11" class="numInfo">共<span class="number">119674</span>人看过</el-col>
+                <el-col :span="11" class="numInfo"
+                  >获赞共<span class="number">{{ cateItem.productStars }}</span
+                  >次</el-col
+                >
                 <el-col :span="2" class="numInfo">|</el-col>
-                <el-col :span="11" class="numInfo">累积评价<span class="number">712</span></el-col>
+                <el-col :span="11" class="numInfo"
+                  >累积评价<span class="number">{{
+                    comment.length
+                  }}</span></el-col
+                >
               </el-row>
             </div>
             <el-divider></el-divider>
@@ -66,13 +89,13 @@
               <el-row>
                 <el-col :span="3" style="font-size: 14px">规格选择：</el-col>
                 <el-col :span="21" class="classButton">
-                    <el-button plain>朴素按钮</el-button>
-                    <el-button plain>朴素按钮</el-button>
-                    <el-button plain>朴素按钮</el-button>
-                    <el-button plain>朴素按钮</el-button>
-                    <el-button plain>朴素按钮</el-button>
-                    <el-button plain>朴素按钮</el-button>
-                    <el-button plain>朴素按钮</el-button>
+                  <el-button plain>朴素按钮</el-button>
+                  <el-button plain>朴素按钮</el-button>
+                  <el-button plain>朴素按钮</el-button>
+                  <el-button plain>朴素按钮</el-button>
+                  <el-button plain>朴素按钮</el-button>
+                  <el-button plain>朴素按钮</el-button>
+                  <el-button plain>朴素按钮</el-button>
                 </el-col>
               </el-row>
             </div>
@@ -82,96 +105,260 @@
               <el-button type="primary">立即采购</el-button>
             </div>
           </el-col>
-
         </el-row>
-        </div>
-        <!-- 分割线 -->
-        <el-divider></el-divider>
+      </div>
+      <!-- 分割线 -->
+      <el-divider></el-divider>
 
-        <!-- 商品详情 -->
-        <div>
-          <el-row>
-            <el-col :span="5">
-              <el-card class="box-card">
-                <div slot="header" class="clearfix">
-                  <span>优选商家</span>
-                </div>
-                <div class="userInfo">
-                  <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
-                  <span>潜江市xxxxxxx</span>
-                </div>
-              </el-card>
-              <el-card :body-style="{ padding: '5px' }">
-                  <div slot="header" class="clearfix">
-                    <span>商家还供应</span>
-                  </div>
-                  <div class="otherCard" v-for="i in 4" :key="i">
-                    <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
-                    <span>好吃的汉堡</span>
-                    <div class="otherPrice">￥25元/斤</div>
-                  </div>
-                </el-card>
-            </el-col>
-
-            <!-- 商品详情 -->
-            <el-col :span="19">
-              <div class="goodsDetail">
-                <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
-                  <el-tab-pane label="商品详情" name="first">
-                    <div class="goodsAttibute">
-                      <h4 style="
-                  margin-right: 5px;
-                  border-left: 6px solid #409EFF;
-                ">商品属性</h4>
-                      <span>品种名：潜江小龙虾</span>
-                      <span>规格：中青4-6钱</span>
-                      <span>用途：食用</span>
-                      <span>饲养方式：人工养殖</span>
-                      <span>产地：湖北省潜江市潜江市</span>
-                      <h4 style="
-                  margin-right: 5px;
-                  margin-top: 25px;
-                  border-left: 6px solid #409EFF;
-                ">商品详情</h4>
-                    <div style="margin-top: 20px;">阿巴阿巴阿巴阿巴阿巴</div>
-                    </div>
-                    
-                  </el-tab-pane>
-                  <el-tab-pane label="采购评价" name="second">
-                    <div>
-                      <h4 style="margin-right: 5px; border-left: 6px solid #409EFF;">采购评价</h4>
-                    </div>
-                  </el-tab-pane>
-                </el-tabs>
+      <!-- 商品详情 -->
+      <div>
+        <el-row>
+          <el-col :span="5" class="card">
+            <el-card class="box-card">
+              <div slot="header" class="clearfix">
+                <span style="font-weight: 700">优选商家</span>
               </div>
-            </el-col>
-          </el-row>
-        </div>
+              <div class="userInfo">
+                <el-avatar :src="merchant.merchantLogo"></el-avatar>
+                <span>{{ merchant.merchantName }}</span>
+              </div>
+              <div class="merchantInfo">
+                <div>
+                  <span>商家简介：</span>
+                  <span>{{ merchant.merchantDesc }}</span>
+                </div>
+                <div>
+                  <span>所在地区：</span>
+                  <span
+                    >{{ merchant.merchantProvince }}{{ merchant.merchantCity
+                    }}{{ merchant.merchantTown
+                    }}{{ merchant.merchantAddress }}</span
+                  >
+                </div>
+                <div>
+                  <span>联系电话：</span>
+                  <span>{{ merchant.merchantPhone }}</span>
+                </div>
+                <div></div>
+              </div>
+            </el-card>
+            <el-card :body-style="{ padding: '5px' }">
+              <div slot="header" class="clearfix">
+                <span>商家还供应</span>
+              </div>
+              <div class="otherCard" v-for="(item, i) in merchantList" :key="i">
+                <img
+                  :src="goodsArray[0]"
+                  class="image"
+                  @click="goToGoodsDetail(item)"
+                />
+                <span @click="goToGoodsDetail(item)">{{
+                  item.productTitle | ellipsis
+                }}</span>
+                <div class="otherPrice">
+                  ￥{{ item.productPrice }}元{{ item.productUnit }}
+                </div>
+              </div>
+            </el-card>
+          </el-col>
 
+          <!-- 商品详情 -->
+          <el-col :span="19">
+            <div class="goodsDetail">
+              <el-tabs
+                v-model="activeName"
+                type="card"
+                @tab-click="handleClick"
+              >
+                <el-tab-pane label="商品详情" name="first">
+                  <div class="goodsAttibute">
+                    <h4
+                      style="margin-right: 5px; border-left: 6px solid #409eff"
+                    >
+                      商品属性
+                    </h4>
+                    <span>品种名：{{ cate.categoryName }}</span>
+                    <span>库存： {{ cateItem.productNum }}</span>
+                    <span>用途：食用</span>
+                    <span>饲养方式：人工养殖</span>
+                    <span>产地：{{ cateItem.productArea }}</span>
+                    <h4
+                      style="
+                        margin-right: 5px;
+                        margin-top: 25px;
+                        border-left: 6px solid #409eff;
+                      "
+                    >
+                      商品详情
+                    </h4>
+                    <div class="productIntroduce">
+                      {{ cateItem.productTitle }}
+                    </div>
+                    <el-image
+                      v-for="(item, i) in picArray"
+                      :key="i"
+                      :src="item"
+                    ></el-image>
+                  </div>
+                </el-tab-pane>
+                <el-tab-pane label="采购评价" name="second">
+                  <div class="cbp-qtrotator">
+                    <h4
+                      style="margin-right: 5px; border-left: 6px solid #409eff"
+                    >
+                      采购评价
+                    </h4>
+                    <div class="cbp-qtcontent">
+                      <el-avatar
+                        src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+                      ></el-avatar>
+                      <blockquote>
+                        <p>
+                          If you don't want to be beaten, imprisoned, mutilated,
+                          killed or tortured then you shouldn't condone such
+                          behaviour towards anyone, be they human or not.
+                        </p>
+                        <footer>Moby</footer>
+                      </blockquote>
+                    </div>
+                  </div>
+                </el-tab-pane>
+              </el-tabs>
+            </div>
+          </el-col>
+        </el-row>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
+// import vueQr from 'vue-qr'
 export default {
-    data() {
-      return {
-        imgUrl: [
-            { url: 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg' },
-            { url: 'https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg' },
-            { url: 'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg' },
-            { url: 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg' },
-        ],
-        ImgUrl: 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg',
-        activeName: 'first'
-      }
+  data() {
+    return {
+      cateItem: [],
+      // 评论
+      comment: [],
+      // 所属种类
+      cate: [],
+      goodsArray: [],
+      // 商家还供应的商品列表
+      merchantList: [],
+      // 商家信息
+      merchant: [],
+      imgUrl: [
+        {
+          url:
+            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+        },
+        {
+          url:
+            "https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg",
+        },
+        {
+          url:
+            "https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg",
+        },
+        {
+          url:
+            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+        },
+      ],
+      ImgUrl:
+        "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+      activeName: "first",
+    };
+  },
+  created() {
+    this.getItem();
+    // 获取评论
+    this.getcomment();
+    // 获取商家供应商品
+    this.getMerchantGoods();
+    // 获取商家信息
+    this.getMerchant();
+  },
+  methods: {
+    handleClick() {},
+    getIndex(imgUrl) {
+      this.ImgUrl = imgUrl;
     },
-    methods: {
-      getIndex(imgUrl){
-        this.ImgUrl = imgUrl;
+    goToGoodsDetail(item) {
+      this.$router.push({
+        path: "/emallDetail",
+        name: "emallDetail",
+        query: item,
+      });
+      window.location.reload();
+    },
+    async getItem() {
+      this.cateItem = this.$route.query;
+      console.log(this.cateItem);
+      // 获取品种
+      const { data: res } = await this.reqM4Service(
+        `/category/${this.cateItem.categoryId}`,
+        "",
+        "get"
+      );
+      // console.log(res)
+      if (res.code !== 20000) {
+        return this.$message.error("获取所属种类信息失败！");
       }
-    }
-}
+      this.cate = res.data;
+    },
+    async getcomment() {
+      const { data: res } = await this.reqM4Service(
+        `/comment/${this.cateItem.productId}/1/10`,
+        "",
+        "get"
+      );
+      // console.log(res)
+      if (res.code !== 20000) {
+        return this.$message.error("获取评论信息失败！");
+      }
+      this.comment = res.data.content;
+    },
+    // 获取商家相关商品
+    async getMerchantGoods() {
+      const { data: res } = await this.reqM4Service(
+        `/product/queryProducts/${this.cateItem.merchantId}/1/3`,
+        "",
+        "get"
+      );
+      // console.log(res)
+      if (res.code !== 20000) {
+        return this.$message.error("获取商家供应商品列表失败！");
+      }
+      this.merchantList = res.data.content;
+      this.merchantList.forEach((element) => {
+        this.goodsArray = element.productImages.split(",");
+      });
+    },
+    // 获取商家信息
+    async getMerchant() {
+      const { data: res } = await this.reqM4Service(
+        `/merchant/${this.cateItem.merchantId}`,
+        "",
+        "get"
+      );
+      // console.log(res)
+      if (res.code !== 20000) {
+        return this.$message.error("获取商家信息失败！");
+      }
+      this.merchant = res.data;
+    },
+  },
+  filters: {
+    ellipsis(value) {
+      if (!value) return "";
+      if (value.length > 25) {
+        return value.slice(0, 25) + "...";
+      }
+      return value;
+    },
+  },
+};
 </script>
 
 <style lang="less">
@@ -195,13 +382,13 @@ export default {
   margin-bottom: 80px;
 }
 .little_img ul {
-    list-style: none;
-    li {
-        float: left;
-        margin-top: 20px;
-        margin-right: 10px;
-        cursor: pointer;
-    }
+  list-style: none;
+  li {
+    float: left;
+    margin-top: 20px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
 }
 .goodsTitle {
   font-weight: 700;
@@ -232,7 +419,7 @@ export default {
   color: #aaa;
 }
 .number {
-  color: orange
+  color: orange;
 }
 .classButton {
   .el-button {
@@ -248,17 +435,30 @@ export default {
     width: 150px;
   }
 }
+.card {
+  .el-card__header {
+    padding: 5px 20px;
+  }
+}
 .userInfo {
   height: 40px;
-}
-.otherPrice {
-  color: red;
-}
-.image {
-  width: 210px;
+  span {
+    vertical-align: middle;
+    margin-left: 5px;
+  }
 }
 .otherCard {
   margin-top: 20px;
+  .otherPrice {
+    color: red;
+  }
+  .image {
+    width: 210px;
+    cursor: pointer;
+  }
+  span {
+    cursor: pointer;
+  }
 }
 .goodsDetail {
   .el-tabs {
@@ -275,6 +475,20 @@ export default {
     width: 200px;
     margin-right: 20px;
     margin-top: 20px;
+  }
+  .el-image {
+    margin-top: 10px;
+  }
+}
+.productIntroduce {
+  margin-top: 20px;
+  text-indent: 2em;
+}
+.merchantInfo {
+  margin-top: 10px;
+  span {
+    font-size: 12px;
+    color: #aaa;
   }
 }
 </style>

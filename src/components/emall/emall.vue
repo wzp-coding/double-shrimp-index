@@ -24,11 +24,11 @@
           <el-col :span="15" class="search">
             <el-input
               placeholder="搜索您要的货品"
-              v-model="input"
+              v-model="inputRuleForm.productTitle"
               prefix-icon="el-icon-search"
             >
               <div slot="prepend">
-                <div >
+                <div>
                   <el-select
                     v-model="select"
                     placeholder="供应"
@@ -40,9 +40,13 @@
                   </el-select>
                 </div>
               </div>
-              <el-button slot="append" @click="goToSearch" icon="el-icon-search"
-                >搜索</el-button
-              >
+              <div slot="append">
+                <el-button
+                  @click="goTo(inputRuleForm.productTitle)"
+                  icon="el-icon-search"
+                  >搜索</el-button
+                >
+              </div>
             </el-input>
           </el-col>
         </el-row>
@@ -59,19 +63,28 @@
               <div class="product_sort fl">
                 <div class="bd">
                   <div
-                    v-for="item in goodsCate"
-                    :key="item.id"
+                    v-for="(item, i) in cateGory"
+                    :key="i"
                     class="item"
-                    :class="[item.isActive ? layer : '']"
-                    @mouseover="item.isActive = true"
-                    @mouseout="item.isActive = false"
+                    :class="[item.isParent ? '' : layer]"
+                    @mouseover="item.isParent = false"
+                    @mouseout="item.isParent = true"
                   >
                     <div class="title one">
-                      <a href="#"><i></i>{{ item.title }}</a>
+                      <a href="javascript:0;">{{ item.categoryName }}</a>
                     </div>
-                    <div class="list">
-                      <span v-for="(st, i) in item.spanTitle" :key="i">
-                        <a href="#">{{ st }}</a>
+                    <div class="list" v-if="item.children">
+                      <span>
+                        <a
+                          href="javascript:0;"
+                          @click="goToSearch(item.children[0])"
+                          >{{ item.children[0].categoryName }}</a
+                        >
+                        <a
+                          href="javascript:0;"
+                          @click="goToSearch(item.children[1])"
+                          >{{ item.children[1].categoryName }}</a
+                        >
                       </span>
                     </div>
                     <div class="arrow">&gt;</div>
@@ -79,15 +92,17 @@
                     <div class="subitem">
                       <div class="inner">
                         <div
-                          v-for="(navt, i) in item.navTitle"
-                          :key="i"
+                          v-for="(navItem, index) in item.children"
+                          :key="index"
                           class="tit"
-                          :class="[i === 0 ? tit1 : '']"
+                          :class="[index === 0 ? tit1 : '']"
                         >
-                          <div class="name">{{ navt.title }}</div>
+                          <div class="name">{{ navItem.categoryName }}</div>
                           <ul>
-                            <li v-for="(st, i) in navt.secondTitle" :key="i">
-                              <a href="#">{{ st }}</a>
+                            <li v-for="(st, i) in navItem.children" :key="i">
+                              <a href="javascript:0;" @click="goToSearch(st)">{{
+                                st.categoryName
+                              }}</a>
                             </li>
                           </ul>
                         </div>
@@ -101,13 +116,13 @@
           <el-col :span="19">
             <div class="mainPic">
               <el-image
-                src="https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg"
+                src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=701767331,2238872537&fm=26&gp=0.jpg"
               ></el-image>
             </div>
             <div class="fourPic">
               <el-row :gutter="10">
-                <el-col :span="6" v-for="item in fourPicture" :key="item.id">
-                  <el-image :src="item.src"></el-image>
+                <el-col :span="6" v-for="(item, i) in fourPicture" :key="i">
+                  <el-image :src="item.src" class="pic-head"></el-image>
                 </el-col>
               </el-row>
             </div>
@@ -117,44 +132,32 @@
       <!-- 选项卡区域 -->
       <div class="optionCard">
         <el-tabs v-model="activeName" type="card">
-          <el-tab-pane label="全部分类" name="all">全部分类</el-tab-pane>
-          <el-tab-pane label="水果" name="fruits">水果</el-tab-pane>
-          <el-tab-pane label="蔬菜" name="vegetables">蔬菜</el-tab-pane>
-          <el-tab-pane label="禽畜肉蛋" name="animal">禽畜肉蛋</el-tab-pane>
-          <el-tab-pane label="水产" name="fish">
-            <el-row v-for="(item, id) in fish" :key="id">
-              <el-breadcrumb separator="">
+          <el-tab-pane
+            v-for="(item, i) in cateGory"
+            :key="i"
+            :label="item.categoryName"
+            :name="item.categoryName"
+          >
+            <el-row
+              v-for="(childItem, i) in item.children"
+              :key="i"
+              class="cateRow"
+            >
+              <div separator="">
                 <el-col :span="3" class="fishPaneTitle">
-                  <el-breadcrumb-item :to="{ path: '#' }">{{
-                    item.title
-                  }}</el-breadcrumb-item>
+                  <span class="paneTitle">{{ childItem.categoryName }}</span>
                 </el-col>
                 <el-col :span="21" class="fishPaneSecondTitle">
-                  <el-breadcrumb-item
-                    v-for="(itemChildren, i) in item.children"
+                  <span
+                    v-for="(nav, i) in childItem.children"
                     :key="i"
-                    @click="choseItem"
-                    >{{ itemChildren }}</el-breadcrumb-item
+                    @click="goToSearch(nav)"
+                    >{{ nav.categoryName }}</span
                   >
                 </el-col>
-              </el-breadcrumb>
+              </div>
             </el-row>
           </el-tab-pane>
-          <el-tab-pane label="农副加工" name="farm">农副加工</el-tab-pane>
-          <el-tab-pane label="粮油米面" name="food">粮油米面</el-tab-pane>
-          <el-tab-pane label="粮油米面" name="seed">种子种苗</el-tab-pane>
-          <el-tab-pane label="苗木花草" name="flower">苗木花草</el-tab-pane>
-          <el-tab-pane label="农资农机" name="farmChance">农资农机</el-tab-pane>
-          <el-tab-pane label="中药材" name="medicine">中药材</el-tab-pane>
-          <el-tab-pane label="土地流转" name="land">土地流转</el-tab-pane>
-          <el-tab-pane label="包装" name="pack">包装</el-tab-pane>
-          <el-tab-pane label="飞防服务" name="fly">飞防服务</el-tab-pane>
-          <el-tab-pane label="农工服务" name="farmService"
-            >农工服务</el-tab-pane
-          >
-          <el-tab-pane label="农业防治" name="farmCue">农业防治</el-tab-pane>
-          <el-tab-pane label="农业检测" name="farmCheck">农业检测</el-tab-pane>
-          <el-tab-pane label="租赁服务" name="rent">租赁服务</el-tab-pane>
         </el-tabs>
       </div>
       <!-- 分割线 -->
@@ -162,55 +165,88 @@
         <el-divider></el-divider>
       </div>
       <div>
-        <!-- 禽畜肉蛋区域 -->
+        <!-- 综合排序区域 -->
         <div class="Area">
           <el-row class="classOne" :gutter="20">
             <el-col :span="4" class="classOneLeft">
               <div class="classOneLeftBaseInfo">
-                <h1 class="classOneLeftTitle">禽畜肉蛋</h1>
-                <span class="classOneLeftInfo">基地直供</span>
-                <span>运输包活</span>
-                <el-button type="warning" round
-                  >查看更多<i class="el-icon-arrow-right"></i
-                ></el-button>
+                <h1 class="classOneLeftTitle">综合排序</h1>
+                <!-- <span class="classOneLeftInfo">基地直供</span>
+                <span>运输包活</span> -->
               </div>
-
-              <!-- 未知区域 -->
-              <div class="place"></div>
+              <!-- 排行榜区域 -->
+              <div class="leaderboard">
+                <ol>
+                  <li @click="goToGoodsDetail(allOrder[0])">
+                    <span> {{ allOrder[0].productTitle | ell8 }}</span>
+                  </li>
+                  <li @click="goToGoodsDetail(allOrder[1])">
+                    <span> {{ allOrder[1].productTitle | ell8 }}</span>
+                  </li>
+                  <li @click="goToGoodsDetail(allOrder[2])">
+                    <span> {{ allOrder[2].productTitle | ell8 }}</span>
+                  </li>
+                  <li @click="goToGoodsDetail(allOrder[3])">
+                    <span> {{ allOrder[3].productTitle | ell8 }}</span>
+                  </li>
+                  <li @click="goToGoodsDetail(allOrder[4])">
+                    <span> {{ allOrder[4].productTitle | ell8 }}</span>
+                  </li>
+                </ol>
+              </div>
+              <el-button type="warning" round @click="goToSearch(allOrder)"
+                >查看更多<i class="el-icon-arrow-right"></i
+              ></el-button>
               <!-- 分类区域 -->
               <div class="classButton">
-                <el-button type="info" round class="firstButton"
-                  >肉类</el-button
+                <el-button
+                  v-for="(item, i) in allOrderTabs"
+                  :key="i"
+                  type="info"
+                  round
+                  :class="[i === 0 ? firstButton : '']"
+                  >{{ item }}</el-button
                 >
-                <el-button type="info" round>活禽</el-button>
-                <el-button type="info" round>禽畜苗</el-button>
-                <el-button type="info" round>活畜</el-button>
-                <el-button type="info" round>蛋类</el-button>
-                <el-button type="info" round>特种类</el-button>
               </div>
             </el-col>
             <el-col :span="20">
               <el-row :gutter="20">
                 <el-col
                   :span="5"
-                  v-for="item in animalCate"
-                  :key="item.id"
+                  v-for="(item, i) in allOrder"
+                  :key="i"
                   class="goods"
                 >
-                  <el-image :src="item.img"></el-image>
+                  <el-image
+                    v-if="item.productImages"
+                    :src="item.productImages[0]"
+                    @click="goToGoodsDetail(item)"
+                  ></el-image>
                   <div class="price">
-                    <span class="sellPrice">{{ item.price }}元/斤</span>
-                    <span class="totalCount">成交{{ item.total }}万元</span>
+                    <span class="sellPrice"
+                      >{{ item.productPrice }}元{{ item.productUnit }}</span
+                    >
+                    <span class="totalCount"
+                      >成交{{ item.productNum }}万元</span
+                    >
                   </div>
-                  <div class="titleArea">
-                    <el-tag effect="dark" type="danger" size="mini"
+                  <div class="titleArea" @click="goToGoodsDetail(item)">
+                    <el-tag
+                      effect="dark"
+                      type="danger"
+                      size="mini"
+                      v-if="item.productNum > 50"
                       >优选</el-tag
                     >
-                    <span class="title">{{ item.title | ellipsis }}</span>
+                    <span class="title">{{
+                      item.productTitle | ellipsis
+                    }}</span>
                   </div>
                   <!-- 地址和图标 -->
                   <div>
-                    <span class="goodsPosition">{{ item.position }}</span>
+                    <span class="goodsPosition">{{
+                      item.productArea | e
+                    }}</span>
                   </div>
                 </el-col>
               </el-row>
@@ -218,52 +254,83 @@
           </el-row>
         </div>
       </div>
-      <!-- 水果区域 -->
+      <!-- 点赞区域 -->
       <div class="Area">
         <el-row class="classOne" :gutter="20">
           <el-col :span="4" class="classFruitLeft">
             <div class="classOneLeftBaseInfo">
-              <h1 class="classOneLeftTitle">水果</h1>
-              <span class="classOneLeftInfo">产货地源</span>
-              <span>一手价格</span>
-              <el-button type="warning" round
-                >查看更多<i class="el-icon-arrow-right"></i
-              ></el-button>
+              <h1 class="classOneLeftTitle">点赞最多</h1>
+              <!-- <span class="classOneLeftInfo">产货地源</span>
+              <span>一手价格</span> -->
             </div>
 
-            <!-- 未知区域 -->
-            <div class="place"></div>
+            <!-- 排行榜区域 -->
+            <div class="leaderboard">
+              <ol>
+                <li @click="goToGoodsDetail(likeGoodsOrder[0])">
+                  <span> {{ likeGoodsOrder[0].productTitle | ell8 }}</span>
+                </li>
+                <li @click="goToGoodsDetail(likeGoodsOrder[1])">
+                  <span> {{ likeGoodsOrder[1].productTitle | ell8 }}</span>
+                </li>
+                <li @click="goToGoodsDetail(likeGoodsOrder[2])">
+                  <span> {{ likeGoodsOrder[2].productTitle | ell8 }}</span>
+                </li>
+                <li @click="goToGoodsDetail(likeGoodsOrder[3])">
+                  <span> {{ likeGoodsOrder[3].productTitle | ell8 }}</span>
+                </li>
+                <li @click="goToGoodsDetail(likeGoodsOrder[4])">
+                  <span> {{ likeGoodsOrder[4].productTitle | ell8 }}</span>
+                </li>
+              </ol>
+            </div>
+            <el-button type="warning" round @click="goToSearch(likeGoodsOrder)"
+              >查看更多<i class="el-icon-arrow-right"></i
+            ></el-button>
             <!-- 分类区域 -->
             <div class="classButton">
-              <el-button type="info" round class="firstButton"
-                >核果仁果类</el-button
+              <el-button
+                v-for="(item, i) in likeGoodsOrderTabs"
+                :key="i"
+                type="info"
+                round
+                :class="[i === 0 ? firstButton : '']"
+                >{{ item }}</el-button
               >
-              <el-button type="info" round>浆果类</el-button>
-              <el-button type="info" round>热带水果类</el-button>
-              <el-button type="info" round>柑橘类</el-button>
-              <el-button type="info" round>瓜果类</el-button>
             </div>
           </el-col>
           <el-col :span="20">
             <el-row :gutter="20">
               <el-col
                 :span="5"
-                v-for="item in animalCate"
-                :key="item.id"
+                v-for="(item, i) in likeGoodsOrder"
+                :key="i"
                 class="goods"
               >
-                <el-image :src="item.img"></el-image>
+                <el-image
+                  v-if="item.productImages"
+                  :src="item.productImages[0]"
+                  @click="goToGoodsDetail(item)"
+                ></el-image>
                 <div class="price">
-                  <span class="sellPrice">{{ item.price }}元/斤</span>
-                  <span class="totalCount">成交{{ item.total }}万元</span>
+                  <span class="sellPrice"
+                    >{{ item.productPrice }}元{{ item.productUnit }}</span
+                  >
+                  <span class="totalCount">成交{{ item.productNum }}万元</span>
                 </div>
-                <div class="titleArea">
-                  <el-tag effect="dark" type="danger" size="mini">优选</el-tag>
-                  <span class="title">{{ item.title | ellipsis }}</span>
+                <div class="titleArea" @click="goToGoodsDetail(item)">
+                  <el-tag
+                    effect="dark"
+                    type="danger"
+                    size="mini"
+                    v-if="item.productNum > 50"
+                    >优选</el-tag
+                  >
+                  <span class="title">{{ item.productTitle | ellipsis }}</span>
                 </div>
                 <!-- 地址和图标 -->
                 <div>
-                  <span class="goodsPosition">{{ item.position }}</span>
+                  <span class="goodsPosition">{{ item.productArea | e }}</span>
                 </div>
               </el-col>
             </el-row>
@@ -275,48 +342,75 @@
         <el-row class="classOne" :gutter="20">
           <el-col :span="4" class="classSeaLeft">
             <div class="classOneLeftBaseInfo">
-              <h1 class="classOneLeftTitle">水产</h1>
-              <el-button type="warning" round
-                >查看更多<i class="el-icon-arrow-right"></i
-              ></el-button>
+              <h1 class="classOneLeftTitle">价格升序</h1>
             </div>
-
-            <!-- 未知区域 -->
-            <div class="place"></div>
+            <!-- 排行榜区域 -->
+            <div class="leaderboard">
+              <ol>
+                <li @click="goToGoodsDetail(priceUpOrder[0])">
+                  <span> {{ priceUpOrder[0].productTitle | ell8 }}</span>
+                </li>
+                <li @click="goToGoodsDetail(priceUpOrder[1])">
+                  <span> {{ priceUpOrder[1].productTitle | ell8 }}</span>
+                </li>
+                <li @click="goToGoodsDetail(priceUpOrder[2])">
+                  <span> {{ priceUpOrder[2].productTitle | ell8 }}</span>
+                </li>
+                <li @click="goToGoodsDetail(priceUpOrder[3])">
+                  <span> {{ priceUpOrder[3].productTitle | ell8 }}</span>
+                </li>
+                <li @click="goToGoodsDetail(priceUpOrder[4])">
+                  <span> {{ priceUpOrder[4].productTitle | ell8 }}</span>
+                </li>
+              </ol>
+            </div>
+            <el-button type="warning" round @click="goToSearch(priceUpOrder)"
+              >查看更多<i class="el-icon-arrow-right"></i
+            ></el-button>
             <!-- 分类区域 -->
             <div class="classButton">
-              <el-button type="info" round class="firstButton"
-                >淡水鱼类</el-button
+              <el-button
+                v-for="(item, i) in priceUpOrderTabs"
+                :key="i"
+                type="info"
+                round
+                :class="[i === 0 ? firstButton : '']"
+                >{{ item }}</el-button
               >
-              <el-button type="info" round>蟹类</el-button>
-              <el-button type="info" round>贝类</el-button>
-              <el-button type="info" round>虾类</el-button>
-              <el-button type="info" round>水产种苗</el-button>
-              <el-button type="info" round>螺类</el-button>
-              <el-button type="info" round>特产水产</el-button>
-              <el-button type="info" round>海水鱼类</el-button>
             </div>
           </el-col>
           <el-col :span="20">
             <el-row :gutter="20">
               <el-col
                 :span="5"
-                v-for="item in animalCate"
-                :key="item.id"
+                v-for="(item, i) in priceUpOrder"
+                :key="i"
                 class="goods"
               >
-                <el-image :src="item.img"></el-image>
+                <el-image
+                  v-if="item.productImages"
+                  :src="item.productImages[0]"
+                  @click="item;"
+                ></el-image>
                 <div class="price">
-                  <span class="sellPrice">{{ item.price }}元/斤</span>
-                  <span class="totalCount">成交{{ item.total }}万元</span>
+                  <span class="sellPrice"
+                    >{{ item.productPrice }}元{{ item.productUnit }}</span
+                  >
+                  <span class="totalCount">成交{{ item.productNum }}万元</span>
                 </div>
-                <div class="titleArea">
-                  <el-tag effect="dark" type="danger" size="mini">优选</el-tag>
-                  <span class="title">{{ item.title | ellipsis }}</span>
+                <div class="titleArea" @click="goToGoodsDetail(item)">
+                  <el-tag
+                    effect="dark"
+                    type="danger"
+                    size="mini"
+                    v-if="item.productNum > 50"
+                    >优选</el-tag
+                  >
+                  <span class="title">{{ item.productTitle | ellipsis }}</span>
                 </div>
                 <!-- 地址和图标 -->
                 <div>
-                  <span class="goodsPosition">{{ item.position }}</span>
+                  <span class="goodsPosition">{{ item.productArea | e }}</span>
                 </div>
               </el-col>
             </el-row>
@@ -328,48 +422,77 @@
         <el-row class="classOne" :gutter="20">
           <el-col :span="4" class="classFarmLeft">
             <div class="classOneLeftBaseInfo">
-              <h1 class="classOneLeftTitle">农副加工</h1>
-              <span class="classOneLeftInfo">货源稳定</span>
-              <span>量大优惠</span>
-              <el-button type="warning" round
-                >查看更多<i class="el-icon-arrow-right"></i
-              ></el-button>
+              <h1 class="classOneLeftTitle">价格降序</h1>
+              <!-- <span class="classOneLeftInfo">货源稳定</span>
+              <span>量大优惠</span> -->
             </div>
 
-            <!-- 未知区域 -->
-            <div class="place"></div>
+            <div class="leaderboard">
+              <ol>
+                <li @click="goToGoodsDetail(priceDownOrder[0])">
+                  <span> {{ priceDownOrder[0].productTitle | ell8 }}</span>
+                </li>
+                <li @click="goToGoodsDetail(priceDownOrder[1])">
+                  <span> {{ priceDownOrder[1].productTitle | ell8 }}</span>
+                </li>
+                <li @click="goToGoodsDetail(priceDownOrder[2])">
+                  <span> {{ priceDownOrder[2].productTitle | ell8 }}</span>
+                </li>
+                <li @click="goToGoodsDetail(priceDownOrder[3])">
+                  <span> {{ priceDownOrder[3].productTitle | ell8 }}</span>
+                </li>
+                <li @click="goToGoodsDetail(priceDownOrder[4])">
+                  <span> {{ priceDownOrder[4].productTitle | ell8 }}</span>
+                </li>
+              </ol>
+            </div>
+            <el-button type="warning" round @click="goToSearch(priceDownOrder)"
+              >查看更多<i class="el-icon-arrow-right"></i
+            ></el-button>
             <!-- 分类区域 -->
             <div class="classButton">
-              <el-button type="info" round class="firstButton">坚果</el-button>
-              <el-button type="info" round>休闲速食品</el-button>
-              <el-button type="info" round>水产加工</el-button>
-              <el-button type="info" round>肉制品加工</el-button>
-              <el-button type="info" round>干果</el-button>
-              <el-button type="info" round>蔬菜加工</el-button>
-              <el-button type="info" round>茶叶</el-button>
-              <el-button type="info" round>传统滋补</el-button>
+              <el-button
+                v-for="(item, i) in priceDownOrderTabs"
+                :key="i"
+                type="info"
+                round
+                :class="[i === 0 ? firstButton : '']"
+                >{{ item }}</el-button
+              >
             </div>
           </el-col>
           <el-col :span="20">
             <el-row :gutter="20">
               <el-col
                 :span="5"
-                v-for="item in animalCate"
-                :key="item.id"
+                v-for="(item, i) in priceDownOrder"
+                :key="i"
                 class="goods"
               >
-                <el-image :src="item.img"></el-image>
+                <el-image
+                  v-if="item.productImages"
+                  :src="item.productImages[0]"
+                  @click="goToGoodsDetail(item)"
+                ></el-image>
                 <div class="price">
-                  <span class="sellPrice">{{ item.price }}元/斤</span>
-                  <span class="totalCount">成交{{ item.total }}万元</span>
+                  <span class="sellPrice"
+                    >{{ item.productPrice }}元{{ item.productUnit }}</span
+                  >
+                  <span class="totalCount">成交{{ item.productNum }}万元</span>
                 </div>
-                <div class="titleArea">
-                  <el-tag effect="dark" type="danger" size="mini">优选</el-tag>
-                  <span class="title">{{ item.title | ellipsis }}</span>
+                <div class="titleArea" @click="goToGoodsDetail(item)">
+                  <el-tag
+                    effect="dark"
+                    type="danger"
+                    size="mini"
+                    v-if="item.productNum > 50"
+                    >优选</el-tag
+                  >
+                  <span class="title">{{ item.productTitle | ellipsis }}</span>
                 </div>
                 <!-- 地址和图标 -->
                 <div>
-                  <span class="goodsPosition">{{ item.position }}</span>
+                  <span class="goodsPosition">{{ item.productArea | e }}</span>
                 </div>
               </el-col>
             </el-row>
@@ -387,21 +510,33 @@
           <el-row :gutter="20">
             <el-col
               :span="4"
-              v-for="item in advisePic"
-              :key="item.id"
+              v-for="(item, i) in hotRecommend"
+              :key="i"
               class="goods"
             >
-              <el-image :src="item.img"></el-image>
+              <el-image
+                v-if="item.productImages"
+                :src="item.productImages[0]"
+                @click="goToGoodsDetail(item)"
+              >
+                <div slot="error" class="image-slot">
+                  <el-image
+                    src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=386535230,3956809074&fm=26&gp=0.jpg"
+                  ></el-image>
+                </div>
+              </el-image>
               <div class="price">
-                <span class="sellPrice">{{ item.price }}元/斤</span>
+                <span class="sellPrice"
+                  >{{ item.productPrice }}元{{ item.productUnit }}</span
+                >
               </div>
-              <div class="titleArea">
+              <div class="titleArea" @click="goToGoodsDetail(item)">
                 <el-tag effect="dark" type="danger" size="mini">优选</el-tag>
-                <span class="title">{{ item.title | ellipsis }}</span>
+                <span class="title">{{ item.productTitle | ellipsis }}</span>
               </div>
               <!-- 地址和图标 -->
               <div>
-                <span class="goodsPosition">{{ item.position }}</span>
+                <span class="goodsPosition">{{ item.productArea }}</span>
               </div>
             </el-col>
           </el-row>
@@ -414,22 +549,38 @@
 export default {
   data() {
     return {
-      input: "",
+      inputRuleForm: {
+        productTitle: "",
+      },
+      // 输入框验证规则
+      inputRules: {
+        productTitle: [
+          { required: true, message: "搜索内容不能为空", trigger: "blur" },
+        ],
+      },
       select: "",
-      goodsCate: [
+      isActive: [],
+      // 搜索信息
+      searchInfo: {
+        productTitle: "",
+        level: "10",
+      },
+      cateGory: [
         {
-          id: 1,
+          categoryId: 1,
           isActive: false,
-          title: "禽畜肉蛋",
+          categoryName: "禽畜肉蛋",
           spanTitle: ["肉类", "活禽"],
-          navTitle: [
+          children: [
             {
-              title: "标题1",
-              secondTitle: ["沙巴", "新加坡", "菲律宾", "沙巴", "文莱"],
+              categoryId: "aaa",
+              categoryName: "标题1",
+              children: ["沙巴", "新加坡", "菲律宾", "沙巴", "文莱"],
             },
             {
-              title: "标题2",
-              secondTitle: ["沙巴", "新加坡", "菲律宾", "沙巴"],
+              categoryId: "bbb",
+              categoryName: "标题2",
+              children: ["沙巴", "新加坡", "菲律宾", "沙巴"],
             },
           ],
         },
@@ -497,55 +648,9 @@ export default {
             },
           ],
         },
-        {
-          id: 6,
-          isActive: false,
-          title: "农副加工",
-          spanTitle: ["坚果", "休闲速食品"],
-          navTitle: [
-            {
-              title: "标题1",
-              secondTitle: ["沙巴", "新加坡", "菲律宾", "沙巴", "文莱"],
-            },
-            {
-              title: "标题2",
-              secondTitle: ["沙巴", "新加坡", "菲律宾", "沙巴"],
-            },
-          ],
-        },
-        {
-          id: 7,
-          isActive: false,
-          title: "粮油米面",
-          spanTitle: ["谷类作物", "油料作物"],
-          navTitle: [
-            {
-              title: "标题1",
-              secondTitle: ["沙巴", "新加坡", "菲律宾", "沙巴", "文莱"],
-            },
-            {
-              title: "标题2",
-              secondTitle: ["沙巴", "新加坡", "菲律宾", "沙巴"],
-            },
-          ],
-        },
-        {
-          id: 8,
-          isActive: false,
-          title: "种子种苗",
-          spanTitle: ["水果种苗", "蔬菜种子"],
-          navTitle: [
-            {
-              title: "标题1",
-              secondTitle: ["沙巴", "新加坡", "菲律宾", "沙巴", "文莱"],
-            },
-            {
-              title: "标题2",
-              secondTitle: ["沙巴", "新加坡", "菲律宾", "沙巴"],
-            },
-          ],
-        },
       ],
+      // 全部子分类
+      childrenOfCateGory: [],
       fish: [
         { title: "水产水苗", children: ["鱼苗", "虾苗"] },
         { title: "特种水产", children: [] },
@@ -566,99 +671,428 @@ export default {
         { title: "淡水鱼类", children: ["鲈鱼", "鲤鱼"] },
         { title: "海水鱼类", children: ["带鱼", "黄鱼"] },
       ],
-      animalCate: [
+      // 综合排序
+      allOrder: [
         {
-          id: 1,
-          img:
+          productId: 1,
+          productImages:
             "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-          price: 14.4,
-          total: 34.2,
-          title: "法国3001带舌猪头,耳大头白，进口猪肉中的“劳力士”",
-          position: "郑州",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
         },
         {
-          id: 2,
-          img:
+          productId: 2,
+          productImages:
             "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-          price: 17.0,
-          total: 52.3,
-          title: "生态大闸蟹 大闸蟹",
-          position: "兴化南",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
         },
         {
-          id: 3,
-          img:
+          productId: 3,
+          productImages:
             "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-          price: 17.0,
-          total: 52.3,
-          title: "生态大闸蟹 大闸蟹",
-          position: "兴化南",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
         },
         {
-          id: 4,
-          img:
+          productId: 4,
+          productImages:
             "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-          price: 17.0,
-          total: 52.3,
-          title: "生态大闸蟹 大闸蟹",
-          position: "兴化南",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
         },
         {
-          id: 5,
-          img:
+          productId: 5,
+          productImages:
             "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-          price: 18.0,
-          total: 52.3,
-          title: "生态大闸蟹 大闸蟹",
-          position: "兴化南",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
         },
         {
-          id: 6,
-          img:
+          productId: 6,
+          productImages:
             "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-          price: 18.0,
-          total: 44.3,
-          title: "测试测试测试测试测试",
-          position: "广州东",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
         },
         {
-          id: 7,
-          img:
+          productId: 7,
+          productImages:
             "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-          price: 18.0,
-          total: 52.3,
-          title: "生态大闸蟹 大闸蟹",
-          position: "兴化南",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
         },
         {
-          id: 8,
-          img:
+          productId: 8,
+          productImages:
             "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-          price: 18.0,
-          total: 52.3,
-          title: "生态大闸蟹 大闸蟹",
-          position: "兴化南",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
         },
         {
-          id: 9,
-          img:
+          productId: 9,
+          productImages:
             "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-          price: 18.0,
-          total: 52.3,
-          title: "生态大闸蟹 大闸蟹",
-          position: "兴化南",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
         },
         {
-          id: 10,
-          img:
+          productId: 10,
+          productImages:
             "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-          price: 18.0,
-          total: 52.3,
-          title: "生态大闸蟹 大闸蟹",
-          position: "兴化南",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
         },
       ],
-      advisePic: [
+      // 综合排序的标签
+      allOrderTabs: [],
+      // 点赞排序
+      likeGoodsOrder: [
+        {
+          productId: 1,
+          productImages:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
+        },
+        {
+          productId: 2,
+          productImages:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
+        },
+        {
+          productId: 3,
+          productImages:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
+        },
+        {
+          productId: 4,
+          productImages:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
+        },
+        {
+          productId: 5,
+          productImages:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
+        },
+        {
+          productId: 6,
+          productImages:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
+        },
+        {
+          productId: 7,
+          productImages:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
+        },
+        {
+          productId: 8,
+          productImages:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
+        },
+        {
+          productId: 9,
+          productImages:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
+        },
+        {
+          productId: 10,
+          productImages:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
+        },
+      ],
+      // 点赞排序的标签
+      likeGoodsOrderTabs: [],
+      // 价格升序
+      priceUpOrder: [
+        {
+          productId: 1,
+          productImages:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
+        },
+        {
+          productId: 2,
+          productImages:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
+        },
+        {
+          productId: 3,
+          productImages:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
+        },
+        {
+          productId: 4,
+          productImages:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
+        },
+        {
+          productId: 5,
+          productImages:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
+        },
+        {
+          productId: 6,
+          productImages:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
+        },
+        {
+          productId: 7,
+          productImages:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
+        },
+        {
+          productId: 8,
+          productImages:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
+        },
+        {
+          productId: 9,
+          productImages:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
+        },
+        {
+          productId: 10,
+          productImages:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
+        },
+      ],
+      // 价格升序的标签
+      priceUpOrderTabs: [],
+      // 价格降序
+      priceDownOrder: [
+        {
+          productId: 1,
+          productImages:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
+        },
+        {
+          productId: 2,
+          productImages:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
+        },
+        {
+          productId: 3,
+          productImages:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
+        },
+        {
+          productId: 4,
+          productImages:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
+        },
+        {
+          productId: 5,
+          productImages:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
+        },
+        {
+          productId: 6,
+          productImages:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
+        },
+        {
+          productId: 7,
+          productImages:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
+        },
+        {
+          productId: 8,
+          productImages:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
+        },
+        {
+          productId: 9,
+          productImages:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
+        },
+        {
+          productId: 10,
+          productImages:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+          productPrice: 18.0,
+          productNum: 52.3,
+          productUnit: "/斤",
+          productTitle: "生态大闸蟹 大闸蟹",
+          productArea: "兴化南",
+        },
+      ],
+      // 价格降序的标签
+      priceDownOrderTabs: [],
+      // 最新推荐
+      hotRecommend: [
         {
           id: 1,
           img:
@@ -712,49 +1146,220 @@ export default {
       layer: "layer",
       item: "item",
       tit1: "tit1",
+      firstButton: "firstButton",
       activeName: "",
       fourPicture: [
         {
           id: 1,
           src:
-            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+            "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1353291390,705190916&fm=15&gp=0.jpg",
         },
         {
           id: 2,
           src:
-            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+            "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3864243818,1044960970&fm=15&gp=0.jpg",
         },
         {
           id: 3,
           src:
-            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+            "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=551329194,4246634910&fm=26&gp=0.jpg",
         },
         {
           id: 4,
           src:
-            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+            "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1691171080,1028146513&fm=15&gp=0.jpg",
         },
       ],
     };
   },
+  created() {
+    this.getAllGoods();
+    // 获取分类结构
+    this.getQuery();
+    // 获取最新推荐
+    this.getHotRecommend();
+    // 获取综合排序
+    this.getAllOrder();
+    // 获取点赞排序
+    this.getLikeGoodsOrder();
+    // 获取价格升序
+    this.getPriceUpOrder();
+    // 获取价格降序
+    this.getPriceDownOrder();
+  },
   methods: {
-    choseItem() {},
-    goToSearch() {
-      this.$router.push("/emallSearch");
+    goToSearch(item) {
+      this.$router.push({
+        path: "/emallSearch",
+        name: "emallSearch",
+        query: item,
+      });
+    },
+    goToGoodsDetail(item) {
+      this.$router.push({
+        path: "/emallDetail",
+        name: "emallDetail",
+        query: item,
+      });
+    },
+    goTo(title) {
+      if (title === "") {
+        return this.$message.error("请输入搜索内容");
+      }
+      this.searchInfo.productTitle = this.inputRuleForm.productTitle;
+      this.goToSearch(this.searchInfo);
+    },
+    // 获取前台树形结构
+    async getQuery() {
+      const { data: res } = await this.reqM4Service(
+        "/category/queryAll",
+        "",
+        "get"
+      );
+      // console.log(res)
+      if (res.code !== 20000) {
+        return this.$message.error("获取分类信息失败！");
+      }
+      this.cateGory = res.data;
+      console.log(this.cateGory);
+      this.activeName = this.cateGory[0].categoryName;
+    },
+    // 获取最新推荐
+    async getHotRecommend() {
+      const { data: res } = await this.reqM4Service(
+        "/product/stars/sort/1/6",
+        "",
+        "get"
+      );
+      // console.log(res)
+      if (res.code !== 20000) {
+        return this.$message.error("获取最新推荐信息失败！");
+      }
+      this.hotRecommend = res.data.content;
+      this.hotRecommend.forEach((element) => {
+        element.productImages = element.productImages.split(",");
+      });
+    },
+    // 获取所有商品
+    async getAllGoods() {
+      const { data: res } = await this.reqM4Service("/product", "", "get");
+      // console.log(res);
+    },
+    // 获取综合排序
+    async getAllOrder() {
+      const { data: res } = await this.reqM4Service(
+        "/product/commonSort/1/10",
+        "",
+        "get"
+      );
+      if (res.code !== 20000) {
+        return this.$message.error("获取综合排序信息失败！");
+      }
+      // console.log(res);
+      this.allOrder = res.data.content;
+      this.allOrder.forEach((element) => {
+        this.allOrderTabs.push(element.productName);
+      });
+      // 去除标签数组的重复项
+      this.allOrderTabs = [...new Set(this.allOrderTabs)];
+      this.allOrder.forEach((element) => {
+        element.productImages = element.productImages.split(",");
+      });
+      console.log(this.allOrder);
+    },
+    // 获取点赞排序
+    async getLikeGoodsOrder() {
+      const { data: res } = await this.reqM4Service(
+        "/product/stars/sort/1/10",
+        "",
+        "get"
+      );
+      if (res.code !== 20000) {
+        return this.$message.error("获取综合排序信息失败！");
+      }
+      // console.log(res);
+      this.likeGoodsOrder = res.data.content;
+      this.likeGoodsOrder.forEach((element) => {
+        this.likeGoodsOrderTabs.push(element.productName);
+      });
+      // 去除标签数组的重复项
+      this.likeGoodsOrderTabs = [...new Set(this.likeGoodsOrderTabs)];
+      this.likeGoodsOrder.forEach((element) => {
+        element.productImages = element.productImages.split(",");
+      });
+    },
+    // 获取价格升序
+    async getPriceUpOrder() {
+      const { data: res } = await this.reqM4Service(
+        "/product/orderByPrice/1/10",
+        "",
+        "get"
+      );
+      if (res.code !== 20000) {
+        return this.$message.error("获取综合排序信息失败！");
+      }
+      // console.log(res)
+      this.priceUpOrder = res.data.content;
+      this.priceUpOrder.forEach((element) => {
+        if (element.productName.length < 5) {
+          this.priceUpOrderTabs.push(element.productName);
+        }
+      });
+      // 去除标签数组的重复项
+      this.priceUpOrderTabs = [...new Set(this.priceUpOrderTabs)];
+      this.priceUpOrder.forEach((element) => {
+        element.productImages = element.productImages.split(",");
+      });
+    },
+    // 获取价格降序
+    async getPriceDownOrder() {
+      const { data: res } = await this.reqM4Service(
+        "/product/orderByPrice/desc/1/10",
+        "",
+        "get"
+      );
+      if (res.code !== 20000) {
+        return this.$message.error("获取综合排序信息失败！");
+      }
+      this.priceDownOrder = res.data.content;
+      this.priceDownOrder.forEach((element) => {
+        if (element.productName.length < 5) {
+          this.priceDownOrderTabs.push(element.productName);
+        }
+      });
+      // 去除标签数组的重复项
+      this.priceDownOrderTabs = [...new Set(this.priceDownOrderTabs)];
+      this.priceDownOrder.forEach((element) => {
+        element.productImages = element.productImages.split(",");
+      });
     },
   },
   filters: {
     ellipsis(value) {
       if (!value) return "";
-      if (value.length > 23) {
-        return value.slice(0, 23) + "...";
+      if (value.length > 21) {
+        return value.slice(0, 21) + "...";
+      }
+      return value;
+    },
+    e(position) {
+      return position || "未知地址";
+    },
+    ell8(value) {
+      if (!value) return "";
+      if (value.length > 7) {
+        return value.slice(0, 7) + "...";
       }
       return value;
     },
   },
 };
 </script>
-<style scoped>
+<style  scoped>
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 .ccy-drvider {
   margin: 10px 0 7px 0;
 }
@@ -827,7 +1432,7 @@ export default {
 }
 .product_sort .bd .item .title {
   width: 226px;
-  text-indent: 20px;
+  text-indent: 15px;
   height: 30px;
   overflow: hidden;
   line-height: 42px;
@@ -917,6 +1522,7 @@ a:focus {
   text-align: left;
   border-top: 1px dashed #d7d7d7;
   padding: 5px 0;
+  line-height: 25px;
 }
 .product_sort .bd .layer .subitem .inner .tit1 {
   border-top: none;
@@ -935,6 +1541,8 @@ a:focus {
   display: block;
   margin-left: 90px;
   width: 630px;
+  height: 30px;
+  line-height: 30px;
 }
 .product_sort .bd .layer .subitem .inner ul li {
   float: left;
@@ -967,18 +1575,19 @@ a:focus {
   width: 127px;
   text-align: center;
 }
-.fishPaneTitle >>> .el-breadcrumb__item:last-child .el-breadcrumb__inner {
+.cateRow {
+  margin-top: 20px;
+}
+.fishPaneTitle .paneTitle {
   font-weight: 700;
-  color: #000;
+  color: #333;
 }
-.fishPaneTitle >>> .el-breadcrumb__item .el-breadcrumb__inner:active {
-  color: #39bf3e;
-}
-.fishPaneSecondTitle >>> .el-breadcrumb__item .el-breadcrumb__inner,
-.fishPaneSecondTitle >>> .el-breadcrumb__item:last-child .el-breadcrumb__inner {
+.fishPaneSecondTitle span {
+  margin-right: 10px;
   cursor: pointer;
+  color: #aaa;
 }
-.fishPaneSecondTitle >>> .el-breadcrumb__item .el-breadcrumb__inner:hover {
+.fishPaneSecondTitle span:hover {
   color: #39bf3e;
 }
 .classOne {
@@ -1010,8 +1619,148 @@ a:focus {
 }
 .place {
   height: 200px;
+}
+ol,
+ul {
+  list-style: none;
+}
+.leaderboard {
+  width: 100%;
+  height: auto;
+  margin-top: 10px;
+  border-radius: 10px;
+}
+.leaderboard ol {
+  counter-reset: leaderboard;
+}
+.leaderboard ol li {
+  position: relative;
+  z-index: 1;
+  font-size: 14px;
+  counter-increment: leaderboard;
+  padding: 18px 10px 18px 50px;
+  cursor: pointer;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform: translateZ(0) scale(1, 1);
+  transform: translateZ(0) scale(1, 1);
+}
+.leaderboard ol li::before {
+  content: counter(leaderboard);
+  position: absolute;
+  z-index: 2;
+  top: 15px;
+  left: 15px;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  color: #c24448;
   background: #fff;
-  margin: 5px 10px;
+  border-radius: 20px;
+  text-align: center;
+}
+.leaderboard ol li span {
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background: none;
+  color: #fff;
+}
+.leaderboard ol li small {
+  position: relative;
+  z-index: 2;
+  display: block;
+  text-align: right;
+}
+.leaderboard ol li::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fa6855;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.08);
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  opacity: 0;
+}
+.leaderboard ol li:nth-child(1) {
+  background: #fa6855;
+}
+.leaderboard ol li:nth-child(1)::after {
+  background: #fa6855;
+}
+.leaderboard ol li:nth-child(2) {
+  background: #e0574f;
+}
+.leaderboard ol li:nth-child(2)::after {
+  background: #e0574f;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.08);
+}
+.leaderboard ol li:nth-child(2) span::before,
+.leaderboard ol li:nth-child(2) span::after {
+  border-top: 6px solid #ba4741;
+  bottom: -7px;
+}
+.leaderboard ol li:nth-child(3) {
+  background: #d7514d;
+}
+.leaderboard ol li:nth-child(3)::after {
+  background: #d7514d;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.11);
+}
+.leaderboard ol li:nth-child(3) span::before,
+.leaderboard ol li:nth-child(3) span::after {
+  border-top: 2px solid #b0433f;
+  bottom: -3px;
+}
+.leaderboard ol li:nth-child(4) {
+  background: #cd4b4b;
+}
+.leaderboard ol li:nth-child(4)::after {
+  background: #cd4b4b;
+  box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.15);
+}
+.leaderboard ol li:nth-child(4) span::before,
+.leaderboard ol li:nth-child(4) span::after {
+  top: -7px;
+  bottom: auto;
+  border-top: none;
+  border-bottom: 6px solid #a63d3d;
+}
+.leaderboard ol li:nth-child(5) {
+  background: #c24448;
+  border-radius: 0 0 10px 10px;
+}
+.leaderboard ol li:nth-child(5)::after {
+  background: #c24448;
+  box-shadow: 0 -2.5px 0 rgba(0, 0, 0, 0.12);
+  border-radius: 0 0 10px 10px;
+}
+.leaderboard ol li:nth-child(5) span::before,
+.leaderboard ol li:nth-child(5) span::after {
+  top: -9px;
+  bottom: auto;
+  border-top: none;
+  border-bottom: 8px solid #993639;
+}
+.leaderboard ol li:hover {
+  z-index: 2;
+  overflow: visible;
+}
+.leaderboard ol li:hover::after {
+  opacity: 1;
+  -webkit-transform: scaleX(1.06) scaleY(1.03);
+  transform: scaleX(1.06) scaleY(1.03);
+}
+.leaderboard ol li:hover span::before,
+.leaderboard ol li:hover span::after {
+  opacity: 1;
+  -webkit-transition: all 0.35s ease-in-out;
+  transition: all 0.35s ease-in-out;
 }
 .classButton .el-button.is-round {
   padding: 7px 0px;
@@ -1031,6 +1780,8 @@ a:focus {
 }
 .goods >>> .el-image {
   cursor: pointer;
+  width: 175px;
+  height: 175px;
 }
 .sellPrice {
   color: red;
@@ -1107,5 +1858,12 @@ a:focus {
 }
 .fourPic {
   margin-top: 10px;
+  height: 150px;
+
+ 
 }
+ .pic-head {
+   height: 150px;
+   width: 220px;
+  }
 </style>
