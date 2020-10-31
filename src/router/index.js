@@ -5,6 +5,7 @@ import industryMarket from '../components/IndustryInformation/industryMarket.vue
 import prawnNews from '../components/IndustryInformation/prawnNews.vue'
 import instructdetail from '../components/IndustryInformation/instructdetail.vue'
 import instructpagedetail from '../components/IndustryInformation/instructpagedetail.vue'
+import industryothermore from '../components/IndustryInformation/industryothermore.vue'
 
 import policies from '../components/policies/policies.vue'
 // 政策法规详情页

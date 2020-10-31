@@ -222,7 +222,7 @@ export default {
 
       queryinfo: {
         page: 1,
-        size: 6,
+        size: 3,
         total: null,
       },
       //按点击量查询
@@ -236,7 +236,7 @@ export default {
       //分类信息查询
       TypeDataList: [],
       //得到分类名称
-      TypeName: "",
+      TypeName: '',
     };
   },
   created() {
@@ -258,7 +258,8 @@ export default {
     this.getTypeName();
   },
   mounted() {
-    console.log(this.$route.query.id);
+    console.log(this.$route.query.path);
+
   },
   methods: {
     TonewPath(id) {
@@ -311,13 +312,14 @@ export default {
 
     async getTypeData() {
       const { data: res } = await this.reqM2Service(
-        `/info/shrimpIndustry/search/searchByTypeId/${this.$route.query.id}/${this.queryinfo.page}/${this.queryinfo.size}`,
+        `/${this.$route.query.path}/${this.queryinfo.page}/${this.queryinfo.size}`,
         "",
-        "post"
+        "get"
       );
-      this.TypeDataList = res.data.rows;
-      this.queryinfo.total = res.data.total;
-      //console.log(this.$route.query.id)
+      this.TypeDataList = res.data;
+      this.queryinfo.total = res.data.length;
+      console.log(res.data) 
+      
     },
     handleCurrentChange(newpage) {
       //改变页码
@@ -334,7 +336,7 @@ export default {
         "get"
       );
       for (var i = 0; i < res.data.length; i++) {
-        if (res.data[i].id == this.$route.query.id) {
+        if (res.data[i].id == this.TypeDataList[0].typeId) {
           this.TypeName = res.data[i].name;
           console.log(this.TypeName);
           break;

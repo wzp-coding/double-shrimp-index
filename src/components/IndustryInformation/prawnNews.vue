@@ -23,8 +23,8 @@
             <div class="block" style="margin-bottom: 8px">
               <div
                 class="blockson"
-                v-for="(item, index) in datalist.slice(0, 3)"
-                :key="index"
+                v-for="item in datalist.slice(0, 3)"
+                :key="item.id"
                 @click="TonewPath(item.id)"
               >
                 <el-image :src="item.picture"></el-image>
@@ -34,11 +34,15 @@
             <div class="sort">
               <el-row>
                 <span style="font-size: 15px">分类：</span>
-                <el-button type="success" size="mini" plain>全部</el-button>
-                <el-button type="success" size="mini" plain>对虾养殖</el-button>
-                <el-button type="success" size="mini" plain>财富手册</el-button>
-                <el-button type="success" size="mini" plain>虾业行情</el-button>
-                <el-button type="success" size="mini" plain>虾业行情</el-button>
+                <el-button
+                  type="success"
+                  size="mini"
+                  plain
+                  v-for="(item, index) in TypeDataList.slice(0, 9)"
+                  :key="index"
+                  @click="TypeChange(item.id, item.name)"
+                  >{{ item.name }}</el-button
+                >
               </el-row>
             </div>
             <div class="tail" style="width: 100%; margin-top: 15px">
@@ -65,22 +69,21 @@
                     color: rgb(93, 183, 60);
                   "
                 >
-                  <router-link
-                    to="/instructpagedetail"
-                    style="text-decoration: none; color: black"
+                  <span
+                    style="color: #9e9e9e; cursor: pointer"
+                    @click="ToMorePage(queryInfo.TypeID)"
                   >
-                    <span style="color: #9e9e9e"> 更多 </span>
-                  </router-link>
+                    更多
+                  </span>
+
                   <i class="el-icon-caret-right"></i>
                 </div>
               </h3>
               <el-divider class="ccy-drvider"></el-divider>
             </div>
-            <div class="main">
+            <div class="main" v-for="item in pagelist" :key="item.id">
               <div
                 class="mainson"
-                v-for="(item, index) in pagelist.slice(0, pagesize)"
-                :key="index"
                 style="border-bottom: 1px solid rgb(230, 230, 230)"
               >
                 <div class="pic" @click="TonewPath(item.id)">
@@ -96,8 +99,7 @@
                   </div>
                   <div class="pm" style="width: 100%; margin: 10px 0">
                     <span style="width: 100%">
-                      {{ item.summary |limitword}} 
-                      
+                      {{ item.summary | limitword }}
                     </span>
                     <span style="color: green" @click="TonewPath(item.id)"
                       >[详细]</span
@@ -110,7 +112,11 @@
                         阅读： {{ item.clickNum }}</span
                       >
                     </p>
-                    <p style="font-size: 13px; right: 40px">分类：<span style="color:green">{{classificationList[0].name}}</span></p>
+                    <p style="font-size: 13px; right: 40px">
+                      分类：<span style="color: green">{{
+                        queryInfo.TypeName
+                      }}</span>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -119,9 +125,9 @@
             <el-pagination
               background
               layout="prev, pager, next"
-              :total="this.queryInfo.total"
-              :page-size="this.queryInfo.pagesize"
-              :current-page="this.queryInfo.Currentpage"
+              :total="queryInfo.total"
+              :page-size="queryInfo.pagesize"
+              :current-page="queryInfo.Currentpage"
               @current-change="handleCurrentChange"
               style="display: flex; justify-content: center; margin-top: 20px"
             >
@@ -156,7 +162,12 @@
                       color: rgb(93, 183, 60);
                     "
                   >
-                    <span style="color: #9e9e9e"> 更多 </span>
+                    <span
+                      @click="ToOtherMore(waybytime)"
+                      style=" cursor: pointer;color: #9e9e9e"
+                    >
+                      更多
+                    </span>
                     <i class="el-icon-caret-right"></i>
                   </div>
                 </h3>
@@ -189,8 +200,10 @@
                     ></span>
                     热门资讯
                   </div>
-                  <el-tag type="danger" size="small" style="margin-top: 3px"
-                    >热卖</el-tag
+                  <router-link to="/industryothermore">
+                    <el-tag type="danger" size="small" style="margin-top: 3px"
+                      >热卖</el-tag
+                    ></router-link
                   >
                   <div
                     style="
@@ -199,7 +212,7 @@
                       color: rgb(93, 183, 60);
                     "
                   >
-                    <span style="color: #9e9e9e"> 更多 </span>
+                    <span style=" cursor: pointer;color: #9e9e9e" @click="ToOtherMore(waybyrecommed)"> 更多 </span>
                     <i class="el-icon-caret-right"></i>
                   </div>
                 </h3>
@@ -244,7 +257,7 @@
                       color: rgb(93, 183, 60);
                     "
                   >
-                    <span style="color: #9e9e9e"> 更多 </span>
+                    <span style=" cursor: pointer;color: #9e9e9e" @click="ToOtherMore(waybyclick)"> 更多 </span>
                     <i class="el-icon-caret-right"></i>
                   </div>
                 </h3>
@@ -252,7 +265,7 @@
 
                 <ul>
                   <li
-                    v-for="(item, index) in dataRecommList.slice(0, 6)"
+                    v-for="(item, index) in dataClickList.slice(0, 6)"
                     :key="index"
                     @click="TonewPath(item.id)"
                     :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
@@ -321,60 +334,72 @@ export default {
       }
     },
     //限制文字个数
-    limitword(val){
-      if(val == null || val == ""){
-        return "暂无数据"
-      }else{
-        var len=val.length;   
-        if(len>80){
-           var str="";
-           str=val.substring(0,80)+"......"; 
-           return str 
-        }else{
-          return val
+    limitword(val) {
+      if (val == null || val == "") {
+        return "暂无数据";
+      } else {
+        var len = val.length;
+        if (len > 80) {
+          var str = "";
+          str = val.substring(0, 80) + "......";
+          return str;
+        } else {
+          return val;
         }
       }
-    }
+    },
   },
   data() {
     return {
-      //分类
-      classificationList: [],
-
-      //按点击量分页
+      //按类型查询分页
       queryInfo: {
-        Currentpage: "1", //页数
-        pagesize: "5", //每页数
-        total: "", //总页数
+        Currentpage: 1, //页数
+        pagesize: 3, //每页数
+        total: null, //总页数
+
+        //默认 1316745747953225728
+        TypeID: "1316743601669148672",
+        TypeName: "财富手册",
       },
 
-      // 点击量分页
+      waybytime: "info/shrimpIndustry/findByTime",
+      waybyclick:"info/shrimpIndustry/findByClickNum",
+      waybyrecommed:"info/shrimpIndustry/findByRecommend",
+      // 类型分页
       pagelist: [],
 
-      //查询所有虾业专题
+      //查询所有产业资讯
       datalist: [],
 
-      //按时间
+      //按时间  最新
       dataTimeList: [],
 
       //按推荐
       dataRecommList: [],
+
+      //按点击量
+      dataClickList: [],
+
+      //分类信息查询
+      TypeDataList: [],
 
       src:
         "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
     };
   },
   created() {
-    //分类信息 type 根据其ID决定其
-    this.getclassification(),
-      //获取分页
-      this.getClickData(),
-      //获取所有虾业专题
-      this.getdata();
-    //推荐
-    this.getHotData(),
-      //按时间  最新
-      this.getNewData();
+    // 对虾养殖 分页
+    this.getPageList(),
+      //获取所有产业资讯
+      this.getAllData(),
+      //获取最新
+      this.getNewData(),
+      //按推荐
+      this.getRecommedData(),
+      //按热度 点击量
+      this.getHotData(),
+      //分类信息获取
+      this.getTypeData();
   },
   methods: {
     //前往详情页
@@ -384,39 +409,54 @@ export default {
         query: { id: id },
       });
     },
-    //分类  (财富手册 对虾养殖)
-    async getclassification() {
-      const { data: res } = await this.reqM2Service(
-        "/info/marketTypes",
-        "",
-        "get"
-      );
-      this.classificationList = res.data;
+    //前往更多页面   传入类型ID
+    ToMorePage(id) {
+      this.$router.push({
+        path: "/instructpagedetail",
+        query: { id: id },
+      });
     },
-    //按点击量分页
-    async getClickData() {
-      const { data: res } = await this.reqM2Service(
-        `/info/shrimpIndustry/findByClickNum/${this.queryInfo.Currentpage}/${this.queryInfo.pagesize}`,
-        "",
-        "get"
-      );
-      this.queryInfo.total = res.data.total;
-      this.pagelist = res.data.rows;
-      console.log(this, queryInfo.total);
+    ///info/shrimpIndustry/findByTime
+    ToOtherMore(path) {
+      this.$router.push({
+        path: "/industryothermore",
+        query: { path: path },
+      });
     },
-
     //查询全部
-    async getdata() {
+    async getAllData() {
       const { data: res } = await this.reqM2Service(
         "/info/shrimpIndustry",
         "",
         "get"
       );
       this.datalist = res.data;
+      // console.log(res.data)
     },
 
-    //按时间
+    //分页  1316745747953225728
+    async getPageList() {
+      const { data: res } = await this.reqM2Service(
+        `/info/shrimpIndustry/search/searchByTypeId/${this.queryInfo.TypeID}/${this.queryInfo.Currentpage}/${this.queryInfo.pagesize}`,
+        "",
+        "post"
+      );
+      console.log(this.queryInfo.TypeID);
+      console.log(res);
+      this.pagelist = res.data.rows;
+      this.queryInfo.total = res.data.rows.length;
+      console.log(res.data.rows);
+      //console.log(this.queryInfo.pagelist)
+    },
+
+    handleCurrentChange(newpage) {
+      //改变页码
+      //console.log(newpage)
+      this.queryInfo.Currentpage = newpage;
+      this.getPageList();
+    },
     async getNewData() {
+      ///info/shrimpIndustry/findByTime
       const { data: res } = await this.reqM2Service(
         "/info/shrimpIndustry/findByTime",
         "",
@@ -424,9 +464,8 @@ export default {
       );
       this.dataTimeList = res.data;
     },
-
-    //按推荐
-    async getHotData() {
+    async getRecommedData() {
+      ///info/shrimpIndustry/findByTime
       const { data: res } = await this.reqM2Service(
         "/info/shrimpIndustry/findByRecommend",
         "",
@@ -434,11 +473,31 @@ export default {
       );
       this.dataRecommList = res.data;
     },
+    async getHotData() {
+      ///info/shrimpIndustry/findByTime
+      const { data: res } = await this.reqM2Service(
+        "/info/shrimpIndustry/findByClickNum",
+        "",
+        "get"
+      );
+      this.dataClickList = res.data;
+    },
+    //获取所有分类信息
+    async getTypeData() {
+      const { data: res } = await this.reqM2Service(
+        "/info/shrimpIndustryTypes",
+        "",
+        "get"
+      );
+      this.TypeDataList = res.data;
+    },
 
-    handleCurrentChange(newpage) {
-      //改变页码
-      this.queryInfo.Currentpage = newpage;
-      this.getClickData();
+    TypeChange(ChangeID, ChangeName) {
+      //console.log(ChangeID)
+      this.queryInfo.TypeID = ChangeID;
+      this.queryInfo.TypeName = ChangeName;
+      //console.log(this.queryInfo.TypeID)
+      this.getPageList();
     },
   },
 };
@@ -524,6 +583,7 @@ export default {
       outline: none;
       border-radius: 20px;
       font-size-adjust: inherit;
+     
     }
   }
 }
@@ -545,9 +605,10 @@ export default {
     .block {
       width: 100%;
       display: flex;
+      height: 170px;
       justify-content: space-between;
       .blockson {
-        height: 170px;
+        height: 100%;
         width: 33%;
         position: relative;
         display: flex;
@@ -591,15 +652,13 @@ export default {
         }
         .sonr {
           width: 60%;
-          .pm {    
+          .pm {
             width: 100%;
-            a{
-             
-              color:green;
+            a {
+              color: green;
               list-style: none;
               text-decoration: none;
             }
-            
           }
           display: flex;
           flex-direction: column;

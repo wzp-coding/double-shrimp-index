@@ -264,7 +264,7 @@
       // 搜索区域
       
       async getSearchTableList() {
-        const { data: res } = await this.reqM1Service("/rights/search/time/"+ this.queryInfo.pagenum+"/"+this.queryInfo.pagesize+"?key="+this.queryInfo.query,{
+        const { data: res } = await this.reqM13Service("/rights/search/time/"+ this.queryInfo.pagenum+"/"+this.queryInfo.pagesize+"?key="+this.queryInfo.query,{
         params: this.queryInfo
       },'get')
         console.log(res)
