@@ -36,7 +36,7 @@
                   <div @click="TonewPath(weekliList[0].id)">
                     <el-image
                       style="height: 165px"
-                      :src="weekliList[0].picture"
+                      :src="weekliList[1].picture"
                     ></el-image>
                   </div>
                   <div @click="TonewPath(weekliList[1].id)">
@@ -614,7 +614,7 @@ export default {
       } else {
         var len = val.length;
         if (len > 80) {
-          var str = "";
+          var str = '';
           str = val.substring(0, 80) + "......";
           return str;
         } else {
@@ -757,6 +757,7 @@ export default {
         "get"
       );
       console.log("1" + res);
+      console.log(res)
       this.datalist = res.data;
     },
 
@@ -768,6 +769,8 @@ export default {
         "get"
       );
       this.weekliList = res.data;
+      console.log(res)
+      console.log(this.weekliList)
     },
 
     //
