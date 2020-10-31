@@ -27,8 +27,9 @@
                 <!-- 行情资讯 -->
                 <div class="block1" @click="TonewPath(datalist[0].id)">
                   <el-image
+                     v-if="datalist[0].picture"
                     style="height: 220px"
-                    :src="datalist[0].picture"
+                    :src="datalist[0].picture | isPicture"
                   ></el-image>
                 </div>
                 <!-- 每周精品 -->
@@ -36,13 +37,13 @@
                   <div @click="TonewPath(weekliList[0].id)">
                     <el-image
                       style="height: 165px"
-                      :src="weekliList[1].picture"
+                      :src="weekliList[1].picture | isPicture"
                     ></el-image>
                   </div>
                   <div @click="TonewPath(weekliList[1].id)">
                     <el-image
                       style="height: 165px"
-                      :src="weekliList[1].picture"
+                      :src="weekliList[1].picture | isPicture"
                     >
                     </el-image>
                   </div>
@@ -167,7 +168,7 @@
                     >
                       <el-image
                         style="height: 120px"
-                        :src="jingcai1List[0].picture"
+                        :src="jingcai1List[0].picture | isPicture"
                       ></el-image>
                       <span>{{ jingcai1List[0].title }}</span>
                     </div>
@@ -177,7 +178,7 @@
                     >
                       <el-image
                         style="height: 120px"
-                        :src="jingcai1List[1].picture"
+                        :src="jingcai1List[1].picture | isPicture"
                       ></el-image>
                       <span>{{ jingcai1List[1].title }}</span>
                     </div>
@@ -258,7 +259,7 @@
                   @click="TonewPath(item.id)"
                 >
                   <el-image
-                    :src="['item.picture' ? 'src' : 'item.picture']"
+                    :src="item.picture | isPicture"
                   ></el-image>
                   <span>{{ item.title }}</span>
                 </div>
@@ -298,7 +299,7 @@
               >
                 <div class="four">
                   <div class="pic">
-                    <el-image :src="item.picture"></el-image>
+                    <el-image :src="item.picture | isPicture"></el-image>
                   </div>
                   <div class="news">
                     <h3>{{ item.title }}</h3>
@@ -421,7 +422,7 @@
               <br />
               
               <div class="midpic" >
-                <el-image :src="NewDataList[8].picture" @click="NewDataList[8].id" ></el-image>
+                <el-image :src="NewDataList[8].picture | isPicture" @click="NewDataList[8].id" ></el-image>
               </div>
 
               <br />
@@ -609,12 +610,12 @@ export default {
     },
     //限制文字个数
     limitword(val) {
-      if (val == null || val == "") {
+      if (val == null || val == "" ||val == 1) {
         return "暂无数据";
       } else {
         var len = val.length;
         if (len > 80) {
-          var str = '';
+          str : '';
           str = val.substring(0, 80) + "......";
           return str;
         } else {
@@ -625,11 +626,11 @@ export default {
     //判断图片是否存在
     isPicture(val) {
       if (val == null || val == "") {
-        return "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg";
+        return 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg';
       } else {
         return val;
       }
-    },
+    }
   },
 
   data() {
@@ -679,7 +680,7 @@ export default {
 
       TempList:[
         {
-          picture:'src',
+          picture: "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
           title:'暂无数据'
         }
       ],
@@ -706,12 +707,12 @@ export default {
   created() {
     //查询全部产业资讯
     this.getAlldata(),
-      //每周精品
-      this.getWeekData(),
-      //精彩专题 1 按类型查询 对虾养殖
-      this.getjingcai1();
-      
 
+    //每周精品
+    this.getWeekData(),
+    //精彩专题 1 按类型查询 对虾养殖
+    this.getjingcai1();  
+      
     //精彩专题2
     this.getjingcai2(),
 
@@ -756,8 +757,10 @@ export default {
         "",
         "get"
       );
-      console.log("1" + res);
-      console.log(res)
+      if(res.code === 20000){
+        console.log("1" + res);
+        console.log('获取全部数据成功')
+      }
       this.datalist = res.data;
     },
 
@@ -768,6 +771,10 @@ export default {
         "",
         "get"
       );
+      if(res.code === 20000){
+        console.log("2" + res);
+        console.log('获取每周精品数据成功')
+      }
       this.weekliList = res.data;
       console.log(res)
       console.log(this.weekliList)
@@ -781,8 +788,12 @@ export default {
         "",
         "post"
       );
+      if(res.code === 20000){
+        console.log("3" + res);
+        console.log('获取精彩专题1数据成功')
+      }
       this.jingcai1List = res.data.rows;
-      this.queryInfo1.Infototal1 = res.data.total;
+      this.queryInfo1.Infototal1 = res.data.rows.length;
     },
 
     //精彩专题2 1320648223462920192
@@ -792,14 +803,19 @@ export default {
         "",
         "post"
       );
+      if(res.code === 20000){
+        console.log("4" + res);
+        console.log('获取精彩专题2数据成功')
+      }
       this.jingcai2List = res.data.rows;
       if(this.jingcai2List.length==0){
         for(var i=0;i<4;i++){
+          //没有数据赋予临时数据
           this.jingcai2List[i]=this.TempList[0]
         }
       }
       console.log(res.data)
-      this.queryInfo2.Infototal2 = res.data.total;
+      this.queryInfo2.Infototal2 = res.data.rows.length;
     },
 
     // 根据类型ID查询 精彩专题3  财富手册
@@ -809,9 +825,12 @@ export default {
         "",
         "post"
       );
-     console.log(this.queryInfo3.TypeID3)
+     if(res.code === 20000){
+        console.log("5" + res);
+        console.log('获取精彩专题3数据成功')
+      }
       this.pagelist = res.data.rows;
-      this.queryInfo3.total = res.data.total;
+      this.queryInfo3.total = res.data.rows.length;
     },
     handleCurrentChange(newpage) {
       //改变页码
@@ -822,16 +841,28 @@ export default {
     async getNewData(){
       const { data: res } = await this.reqM2Service("/info/shrimpIndustry/findByTime","","get")
       this.NewDataList = res.data
+      if(res.code === 20000){
+        console.log("6" + res);
+        console.log('获取最新数据成功')
+      }
     },
     //每月
     async getMonthData(){
       const { data: res } = await this.reqM2Service("/info/shrimpIndustry/findByClickMonthly","","get")
       this.MonthDataList = res.data
+      if(res.code === 20000){
+        console.log("7" + res);
+        console.log('获取每月数据成功')
+      }
     },
     //热门，点击量
     async getClickData(){
       const { data: res } = await this.reqM2Service("/info/shrimpIndustry/findByClickNum","","get")
       this.ClickDataList = res.data
+      if(res.code === 20000){
+        console.log("8" + res);
+        console.log('获取点击量数据成功')
+      }
     }
   },
 };
@@ -1041,7 +1072,7 @@ export default {
         background-color: #333;
         opacity: 0.8;
         font-size: 14.5px;
-        bottom: 5px;
+        bottom: 4px;
         color: black;
         text-align: center;
         

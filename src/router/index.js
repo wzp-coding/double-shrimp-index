@@ -87,12 +87,12 @@ const routes = [
 {
   path: '/',
   redirect: '/industryMarket',
-  children: [
-    {
-      path: '/',
-      redirect:'/instructdetail'
-    }
-  ]
+  // children: [
+  //   {
+  //     path: '/',
+  //     redirect:'/instructdetail'
+  //   }
+  // ]
 },
 {
   path: '/industryMarket',
