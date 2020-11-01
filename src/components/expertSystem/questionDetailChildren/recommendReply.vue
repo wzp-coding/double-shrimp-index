@@ -51,7 +51,7 @@ export default {
       ids.forEach((id) => {
         httpTasks.push(
           this.reqM2Service(
-            `/details/findByPost/${id}/1/1`,{},'get'
+            `/info/details/findByPost/${id}/1/1`,{},'get'
           )
         );
       });
@@ -59,7 +59,7 @@ export default {
     },
     // 获取4个帖子问题进行展示
     async getRepliesList() {
-      await this.reqM2Service(`/post/findAll/1/4`,{},"get")
+      await this.reqM2Service(`/info/post/findAll/1/4`,{},"get")
         .then((res) => {
           res = res.data;
           console.log(res)

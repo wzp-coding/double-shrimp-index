@@ -51,7 +51,7 @@ export default {
       let httpTasks = [];
       ids.forEach((id) => {
         httpTasks.push(
-          this.reqM2Service(`/details/findByPost/${id}/1/1`, {}, "get")
+          this.reqM2Service(`/info/details/findByPost/${id}/1/1`, {}, "get")
         );
       });
       return this.$http.all(httpTasks);
@@ -59,7 +59,7 @@ export default {
     // 获取5个帖子问题进行展示
     async getRepliesList(expertsId, page=1, size=5) {
       await this.reqM2Service(
-        `/post/findByExperts/${expertsId}/${page}/${size}`,
+        `/info/post/findByExperts/${expertsId}/${page}/${size}`,
         {},
         "get"
       ).then((res) => {

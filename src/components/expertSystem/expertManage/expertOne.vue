@@ -247,7 +247,7 @@ export default {
     },
     // 获取专家类型
   async getTypes() {
-    await this.reqM2Service(`/expertsType`, {}, "get")
+    await this.reqM2Service(`/info/expertsType`, {}, "get")
       .then((res) => {
         res = res.data;
         // console.log('res: ', res);

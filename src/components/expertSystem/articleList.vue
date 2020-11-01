@@ -79,7 +79,7 @@ export default {
   methods: {
     // 获取文章类型
     getArticleCategoryList() {
-      this.reqM2Service(`/diseaseArticlesTypes`, {}, "get").then((res) => {
+      this.reqM2Service(`/info/diseaseArticlesTypes`, {}, "get").then((res) => {
         res = res.data;
         if (res.code === 20000) {
           res = res.data;
@@ -109,15 +109,15 @@ export default {
       switch (id) {
         // 点击量
         case "1":
-          httpUrl = `/diseaseArticles/findByClickNum/${page}/${size}`;
+          httpUrl = `/info/diseaseArticles/findByClickNum/${page}/${size}`;
           break;
         // 发布时间
         case "2":
-          httpUrl = `/diseaseArticles/findByTime/${page}/${size}`;
+          httpUrl = `/info/diseaseArticles/findByTime/${page}/${size}`;
           break;
         // 默认
         default:
-          httpUrl = `/diseaseArticles/findByTime/${page}/${size}`;
+          httpUrl = `/info/diseaseArticles/findByTime/${page}/${size}`;
       }
       this.reqM2Service(httpUrl, {}, "get").then((res) => {
         res = res.data;
@@ -162,15 +162,15 @@ export default {
         switch (sortTypeId) {
           // 点击量
           case "1":
-            httpUrl = `/diseaseArticles/findByTypeAndClick/${articleTypeId}/${page}/${size}`;
+            httpUrl = `/info/diseaseArticles/findByTypeAndClick/${articleTypeId}/${page}/${size}`;
             break;
           // 发布时间
           case "2":
-            httpUrl = `/diseaseArticles/findByTypeAndTime/${articleTypeId}/${page}/${size}`;
+            httpUrl = `/info/diseaseArticles/findByTypeAndTime/${articleTypeId}/${page}/${size}`;
             break;
           // 默认
           default:
-            httpUrl = `/diseaseArticles/findByTypeAndTime/${articleTypeId}/${page}/${size}`;
+            httpUrl = `/info/diseaseArticles/findByTypeAndTime/${articleTypeId}/${page}/${size}`;
         }
         this.reqM2Service(httpUrl, {}, "get").then((res) => {
           console.log("res: ", res);
