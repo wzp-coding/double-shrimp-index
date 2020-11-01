@@ -116,7 +116,7 @@
               </el-upload>
             </el-form-item>
           </el-form>
-          <div class="form-button">
+          <div class="form-button" style="text-align:center;">
             <el-button type="success" @click="submitForm('ruleForm')"
               >立即更新</el-button
             >
@@ -174,7 +174,53 @@ export default {
     };
   },
   methods: {
-    // 修改信息
+    // 提交表单内容
+    submitForm(formName) {
+      // 如果没有添加图片
+      if (!this.fileList[0].url) {
+        this.$message({
+          message: "请添加图片",
+        });
+        return;
+      }
+      this.ruleForm.picture = this.fileList[0].url;
+      console.log("this.ruleForm: ", this.ruleForm);
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.updateExpertInfo(this.ruleForm);
+        } else {
+          this.$message({
+            message: "输入不合法!",
+          });
+          return false;
+        }
+      });
+    },
+    // 修改专家信息
+    updateExpertInfo(expertInfo) {
+      this.$http
+        .put(
+          `http://106.75.154.40:9005/experts/updateExperts/${expertInfo.id}`,
+          expertInfo
+        )
+        .then((res) => {
+          res = res.data;
+          if (res.code == 20000) {
+            console.log('res: ', res);
+            this.dialogFormVisibleUpdate = false;
+            // 重新渲染信息
+            this.getExpertInfoByUserId(this.userId);
+            this.$message({
+              message: res.message,
+            });
+          } else {
+            this.$message({
+              message: "修改失败!",
+            });
+          }
+        });
+    },
+    // 点击修改按钮
     async handleUpdate() {
       await this.getTypes();
       this.dialogFormVisibleUpdate = true;
@@ -252,9 +298,9 @@ export default {
   },
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .expertOne {
-  .title {
+  /deep/.title {
     position: relative;
     text-align: center;
     font-size: 18px;

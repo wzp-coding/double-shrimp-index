@@ -47,8 +47,7 @@ export default {
   },
   methods: {
     async getRepliesList() {
-      await this.$http
-        .get(`http://106.75.154.40:9012/info/diseaseArticles/findByRecommend/1/6`)
+      await this.reqM2Service(`/diseaseArticles/1/6`,{},"post")
         .then((res) => {
           res = res.data;
           if (res.code === 20000) {

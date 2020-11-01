@@ -270,7 +270,7 @@
               </el-upload>
             </el-form-item>
           </el-form>
-          <div class="form-button">
+          <div class="form-button" style="text-align:center;">
             <el-button type="success" @click="submitForm('ruleForm')"
               >提交文章</el-button
             >
@@ -295,7 +295,6 @@ export default {
       // 文章列表
       articleList: [],
       expertId: "",
-      userId: "1264238099769200640",
       total: 50,
       page: 1,
       size: 2,
@@ -344,7 +343,7 @@ export default {
     mqEditor,
   },
   methods: {
-    // 发表文章
+    // 点击发表文章按钮
     handleAdd() {
       this.isAddBtn = true;
       this.dialogFormVisibleAdd = true;
@@ -409,7 +408,7 @@ export default {
           }
         });
     },
-    // 删除文章
+    // 点击删除文章按钮
     deleteRow(index, rows) {
       // console.log('rows: ', rows);
       // console.log('index: ', index);
@@ -496,6 +495,7 @@ export default {
             this.$message({
               message: res.message,
             });
+            this.resetForm('ruleForm');
           } else {
             this.$message({
               message: "提交失败!",
@@ -568,7 +568,6 @@ export default {
           this.loading = false;
         });
     },
-
     //  根据expertId获取文章
     async getArticleListByExpertId(id, page = 1, size = 10) {
       this.page = page;
@@ -640,14 +639,14 @@ export default {
   },
   async mounted() {
     // 先获取expertId
-    await this.getExpertIdByUserId(this.userId);
+    await this.getExpertIdByUserId(this.$store.state.userData.userId);
     // 根据expertId请求到相关的文章
     await this.getArticleListByExpertId(this.expertId);
     // console.log(JSON.parse(JSON.stringify(this.articleList)));
   },
 };
 </script>
-<style  lang="less">
+<style  lang="less" scoped>
 .articleManage {
   .title {
     position: relative;

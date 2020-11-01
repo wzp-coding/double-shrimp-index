@@ -34,6 +34,8 @@ import articleList from '../components/expertSystem/articleList.vue'
 import autognosis from '../components/expertSystem/autognosis.vue'
 import expertSystemManage from '../components/expertSystem/expertSystemManage.vue'
 import diseaseDateil from '../components/expertSystem/diseaseDateil.vue'
+import articleDetail from '../components/expertSystem/articleDetail.vue'
+import expertDetail from '../components/expertSystem/expertDetail.vue'
 import expertOne from '../components/expertSystem/expertManage/expertOne.vue'
 import expertAnswer from '../components/expertSystem/expertManage/expertAnswer.vue'
 import articleManage from '../components/expertSystem/expertManage/articleManage.vue'
@@ -209,6 +211,18 @@ const routes = [{
   path: '/expertInterrogation/questionDetail/:id',
   component: questionDetail,
   name: 'wzp_questionDetail'
+},
+{
+  // 文章详情
+  path: '/expertInterrogation/articleDetail/:id',
+  component: articleDetail,
+  name: 'wzp_articleDetail'
+},
+{
+  // 专家详情
+  path: '/expertInterrogation/expertDetail/:id',
+  component: expertDetail,
+  name: 'wzp_expertDetail'
 },
 {
   // 专家列表

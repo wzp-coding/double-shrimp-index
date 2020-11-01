@@ -1,7 +1,7 @@
 <template>
   <div class="mini_article_card">
     <el-card :body-style="{ padding: '0px' }">
-      <div class="article_item">
+      <div class="article_item" style="cursor: pointer" @click="toArticleDetail">
         <div class="img">
           <img :src="oneArticle?(oneArticle.picture):'../../../assets/error.jpg'" alt="暂无" />
         </div>
@@ -20,7 +20,15 @@
 </template>
 <script>
 export default {
-  props:["oneArticle"]
+  props:["oneArticle"],
+  methods:{
+    toArticleDetail() {
+      this.$router.push({
+        name: "wzp_articleDetail",
+        params: { id: this.oneArticle.id },
+      });
+    },
+  }
 };
 </script>
 <style lang="less" scoped>
@@ -38,6 +46,7 @@ export default {
     .img {
       flex: 1;
         height: 109px;
+        padding: 3px 0;
       img {
         height: 100%;
         width: 100%;

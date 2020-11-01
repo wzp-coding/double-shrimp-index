@@ -150,7 +150,7 @@ export default {
   }
   margin-bottom: 40px;
 }
-.lxl-box {
+/deep/.lxl-box {
   width: 1150px;
 }
 /deep/a:-webkit-any-link {

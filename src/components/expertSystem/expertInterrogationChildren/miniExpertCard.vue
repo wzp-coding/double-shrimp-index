@@ -1,67 +1,149 @@
 <template>
   <div class="mini_expert_card">
+    <!-- 展示专家信息开始 -->
     <el-card :body-style="{ padding: '0px' }">
       <div class="experts_item">
         <div class="up">
           <div class="info">
-            <img
-              :src="oneExpert?oneExpert.picture:''"
-              alt=""
-            />
+            <img :src="oneExpert ? oneExpert.picture : ''" alt="" />
             <div class="name_address">
               <div class="name">
-                <span>{{oneExpert?(oneExpert.name?oneExpert.name:'匿名'):"匿名"}}</span>
+                <span>{{
+                  oneExpert
+                    ? oneExpert.name
+                      ? oneExpert.name
+                      : "匿名"
+                    : "匿名"
+                }}</span>
                 <span style="padding: 0 10px">|</span>
-                <el-button type="text">详情</el-button>
+                <el-button
+                  type="text"
+                  style="cursor: pointer"
+                  @click="toExpertDetail"
+                  >详情</el-button
+                >
               </div>
-              <div class="address">{{oneExpert?oneExpert.address:'无法获取'}}</div>
+              <div class="address">
+                {{ oneExpert ? oneExpert.address : "无法获取" }}
+              </div>
             </div>
           </div>
           <div class="replies">
             <div class="action">
               <span class="action_title">咨询量</span>
-              <span class="action_num">{{oneExpert?(oneExpert.consultingNum?oneExpert.consultingNum:0):0}}</span>
+              <span class="action_num">{{
+                oneExpert
+                  ? oneExpert.consultingNum
+                    ? oneExpert.consultingNum
+                    : 0
+                  : 0
+              }}</span>
             </div>
             <div class="action">
               <span class="action_title">回复量</span>
-              <span class="action_num">{{oneExpert?(oneExpert.repliesNum?oneExpert.repliesNum:0):0}}</span>
+              <span class="action_num">{{
+                oneExpert
+                  ? oneExpert.repliesNum
+                    ? oneExpert.repliesNum
+                    : 0
+                  : 0
+              }}</span>
             </div>
             <div class="action">
               <span class="action_title">回复率</span>
-              <span class="action_num">{{isNaN(repliesRate)?0:repliesRate}}%</span>
+              <span class="action_num"
+                >{{ isNaN(repliesRate) ? 0 : repliesRate }}%</span
+              >
             </div>
           </div>
           <div class="major">
-            <span>擅长&nbsp;:</span> {{oneExpert?oneExpert.goodAt:'暂无'}}
+            <span>擅长&nbsp;:</span> {{ oneExpert ? oneExpert.goodAt : "暂无" }}
           </div>
-          <div class="onlineTime">在线时间：{{oneExpert?oneExpert.onlineTime:'暂无'}}</div>
+          <div class="onlineTime">
+            在线时间：{{ oneExpert ? oneExpert.onlineTime : "暂无" }}
+          </div>
         </div>
         <div class="down">
-          <el-button type="primary" round icon="el-icon-chat-dot-round"
+          <el-button
+            type="primary"
+            round
+            icon="el-icon-chat-dot-round"
+            @click="addQues"
             >我要提问</el-button
           >
         </div>
       </div>
     </el-card>
+    <!-- 展示专家信息结束 -->
+    <!-- 我要提问 -->
+    <addQuestion :show="show" @changeShow="changeShow" :expertId="expertId" :typeId="typeId"></addQuestion>
   </div>
 </template>
 <script>
+import addQuestion from "./addQuestion";
 export default {
+  components: {
+    addQuestion,
+  },
+  props: ["oneExpert"],
   data() {
     return {
-    }
+      show: false,
+      expertId:"",
+      typeId:""
+    };
   },
-  props:['oneExpert'],
-  computed:{
-    repliesRate(){
-      if(this.oneExpert){
-        return Math.floor(this.oneExpert.repliesNum/this.oneExpert.consultingNum * 10000)/100
+  methods: {
+    // 跳转到专家详情页面
+    toExpertDetail() {
+      this.$router.push({
+        name: "wzp_expertDetail",
+        params: { id: this.oneExpert.id },
+      });
+      location.reload();
+    },
+    changeShow() {
+      this.show = !this.show;
+    },
+    // 点击我要提问按钮
+    addQues() {
+      if(this.judgeUserIsLogin()){
+        // 将被提问的专家id传入
+        this.expertId = this.oneExpert.id;
+        this.typeId = this.oneExpert.typeId;
+        // 用户登录了
+        this.show = true;
+      }else{
+        // 用户未登录，跳转到登录页面
+        this.$router.push({path:'/login'})
       }
-      return 0
-    }
+    },
+    // 判断用户是否登录了
+    judgeUserIsLogin() {
+      if (window.sessionStorage.getItem("token")) {
+        return true;
+      } else {
+        this.$message({
+          message: "用户未登录，请先登录",
+        });
+        return false;
+      }
+    },
   },
-  created () {
-  }
+  computed: {
+    repliesRate() {
+      if (this.oneExpert) {
+        return (
+          Math.floor(
+            (this.oneExpert.repliesNum / this.oneExpert.consultingNum) * 10000
+          ) / 100
+        );
+      }
+      return 0;
+    },
+  },
+  created() {
+  },
 };
 </script>
 <style lang="less" scoped>
