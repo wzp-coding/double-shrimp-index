@@ -421,7 +421,6 @@ export default {
     }
     .rightspan{
       span{
-        
         color: #858585;
         cursor: pointer;
       }

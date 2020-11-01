@@ -24,28 +24,34 @@
             <el-input placeholder="请输入实体名称"></el-input>
             <el-button type="success">查询</el-button>
           </div>
-          <div class="body" v-for="(item ,index) in TypePageList" :key="index">
+          <div class="body" v-for="(item, index) in TypePageList" :key="index">
             <div class="block">
               <div class="pic">
-                
-                  <el-image :src="item.picture"></el-image>
-                
+                <el-image :src="item.picture"></el-image>
               </div>
               <div class="news">
                 <h3 style="margin-top: 3px">{{ item.title }}</h3>
                 <p
                   class="textover"
-                  style="font-size: 14.5px; margin-bottom: 15px; margin-top: 10px"
+                  style="
+                    font-size: 14.5px;
+                    margin-bottom: 15px;
+                    margin-top: 10px;
+                  "
                 >
-                  {{ item.summary | limitword}}
-                  <span style="color:green;cursor: pointer;" @click="TonewPath(item.id)" >[详情]</span>
+                  {{ item.summary | limitword }}
+                  <span
+                    style="color: green; cursor: pointer"
+                    @click="TonewPath(item.id)"
+                    >[详情]</span
+                  >
                 </p>
-                
+
                 <!--底部区域--->
-                <p style="font-size: 13px; position: absolute; bottom: 4px" >
+                <p style="font-size: 13px; position: absolute; bottom: 4px">
                   发布时间:{{ item.creationTime | timefilters
-                  }}<span style="margin-left:10px"
-                    >阅读： {{ item.clickNum | readnum}}</span
+                  }}<span style="margin-left: 10px"
+                    >阅读： {{ item.clickNum | readnum }}</span
                   >
                 </p>
                 <!-- <p
@@ -92,14 +98,12 @@
                 v-for="(item, index) in newDataList.slice(0, 5)"
                 :key="index"
               >
-                
-                  <div class="block" @click="TonewPath(item.id)">
-                    <el-image :src="item.picture"></el-image>
-                    <div class="rightspan">
-                      <span>{{ item.title }}</span>
-                    </div>
+                <div class="block" @click="TonewPath(item.id)">
+                  <el-image :src="item.picture"></el-image>
+                  <div class="rightspan">
+                    <span>{{ item.title }}</span>
                   </div>
-                
+                </div>
               </div>
             </el-tab-pane>
             <el-tab-pane label="热门资讯" name="second">
@@ -108,7 +112,7 @@
                 v-for="(item, index) in numclicklist"
                 :key="index"
               >
-                <div class="block"  @click="TonewPath(item.id)">
+                <div class="block" @click="TonewPath(item.id)">
                   <el-image :src="item.picture"></el-image>
                   <div class="rightspan">
                     <span>{{ item.title }}</span>
@@ -117,14 +121,14 @@
               </div>
             </el-tab-pane>
           </el-tabs>
-          <el-tabs v-model="activeName1" >
+          <el-tabs v-model="activeName1">
             <el-tab-pane label="本周热门" name="first明">
               <div
                 class="list"
                 v-for="(item, index) in WeekDataList.slice(0, 5)"
                 :key="index"
               >
-                <div class="block"  @click="TonewPath(item.id)">
+                <div class="block" @click="TonewPath(item.id)">
                   <el-image :src="item.picture"></el-image>
                   <div class="rightspan">
                     <span>{{ item.title }}</span>
@@ -135,10 +139,10 @@
             <el-tab-pane label="本月热门" name="second2">
               <div
                 class="list"
-                v-for="(item, index) in MonthData.slice(0,5)"
+                v-for="(item, index) in MonthData.slice(0, 5)"
                 :key="index"
               >
-                <div class="block"  @click="TonewPath(item.id)">
+                <div class="block" @click="TonewPath(item.id)">
                   <el-image :src="item.picture"></el-image>
                   <div class="rightspan">
                     <span>{{ item.title }}</span>
@@ -198,20 +202,20 @@ export default {
         }
       }
     },
-    istypeName(val){
-        if(val == null || val == ""){
-            return "暂无分类";
-        }else{
-            return val;
-        }
+    istypeName(val) {
+      if (val == null || val == "") {
+        return "暂无分类";
+      } else {
+        return val;
+      }
     },
-    readnum(val){
-        if(val == null || val == ""){
-            return 0;
-        }else{
-            return val;
-        }
-    }
+    readnum(val) {
+      if (val == null || val == "") {
+        return 0;
+      } else {
+        return val;
+      }
+    },
   },
   data() {
     return {
@@ -229,7 +233,7 @@ export default {
       numclicklist: [],
 
       //分页查询全部数据
-      TypePageList:[],
+      TypePageList: [],
 
       //每月
       MonthData: [], //按最新  时间
@@ -262,6 +266,8 @@ export default {
 
     //分页查询全部数据
     this.getTypePageData();
+
+    //搜索查询
   },
   mounted() {
     console.log(this.$route.query.id);
@@ -276,41 +282,38 @@ export default {
     async getclickData() {
       try {
         const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustry/findByClickNum/1/5",
-        "",
-        "get"
-      );
-      this.numclicklist = res.data.rows;
+          "/info/shrimpIndustry/findByClickNum/1/5",
+          "",
+          "get"
+        );
+        this.numclicklist = res.data.rows;
       } catch (error) {
-        console.log('网络错误')
+        console.log("网络错误");
       }
-      
     },
     async getnewData() {
       try {
         const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustry/findByTime",
-        "",
-        "get"
-      );
-      this.newDataList = res.data;
+          "/info/shrimpIndustry/findByTime",
+          "",
+          "get"
+        );
+        this.newDataList = res.data;
       } catch (error) {
-        console.log('获取最新数据出错')
+        console.log("获取最新数据出错");
       }
-      
     },
     async getRecommData() {
       try {
         const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustry/findByRecommend/1/5",
-        "",
-        "post"
-      );
-      this.RecommDataList = res.data;
+          "/info/shrimpIndustry/findByRecommend/1/5",
+          "",
+          "post"
+        );
+        this.RecommDataList = res.data;
       } catch (error) {
-        console.log('获取推荐数据出错')
+        console.log("获取推荐数据出错");
       }
-      
     },
 
     async getWeekData() {
@@ -324,32 +327,31 @@ export default {
     async getMonthData() {
       try {
         const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustry/findByClickMonthly",
-        "",
-        "get"
-      );
-      this.MonthData = res.data;
+          "/info/shrimpIndustry/findByClickMonthly",
+          "",
+          "get"
+        );
+        this.MonthData = res.data;
       } catch (error) {
-        console.log('获取每月数据出错')
+        console.log("获取每月数据出错");
       }
-      
     },
 
-
     //分页查询全部数据
-    async getTypePageData(){
-      const {data :res} = await this.reqM2Service( `/info/shrimpIndustry/${this.queryinfo.page}/${this.queryinfo.size}`,"", "post")
-      this.TypePageList= res.data.rows;
-      this.queryinfo.total = res.data.total
+    async getTypePageData() {
+      const { data: res } = await this.reqM2Service(
+        `/info/shrimpIndustry/${this.queryinfo.page}/${this.queryinfo.size}`,
+        "",
+        "post"
+      );
+      this.TypePageList = res.data.rows;
+      this.queryinfo.total = res.data.total;
     },
 
     //根据传过来的ID查询
     async getTypeData() {
       try {
-        
-      } catch (error) {
-        
-      }
+      } catch (error) {}
       const { data: res } = await this.reqM2Service(
         `/info/shrimpIndustry/search/searchByTypeId/${this.$route.query.id}/${this.queryinfo.page}/${this.queryinfo.size}`,
         "",
@@ -364,7 +366,6 @@ export default {
       this.queryinfo.page = newpage;
       this.getTypePageData();
     },
-
 
     //得到分类名称
     // async getTypeName() {
@@ -381,7 +382,6 @@ export default {
     //     }
     //   }
     // }
-    
   },
 };
 </script>
@@ -418,6 +418,7 @@ export default {
       width: 100%;
       height: 185px;
       display: flex;
+      cursor: pointer;
       justify-content: space-between;
       border-bottom: 1px solid rgb(230, 230, 230);
       .pic {
@@ -464,6 +465,14 @@ export default {
         width: 67%;
         display: flex;
         float: right;
+        span{
+          color: #858585;
+          cursor: pointer;
+        }
+        span:hover{
+          color: black;
+        font-weight: 800px;
+        }
       }
     }
   }

@@ -163,7 +163,7 @@
                     "
                   >
                     <span
-                      @click="ToOtherMore(waybytime)"
+                      @click="ToMorePage(queryInfo.TypeID)"
                       style=" cursor: pointer;color: #9e9e9e"
                     >
                       更多
@@ -178,7 +178,6 @@
                     v-for="(item, index) in dataTimeList"
                     :key="index"
                     @click="TonewPath(item.id)"
-                    style="width:130px"
                   >
                     {{ item.title }}
                   </li>
@@ -212,7 +211,7 @@
                       color: rgb(93, 183, 60);
                     "
                   >
-                    <span style=" cursor: pointer;color: #9e9e9e" @click="ToOtherMore(waybyrecommed)"> 更多 </span>
+                    <span style=" cursor: pointer;color: #9e9e9e" @click="ToMorePage(queryInfo.TypeID)"> 更多 </span>
                     <i class="el-icon-caret-right"></i>
                   </div>
                 </h3>
@@ -257,7 +256,7 @@
                       color: rgb(93, 183, 60);
                     "
                   >
-                    <span style=" cursor: pointer;color: #9e9e9e" @click="ToOtherMore(waybyclick)"> 更多 </span>
+                    <span style=" cursor: pointer;color: #9e9e9e" @click="ToMorePage(queryInfo.TypeID)"> 更多 </span>
                     <i class="el-icon-caret-right"></i>
                   </div>
                 </h3>
@@ -466,7 +465,7 @@ export default {
       console.log(this.queryInfo.TypeID);
       console.log(res);
       this.pagelist = res.data.rows;
-      this.queryInfo.total = res.data.rows.length;
+      this.queryInfo.total = res.data.total;
       console.log(res.data.rows);
       //console.log(this.queryInfo.pagelist)
     },
@@ -479,12 +478,17 @@ export default {
     },
     async getNewData() {
       ///info/shrimpIndustry/findByTime
-      const { data: res } = await this.reqM2Service(
+      try {
+        const { data: res } = await this.reqM2Service(
         "/info/shrimpIndustry/findByTime/1/9",
         "",
         "get"
       );
       this.dataTimeList = res.data.rows;
+      } catch (error) {
+        console.log('获取最新数据失败')
+      }
+      
     },
     async getRecommedData() {
       ///info/shrimpIndustry/findByTime
@@ -714,7 +718,7 @@ export default {
         overflow: hidden;
         white-space: nowrap;
         list-style-position: inside;
-        width: 220px;
+        width: 250px;
         cursor: pointer;
         margin-bottom: 3px;
       }
