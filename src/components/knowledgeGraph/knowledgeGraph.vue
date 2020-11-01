@@ -225,11 +225,14 @@ export default {
         },
       ],
       searchType: [],
+      //存储关联
+      nodeLinkedList: [],
+      nodeList: [],
+      categoryList: [],
     };
   },
   mounted() {
     this.chart1();
-    this.chart2();
   },
 
   created() {
@@ -647,225 +650,92 @@ export default {
       });
     },
     chart2() {
+      let dataData = [];
+      let datalink = [];
+      this.nodeList.forEach((e) => {
+        let obj = {
+          category: e.category,
+          name: e.name,
+          symbolSize: 50,
+          label: {
+            align: "center",
+            fontSize: 15,
+          },
+        };
+        dataData.push(obj);
+      });
+      this.nodeLinkedList.forEach((e) => {
+        let obj = {
+          source: e.sourceName,
+          target: e.targetName,
+          name: e.name,
+        };
+        datalink.push(obj);
+      });
+      console.log(dataData);
+      console.log(datalink);
+
       let myChart = this.$echarts.init(document.querySelector(".chart2"));
       let option = {
         title: {
           text: "关联知识图谱",
         },
-        tooltip: {},
         animationDurationUpdate: 1500,
         animationEasingUpdate: "quinticInOut",
         label: {
           normal: {
             show: true,
             textStyle: {
-              fontSize: 12,
+              fontSize: 20,
             },
           },
-        },
-        legend: {
-          x: "center",
-          show: false,
-          data: ["夫妻", "战友", "亲戚"],
         },
         series: [
           {
             type: "graph",
             layout: "force",
-            symbolSize: 45,
+            symbolSize: 58,
+            draggable: true,
             focusNodeAdjacency: true,
             roam: true,
             categories: [
               {
-                name: "夫妻",
                 itemStyle: {
-                  normal: {
-                    color: "#009800",
-                  },
+                  color: "#009800",
                 },
               },
               {
-                name: "战友",
                 itemStyle: {
-                  normal: {
-                    color: "#4592FF",
-                  },
+                  color: "#4592FF",
                 },
               },
               {
-                name: "亲戚",
                 itemStyle: {
-                  normal: {
-                    color: "#3592F",
-                  },
+                  color: "#3592F",
                 },
               },
             ],
             label: {
-              normal: {
-                show: true,
-                textStyle: {
-                  fontSize: 12,
-                },
-              },
+              show: true,
             },
-            force: {
-              repulsion: 1000,
-            },
-            edgeSymbolSize: [4, 50],
             edgeLabel: {
               normal: {
                 show: true,
                 textStyle: {
-                  fontSize: 10,
+                  fontSize: 20,
                 },
-                formatter: "{c}",
+                formatter(x) {
+                  return x.data.name;
+                },
               },
             },
-            data: [
-              {
-                name: "徐贱云",
-                draggable: false,
-              },
-              {
-                name: "冯可梁",
-                category: 1,
-                draggable: true,
-              },
-              {
-                name: "邓志荣",
-                category: 1,
-                draggable: true,
-              },
-              {
-                name: "李荣庆",
-                category: 1,
-                draggable: true,
-              },
-              {
-                name: "郑志勇",
-                category: 1,
-                draggable: true,
-              },
-              {
-                name: "赵英杰",
-                category: 1,
-                draggable: true,
-              },
-              {
-                name: "王承军",
-                category: 1,
-                draggable: true,
-              },
-              {
-                name: "陈卫东",
-                category: 1,
-                draggable: true,
-              },
-              {
-                name: "邹劲松",
-                category: 1,
-                draggable: true,
-              },
-              {
-                name: "赵成",
-                category: 1,
-                draggable: true,
-              },
-              {
-                name: "陈现忠",
-                category: 1,
-                draggable: true,
-              },
-              {
-                name: "陶泳",
-                category: 1,
-                draggable: true,
-              },
-              {
-                name: "王德福",
-                category: 1,
-                draggable: true,
-              },
-            ],
-            links: [
-              {
-                source: 0,
-                target: 1,
-                category: 0,
-                value: "夫妻",
-              },
-              {
-                source: 0,
-                target: 2,
-                value: "子女",
-              },
-              {
-                source: 0,
-                target: 3,
-                value: "夫妻",
-              },
-              {
-                source: 0,
-                target: 4,
-                value: "父母",
-              },
-              {
-                source: 1,
-                target: 2,
-                value: "表亲",
-              },
-              {
-                source: 0,
-                target: 5,
-                value: "朋友",
-              },
-              {
-                source: 4,
-                target: 5,
-                value: "朋友",
-              },
-              {
-                source: 2,
-                target: 8,
-                value: "叔叔",
-              },
-              {
-                source: 0,
-                target: 12,
-                value: "朋友",
-              },
-              {
-                source: 6,
-                target: 11,
-                value: "爱人",
-              },
-              {
-                source: 6,
-                target: 3,
-                value: "朋友",
-              },
-              {
-                source: 7,
-                target: 5,
-                value: "朋友",
-              },
-              {
-                source: 9,
-                target: 10,
-                value: "朋友",
-              },
-              {
-                source: 3,
-                target: 10,
-                value: "朋友",
-              },
-              {
-                source: 2,
-                target: 11,
-                value: "同学",
-              },
-            ],
+            force: {
+              repulsion: 2000,
+              edgeLength: 130,
+            },
+            edgeSymbol: ["", "arrow"],
+            data: dataData,
+            links: datalink,
             lineStyle: {
               normal: {
                 opacity: 0.9,
@@ -885,6 +755,11 @@ export default {
 
     // 根据名称查询实体关联
     async searchConByName(searchData) {
+      // const { data: res } = await this.reqM3Service(
+      //   "/bait/es/?name=" + searchData,
+      //   "",
+      //   "get"
+      // );
       const { data: res } = await this.reqM3Service(
         "/entity/search/" + searchData,
         "",
@@ -894,6 +769,10 @@ export default {
       if (res.code === 20000) {
         // 返回的数据
         console.log(res.data);
+        this.categoryList = res.data.categoryList;
+        this.nodeLinkedList = res.data.nodeLinkedList;
+        this.nodeList = res.data.nodeList;
+        this.chart2();
       } else {
         this.$message({
           showClose: true,
