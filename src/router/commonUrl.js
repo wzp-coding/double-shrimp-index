@@ -36,6 +36,9 @@ function requireData(url, params, type, item) {
         case 'M4':
             url = axios.defaults.baseM4URL + url
             break;
+        case 'M41':
+            url = axios.defaults.baseM41URL + url
+            break;
         case 'M5':
             url = axios.defaults.baseM5URL + url
             break;
@@ -113,6 +116,9 @@ export default {
         //->接口4的请求数据方法
         Vue.prototype.reqM4Service = function (url, params, type) {
             return requireData.call(this, url, params, type, 'M4')
+        }
+        Vue.prototype.reqM41Service = function (url, params, type) {
+            return requireData.call(this, url, params, type, 'M41')
         }
         //->接口4的请求数据方法
         Vue.prototype.reqM5Service = function (url, params, type) {
