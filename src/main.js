@@ -29,6 +29,7 @@ axios.defaults.baseM2URL = domain.Base_M2_URL
 axios.defaults.baseM3URL = domain.Base_M3_URL
 //->4,模块四接口,url地址
 axios.defaults.baseM4URL = domain.Base_M4_URL
+axios.defaults.baseM41URL = domain.Base_M41_URL
 
 Vue.prototype.$echarts = echarts
 
