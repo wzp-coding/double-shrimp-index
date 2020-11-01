@@ -84,10 +84,10 @@
             <div class="main" v-for="item in pagelist" :key="item.id">
               <div
                 class="mainson"
-                style="border-bottom: 1px solid rgb(230, 230, 230)"
+                style="border-bottom: 1px solid rgb(230, 230, 230);"
               >
                 <div class="pic" @click="TonewPath(item.id)">
-                  <el-image :src="item.picture"></el-image>
+                  <el-image :src="item.picture" ></el-image>
                 </div>
                 <div class="sonr">
                   <div
@@ -659,10 +659,11 @@ export default {
       width: 100%;
       display: flex;
       flex-direction: column;
+      margin-top: -22px;
       .mainson {
         width: 100%;
         display: flex;
-        margin-top: -20px;
+        
         height: 190px;
         position: relative;
         .pic {
@@ -693,7 +694,7 @@ export default {
             cursor: pointer;
             text-overflow: ellipsis;
             overflow: hidden;
-
+            font-size: 15px;
             white-space: nowrap;
           }
           span {
