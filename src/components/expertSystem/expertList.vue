@@ -179,23 +179,23 @@ export default {
         switch (sortTypeId) {
           // 咨询量
           case "1":
-            httpUrl = `/experts/findByTypeAndConsultingNum/${expertTypeId}/${page}/${size}`;
+            httpUrl = `/info/experts/findByTypeAndConsultingNum/${expertTypeId}/${page}/${size}`;
             break;
           // 回复量
           case "2":
-            httpUrl = `/experts/findByTypeAndRepliesNum/${expertTypeId}/${page}/${size}`;
+            httpUrl = `/info/experts/findByTypeAndRepliesNum/${expertTypeId}/${page}/${size}`;
             break;
           // 回复率
           case "3":
-            httpUrl = `/experts/findByTypeAndRepliesPercent/${expertTypeId}/${page}/${size}`;
+            httpUrl = `/info/experts/findByTypeAndRepliesPercent/${expertTypeId}/${page}/${size}`;
             break;
           // 有用量
           case "4":
-            httpUrl = `/experts/findByTypeAndPraiseNum/${expertTypeId}/${page}/${size}`;
+            httpUrl = `/info/experts/findByTypeAndPraiseNum/${expertTypeId}/${page}/${size}`;
             break;
           // 默认
           default:
-            httpUrl = `/experts/findByTypeAndConsultingNum/${expertTypeId}/${page}/${size}`;
+            httpUrl = `/info/experts/findByTypeAndConsultingNum/${expertTypeId}/${page}/${size}`;
         }
         // this.$http.post(httpUrl)
         this.reqM2Service(httpUrl,{},'post')

@@ -59,7 +59,7 @@ export default {
     },
     // 获取8篇文章进行展示
     async getArticleList() {
-      await this.reqM2Service(`/diseaseArticles/findByRecommend/1/8`,{},'get')
+      await this.reqM2Service(`/info/diseaseArticles/findByRecommend/1/8`,{},'get')
         .then((res) => {
           res = res.data;
           if (res.code === 20000) {

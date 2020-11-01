@@ -117,7 +117,7 @@ export default {
     },
     // 获取帖子的typeId
     async getQuesTypeId() {
-      await this.reqM2Service("/postTypes", {}, "get").then((res) => {
+      await this.reqM2Service("/info/postTypes", {}, "get").then((res) => {
         res = res.data;
         if (res.code === 20000) {
           res = res.data;
@@ -132,7 +132,7 @@ export default {
     },
     // 根据帖子信息发表帖子
     async addNewQues(params) {
-      await this.reqM2Service(`/post/add`, params, "post").then((res) => {
+      await this.reqM2Service(`/info/post/add`, params, "post").then((res) => {
         res = res.data;
         console.log("res: ", res);
         if (res.code == 20000) {

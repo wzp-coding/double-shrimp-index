@@ -91,7 +91,7 @@ export default {
     },
     // 获取帖子类型
     getQuesCategoryList() {
-      this.reqM2Service(`/postTypes`, {}, "get").then((res) => {
+      this.reqM2Service(`/info/postTypes`, {}, "get").then((res) => {
         res = res.data;
         if (res.code === 20000) {
           res = res.data;
@@ -121,15 +121,15 @@ export default {
       switch (id) {
         // 点击量
         case "1":
-          httpUrl = `/post/findByClickNum/${page}/${size}`;
+          httpUrl = `/info/post/findByClickNum/${page}/${size}`;
           break;
         // 发布时间
         case "2":
-          httpUrl = `/post/findByTime/${page}/${size}`;
+          httpUrl = `/info/post/findByTime/${page}/${size}`;
           break;
         // 默认
         default:
-          httpUrl = `/post/findByTime/${page}/${size}`;
+          httpUrl = `/info/post/findByTime/${page}/${size}`;
       }
       this.reqM2Service(httpUrl, {}, "get").then((res) => {
         res = res.data;
@@ -191,15 +191,15 @@ export default {
         switch (sortTypeId) {
           // 点击量
           case "1":
-            httpUrl = `/post/findByTypeAndClick/${quesTypeId}/${page}/${size}`;
+            httpUrl = `/info/post/findByTypeAndClick/${quesTypeId}/${page}/${size}`;
             break;
           // 发布时间
           case "2":
-            httpUrl = `/post/findByTypeAndTime/${quesTypeId}/${page}/${size}`;
+            httpUrl = `/info/post/findByTypeAndTime/${quesTypeId}/${page}/${size}`;
             break;
           // 默认
           default:
-            httpUrl = `/post/findByTypeAndTime/${quesTypeId}/${page}/${size}`;
+            httpUrl = `/info/post/findByTypeAndTime/${quesTypeId}/${page}/${size}`;
         }
         this.reqM2Service(httpUrl, {}, "get").then((res) => {
           console.log("res: ", res);

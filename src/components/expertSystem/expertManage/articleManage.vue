@@ -365,7 +365,7 @@ export default {
     },
     // 根据文章id获取信息
     async getArticleById(id) {
-      await this.reqM2Service(`/information/${id}`, {}, "get").then((res) => {
+      await this.reqM2Service(`/info/information/${id}`, {}, "get").then((res) => {
         res = res.data;
         if (res.code == 20000) {
           console.log("res: ", res);
@@ -380,7 +380,7 @@ export default {
     },
     // 获取文章类型
     async getTypes() {
-      await this.reqM2Service(`/diseaseArticlesTypes`, {}, "get")
+      await this.reqM2Service(`/info/diseaseArticlesTypes`, {}, "get")
         .then((res) => {
           res = res.data;
           // console.log('res: ', res);
@@ -420,7 +420,7 @@ export default {
         type: "warning",
       })
         .then(() => {
-          // this.reqM2Service(`/diseaseArticles/delete/${id}`, {}, "delete")
+          // this.reqM2Service(`/info/diseaseArticles/delete/${id}`, {}, "delete")
           this.$http
             .delete(
               `http://106.75.154.40:9012/info/diseaseArticles/delete/${id}`
@@ -487,7 +487,7 @@ export default {
     },
     // 发表文章
     addArticle(oneArticle,expertId) {
-      this.reqM2Service(`/diseaseArticles/add?expertsId=${expertId}`, oneArticle, "post").then(
+      this.reqM2Service(`/info/diseaseArticles/add?expertsId=${expertId}`, oneArticle, "post").then(
         (res) => {
           res = res.data;
           if (res.code == 20000) {
@@ -573,12 +573,12 @@ export default {
       this.page = page;
       this.size = size;
       // await this.reqM2Service(
-      //     `/diseaseArticles/findByExperts/${id}/${page}/${size}`,
+      //     `/info/diseaseArticles/findByExperts/${id}/${page}/${size}`,
       //     {},
       //     "get"
       //   )
       await this.reqM2Service(
-        `/diseaseArticles/${page}/${size}`,
+        `/info/diseaseArticles/${page}/${size}`,
         {},
         "post"
       ).then((res) => {

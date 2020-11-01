@@ -54,9 +54,19 @@
           </el-table-column>
           <el-table-column fixed prop="creationTime" label="日期" width="180">
           </el-table-column>
-          <el-table-column prop="title" label="帖子" width="480">
+          <el-table-column prop="title" label="帖子" width="430">
           </el-table-column>
           <el-table-column prop="stateInfo" label="审核状态" width="140">
+          </el-table-column>
+           <el-table-column fixed="right" label="操作" width="60">
+            <template slot-scope="scope">
+              <el-button
+                @click="handleReply(scope.$index, scope.row)"
+                type="text"
+                size="small"
+                >回复</el-button
+              >
+            </template>
           </el-table-column>
         </el-table>
       </el-tab-pane>
@@ -200,6 +210,10 @@ export default {
     pagination,
   },
   methods: {
+    // 点击回复按钮
+    handleReply(){
+
+    },
     // 提交帖子修改
     handleSubmitReply() {
       this.dialogFormVisible = false;
@@ -305,7 +319,7 @@ export default {
     },
     // 根据id请求单个回复的信息
     async getReplyInfoById(id) {
-      await this.reqM2Service(`/details/findById/${id}`, {}, "get").then(
+      await this.reqM2Service(`/info/details/findById/${id}`, {}, "get").then(
         (res) => {
           res = res.data;
           // console.log('res: ', res);

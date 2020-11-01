@@ -1,20 +1,18 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// 以下是具体的页面
+// 资讯
 import industryMarket from '../components/IndustryInformation/industryMarket.vue'
 import prawnNews from '../components/IndustryInformation/prawnNews.vue'
 import instructdetail from '../components/IndustryInformation/instructdetail.vue'
 import instructpagedetail from '../components/IndustryInformation/instructpagedetail.vue'
 import industryothermore from '../components/IndustryInformation/industryothermore.vue'
 
+// 政策法规
 import policies from '../components/policies/policies.vue'
-// 政策法规详情页
 import policiesListArticle from '../components/policies/policiesListArticle.vue'
-// 政策法规专家查看更多列表页
 import policiesExpertMoreArticle from '../components/policies/policiesExpertMoreArticle.vue'
-// 政策法规媒体查看更多列表页
 import policiesMediaMoreArticle from '../components/policies/policiesMediaMoreArticle.vue'
-
+// 渔技
 import edu from '../components/fishingSkill/edu.vue'
 import fishingSkillArticles from '../components/fishingSkill/fishingSkillArticles.vue'
 import fishingSkillArticlesDetail from '../components/fishingSkill/fishingSkillArticlesDetail.vue'
@@ -22,13 +20,12 @@ import powerPoint from '../components/fishingSkill/powerPoint.vue'
 import intellectualProperty from '../components/fishingSkill/intellectualProperty.vue'
 import videoPlay from '../components/fishingSkill/videoPlay.vue'
 import intellectualPropertyArticle from '../components/fishingSkill/intellectualPropertyArticle.vue'
-
 import environmentalMonitoring from '../components/environmentalMonitoring/environmentalMonitoring.vue'
 
+// 溯源
 import productTraceability from '../components/productTraceability/productTraceability.vue'
-// 溯源详情页
 import traceabilityDetails from '../components/productTraceability/traceabilityDetails.vue'
-
+// 知识图谱
 import knowledgeGraph from '../components/knowledgeGraph/knowledgeGraph.vue'
 
 // 专家系统->专家问诊
@@ -48,12 +45,11 @@ import expertOne from '../components/expertSystem/expertManage/expertOne.vue'
 import expertAnswer from '../components/expertSystem/expertManage/expertAnswer.vue'
 import articleManage from '../components/expertSystem/expertManage/articleManage.vue'
 
-
 import breedingPlan from '../components/intelligentDecision/breedingPlan.vue'
 import waterQualityForecastAndWarning from '../components/intelligentDecision/waterQualityForecastAndWarning.vue'
 import informationRecommendation from '../components/intelligentDecision/informationRecommendation.vue'
 import precisionFeeding from '../components/intelligentDecision/precisionFeeding.vue'
-
+// 大数据
 import visualizationPlatform from '../components/visualizationPlatform/visualizationPlatform.vue'
 
 // 店铺详情
@@ -70,13 +66,9 @@ import shopInfoManage from '../components/emall/shopComponents/shopInfoManage.vu
 
 // 个人中心
 import me from '../components/Me/me.vue'
-// 个人中心---首页
 import meHomePage from '../components/Me/components/meHomePage.vue'
-// 个人中心---收藏夹
 import favorite from '../components/Me/components/favorite.vue'
-// 个人中心---收货地址管理
 import addressMan from '../components/Me/components/addressMan.vue'
-// 个人中心---修改密码
 import changePassword from '../components/Me/components/changePassword.vue'
 import shopManage from '../components/Me/components/shopManage.vue'
 import expertPage from '../components/Me/components/expertPage.vue'
@@ -263,6 +255,18 @@ const routes = [
     name: 'wzp_questionDetail'
   },
   {
+    // 文章详情
+    path: '/expertInterrogation/articleDetail/:id',
+    component: articleDetail,
+    name: 'wzp_articleDetail'
+  },
+  {
+    // 专家详情
+    path: '/expertInterrogation/expertDetail/:id',
+    component: expertDetail,
+    name: 'wzp_expertDetail'
+  },
+  {
     // 专家列表
     path: '/expertInterrogation/expertList',
     component: expertList,
@@ -309,12 +313,6 @@ const routes = [
         component: articleManage
       }
     ]
-
-  },
-  {
-    // 疾病详情
-    path: '/autognosis/diseaseDateil',
-    component: diseaseDateil
 
   },
   {

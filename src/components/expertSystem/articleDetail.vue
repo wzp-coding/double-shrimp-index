@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     async getArticleDeatailById(id) {
-      await this.reqM2Service(`/information/${id}`, {}, "get").then((res) => {
+      await this.reqM2Service(`/info/information/${id}`, {}, "get").then((res) => {
         res = res.data;
         if (res.code === 20000) {
           res = res.data;

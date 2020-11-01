@@ -47,7 +47,7 @@ export default {
   methods: {
     // 获取专家列表
     getExpertList() {
-      this.reqM2Service(`/experts/findAll/1/4`,{},'get')
+      this.reqM2Service(`/info/experts/findAll/1/4`,{},'get')
         .then((res) => {
           res = res.data;
           if (res.code === 20000) {
