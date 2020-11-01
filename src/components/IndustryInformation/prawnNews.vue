@@ -173,17 +173,17 @@
                 </h3>
                 <el-divider class="ccy-drvider"></el-divider>
 
-                <ul class="ccy-css">
+                <ul class="ccy-css" style="margin-bottom:6px">
                   <li
-                    v-for="(item, index) in dataTimeList.slice(0, 6)"
+                    v-for="(item, index) in dataTimeList"
                     :key="index"
                     @click="TonewPath(item.id)"
-                    
+                    style="width:130px"
                   >
                     {{ item.title }}
                   </li>
                 </ul>
-                <br />
+               
                 <h3
                   style="
                     margin-bottom: -22px;
@@ -438,7 +438,7 @@ export default {
         query: { path: path },
       });
     },
-    
+
     //对虾资讯
     async getduixia() {
       const { data: res } = await this.reqM2Service(
@@ -480,11 +480,11 @@ export default {
     async getNewData() {
       ///info/shrimpIndustry/findByTime
       const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustry/findByTime",
+        "/info/shrimpIndustry/findByTime/1/9",
         "",
         "get"
       );
-      this.dataTimeList = res.data;
+      this.dataTimeList = res.data.rows;
     },
     async getRecommedData() {
       ///info/shrimpIndustry/findByTime
@@ -615,14 +615,6 @@ export default {
     }
   }
 }
-.router-link {
-  span {
-    text-decoration: none;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-}
 .zhuti {
   display: flex;
   justify-content: space-between;
@@ -655,7 +647,7 @@ export default {
           text-overflow: ellipsis;
           overflow: hidden;
           white-space: nowrap;
-          font-size: 14.5px;
+          font-size: 13.5px;
         }
       }
     }
@@ -697,7 +689,7 @@ export default {
             cursor: pointer;
             text-overflow: ellipsis;
             overflow: hidden;
-            list-style-position: inside;
+
             white-space: nowrap;
           }
           span {

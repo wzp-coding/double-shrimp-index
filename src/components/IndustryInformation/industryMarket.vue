@@ -70,7 +70,7 @@
                     >
                       <span
                         style="cursor: pointer; color: #9e9e9e"
-                        @click="ToOtherMore(waybyclick)"
+                        @click="ToMorePage(queryInfo1.TypeID1)"
                       >
                         更多
                       </span>
@@ -114,7 +114,7 @@
                     >
                       <span
                         style="cursor: pointer; color: #9e9e9e"
-                        @click="ToOtherMore(waybyweek)"
+                        @click="ToMorePage(queryInfo1.TypeID1)"
                       >
                         更多
                       </span>
@@ -125,7 +125,7 @@
                   <ul class="ccy-css">
                     <li
                       v-for="(item, i) in weekliList.slice(0, 7)"
-                      @click="TonewPath(item.id)"
+                      @click="ToMorePage(queryInfo1.TypeID1)"
                       :key="i"
                     >
                       {{ item.title }}
@@ -192,7 +192,8 @@
                     </div>
                   </div>
                   <div class="onetoplb">
-                    <ul class="ccy-css">
+                    <!-- 对虾行情左下文字 -->
+                    <ul class="ccy-css" >
                       <li
                         @click="TonewPath(item.id)"
                         v-for="(item, index) in jingcai1List.slice(0, 4)"
@@ -203,20 +204,20 @@
                     </ul>
                   </div>
                 </div>
-                <!-- one 最顶部右边 -->
+                <!-- one 对虾行情右边 -->
                 <div class="onetopr">
                   <div class="onetopr1">
-                    <ul class="ccy-css">
+                    <ul class="ccy-css" style="margin-left:15px">
                       <li
                         @click="TonewPath(item.id)"
-                        v-for="(item, index) in jingcai1List.slice(4, 8)"
+                        v-for="(item, index) in jingcai1List.slice(4, 14)"
                         :key="index"
                       >
                         {{ item.title }}
                       </li>
                     </ul>
                   </div>
-                  <div class="onetopr2">
+                  <!-- <div class="onetopr2">
                     <ul class="ccy-css">
                       <li
                         v-for="(item, index) in jingcai1List.slice(8, 16)"
@@ -226,7 +227,7 @@
                         {{ item.summary }}
                       </li>
                     </ul>
-                  </div>
+                  </div> -->
                 </div>
               </div>
               <!-- 对虾行情 end -->
@@ -408,7 +409,7 @@
               >
                 <span
                   style="cursor: pointer; color: #9e9e9e"
-                  @click="ToOtherMore(waybytime)"
+                  @click="ToMorePage(queryInfo1.TypeID1)"
                 >
                   更多
                 </span>
@@ -417,8 +418,8 @@
               </div>
             </h3>
             <el-divider class="ccy-drvider"></el-divider>
-            <div>
-              <ul class="ccy-css">
+            <div style="width:100%">
+              <ul class="ccy-css" >
                 <li
                   @click="TonewPath(item.id)"
                   v-for="(item, index) in NewDataList"
@@ -457,7 +458,7 @@
                 >
                   <span
                     style="cursor: pointer; color: #9e9e9e"
-                    @click="ToOtherMore(waybyclick)"
+                    @click="ToMorePage(queryInfo1.TypeID1)"
                   >
                     更多
                   </span>
@@ -499,7 +500,7 @@
                 >
                   <span
                     style="cursor: pointer; color: #9e9e9e"
-                    @click="ToOtherMore(waybymonth)"
+                    @click="ToMorePage(queryInfo1.TypeID1)"
                   >
                     更多
                   </span>
@@ -625,7 +626,7 @@ export default {
     },
     //限制文字个数
     limitword(val) {
-      if (val == null || val == "" || val == 1) {
+      if (val == null || val == "" ) {
         return "暂无数据";
       } else {
         var len = val.length;
@@ -638,6 +639,7 @@ export default {
         }
       }
     },
+    
   },
 
   data() {
@@ -663,7 +665,7 @@ export default {
 
       queryInfo1: {
         Infopage1: 1,
-        Infosize1: 12,
+        Infosize1: 14,
         Infototal1: null,
         TypeID1: "1316745747953225728",
       },
@@ -713,12 +715,12 @@ export default {
       RecommList: [],
 
       //热度 点击量
-      waybytime: "info/shrimpIndustry/findByTime",
-      waybyclick: "info/shrimpIndustry/findByClickNum",
-      waybyrecommed: "info/shrimpIndustry/findByRecommend",
-      waybyweek: "info/shrimpIndustry/findByClickWeekly",
-      waybymonth: "info/shrimpIndustry/findByClickMonthly",
-      waybyall: "info/shrimpIndustry",
+      // waybytime: "info/shrimpIndustry/findByTime",
+      // waybyclick: "info/shrimpIndustry/findByClickNum",
+      // waybyrecommed: "info/shrimpIndustry/findByRecommend",
+      // waybyweek: "info/shrimpIndustry/findByClickWeekly",
+      // waybymonth: "info/shrimpIndustry/findByClickMonthly",
+      // waybyall: "info/shrimpIndustry",
       ClickDataList: [],
 
       src:
@@ -848,12 +850,12 @@ export default {
           console.log("5" + res);
           console.log("获取精彩专题3数据成功");
         } else {
-          this.$message.error("网络错误 20001");
+          console.log("网络错误 20001");
         }
         this.pagelist = res.data.rows;
         this.queryInfo3.total = res.data.total;
       } catch (error) {
-        this.$message.error("网络错误 19999");
+        console.log("网络错误 19999");
       }
     },
     handleCurrentChange(newpage) {
@@ -874,10 +876,10 @@ export default {
           console.log("6" + res);
           console.log("获取最新数据成功");
         } else {
-          this.$message.error("网络错误 20001");
+          console.log("网络错误 20001");
         }
       } catch (error) {
-        this.$message.error("网络错误 19999");
+        console.log("网络错误 19999");
       }
     },
     //每月
@@ -893,10 +895,10 @@ export default {
           console.log("7" + res);
           console.log("获取每月数据成功");
         } else {
-          this.$message.error("网络错误 20001");
+          console.log("网络错误 20001");
         }
       } catch (error) {
-        this.$message.error("网络错误 19999");
+        console.log("网络错误 19999");
       }
     },
     //热门点击量
@@ -913,10 +915,11 @@ export default {
         if (res.code === 20000) {
           this.ClickDataList = res.data.rows;
         } else {
-          this.$message.error("网络错误 20001");
+          console.log("网络错误 20001");
+          
         }
       } catch (error) {
-        this.$message.error("网络错误 19999");
+        console.log("网络错误 19999");
       }
     },
     // 推荐，分页
@@ -933,10 +936,10 @@ export default {
         if (res.code === 20000) {
           this.RecommList = res.data.rows;
         } else {
-          this.$message.error("网络错误 20001");
+          console.log("网络错误 20001");
         }
       } catch (error) {
-        this.$message.error("网络错误 19999");
+        console.log("网络错误 19999");
       }
     },
   },
@@ -1050,15 +1053,7 @@ export default {
 
 .left {
   margin-top: -10px;
-}
-
-.el-main {
-  padding: 0;
-  .right {
-    margin-left: 30px;
-  }
-}
-.one {
+  .one {
   width: 99%;
   display: flex;
   padding: 1px;
@@ -1184,11 +1179,27 @@ export default {
     }
   }
 }
+}
+
+.el-main {
+  padding: 0;
+  .right {
+    margin-left: 30px;
+  }
+  
+}
+
 li {
   padding: 6px 0 3px 0;
   cursor: pointer;
 }
 .right {
+  li{
+    display: block;
+    overflow: hidden; // 超出文本的部分不显示
+    text-overflow: ellipsis;
+    white-space: nowrap; // 强制文本在一行显示
+  }
   .midpic {
     width: 100%;
     height: 150px;
@@ -1196,21 +1207,6 @@ li {
       width: 100%;
       height: 100%;
     }
-  }
-  .ccy-li {
-    span {
-      display: inline-block;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      list-style-position: inside;
-      white-space: nowrap;
-    }
-  }
-  .ccy-rightLi {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    list-style-position: inside;
-    white-space: nowrap;
   }
 }
 .bot {
