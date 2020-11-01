@@ -1,9 +1,0 @@
-<template>
-<div>
-    154
-</div>
-</template>
-<script>
-</script>
-<style>
-</style>

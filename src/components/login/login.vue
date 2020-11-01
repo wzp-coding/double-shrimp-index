@@ -62,13 +62,13 @@ export default {
         "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2308639883,2836006807&fm=26&gp=0.jpg",
       url: "",
       cToken: "",
-      //登录表单数据
+      //登录表单数据**
       loginForm: {
         captcha: "",
         userName: "",
         password: "",
       },
-      //表单验证规则
+      //表单验证规则**
       FormRules: {
         userName: [
           { required: true, message: "请输入用户名", trigger: "blur" },
@@ -101,49 +101,62 @@ export default {
     };
   },
   created() {
+    // 初始化验证码**
     this.getCaptcha();
   },
   methods: {
-    // 登录并把token储存
+    // 登录并把token储存**
     login() {
-      // 表单预验证
+      // 表单预验证**
       this.$refs.loginForm.validate(async (valid) => {
         if (!valid) return;
-        const data = await this.reqM1Service(
-          "/user/login" +
-            "?captcha=" +
-            this.loginForm.captcha +
-            "&cToken=" +
-            this.cToken,
-          {
-            loginId: this.loginForm.userName,
-            password: this.loginForm.password,
-          },
-          "post"
-        );
-        // 过滤
-        if (data.data.code === 20000) {
-          // 提示登录词语
-          this.$message.success(data.data.message);
-          // 将用户数据存入vuex和sessionStorage
-          this.$store.dispatch("loginAsycn", data);
-          console.log(this.$store.state);
-          this.$router.push("/me");
-        } else {
-          this.$message({
-            showClose: true,
-            message: data.data.message,
-            type: "error",
-          });
+        try {
+          const data = await this.reqM1Service(
+            "/authority/user/login" +
+              "?captcha=" +
+              this.loginForm.captcha +
+              "&cToken=" +
+              this.cToken,
+            {
+              loginId: this.loginForm.userName,
+              password: this.loginForm.password,
+            },
+            "post"
+          );
+          // 过滤
+          if (data.data.code === 20000) {
+            // 提示登录词语
+            this.$message.success(data.data.message);
+            // 将用户数据存入vuex和sessionStorage
+            this.$store.dispatch("loginAsycn", data);
+            console.log(this.$store.state);
+            this.$router.push("/me");
+          } else {
+            this.$message({
+              showClose: true,
+              message: data.data.message,
+              type: "error",
+            });
+          }
+        } catch (error) {
+          this.$message.error("登录出错! 19999");
+          console.log(error)
         }
-        console.log(data);
       });
     },
-    // 获取验证码
+    // 获取验证码**
     async getCaptcha() {
-      const { data: res } = await this.reqM1Service("/captcha/getCaptcha");
-      this.url = "data:image/png;base64," + res.data.img;
-      this.cToken = res.data.cToken;
+      try {
+        const { data: res } = await this.reqM1Service(
+          "/authority/captcha/getCaptcha",
+          "",
+          "post"
+        );
+        this.url = "data:image/png;base64," + res.data.img;
+        this.cToken = res.data.cToken;
+      } catch (error) {
+        this.$message.error("验证码出错");
+      }
     },
   },
 };

@@ -6,83 +6,79 @@
     <div class="content">
       <el-row class="title"> <el-col :span="24">虾病知识概览 </el-col> </el-row>
       <div class="lxl-content">
-        <div class="lxl-card" v-for="item in 5" :key="item">
-          <div>
-            <el-image
-              style="width: 100%; height: 200px"
-              src="http://134.175.208.235/group1/M00/00/0A/rBAAD18hgoeAU6CaAAK1j4HbjSk344.png"
-              :preview-src-list="srcList"
-            ></el-image>
-          </div>
-          <div class="lxl-card-2">
-            <p>气泡病虾病知识概览虾病知识概览虾病知识概览</p>
-          </div>
+        <div class="lxl-card" v-for="item in queryResList" :key="item.id">
+        <div>
+          <el-image
+            style="width: 100%; height: 200px"
+            :src="item.pic"
+            :preview-src-list="srcList"
+          ></el-image>
         </div>
-        <el-pagination background layout="prev, pager, next" :total="1000">
-        </el-pagination>
+        <router-link
+          :to="{ path: '/autognosis/diseaseDateil', query: { id: item.id } }"
+        >
+          <div class="lxl-card-2">
+            <p>{{ item.diseaseName }}</p>
+          </div>
+        </router-link>
+      </div>
+      <pagination
+        :total="queryTotal"
+        :resetPage="false"
+        @pageChange="handlePageChange"
+        v-if="this.queryResList.length != 0"
+      ></pagination>
       </div>
     </div>
   </div>
 </template>
 <script>
+import pagination from "../expertListChildren/pagination";
 export default {
   data() {
     return {
-      srcList: [
-        "https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg",
-        "https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg",
-      ],
-      tableData: [
-        {
-          id: "1",
-          img:
-            "http://134.175.208.235/group1/M00/00/0A/rBAAD18haaqAf9-vAAG7QgYwbUc913.png",
-          name: "软壳病",
-          symbol:
-            "病虾甲壳薄而软，壳与肌肉似乎分离，有的病虾在壳下有积水，有的壳粗糙。病虾比同池的健康虾体长小1～2厘米。病虾体弱，不活泼，易被同类蚕食。	",
-          treat:
-            "预防：①饲料营养全面，饲料中添加固壳素或水体经常泼洒过磷酸钙，有一定的预防作用。②新挖池塘，应保持水体一定的肥度，盐碱池塘应适当降低pH，发生软壳病的对虾塘施过磷酸钙可以改善软壳状况。 治疗：①适当加大换水量，改善养殖水质，全池泼洒池底改良活化素20kg/亩米；②在饲料中添加鱼虾5号0.1%、虾蟹脱壳素0.1%、虾康宝0.5%、Vc脂0.2%、营养素0.8%，提高各种微量元素的含量；③施用复合芽孢杆菌250ml/亩米，促进有益藻类的生长，并调节水体的酸碱度。",
-        },
-        {
-          id: "2",
-          img:
-            "http://134.175.208.235/group1/M00/00/0A/rBAAD18haaqAf9-vAAG7QgYwbUc913.png",
-          name: "软壳病",
-          symbol:
-            "病虾甲壳薄而软，壳与肌肉似乎分离，有的病虾在壳下有积水，有的壳粗糙。病虾比同池的健康虾体长小1～2厘米。病虾体弱，不活泼，易被同类蚕食。	",
-          treat:
-            "预防：①饲料营养全面，饲料中添加固壳素或水体经常泼洒过磷酸钙，有一定的预防作用。②新挖池塘，应保持水体一定的肥度，盐碱池塘应适当降低pH，发生软壳病的对虾塘施过磷酸钙可以改善软壳状况。 治疗：①适当加大换水量，改善养殖水质，全池泼洒池底改良活化素20kg/亩米；②在饲料中添加鱼虾5号0.1%、虾蟹脱壳素0.1%、虾康宝0.5%、Vc脂0.2%、营养素0.8%，提高各种微量元素的含量；③施用复合芽孢杆菌250ml/亩米，促进有益藻类的生长，并调节水体的酸碱度。",
-        },
-        {
-          id: "3",
-          img:
-            "http://134.175.208.235/group1/M00/00/0A/rBAAD18haaqAf9-vAAG7QgYwbUc913.png",
-          name: "软壳病",
-          symbol:
-            "病虾甲壳薄而软，壳与肌肉似乎分离，有的病虾在壳下有积水，有的壳粗糙。病虾比同池的健康虾体长小1～2厘米。病虾体弱，不活泼，易被同类蚕食。	",
-          treat:
-            "预防：①饲料营养全面，饲料中添加固壳素或水体经常泼洒过磷酸钙，有一定的预防作用。②新挖池塘，应保持水体一定的肥度，盐碱池塘应适当降低pH，发生软壳病的对虾塘施过磷酸钙可以改善软壳状况。 治疗：①适当加大换水量，改善养殖水质，全池泼洒池底改良活化素20kg/亩米；②在饲料中添加鱼虾5号0.1%、虾蟹脱壳素0.1%、虾康宝0.5%、Vc脂0.2%、营养素0.8%，提高各种微量元素的含量；③施用复合芽孢杆菌250ml/亩米，促进有益藻类的生长，并调节水体的酸碱度。",
-        },
-        {
-          id: "4",
-          img:
-            "http://134.175.208.235/group1/M00/00/0A/rBAAD18haaqAf9-vAAG7QgYwbUc913.png",
-          name: "软壳病",
-          symbol:
-            "病虾甲壳薄而软，壳与肌肉似乎分离，有的病虾在壳下有积水，有的壳粗糙。病虾比同池的健康虾体长小1～2厘米。病虾体弱，不活泼，易被同类蚕食。	",
-          treat:
-            "预防：①饲料营养全面，饲料中添加固壳素或水体经常泼洒过磷酸钙，有一定的预防作用。②新挖池塘，应保持水体一定的肥度，盐碱池塘应适当降低pH，发生软壳病的对虾塘施过磷酸钙可以改善软壳状况。 治疗：①适当加大换水量，改善养殖水质，全池泼洒池底改良活化素20kg/亩米；②在饲料中添加鱼虾5号0.1%、虾蟹脱壳素0.1%、虾康宝0.5%、Vc脂0.2%、营养素0.8%，提高各种微量元素的含量；③施用复合芽孢杆菌250ml/亩米，促进有益藻类的生长，并调节水体的酸碱度。",
-        },
-      ],
+      queryResList: [],
+      queryTotal: 10,
+      srcList: [],
     };
   },
-  components: {},
+  components: {
+    pagination
+  },
+  methods:{
+    // 当子组件换页时
+    handlePageChange({ page, size }) {
+      console.log("父组件:");
+      console.log("size: ", size);
+      console.log("page: ", page);
+      this.getAllDisease(page, size);
+    },
+    // 获取数据
+    getAllDisease(page=1,size=8) {
+      // 等分页查询接口完成加上去
+      let httpUrl = `http://120.78.14.141:9007/diagnose/search/all`;
+      this.$http.get(httpUrl).then((res) => {
+        console.log(res.data);
+        res = res.data;
+        if (res.code === 20000) {
+          res = res.data[0].content;
+          this.queryResList = res.slice(0, 8);
+          this.queryTotal = res.length
+          res.forEach((item) => this.srcList.push(item.pic));
+        }
+      });
+    },
+
+  },
+  mounted(){
+    this.getAllDisease()
+  }
 };
 </script>
 <style lang="less" scoped>
 .diseaseKnowledges {
   .lxl-content {
-    .el-pagination {
+    .pagination {
       width: 100%;
       padding: 20px;
       text-align: center;

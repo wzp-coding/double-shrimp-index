@@ -20,25 +20,20 @@
           color: rgb(93, 183, 60);
           cursor: pointer;
         "
-        @click="toExpertList()"
+        @click="toArticleList()"
       >
         <span style="color: #9e9e9e"> 更多 </span>
         <i class="el-icon-caret-right"></i>
       </div>
     </h3>
     <div class="block">
-      <el-carousel>
-        <el-carousel-item>
-          <miniArticleCard></miniArticleCard>
-          <miniArticleCard></miniArticleCard>
-          <miniArticleCard></miniArticleCard>
-          <miniArticleCard></miniArticleCard>
-        </el-carousel-item>
-        <el-carousel-item>
-          <miniArticleCard></miniArticleCard>
-          <miniArticleCard></miniArticleCard>
-          <miniArticleCard></miniArticleCard>
-          <miniArticleCard></miniArticleCard>
+      <el-carousel :interval="Number(5000)" v-loading="loading">
+        <el-carousel-item v-for="(item, index) in articleList" :key="index">
+          <miniArticleCard
+            v-for="item2 in item"
+            :key="item2.id"
+            :oneArticle="item2"
+          ></miniArticleCard>
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -49,10 +44,46 @@ import miniArticleCard from "./miniArticleCard.vue";
 
 export default {
   data() {
-    return {};
+    return {
+      articleList: [[], []],
+      loading: true,
+    };
   },
   components: {
     miniArticleCard,
+  },
+  methods: {
+    // 跳转到文章列表
+    toArticleList() {
+      this.$router.push({ name: "wzp_articleList" });
+    },
+    // 获取8篇文章进行展示
+    async getArticleList() {
+      await this.$http
+        .get(`http://106.75.154.40:9012/info/diseaseArticles/findByRecommend/1/8`)
+        .then((res) => {
+          res = res.data;
+          if (res.code === 20000) {
+            res = res.data;
+            console.log('res: ', res);
+            res.rows.forEach((item) => {
+              if (this.articleList[0].length < 4) {
+                this.articleList[0].push(item);
+              } else {
+                this.articleList[1].push(item);
+              }
+            });
+          } else {
+            this.$message({
+              message: "获取文章信息失败",
+            });
+          }
+          this.loading = false;
+        });
+    },
+  },
+ async mounted() {
+   await this.getArticleList()
   },
 };
 </script>

@@ -128,7 +128,7 @@ export default {
     async toDetail() {
       try {
         const { data: res } = await this.reqM1Service(
-          "/adultShrimp/traceability/" + this.source,
+          "/traceability/adultShrimp/traceability/" + this.source,
           {},
           "get"
         );

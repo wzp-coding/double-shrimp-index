@@ -953,7 +953,7 @@ export default {
     /* 获取基地投料信息 */
     async getShrimpFarmings() {
       const { data: res } = await this.reqM1Service(
-        `/shrimpFarming/search/${this.pageInfo.pagenum}/${this.pageInfo.pagesize}`,
+        `/traceability/shrimpFarming/search/${this.pageInfo.pagenum}/${this.pageInfo.pagesize}`,
         {
           shrimpId: this.shrimp.id,
         },
@@ -965,7 +965,7 @@ export default {
     /* 展示农资信息对话框 */
     async getSup(id) {
       const { data: res } = await this.reqM1Service(
-        "/suppliesinfo/" + id,
+        "/traceability/suppliesinfo/" + id,
         {},
         "get"
       );
@@ -994,7 +994,7 @@ export default {
       // 测试
       id = "1295330198388084736";
       const { data: res } = await this.reqM1Service(
-        "/qualification/" + id,
+        "/traceability/qualification/" + id,
         "",
         "get"
       );
@@ -1014,7 +1014,7 @@ export default {
       id = "1295330481365192704";
       console.log(id);
       const { data: res } = await this.reqM1Service(
-        "/processing/search",
+        "/traceability/processing/search",
         {
           plantId: id,
         },
@@ -1038,7 +1038,7 @@ export default {
       // 测试
       id = "1316956329251835904";
       const { data: res } = await this.reqM1Service(
-        "/logistics/findForQR/" + id,
+        "/traceability/logistics/findForQR/" + id,
         "",
         "get"
       );

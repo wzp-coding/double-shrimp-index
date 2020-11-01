@@ -7,7 +7,7 @@
       >
         <el-breadcrumb-item>当前位置</el-breadcrumb-item>
         <el-breadcrumb-item to="/me">个人中心</el-breadcrumb-item>
-        <el-breadcrumb-item>我的店铺</el-breadcrumb-item>
+        <el-breadcrumb-item>专家页面</el-breadcrumb-item>
       </el-breadcrumb>
       <el-divider></el-divider>
       <el-container style="border: 1px solid #eee" class="user-container">
@@ -48,7 +48,7 @@
                         5615
                       </el-badge>
                     </div>
-                    <div class="text">收入</div>
+                    <div class="text">累积提问</div>
                   </div>
                   <span></span>
                   <div class="wait">
@@ -57,7 +57,7 @@
                         5615
                       </el-badge>
                     </div>
-                    <div class="text">新增订单</div>
+                    <div class="text">新增访客</div>
                   </div>
                   <span></span>
                   <div class="wait">
@@ -66,7 +66,7 @@
                         51
                       </el-badge>
                     </div>
-                    <div class="text">订单完成</div>
+                    <div class="text">回复率</div>
                   </div>
                   <span></span>
                   <div class="wait">
@@ -75,7 +75,7 @@
                         0
                       </el-badge>
                     </div>
-                    <div class="text">累积访问</div>
+                    <div class="text">累获点赞</div>
                   </div>
                 </div>
               </el-col>

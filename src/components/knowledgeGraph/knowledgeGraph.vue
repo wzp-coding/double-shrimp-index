@@ -22,134 +22,149 @@
         </el-form-item>
         <el-button
           type="success"
-          @click="
-            searchConByName();
-            searchInfoByName();
-          "
+          @click="searchInfoByName(formInline.searchData)"
           >查询</el-button
         >
         <el-form-item> </el-form-item>
-        <el-form-item style="width: 150px">
-          <el-select v-model="formInline.region" placeholder="常用查询">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
+        <el-form-item style="width: 140px">
+          <el-select
+            v-model="formInline.value1"
+            placeholder="常用查询"
+            @change="searchInfoByName(formInline.value1)"
+          >
+            <el-option
+              v-for="(item, i) in formInline.searchType[0]"
+              :value="item.name"
+              :label="item.name"
+              :key="i"
+              >{{ item.name }}</el-option
+            >
           </el-select>
         </el-form-item>
-        <el-form-item style="width: 150px">
-          <el-select v-model="formInline.region" placeholder="病害防治">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
+        <el-form-item style="width: 140px">
+          <el-select
+            v-model="formInline.value2"
+            placeholder="对虾实体"
+            @change="searchInfoByName(formInline.value2)"
+          >
+            <el-option
+              v-for="(item, i) in formInline.searchType[1]"
+              :value="item.name"
+              :label="item.name"
+              :key="i"
+              >{{ item.name }}</el-option
+            >
           </el-select>
         </el-form-item>
-        <el-form-item>
-          <el-select v-model="formInline.region" placeholder="养殖技术">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
+        <el-form-item style="width: 140px">
+          <el-select
+            v-model="formInline.value3"
+            placeholder="病害查询"
+            @change="searchInfoByName(formInline.value3)"
+          >
+            <el-option
+              v-for="(item, i) in formInline.searchType[2]"
+              :value="item.name"
+              :label="item.name"
+              :key="i"
+              >{{ item.name }}</el-option
+            >
           </el-select>
         </el-form-item>
-        <el-form-item>
-          <el-select v-model="formInline.region" placeholder="饲料">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
+        <el-form-item style="width: 140px">
+          <el-select
+            v-model="formInline.value4"
+            placeholder="药物查询"
+            @change="searchInfoByName(formInline.value4)"
+          >
+            <el-option
+              v-for="(item, i) in formInline.searchType[3]"
+              :value="item.name"
+              :label="item.name"
+              :key="i"
+              >{{ item.name }}</el-option
+            >
+          </el-select>
+        </el-form-item>
+        <el-form-item style="width: 140px">
+          <el-select
+            v-model="formInline.value5"
+            placeholder="养殖技术"
+            @change="searchInfoByName(formInline.value5)"
+          >
+            <el-option
+              v-for="(item, i) in formInline.searchType[4]"
+              :value="item.name"
+              :label="item.name"
+              :key="i"
+              >{{ item.name }}</el-option
+            >
           </el-select>
         </el-form-item>
       </el-form>
       <el-container>
         <el-aside class="" style="margin-left: 18px">
           <div>
-            <el-badge value="热门搜索" class="item"> </el-badge>
-            <div class="lxl-tag">
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-            </div>
-          </div>
-          <el-divider></el-divider>
-          <div>
             <el-badge value="常用查询" class="item"> </el-badge>
             <div class="lxl-tag">
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
+              <el-tag
+                v-for="(item, i) in searchType[0]"
+                :key="i"
+                @click="searchInfoByName(item.name)"
+                >{{ item.name }}</el-tag
+              >
             </div>
           </div>
           <el-divider></el-divider>
           <div>
-            <el-badge value="病害防治" class="item"> </el-badge>
+            <el-badge value="对虾实体" class="item"> </el-badge>
             <div class="lxl-tag">
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
+              <el-tag
+                type="success"
+                v-for="(item, i) in searchType[1]"
+                :key="i"
+                @click="searchInfoByName(item.name)"
+                >{{ item.name }}</el-tag
+              >
+            </div>
+          </div>
+          <el-divider></el-divider>
+          <!--  -->
+          <div>
+            <el-badge value="病害查询" class="item"> </el-badge>
+            <div class="lxl-tag">
+              <el-tag
+                v-for="(item, i) in searchType[2]"
+                :key="i"
+                @click="searchInfoByName(item.name)"
+                >{{ item.name }}</el-tag
+              >
+            </div>
+          </div>
+          <el-divider></el-divider>
+          <!--  -->
+          <div>
+            <el-badge value="药物查询" class="item"> </el-badge>
+            <div class="lxl-tag">
+              <el-tag
+                type="success"
+                v-for="(item, i) in searchType[3]"
+                :key="i"
+                @click="searchInfoByName(item.name)"
+                >{{ item.name }}</el-tag
+              >
             </div>
           </div>
           <el-divider></el-divider>
           <div>
             <el-badge value="养殖技术" class="item"> </el-badge>
             <div class="lxl-tag">
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-              <el-tag type="success">标签一</el-tag>
-            </div>
-          </div>
-          <el-divider></el-divider>
-          <div>
-            <el-badge value="饲料" class="item"> </el-badge>
-            <div class="lxl-tag">
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
-              <el-tag>标签一</el-tag>
+              <el-tag
+                v-for="(item, i) in searchType[4]"
+                :key="i"
+                @click="searchInfoByName(item.name)"
+                >{{ item.name }}</el-tag
+              >
             </div>
           </div>
           <el-divider></el-divider>
@@ -164,10 +179,12 @@
               <div>
                 <div class="block">
                   <el-carousel>
-                    <el-carousel-item v-for="item in 4" :key="item">
-                      <el-image
-                        src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
-                      ></el-image>
+                    <el-carousel-item
+                      indicator-position="outside"
+                      v-for="(item, i) in infoData"
+                      :key="i"
+                    >
+                      <el-image :src="item.imgUrl"></el-image>
                     </el-carousel-item>
                   </el-carousel>
                 </div>
@@ -186,10 +203,15 @@
 export default {
   data() {
     return {
+      value: "",
       formInline: {
-        user: "",
-        region: "",
         searchData: "",
+        searchType: [],
+        value1: "",
+        value2: "",
+        value3: "",
+        value4: "",
+        value5: "",
       },
       url: "",
       chartData1: {},
@@ -198,17 +220,21 @@ export default {
           name: "对虾大数据平台",
           baseInfo:
             "仲恺基地，创办于1927年，是一所以伟大的爱国主义者、近代民主革命家廖仲恺先生名字命名，以现代农业科学为特色，农学、工学为优势，农、工、理、经、管、文、艺、法八大学科协调发展的广东省省属高水平应用型大学，是教育部本科教学评估优秀学校及全国首批卓越农林人才教育培养计划高校。学校办学历史悠久，文脉深厚，坐落在历史文化名城——广州。现有海珠校区、白云校区、番禺教学科研基地，占地面积2000余亩。校园集云山之神秀，汇珠水之灵气，是读书治学的理想地。",
+          imgUrl:
+            "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
         },
       ],
+      searchType: [],
     };
   },
   mounted() {
     this.chart1();
     this.chart2();
   },
+
   created() {
-    // this.bait();
-    // this.equipment();
+    // 异步操作管理
+    this.yibu();
   },
   methods: {
     onSubmit() {
@@ -856,11 +882,11 @@ export default {
         myChart.resize();
       });
     },
+
     // 根据名称查询实体关联
-    async searchConByName() {
-      console.log("/entity/search/" + this.formInline.searchData);
+    async searchConByName(searchData) {
       const { data: res } = await this.reqM3Service(
-        "/entity/search/" + this.formInline.searchData,
+        "/entity/search/" + searchData,
         "",
         "get"
       );
@@ -879,17 +905,23 @@ export default {
       console.log(res);
     },
     // 根据名称查询实体详细信息
-    async searchInfoByName() {
+    async searchInfoByName(searchData) {
       const { data: res } = await this.reqM3Service(
-        "/entity/info/" + this.formInline.searchData,
+        "/entity/info/" + searchData,
         "",
         "get"
       );
+
       // 过滤
       if (res.code === 20000) {
         // 返回的数据
         console.log(res.data);
-        this.infoData = res.data;
+        if (res.data.length !== 0) {
+          this.infoData = res.data;
+          this.searchConByName(searchData);
+        } else {
+          this.$message.warning("暂无相关数据");
+        }
       } else {
         this.$message({
           showClose: true,
@@ -897,49 +929,44 @@ export default {
           type: "error",
         });
       }
-      console.log("geti");
-      console.log(res);
     },
-    // async bait() {
-    //   const data = await this.reqM3Service("/bait", "", "get");
-    //   // 过滤
-    //   // if (res.code === 20000) {
-    //   //   // 返回的数据
-    //   //   console.log(res.data);
-    //   // } else {
-    //   //   this.$message({
-    //   //     showClose: true,
-    //   //     message: res.message,
-    //   //     type: "error",
-    //   //   });
-    //   // }
-    //   // console.log("bait");
-    //   // console.log(res);
-    //   console.log(data);
-    // },
-    // async equipment() {
-    //   const data = await this.reqM3Service("/equipment/culture/cate", "", "get");
-    //   // 过滤
-    //   // if (res.code === 20000) {
-    //   //   // 返回的数据
-    //   //   console.log(res.data);
-    //   // } else {
-    //   //   this.$message({
-    //   //     showClose: true,
-    //   //     message: res.message,
-    //   //     type: "error",
-    //   //   });
-    //   // }
-    //   // console.log("bait");
-    //   // console.log(res);
-    //   console.log(data);
-    // },
-    
-    // async getChartData1() {},
+    async searchTypeAll(typeType, searchTypeIndex) {
+      const { data: res } = await this.reqM3Service(
+        "/entity/search/page?entityType=" + typeType + "&limit=20",
+        "",
+        "get"
+      );
+      // 过滤
+      if (res.code === 20000) {
+        // 返回的数据
+        this.searchType.push(res.data.rows);
+        this.formInline.searchType.push(res.data.rows);
+      } else {
+        this.$message({
+          showClose: true,
+          message: res.message,
+          type: "error",
+        });
+      }
+    },
+    // 异步处理
+    async yibu() {
+      await this.searchTypeAll("Bait", 0);
+      await this.searchTypeAll("PrawnBreed", 1);
+      await this.searchTypeAll("Disease", 2);
+      await this.searchTypeAll("BreedMedicine", 3);
+      await this.searchTypeAll("CultureTechnology", 4);
+    },
   },
 };
 </script>
 <style lang="less" scoped>
+.el-tag {
+  cursor: pointer;
+}
+.el-tag:hover {
+  font-weight: 1000;
+}
 .lxl-body {
   display: flex;
   min-width: 1150px;
@@ -973,6 +1000,7 @@ export default {
   display: flex;
   .lxl-1 {
     display: inherit;
+    flex: 1;
     flex-direction: row;
     font-size: 13px;
     line-height: 30px;

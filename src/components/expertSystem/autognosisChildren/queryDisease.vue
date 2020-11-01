@@ -45,35 +45,45 @@
         ></el-col>
         <el-col :span="6"
           ><div class="grid-content">
-            <el-button type="primary">开始查询</el-button>
+            <el-button type="primary" @click="startQuery">开始查询</el-button>
           </div></el-col
         >
       </el-row>
-      <!--  -->
+      <!-- 查询结果 -->
       <div class="lxl-content">
-        <div class="lxl-card" v-for="item in 5" :key="item">
+        <div class="lxl-card" v-for="item in queryResList" :key="item.id">
           <div>
             <el-image
               style="width: 100%; height: 200px"
-              src="http://134.175.208.235/group1/M00/00/0A/rBAAD18hgoeAU6CaAAK1j4HbjSk344.png"
+              :src="item.pic"
               :preview-src-list="srcList"
             ></el-image>
           </div>
-          <router-link to="/diseaseDateil">
-          <div class="lxl-card-2" >
-            <p>气泡病虾</p>
-          </div>
+          <router-link
+            :to="{ path: '/autognosis/diseaseDateil', query: { id: item.id } }"
+          >
+            <div class="lxl-card-2">
+              <p>{{ item.diseaseName }}</p>
+            </div>
           </router-link>
         </div>
-        <el-pagination background layout="prev, pager, next" :total="1000">
-        </el-pagination>
+        <pagination
+          :total="queryTotal"
+          :resetPage="false"
+          @pageChange="handlePageChange"
+          v-if="this.queryResList.length != 0"
+        ></pagination>
       </div>
       <!-- 查询结果 -->
     </div>
   </div>
 </template>
 <script>
+import pagination from "../expertListChildren/pagination";
 export default {
+  components: {
+    pagination,
+  },
   data() {
     return {
       options: [
@@ -88,13 +98,50 @@ export default {
       ],
       value: "1",
       input: "",
+      queryResList: [],
+      queryTotal: 10,
+      srcList: [],
     };
+  },
+  methods: {
+    // 当子组件换页时
+    handlePageChange({ page, size }) {
+      console.log("父组件:");
+      console.log("size: ", size);
+      console.log("page: ", page);
+      this.startQuery(page, size);
+    },
+    // 点击开始查询
+    startQuery(page = 1, size = 8) {
+      // console.log('this.input: ', this.input);
+      // console.log('this.value: ', this.value);
+      let httpUrl = "";
+      // 等分页查询接口完成加上去
+      switch (this.value) {
+        case "1":
+          httpUrl = `http://120.78.14.141:9007/diagnose/search/accurate?key=${this.input}`;
+          break;
+        case "2":
+          httpUrl = `http://120.78.14.141:9007/diagnose/search?key=${this.input}`;
+          break;
+      }
+      this.$http.get(httpUrl).then((res) => {
+        console.log(res.data);
+        res = res.data;
+        if (res.code === 20000) {
+          res = res.data;
+          this.queryResList = res.slice(0, 8);
+          // this.queryTotal = res.length
+          res.forEach((item) => this.srcList.push(item.pic));
+        }
+      });
+    },
   },
 };
 </script>
 <style lang="less" scoped>
 .lxl-content {
-  .el-pagination {
+  .pagination {
     width: 100%;
     padding: 20px;
     text-align: center;

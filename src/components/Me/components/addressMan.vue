@@ -1,29 +1,61 @@
 <template>
   <div class="address-man">
     <el-form
-      :model="ruleForm"
+      :model="addressForm"
       :rules="rules"
-      ref="ruleForm"
+      ref="addressForm"
       label-width="100px"
       class="address-form"
     >
       <el-row class="address-form-title">新增收货地址：</el-row>
       <el-form-item label="收货人" prop="name">
-        <el-input placeholder="请输入收货人姓名" v-model="ruleForm.name"></el-input>
+        <el-input
+          placeholder="请输入收货人姓名"
+          v-model="addressForm.name"
+        ></el-input>
       </el-form-item>
-      <el-form-item label="地址" prop="region">
-        <el-input placeholder="例如：广东省/湛江市/廉江市" v-model="ruleForm.name"></el-input>
-      </el-form-item>
-      <el-form-item label="手机号" required>
-        <el-input placeholder="请输入手机号" v-model="ruleForm.name"></el-input>
-      </el-form-item>
-      <el-form-item label="详细地址" required>
-        <el-input placeholder="例如：河村镇/红湖农场太平街45号" type="textarea" :rows="5" v-model="ruleForm.name"></el-input>
+      <el-form-item label="手机号" required prop="photo">
+        <el-input
+          type="number"
+          placeholder="请输入手机号"
+          v-model="addressForm.photo"
+        ></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')"
-          >保存</el-button
+        <el-alert type="success" :closable="false">
+          <p style="font-size: 1rem">
+            {{ select.province }}
+            <el-divider direction="vertical"></el-divider> {{ select.city }}
+            <el-divider direction="vertical"></el-divider>{{ select.area }}
+          </p>
+        </el-alert>
+      </el-form-item>
+      <el-form-item label="地区">
+        <VDistpicker
+          @province="onChangeProvince"
+          @city="onChangeCity"
+          @area="onChangeArea"
+          :province="select.province"
+          :city="select.city"
+          :area="select.area"
+        ></VDistpicker>
+      </el-form-item>
+      <el-form-item label="详细地址" prop="addressDetail">
+        <el-input
+          placeholder="例如：河唇镇红湖农场天平街45号"
+          v-model="addressForm.addressDetail"
+        ></el-input>
+      </el-form-item>
+
+      <el-form-item>
+        <el-popconfirm
+          title="是否添加成为新的地址"
+          confirmButtonText="是的"
+          icon="el-icon-plus"
+          @onConfirm="addAddress()"
         >
+          <el-button slot="reference" type="success">保存</el-button>
+        </el-popconfirm>
       </el-form-item>
     </el-form>
     <div class="address-detail">
@@ -32,20 +64,26 @@
         type="success"
       >
       </el-alert>
-      <el-table :data="tableData" border style="width: 100%">
-        <el-table-column fixed prop="date" label="日期" width="150">
+      <el-table :data="addressList" border style="width: 100%">
+        <el-table-column prop="receiverName" label="收货人" width="100">
         </el-table-column>
-        <el-table-column prop="name" label="姓名" width="120">
+        <el-table-column prop="receiverPhone" label="联系方式" width="170">
         </el-table-column>
-        <el-table-column prop="address" label="地址" width="300">
+        <el-table-column prop="receiverAddress" label="地址" width="350">
         </el-table-column>
-        <el-table-column prop="zip" label="联系方式" width="120"> </el-table-column>
-        <el-table-column fixed="right" label="操作" width="100">
+        <el-table-column prop="receiverAddress" label="状态" width="70">
+          <el-tag> 默认 </el-tag>
+        </el-table-column>
+        <el-table-column fixed="right" label="操作" width="80">
           <template slot-scope="scope">
-            <el-button @click="handleClick(scope.row)" type="text" size="small"
-              >查看</el-button
+            <el-button
+              icon="el-icon-delete"
+              type="text"
+              size="small"
+              style="color: red"
+              @click="delAddressById(scope.row)"
+              >删除</el-button
             >
-            <el-button type="text" size="small">编辑</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -54,90 +92,43 @@
 </template>
 
 <script>
+import VDistpicker from "v-distpicker";
 export default {
   data() {
     return {
-      tableData: [
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1518 弄",
-          zip: 200333,
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1517 弄",
-          zip: 200333,
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1519 弄",
-          zip: 200333,
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1516 弄",
-          zip: 200333,
-        },
-      ],
+      select: { province: "广东省", city: "广州市", area: "海珠区" },
+      // 地址列表数据
+      addressList: [],
       addressNum: 0,
-      ruleForm: {
+      addressForm: {
         name: "",
-        region: "",
-        date1: "",
-        date2: "",
-        delivery: false,
-        type: [],
-        resource: "",
-        desc: "",
+        photo: "",
+        addressDetail: "",
       },
       rules: {
         name: [
           { required: true, message: "请输入收货人", trigger: "blur" },
           { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" },
         ],
-        region: [{ required: true, message: "请选择地址", trigger: "change" }],
-        date1: [
+        photo: [
+          { required: true, message: "请输入手机号", trigger: "blur" },
           {
-            type: "date",
-            required: true,
-            message: "请选择日期",
-            trigger: "change",
+            min: 11,
+            max: 11,
+            message: "长度11字符",
+            trigger: "blur",
           },
         ],
-        date2: [
-          {
-            type: "date",
-            required: true,
-            message: "请选择时间",
-            trigger: "change",
-          },
+        addressDetail: [
+          { required: true, message: "请输入详细地址", trigger: "blur" },
         ],
-        type: [
-          {
-            type: "array",
-            required: true,
-            message: "请至少选择一个活动性质",
-            trigger: "change",
-          },
-        ],
-        resource: [
-          { required: true, message: "请选择活动资源", trigger: "change" },
-        ],
-        desc: [{ required: true, message: "请填写活动形式", trigger: "blur" }],
       },
     };
+  },
+  created() {
+    if (this.$store.state.userData.userId !== undefined) {
+      this.getAddress();
+    }
   },
   methods: {
     submitForm(formName) {
@@ -153,10 +144,103 @@ export default {
     handleClick(row) {
       console.log(row);
     },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
+    // 移除地址
+    async delAddressById(row) {
+      try {
+        const { data: res } = await this.reqM4Service(
+          "/address/" + row.addressId,
+          "",
+          "delete"
+        );
+        console.log(res);
+        if (res.code === 20000) {
+          this.$message.success(res.message);
+          this.getAddress();
+        } else {
+          this.$message.error(res.message);
+        }
+      } catch (error) {
+        this.$message.error("网络开小差了，请稍后重试19999");
+      }
+    },
+    // 获得地址列表
+    async getAddress() {
+      if (this.$store.state.userData.userId === undefined) {
+        return false;
+      }
+      try {
+        const { data: res } = await this.reqM4Service(
+          "/address/" + this.$store.state.userData.userId,
+          "",
+          "get"
+        );
+        console.log(res);
+        if (res.code === 20000) {
+          this.addressList = res.data.reverse();
+          this.addressNum = res.data.length;
+          for (let i = 0; i < this.addressList.length; i++) {
+            this.addressList[i].receiverAddress =
+              this.addressList[i].receiverProvince +
+              this.addressList[i].receiverCity +
+              this.addressList[i].receiverTown +
+              this.addressList[i].receiverAddress;
+          }
+        } else {
+          this.$message.error(res.message);
+        }
+      } catch (error) {
+        this.$message.error("网络开小差了，请稍后重试19999");
+      }
+    },
+    // 添加新的地址
+    async addAddress() {
+      try {
+        this.$refs.addressForm.validate(async (valid) => {
+          if (!valid) return;
+          if (this.$store.state.userData.userId === undefined) {
+            this.$message.error("尚未登录！！");
+            return this.$router.push("/login");
+          }
+          const { data: res } = await this.reqM4Service(
+            "/address",
+            {
+              userId: this.$store.state.userData.userId,
+              receiverName: this.addressForm.name,
+              receiverPhone: this.addressForm.photo,
+              receiverProvince: this.select.province,
+              receiverCity: this.select.city,
+              receiverTown: this.select.area,
+              receiverAddress: this.addressForm.addressDetail,
+            },
+            "post"
+          );
+          console.log(res);
+          if (res.code === 20000) {
+            this.$message.success(res.message);
+            this.$refs.addressForm.resetFields();
+            this.getAddress();
+          } else {
+            this.$message.error(res.message);
+          }
+        });
+      } catch (error) {
+        this.$message.error("网络开小差了，请稍后重试19999");
+      }
+    },
+    // 三联地址选择器函数
+    onChangeProvince(val) {
+      this.select.province = val.value;
+    },
+    // 三联地址选择器函数
+    onChangeCity(val) {
+      this.select.city = val.value;
+    },
+    // 三联地址选择器函数
+    onChangeArea(val) {
+      this.select.area = val.value;
     },
   },
+  components: { VDistpicker },
 };
 </script>
 

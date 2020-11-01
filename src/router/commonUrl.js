@@ -24,6 +24,9 @@ function requireData(url, params, type, item) {
         case 'M1':
             url = axios.defaults.baseM1URL + url
             break;
+        case 'M13':
+            url = axios.defaults.baseM13URL + url
+            break;
         case 'M2':
             url = axios.defaults.baseM2URL + url
             break;
@@ -44,7 +47,7 @@ function requireData(url, params, type, item) {
             break;
         case 'M8':
             url = axios.defaults.baseM8URL + url
-            break;    
+            break;
         default:
             url = axios.defaults.baseM8URL + url
     }
@@ -57,7 +60,7 @@ function requireData(url, params, type, item) {
                 reject(err)
             })
         })
-    } else {
+    } else if (type === 'post') {
         return new Promise((resolve, reject) => {
             axios.post(url, params).then(res => {
                 resolve(res)
@@ -65,6 +68,24 @@ function requireData(url, params, type, item) {
                 reject(err)
             })
         })
+    } else if (type === 'put') {
+        return new Promise((resolve, reject) => {
+            axios.put(url, params).then(res => {
+                resolve(res)
+            }).catch(err => {
+                reject(err)
+            })
+        })
+    } else if (type === "delete") {
+        return new Promise((resolve, reject) => {
+            axios.delete(url, params).then(res => {
+                resolve(res)
+            }).catch(err => {
+                reject(err)
+            })
+        })
+    } else {
+        return "请求类型尚未添加"
     }
 }
 
@@ -76,6 +97,10 @@ export default {
         //->接口1的请求数据方法
         Vue.prototype.reqM1Service = function (url, params, type) {
             return requireData.call(this, url, params, type, 'M1')
+        }
+        //->接口1的请求数据方法
+        Vue.prototype.reqM13Service = function (url, params, type) {
+            return requireData.call(this, url, params, type, 'M13')
         }
         //->接口2的请求数据方法
         Vue.prototype.reqM2Service = function (url, params, type) {

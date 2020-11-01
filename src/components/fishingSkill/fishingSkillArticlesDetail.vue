@@ -6,7 +6,12 @@
         class="lxl-breadcrumb"
       >
         <el-breadcrumb-item>当前位置</el-breadcrumb-item>
-        <el-breadcrumb-item>疾病自诊</el-breadcrumb-item>
+        <el-breadcrumb-item>渔技学堂</el-breadcrumb-item>
+
+        <el-breadcrumb-item :to="{ path: '/fishingSkillArticles' }"
+          >渔技文章</el-breadcrumb-item
+        >
+        <el-breadcrumb-item>文章详情</el-breadcrumb-item>
       </el-breadcrumb>
       <el-divider></el-divider>
       <div>
@@ -54,6 +59,11 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    getDiseaseInfo() {
+      console.log(this.$router);
+    },
   },
 };
 </script>

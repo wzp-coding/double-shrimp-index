@@ -5,160 +5,111 @@
     </el-row>
     <el-row>
       <el-tabs type="border-card">
-        <el-tab-pane label="病毒性疾病"
+        <el-tab-pane
+          v-for="(item, index) in labelList"
+          :key="index"
+          :label="item.littleTitle"
           ><div class="content">
             <el-row class="title">
-              <el-col :span="24">病毒性疾病 </el-col>
+              <el-col :span="24">{{ item.littleTitle }} </el-col>
             </el-row>
             <el-row class="choices">
               <el-col :span="24">
-                <el-radio-group v-model="radio" @change="handleRadio">
-                  <el-radio :label="3">白色斑点</el-radio>
-                  <el-radio :label="6">肌肉为白浊色、不透明</el-radio>
+                <el-radio-group v-model="radio">
+                  <el-radio
+                    v-for="(item1, index1) in item.checkBoxs"
+                    :key="index1"
+                    :label="item1"
+                    >{{ item1 }}</el-radio
+                  >
                 </el-radio-group>
               </el-col>
             </el-row>
             <el-row class="commit">
               <el-col :span="12">
-                <el-button type="primary">症状重选</el-button>
+                <el-button type="primary" @click="resetChoice"
+                  >症状重选</el-button
+                >
               </el-col>
               <el-col :span="12">
-                <el-button type="primary">症状提交</el-button>
+                <el-button type="primary" @click="submitDisease"
+                  >症状提交</el-button
+                >
               </el-col>
             </el-row>
           </div></el-tab-pane
         >
-        <el-tab-pane label="细菌性疾病"
-          ><div class="content">
-            <el-row class="title">
-              <el-col :span="24">细菌性疾病 </el-col>
-            </el-row>
-            <el-row class="choices">
-              <el-col :span="24">
-                <el-radio-group v-model="radio" @change="handleRadio">
-                  <el-radio :label="3">白色斑点</el-radio>
-                  <el-radio :label="6">肌肉为白浊色、不透明</el-radio>
-                </el-radio-group>
-              </el-col>
-            </el-row>
-            <el-row class="commit">
-              <el-col :span="12">
-                <el-button type="primary">症状重选</el-button>
-              </el-col>
-              <el-col :span="12">
-                <el-button type="primary">症状提交</el-button>
-              </el-col>
-            </el-row>
-          </div></el-tab-pane
-        >
-        <el-tab-pane label="真菌性疾病"
-          ><div class="content">
-            <el-row class="title">
-              <el-col :span="24">真菌性疾病 </el-col>
-            </el-row>
-            <el-row class="choices">
-              <el-col :span="24">
-                <el-radio-group v-model="radio" @change="handleRadio">
-                  <el-radio :label="3">白色斑点</el-radio>
-                  <el-radio :label="3">黑色斑点</el-radio>
-                  <el-radio :label="3">红色斑点</el-radio>
-                  <el-radio :label="3">紫色斑点</el-radio>
-                  <el-radio :label="3">黄色斑点</el-radio>
-                  <el-radio :label="3">蓝色斑点</el-radio>
-                  <el-radio :label="6">肌肉为白浊色、不透明</el-radio>
-                  <el-radio :label="6">肌肉为白浊色、不透明</el-radio>
-                  <el-radio :label="6">肌肉为白浊色、不透明</el-radio>
-                </el-radio-group>
-              </el-col>
-            </el-row>
-            <el-row class="commit">
-              <el-col :span="12">
-                <el-button type="primary">症状重选</el-button>
-              </el-col>
-              <el-col :span="12">
-                <el-button type="primary">症状提交</el-button>
-              </el-col>
-            </el-row>
-          </div>
-        </el-tab-pane>
-        <el-tab-pane label="虫害病"
-          ><div class="content">
-            <el-row class="title">
-              <el-col :span="24">虫害病 </el-col>
-            </el-row>
-            <el-row class="choices">
-              <el-col :span="24">
-                <el-radio-group v-model="radio" @change="handleRadio">
-                  <el-radio :label="3">白色斑点</el-radio>
-                </el-radio-group>
-              </el-col>
-            </el-row>
-            <el-row class="commit">
-              <el-col :span="12">
-                <el-button type="primary">症状重选</el-button>
-              </el-col>
-              <el-col :span="12">
-                <el-button type="primary">症状提交</el-button>
-              </el-col>
-            </el-row>
-          </div>
-        </el-tab-pane>
-        <el-tab-pane label="其它病害"
-          ><div class="content">
-            <el-row class="title">
-              <el-col :span="24">其它病害 </el-col>
-            </el-row>
-            <el-row class="choices">
-              <el-col :span="24">
-                <el-radio-group v-model="radio" @change="handleRadio">
-                  <el-radio :label="3">白色斑点</el-radio>
-                  <el-radio :label="6">肌肉为白浊色、不透明</el-radio>
-                </el-radio-group>
-              </el-col>
-            </el-row>
-            <el-row class="commit">
-              <el-col :span="12">
-                <el-button type="primary">症状重选</el-button>
-              </el-col>
-              <el-col :span="12">
-                <el-button type="primary">症状提交</el-button>
-              </el-col>
-            </el-row>
-          </div>
-        </el-tab-pane>
       </el-tabs>
     </el-row>
-    <!--  -->
+    <!-- 查询结果 -->
     <div class="lxl-content">
-      <div class="lxl-card" v-for="item in 5" :key="item">
+      <div class="lxl-card" v-for="item in queryResList" :key="item.id">
         <div>
           <el-image
             style="width: 100%; height: 200px"
-            src="http://134.175.208.235/group1/M00/00/0A/rBAAD18hgoeAU6CaAAK1j4HbjSk344.png"
+            :src="item.pic"
             :preview-src-list="srcList"
           ></el-image>
         </div>
-        <div class="lxl-card-2">
-          <p>气泡病虾病知识概览虾病知识概览虾病知识概览</p>
-        </div>
+        <router-link
+          :to="{ path: '/autognosis/diseaseDateil', query: { id: item.id } }"
+        >
+          <div class="lxl-card-2">
+            <p>{{ item.diseaseName }}</p>
+          </div>
+        </router-link>
       </div>
-      <el-pagination background layout="prev, pager, next" :total="1000">
-      </el-pagination>
+      <pagination
+        :total="queryTotal"
+        :resetPage="false"
+        @pageChange="handlePageChange"
+        v-if="this.queryResList.length != 0"
+      ></pagination>
     </div>
     <!-- 查询结果 -->
   </div>
 </template>
 <script>
+import pagination from "../expertListChildren/pagination";
 export default {
+  components: {
+    pagination,
+  },
   data() {
     return {
-      radio: -1,
+      radio: "",
+      queryResList: [],
+      queryTotal: 10,
+      srcList: [],
     };
   },
-  props: ["title"],
+  props: ["title", "labelList"],
   methods: {
-    handleRadio() {
-      console.log(this.radio);
+    // 重置按钮
+    resetChoice() {
+      this.radio = "";
+    },
+    // 点击提交症状
+    submitDisease() {
+      // 等分页查询接口完成加上去
+      let httpUrl = `http://120.78.14.141:9007/diagnose/search?key=${this.radio}`;
+      this.$http.get(httpUrl).then((res) => {
+        console.log(res.data);
+        res = res.data;
+        if (res.code === 20000) {
+          res = res.data;
+          this.queryResList = res.slice(0, 8);
+          // this.queryTotal = res.length
+          res.forEach((item) => this.srcList.push(item.pic));
+        }
+      });
+    },
+     // 当子组件换页时
+    handlePageChange({ page, size }) {
+      console.log("父组件:");
+      console.log("size: ", size);
+      console.log("page: ", page);
+      this.getAllDisease(page, size);
     },
   },
 };
@@ -166,7 +117,7 @@ export default {
 <style lang="less" scoped>
 .queryDiseaseTypes {
   .lxl-content {
-    .el-pagination {
+    .pagination {
       width: 100%;
       padding: 20px;
       text-align: center;

@@ -16,7 +16,8 @@
           class="wzp-boxS"
         >
           <el-col :span="8" style="background: #fff; margin: 5px"
-            ><div class="grid-content"><partOne></partOne></div
+            ><div class="grid-content">
+              <partOne></partOne></div
           ></el-col>
           <el-col :span="8" style="background: #fff; margin: 5px"
             ><div class="grid-content"><partTwo></partTwo></div
@@ -47,7 +48,14 @@ import partTwo from "./expertInterrogationChildren/partTwo.vue";
 import partThree from "./expertInterrogationChildren/partThree.vue";
 export default {
   data() {
-    return {};
+    return {
+     
+    };
+  },
+  methods: {
+  },
+  created() {
+    
   },
   components: {
     partOne,

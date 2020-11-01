@@ -6,14 +6,16 @@
         <div class="que_text">
           <div class="up">
             <span class="queicon">问</span>
-            <span class="quetext"> 请问白对虾肌肉白浊如何处理 </span>
-            <div class="res_time">张三 2020-08-03 11:02:00</div>
+            <span class="quetext"> {{quesInfo.title}} </span>
+            <div class="res_time">{{quesInfo.userName?quesInfo.userName:"匿名"}} {{this.formatTime(quesInfo.creationTime)}}</div>
           </div>
-          <div class="demo-image__preview" style="margin-top: 10px">
+          <div class="demo-image__preview" style="margin-top: 10px" v-if="quesInfo.images.length!=0">
             <el-image
-              style="width: 100px; height: 100px"
-              src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
-              :preview-src-list="srcList"
+              v-for="(item,index) in quesInfo.images" :key="index"
+              style="width: 100px; height: 100px; margin-right:10px"
+              :src="item"
+              :preview-src-list="quesInfo.images"
+              fit="cover"
             >
             </el-image>
           </div>
@@ -26,12 +28,43 @@
 export default {
   data() {
     return {
-      srcList: [
-        "https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg",
-        "https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg",
-      ],
     };
   },
+  props:["quesInfo"],
+  watch:{
+    quesInfo(){
+      console.log(this.quesInfo)
+    }
+  },
+  methods:{
+    formatTime(date) {
+      //date是传入的时间
+      const d = new Date(date);
+      const month =
+        d.getMonth() + 1 < 10 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
+      const day = d.getDate() < 10 ? "0" + d.getDate() : d.getDate();
+      const hours = d.getHours() < 10 ? "0" + d.getHours() : d.getHours();
+      const min = d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes();
+      const sec = d.getSeconds() < 10 ? "0" + d.getSeconds() : d.getSeconds();
+      const times =
+        d.getFullYear() +
+        "-" +
+        month +
+        "-" +
+        day +
+        " " +
+        hours +
+        ":" +
+        min +
+        ":" +
+        sec;
+      return times;
+    },
+  },
+  mounted(){
+    
+  }
+
 };
 </script>
 <style lang="less" scoped>

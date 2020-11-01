@@ -1,6 +1,6 @@
 <template>
   <div class="recommendReply">
-     <h3
+    <h3
       style="
         display: flex;
         justify-content: space-between;
@@ -26,18 +26,9 @@
         <i class="el-icon-caret-right"></i>
       </div>
     </h3>
-     <el-divider class="ccy-drvider"></el-divider>
-    <el-row>
-        <miniReplyCard></miniReplyCard>
-    </el-row>
-    <el-row>
-        <miniReplyCard></miniReplyCard>
-    </el-row>
-    <el-row>
-        <miniReplyCard></miniReplyCard>
-    </el-row>
-    <el-row>
-        <miniReplyCard></miniReplyCard>
+    <el-divider class="ccy-drvider"></el-divider>
+    <el-row v-for="item in quesList" :key="item.id">
+      <miniReplyCard :oneReply="item"></miniReplyCard>
     </el-row>
   </div>
 </template>
@@ -46,29 +37,81 @@ import miniReplyCard from "../expertInterrogationChildren/miniReplyCard";
 
 export default {
   data() {
-    return {};
+    return {
+      quesList: [],
+    };
   },
   components: {
     miniReplyCard,
   },
+  methods: {
+    // 传入帖子id数组，并发请求回复内容
+    async getOneReplyById(ids) {
+      let httpTasks = [];
+      ids.forEach((id) => {
+        httpTasks.push(
+          this.$http.get(
+            `http://106.75.154.40:9012/info/details/findByPost/${id}/1/1`
+          )
+        );
+      });
+      return this.$http.all(httpTasks);
+    },
+    // 获取4个帖子问题进行展示
+    async getRepliesList() {
+      await this.$http
+        .get(`http://106.75.154.40:9012/info/post/findAll/1/4`)
+        .then((res) => {
+          res = res.data;
+          console.log(res)
+          if (res.code === 20000) {
+            res = res.data;
+            let ids = [];
+            res.rows.forEach((item) => ids.push(item.id));
+            // 根据id数组并发请求回复
+            this.getOneReplyById(ids).then(
+              this.$http.spread((...data) => {
+                data.forEach((item, index) => {
+                  this.$set(
+                    res.rows[index],
+                    "reply",
+                    item.data.data.rows?.[0]?.reply
+                  );
+                });
+                res.rows.forEach((item) => {
+                  this.quesList.push(item);
+                });
+              })
+            );
+          } else {
+            this.$message({
+              message: "获取帖子信息失败",
+            });
+          }
+        });
+    },
+  },
+  mounted(){
+    this.getRepliesList()
+  }
 };
 </script>
 <style lang="less" scoped>
 .ccy-drvider {
   margin: 10px 0 7px 0;
 }
-.recommendReply{
-  /deep/.el-card{
-    border:none;
+.recommendReply {
+  /deep/.el-card {
+    border: none;
     border-bottom: 1px solid #ddd;
     padding-bottom: 10px;
-  .ques_item{
-    background-color: #fff;
-    border-radius: 0;
-    .mid{
-      height: 100%;
+    .ques_item {
+      background-color: #fff;
+      border-radius: 0;
+      .mid {
+        height: 100%;
+      }
     }
-  }
   }
 }
 </style>

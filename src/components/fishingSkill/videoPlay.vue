@@ -17,7 +17,7 @@
           <!-- 左侧 -->
           <el-col :span="18" class="col_1">
             <div class="videoArea">
-              <div class="video">
+              <div class="videoPlay-video">
                 <video-player
                   class="video-player vjs-custom-skin"
                   ref="videoPlayer"
@@ -28,30 +28,30 @@
               </div>
               <div class="infomation">
                 <div class="Title">
-                  <span class="videoTitle">标题</span>
-                  <i class="el-icon-share">分享</i>
+                  <span class="videoTitle">{{ videoItem.title }}</span>
+                  <i class="el-icon-share" @click="openShareDialog">分享</i>
                 </div>
                 <span class="videoTime">2分15秒</span>
-                <span class="watchCount">4082人已学习</span>
+                <span class="watchCount">{{ videoItem.clickNum }}人已学习</span>
               </div>
             </div>
           </el-col>
           <!-- 右侧 -->
           <el-col :span="6" class="el_right">
             <h1 class="relativeTitle">相关课程</h1>
-            <el-card class="box-card">
-              <div slot="header" class="clearfix">
+            <el-card class="box-card_1">
+              <!-- <div slot="header" class="clearfix">
                 <span class="card_Title">一件代发</span>
-              </div>
+              </div> -->
               <div
-                v-for="(item, index) in relativeVideo"
-                :key="index"
+                v-for="item in relativeVideo"
+                :key="item.id"
                 class="text item"
               >
                 <el-row :gutter="5">
                   <el-col :span="12">
-                    <div class="videoPic">
-                      <el-image :src="item.src"></el-image>
+                    <div class="videoPic" @click="goVideo(item)">
+                      <el-image :src="item.pic"></el-image>
                       <i class="el-icon-video-play"></i>
                     </div>
                   </el-col>
@@ -69,18 +69,20 @@
         <el-row :gutter="50">
           <el-col :span="17">
             <div class="classIntroduce">
-              课程说明：测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试
+              <span class="weight">课程说明：</span>{{ videoItem.brief }}
             </div>
             <div class="picDescribe">
               图文讲解
               <div class="course">惠农网一件代发上架产品教程</div>
-              <div class="course">发布供应流程：惠农网APP→我要卖→专区报名</div>
+              <div class="course">
+                发布供应流程：惠农网APP→我要卖→专区报名(新版代发·产品上架)→右上角添加→发布供应→确认发布→在售·选择供应→上架完成
+              </div>
             </div>
           </el-col>
           <el-col :span="7">
             <div>
               <h2 class="HotClass">热门课程推荐</h2>
-              <el-card class="box-card_2">
+              <el-card class="box-card_2" shadow="never">
                 <div slot="header" class="clearfix">
                   <span>热门推荐</span>
                 </div>
@@ -91,42 +93,40 @@
                 >
                   <el-row :gutter="10">
                     <el-col :span="12">
-                      <div class="videoPic">
-                        <el-image :src="item.src"></el-image>
+                      <div class="videoPic hotVideo" @click="goVideo(item)">
+                        <el-image :src="item.pic"></el-image>
                         <i class="el-icon-video-play"></i>
                       </div>
                     </el-col>
-                    <el-col :span="12" class="hotadviceTitle"
-                      ><div>{{ item.title }}</div></el-col
-                    >
-                  </el-row>
-                </div>
-              </el-card>
-              <el-card class="box-card_2">
-                <div slot="header" class="clearfix">
-                  <span>基础操作</span>
-                </div>
-                <div
-                  v-for="(item, index) in baseOperation"
-                  :key="index"
-                  class="text item"
-                >
-                  <el-row :gutter="10">
-                    <el-col :span="12">
-                      <div class="videoPic">
-                        <el-image :src="item.src"></el-image>
-                        <i class="el-icon-video-play"></i>
+                    <el-col :span="12" class="hotadviceTitle">
+                      <div>
+                        {{ item.title }}
                       </div>
+                      <span class="watchTimes">
+                        已有{{ item.clickNum }}人观看
+                      </span>
                     </el-col>
-                    <el-col :span="12" class="hotadviceTitle"
-                      ><div>{{ item.title }}</div></el-col
-                    >
                   </el-row>
                 </div>
               </el-card>
             </div>
           </el-col>
         </el-row>
+      </div>
+      <div>
+        <el-dialog
+          title="分享（复制下方链接）"
+          :visible.sync="shareDialogVisible"
+          width="50%"
+        >
+          <el-input type="textarea" :rows="6" v-model="currentPath"> </el-input>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="shareDialogVisible = false">取 消</el-button>
+            <el-button type="primary" @click="shareDialogVisible = false"
+              >确 定</el-button
+            >
+          </span>
+        </el-dialog>
       </div>
     </div>
   </div>
@@ -136,6 +136,8 @@
 export default {
   data() {
     return {
+      videoItem: {},
+      videoDuration: 0,
       playerOptions: {
         //播放速度
         playbackRates: [0.5, 1.0, 1.5, 2.0],
@@ -172,58 +174,105 @@ export default {
           fullscreenToggle: true,
         },
       },
-      relativeVideo: [
-        {
-          title: "视频1大三撒大所多撒多所多撒所多所撒撒多",
-          src:
-            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+      // 相关推荐视频
+      relativeVideo: [],
+      // 热门推荐视频
+      hotAdvice: [],
+      // 是否展示分享内容的对话框
+      shareDialogVisible: false,
+      // 路径
+      currentPath: "",
+      config: {
+        headers: {
+          "Content-Type": "application/json;charset=UTF-8",
         },
-        {
-          title: "视频2",
-          src:
-            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
-        },
-        {
-          title: "视频3",
-          src:
-            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
-        },
-        {
-          title: "视频4",
-          src:
-            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
-        },
-      ],
-      hotAdvice: [
-        {
-          title: "热门推荐视频1",
-          src:
-            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
-        },
-        {
-          title: "热门推荐视频2",
-          src:
-            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
-        },
-      ],
-      baseOperation: [
-        {
-          title: "基础操作视频1",
-          src:
-            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
-        },
-        {
-          title: "基础操作视频2",
-          src:
-            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
-        },
-      ],
+      },
     };
+  },
+  created() {
+    this.getItem();
+    this.getHotVideo();
+  },
+  methods: {
+    getItem() {
+      this.videoItem = this.$route.query;
+      this.playerOptions.sources[0].src = this.videoItem.contentUrl;
+      this.getRealtiveVideo(this.videoItem.typeId, this.videoItem.id);
+    },
+    // 获取推荐视频
+    async getRealtiveVideo(typeId, id) {
+      const { data: res } = await this.reqM2Service(
+        `/education/education/search/searchByTypeId/${typeId}/1/4`,
+        "",
+        "get"
+      );
+      console.log(res);
+      if (res.code !== 20000) {
+        return this.$message.error("获取相关推荐视频失败");
+      }
+      this.relativeVideo = res.data.rows;
+      this.relativeVideo.some((item, i) => {
+        if (item.id == id) {
+          this.relativeVideo.splice(i, 1); //在数组的some方法中，如果return true，就会立即终止这个数组的后续循环
+          return true;
+        }
+      });
+    },
+    // 获取热门视频
+    async getHotVideo() {
+      const { data: res } = await this.reqM2Service(
+        "/education/education/findByClickNum/1/4",
+        "",
+        "get"
+      );
+      this.hotAdvice = res.data.rows;
+    },
+    // 跳转视频
+    async goVideo(item) {
+      item.clickNum++;
+
+      // const { data: res } = await this.$http.put(`/education/education/update/${item.id}`,{
+      //   "brief": item.brief,
+      //   "clickNum": item.clickNum,
+      //   "contentUrl": item.contentUrl,
+      //   "createBy": item.createBy,
+      //   "createDate": item.createDate,
+      //   "id": item.id,
+      //   "module": item.module,
+      //   "pic": item.pic,
+      //   "recommend": item.recommend,
+      //   "state": item.state,
+      //   "title": item.title,
+      //   "typeId": item.typeId,
+      //   "updateBy": item.updateBy,
+      //   "updateDate": item.updateDate
+      // })
+      // const { data: res } = this.reqM2Service(
+      //   `/education/education/update/${item.id}`,
+      //   item,
+      //   "put"
+      // );
+
+      // if (res.code !== 20000) {
+      //   return this.$message.error("失败");
+      // }
+      this.$router.push({
+        path: "/videoPlay",
+        name: "videoPlay",
+        query: item,
+      });
+      window.location.reload();
+    },
+    // 打开分享内容对话框
+    openShareDialog() {
+      this.shareDialogVisible = true;
+      this.currentPath = window.location.href;
+    },
   },
 };
 </script>
 
-<style scoped>
+<style lang="less">
 .ccy-drvider {
   margin: 10px 0 7px 0;
 }
@@ -246,15 +295,16 @@ export default {
 .main {
   margin-top: -10px;
 }
-.main >>> .el-row {
-  background: #222;
+.main {
+  .el-row {
+    background: #222;
+  }
 }
-.video {
+.videoPlay-video {
   display: inline-block;
   width: 850px;
   text-align: center;
   line-height: 100px;
-  border: 1px solid transparent;
   border-radius: 4px;
   overflow: hidden;
   background: #fff;
@@ -262,7 +312,7 @@ export default {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
   margin-right: 4px;
 }
-.video[data-v-38789ab7] {
+.videoPlay-video[data-v-38789ab7] {
   border: 0;
 }
 .videoArea {
@@ -308,10 +358,10 @@ export default {
   padding: 5px 0;
   width: 120px;
   position: relative;
-}
-.el-image {
-  width: 120px;
-  height: auto;
+  .el-image {
+    width: 120px;
+    height: 100px;
+  }
 }
 .el-icon-video-play {
   position: absolute;
@@ -328,24 +378,18 @@ export default {
   padding: 10px 0;
   font-size: 14px;
 }
-.box-card {
+.box-card_1 {
   width: 260px;
   height: 420px;
-  background-color: #222;
-  border: none;
-  cursor: pointer;
-}
-.box-card >>> .el-card__header {
-  padding: 5px 0px;
-  border-bottom: none;
-}
-.box-card >>> .el-card__body {
-  padding: 18px 0px;
-}
-.el-card.is-always-shadow,
-.el-card.is-hover-shadow:focus,
-.el-card.is-hover-shadow:hover {
-  box-shadow: none;
+  background-color: #222 !important;
+  border: none !important;
+  .el-card__header {
+    padding: 5px 0px;
+    border-bottom: none;
+  }
+  .el-card__body {
+    padding: 18px 0px;
+  }
 }
 .card_Title,
 .videoInfo {
@@ -355,7 +399,11 @@ export default {
   width: 100%;
 }
 .classIntroduce {
+  font-size: 14px;
   margin: 30px 0;
+}
+.weight {
+  font-weight: 700;
 }
 .course {
   color: red;
@@ -372,15 +420,35 @@ export default {
   border: none;
   cursor: pointer;
 }
-.box-card_2 >>> .el-card__header {
-  padding: 10px 0;
+.box-card_2 {
+  .el-card__header {
+    padding: 10px 0;
+  }
 }
-.box-card_2 >>> .el-card__body {
-  padding: 10px 10px 10px 0;
+.box-card_2 {
+  .el-card__body {
+    padding: 10px 10px 10px 0;
+  }
 }
 .hotadviceTitle {
   font-size: 15px;
   font-weight: 500;
   padding-top: 5px;
+  position: relative;
+}
+.hotVideo {
+  .el-image {
+    width: 120px;
+    height: 100px;
+  }
+}
+.item {
+  .el-col {
+    cursor: pointer;
+  }
+}
+.watchTimes {
+  font-size: 12px;
+  color: #aaa;
 }
 </style>
