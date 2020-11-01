@@ -1,45 +1,48 @@
 <template>
   <div class="lxl-body">
     <div class="lxl-box">
-       <div class="top">
-         <div class="tl">
-           <el-breadcrumb
-          separator-class="el-icon-arrow-right"
-          class="lxl-breadcrumb"
-        >
-          <el-breadcrumb-item>当前位置</el-breadcrumb-item>
-          <el-breadcrumb-item>产业咨询</el-breadcrumb-item>
-        </el-breadcrumb>
-         </div>
+      <div class="top">
+        <div class="tl">
+          <el-breadcrumb
+            separator-class="el-icon-arrow-right"
+            class="lxl-breadcrumb"
+          >
+            <el-breadcrumb-item>当前位置</el-breadcrumb-item>
+            <el-breadcrumb-item>产业咨询</el-breadcrumb-item>
+          </el-breadcrumb>
+        </div>
         <div class="tr">
-          <input type="text" placeholder="  搜索你想要的农产品资讯">
-          <i class="el-icon-search" ></i>
+          <input type="text" placeholder="  搜索你想要的农产品资讯" />
+          <i class="el-icon-search"></i>
         </div>
       </div>
       <el-divider></el-divider>
       <div class="main">
-        <div class="left" >
-          <div class="LeftTop" >
-            <span style="font-size: 36px"
-              >{{CurrentData.title}}"</span
-            >
+        <div class="left">
+          <div class="LeftTop">
+            <span style="font-size: 36px">{{ CurrentData.title }}"</span>
             <el-divider></el-divider>
             <div class="pandc">
               <div class="pic">
-               <el-avatar style="border:3px solid white" :size="70" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+                <el-avatar
+                  style="border: 3px solid white"
+                  :size="70"
+                  src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+                ></el-avatar>
               </div>
               <div class="lxl-title">
-                <h3>{{CurrentData.editor}}</h3>
+                <h3>{{ IdData.editor }}</h3>
                 <p style="display: flex">
-                  发布时间 {{CurrentData.creationTime | timefilters}}<span style="margin-left: 15px">
-                   {{CurrentData.editor}}报告</span
+                  发布时间 {{ IdData.creationTime | timefilters
+                  }}<span style="margin-left: 15px">
+                    {{ IdData.editor | limitword}}报告</span
                   >
                 </p>
               </div>
             </div>
           </div>
           <div class="wenzhang">
-            <div v-html="CurrentData.content"></div>
+            <div v-html="IdData.content"></div>
             <!-- <span>江北鱼米之乡，中国博兴乔庄。</span><br /><br />
             <span>农民喜庆丰收节，—虾带来百业兴。</span><br /><br />
             <span
@@ -53,7 +56,7 @@
               县渔业服务中心、乔庄镇党委政府共同发起了本届博兴虾王争霸赛。
             </span> -->
             <div class="block">
-              <el-image :src="CurrentData.picture"></el-image>
+              <el-image :src="IdData.picture"></el-image>
             </div>
             <!-- <span>山东主持人国博兴乔庄</span><br /><br />
             <span
@@ -68,69 +71,93 @@
               虾""品牌影响力
             </span> -->
             <div class="block">
-              <el-image :src="CurrentData.picture" style="height: 430px"></el-image>
+              <el-image :src="IdData.picture" style="height: 430px"></el-image>
             </div>
             <!-- <span>
               说起博兴县南美白对虾产业，那可是有着“中国白对虾生态养殖第一县""的美誉，不管
               是养殖规模，还是对虾品质，那可都是响当当的全国第一。为了进一步增强"博兴对
               虾""品牌影响力，那可都是响当起博兴县南美白对虾产业，那可是有着“中国白对虾生态养殖第一县""的美誉，不 </span
             > -->
-              <el-divider></el-divider>
-            <h3 style="margin-bottom:30px;font-family: btt;">{{numclicklist[1].editor}}报告</h3>
+            <el-divider></el-divider>
+            <h3 style="margin-bottom: 30px; font-family: btt">
+              {{ numclicklist[1].editor }}报告
+            </h3>
           </div>
         </div>
+
         <div class="right">
-          <el-tabs v-model="activeName" >
+          <el-tabs v-model="activeName">
             <el-tab-pane label="最新资讯" name="first">
-              <div class="list" v-for="(item, index) in newDataList.slice(0, 5)" :key="index">
-                <router-link to="/instructdetail" style="text-decoration:none;color:black">
-                <div class="block">
-                  <el-image :src="item.picture"></el-image>
-                  <div class="rightspan">
-                    <span
-                      >{{item.title}}</span
-                    >
+              <div
+                class="list"
+                v-for="(item, index) in newDataList.slice(0, 5)"
+                :key="index"
+              >
+                <router-link
+                  to="/instructdetail"
+                  style="text-decoration: none; color: black"
+                >
+                  <div class="block">
+                    <el-image
+                      :src="item.picture"
+                      @click="FRESH(item.id)"
+                    ></el-image>
+                    <div class="rightspan">
+                      <span @click="FRESH(item.id)">{{ item.title }}</span>
+                    </div>
                   </div>
-                </div>
                 </router-link>
               </div>
             </el-tab-pane>
             <el-tab-pane label="热门资讯" name="second">
-              <div class="list" v-for="(item, index) in numclicklist.slice(0,5)" :key="index">
+              <div
+                class="list"
+                v-for="(item, index) in numclicklist.slice(0, 5)"
+                :key="index"
+              >
                 <div class="block">
-                  <el-image :src="item.picture"></el-image>
+                  <el-image
+                    :src="item.picture"
+                    @click="FRESH(item.id)"
+                  ></el-image>
                   <div class="rightspan">
-                    <span
-                      >{{item.title}}</span
-                    >
+                    <span @click="FRESH(item.id)">{{ item.title }}</span>
                   </div>
                 </div>
               </div>
             </el-tab-pane>
           </el-tabs>
-          <el-tabs v-model="activeName1" @tab-click="handleClick">
+          <el-tabs v-model="activeName1">
             <el-tab-pane label="本周热门" name="first明">
-              <div class="list" v-for="(item, index) in WeekDataList.slice(0, 5)" :key="index">
-              
+              <div
+                class="list"
+                v-for="(item, index) in WeekDataList.slice(0, 5)"
+                :key="index"
+              >
                 <div class="block">
-                  <el-image :src="item.picture"></el-image>
+                  <el-image
+                    :src="item.picture"
+                   @click="FRESH(item.id)"
+                  ></el-image>
                   <div class="rightspan">
-                    <span
-                      >{{item.title}}</span
-                    >
+                    <span @click="FRESH(item.id)">{{ item.title }}</span>
                   </div>
                 </div>
-               
               </div>
             </el-tab-pane>
             <el-tab-pane label="本月热门" name="second2">
-              <div class="list" v-for="(item, index) in MonthData.slice(0, 5)" :key="index">
+              <div
+                class="list"
+                v-for="(item, index) in MonthData.slice(0, 5)"
+                :key="index"
+              >
                 <div class="block">
-                  <el-image :src="item.picture"></el-image>
+                  <el-image
+                    :src="item.picture"
+                    @click="TonewPath(item.id)"
+                  ></el-image>
                   <div class="rightspan">
-                    <span
-                      >{{item.title}}</span
-                    >
+                    <span @click="TonewPath(item.id)">{{ item.title }}</span>
                   </div>
                 </div>
               </div>
@@ -144,7 +171,7 @@
 
 <script>
 export default {
-    filters: {
+  filters: {
     timefilters(val) {
       if (val == null || val == "") {
         return "暂无时间";
@@ -171,6 +198,21 @@ export default {
         return times;
       }
     },
+    //限制文字个数
+    limitword(val) {
+      if (val == null || val == "" || val == 1) {
+        return "暂无数据";
+      } else {
+        var len = val.length;
+        if (len > 80) {
+          str: "";
+          str = val.substring(0, 80) + "......";
+          return str;
+        } else {
+          return val;
+        }
+      }
+    },
   },
   data() {
     return {
@@ -179,72 +221,96 @@ export default {
       activeName: "second",
       activeName1: "second2",
       //按点击量查询
-      numclicklist:[],
+      numclicklist: [],
 
       //按最新  时间
-      newDataList:[],
+      newDataList: [],
 
       //每周
-      WeekDataList:[],
+      WeekDataList: [],
       // 全部数据
-      Alldata:[],
+      Alldata: [],
       //当前页面
-      CurrentData:[],
+      CurrentData: [],
 
       //每月
-      MonthData:[]
-      
-    }
+      MonthData: [],
+      IdData: {},
+    };
   },
   created() {
     //获取全部关于专题数据
-    this.getshrimpIndustryData()
+    this.getshrimpIndustryData();
     //点击量 热度
-    this.getclickData()
+    this.getclickData();
     //时间 最新
-    this.getnewData()
+    this.getnewData();
 
     //每周
-    this.getWeekData()
-    
+    this.getWeekData();
+
     //每月
-    this.getMonthData()
- },
-  mounted() {
-      console.log(this.$route.query.id);
+    this.getMonthData();
   },
-  methods : {
-    //找到相应ID
-    async getshrimpIndustryData (){
-    
-      const {data : res} = await this.reqM2Service("/info/shrimpIndustry","", "get")
-      this.Alldata = res.data;
-      
-      for(var i=0;i<this.Alldata.length;i++){
-        if(this.Alldata[i].id == this.$route.query.id){
-          this.CurrentData = this.Alldata[i]
-          console.log(this.CurrentData)
-        }
-      }
+  mounted() {
+    console.log(this.$route.query.id);
+  },
+  methods: {
+    //前往详情页
+    TonewPath(id) {
+      this.$router.push({
+        path: "/instructdetail",
+        query: { id: id },
+      });
     },
-    async getclickData(){
-      const {data :res} = await this.reqM2Service("/info/shrimpIndustry/findByClickNum", '' ,'get')
-      this.numclicklist = res.data
+    FRESH(ID){
+      this.$route.query.id=ID
+      this.getshrimpIndustryData()
+    },
+    //找到相应ID文章
+    async getshrimpIndustryData() {
+      const { data: res } = await this.reqM2Service(
+        `/info/information/${this.$route.query.id}`,
+        "",
+        "get"
+      );
+      this.IdData = res.data;
+      console.log(res);
+    },
+    async getclickData() {
+      const { data: res } = await this.reqM2Service(
+        "/info/shrimpIndustry/findByClickNum/1/5",
+        "",
+        "get"
+      );
+      this.numclicklist = res.data.rows;
     },
     async getnewData() {
-      const {data :res} = await this.reqM2Service("/info/shrimpIndustry/findByTime","", "get")
-      this.newDataList = res.data
+      const { data: res } = await this.reqM2Service(
+        "/info/shrimpIndustry/findByTime/1/5",
+        "",
+        "get"
+      );
+      this.newDataList = res.data.rows;
     },
 
     async getWeekData() {
-      const {data: res} = await this.reqM2Service("/info/shrimpIndustry/findByClickWeekly","", "get")
-      this.WeekDataList = res.data
+      const { data: res } = await this.reqM2Service(
+        "/info/shrimpIndustry/findByClickWeekly",
+        "",
+        "get"
+      );
+      this.WeekDataList = res.data;
     },
-    async getMonthData(){
-      const {data: res} = await this.reqM2Service("/info/shrimpIndustry/findByClickMonthly","", "get")
-      this.MonthData = res.data
-    }
-  }
+    async getMonthData() {
+      const { data: res } = await this.reqM2Service(
+        "/info/shrimpIndustry/findByClickMonthly",
+        "",
+        "get"
+      );
+      this.MonthData = res.data;
+    },
+  },
 };
 </script>
 
@@ -261,37 +327,37 @@ export default {
     margin-top: 25px;
     margin-left: 18px;
     margin-bottom: -10px;
-    
   }
 }
 .lxl-box {
   width: 1150px;
 }
-.top{
+.top {
   padding-top: 10px;
   margin-bottom: -19px;
   display: flex;
   justify-content: space-between;
-  .tl{
+  .tl {
     margin-top: -10px;
   }
-  .tr{
+  .tr {
     position: relative;
-    input{
+    input {
       padding-left: 5px;
       border: 2px solid #d8d8d8;
-      border-radius:100px;
+      border-radius: 100px;
       width: 198px;
       height: 38px;
       outline: none;
     }
-    i{
+    i {
       top: 13px;
       position: absolute;
       right: 20px;
     }
   }
 }
+
 .main {
   margin-top: -30px;
   .left {
@@ -310,7 +376,7 @@ export default {
       }
       .pandc {
         display: flex;
-        .lxl-title{
+        .lxl-title {
           margin-top: 17px;
           margin-left: 5px;
         }

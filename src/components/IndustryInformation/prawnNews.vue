@@ -23,7 +23,7 @@
             <div class="block" style="margin-bottom: 8px">
               <div
                 class="blockson"
-                v-for="item in datalist.slice(0, 3)"
+                v-for="item in duixialist"
                 :key="item.id"
                 @click="TonewPath(item.id)"
               >
@@ -173,12 +173,12 @@
                 </h3>
                 <el-divider class="ccy-drvider"></el-divider>
 
-                <ul>
+                <ul class="ccy-css">
                   <li
                     v-for="(item, index) in dataTimeList.slice(0, 6)"
                     :key="index"
                     @click="TonewPath(item.id)"
-                    :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
+                    
                   >
                     {{ item.title }}
                   </li>
@@ -220,12 +220,12 @@
                   class="ccy-drvider"
                   style="display: inline-block; margin-top: -30px"
                 ></el-divider>
-                <ul>
+                <ul class="ccy-css">
                   <li
                     v-for="(item, index) in dataRecommList.slice(0, 6)"
                     :key="index"
                     @click="TonewPath(item.id)"
-                    :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
+                    
                   >
                     {{ item.title }}
                   </li>
@@ -263,12 +263,12 @@
                 </h3>
                 <el-divider class="ccy-drvider"></el-divider>
 
-                <ul>
+                <ul class="ccy-css">
                   <li
                     v-for="(item, index) in dataClickList.slice(0, 6)"
                     :key="index"
                     @click="TonewPath(item.id)"
-                    :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
+                   
                   >
                     {{ item.title }}
                   </li>
@@ -368,8 +368,23 @@ export default {
       // 类型分页
       pagelist: [],
 
-      //查询所有产业资讯
-      datalist: [],
+      //查询对虾资讯
+      duixialist: [
+        {
+          picture: "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+          title:'暂无数据'
+        },
+        {
+          picture: "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+          title:'暂无数据'
+        },
+        {
+          picture: "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+          title:'暂无数据'
+        }
+       
+      ],
+      duixiaId: '1320625468222869504',
 
       //按时间  最新
       dataTimeList: [],
@@ -390,8 +405,8 @@ export default {
   created() {
     // 对虾养殖 分页
     this.getPageList(),
-      //获取所有产业资讯
-      this.getAllData(),
+      //获取对虾资讯
+      this.getduixia(),
       //获取最新
       this.getNewData(),
       //按推荐
@@ -423,16 +438,23 @@ export default {
         query: { path: path },
       });
     },
-    //查询全部
-    async getAllData() {
+    
+    //对虾资讯
+    async getduixia() {
       const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustry",
+        `/info/shrimpIndustry/search/searchByTypeId/${this.duixiaId}/1/3`,
         "",
-        "get"
+        "post"
       );
-      this.datalist = res.data;
-      // console.log(res.data)
+      if(res.data.rows.length == 0){
+        
+      }else{
+        this.duixialist = res.data.rows
+      }
+      
+      
     },
+
 
     //分页  1316745747953225728
     async getPageList() {
@@ -539,16 +561,22 @@ export default {
   }
 }
 .ccy-css {
-  color: black;
-  text-decoration: none;
-  font-size: 15.21px;
-  font-weight: 700;
-}
-.ccy-cssn {
-  text-decoration: none;
-  color: black;
+  color: #858585;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
   font-size: 13px;
-  font-weight: 500;
+}
+.ccy-css > li:hover {
+  color: black;
+  font-weight: 800px;
+}
+.ccy-css:first-line {
+  color: black;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  font-size: 15px;
+  font-weight: 700;
 }
 .el-image {
   cursor: pointer;

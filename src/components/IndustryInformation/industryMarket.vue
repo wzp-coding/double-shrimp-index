@@ -421,7 +421,7 @@
               <ul class="ccy-css">
                 <li
                   @click="TonewPath(item.id)"
-                  v-for="(item, index) in NewDataList.slice(0, 9)"
+                  v-for="(item, index) in NewDataList"
                   :key="index"
                 >
                   {{ item.title }}
@@ -468,7 +468,7 @@
               <el-divider class="ccy-drvider"></el-divider>
               <ul class="ccy-css" style="margin-bottom: 30px">
                 <li
-                  v-for="(item, index) in ClickDataList.slice(0, 12)"
+                  v-for="(item, index) in RecommList"
                   :key="index"
                   @click="TonewPath(item.id)"
                   style="width: 180px"
@@ -552,6 +552,7 @@
               </h3>
               <el-divider class="ccy-drvider"></el-divider>
             </div>
+            <!-- 标签 -->
             <div class="tage">
               <div class="tageson">
                 <el-button size="medium" round>专家</el-button>
@@ -708,6 +709,9 @@ export default {
       //每月精彩资讯
       MonthDataList: [],
 
+      //推荐 ，分页
+      RecommList: [],
+
       //热度 点击量
       waybytime: "info/shrimpIndustry/findByTime",
       waybyclick: "info/shrimpIndustry/findByClickNum",
@@ -740,6 +744,9 @@ export default {
 
     //点击量 热度
     this.getClickData();
+
+    //推荐
+    this.getRecommData();
   },
   methods: {
     //前往详情页
@@ -766,7 +773,8 @@ export default {
 
     //每周精品
     async getWeekData() {
-      const { data: res } = await this.reqM2Service(
+      try {
+        const { data: res } = await this.reqM2Service(
         "/info/shrimpIndustry/findByClickWeekly",
         "",
         "get"
@@ -779,11 +787,16 @@ export default {
         console.log(res);
         console.log(this.weekliList);
       }
+      } catch (error) {
+        console.log('网络错误19999')
+      }
+      
     },
 
     //精彩专题 1 对虾养殖
     async getjingcai1() {
-      const { data: res } = await this.reqM2Service(
+      try {
+        const { data: res } = await this.reqM2Service(
         `/info/shrimpIndustry/search/searchByTypeId/${this.queryInfo1.TypeID1}/${this.queryInfo1.Infopage1}/${this.queryInfo1.Infosize1}`,
         "",
         "post"
@@ -795,11 +808,16 @@ export default {
       }
       this.jingcai1List = res.data.rows;
       this.queryInfo1.Infototal1 = res.data.rows.length;
+      } catch (error) {
+        console.log('网络错误1999')
+      }
+      
     },
 
     //精彩专题2 1320648223462920192
     async getjingcai2() {
-      const { data: res } = await this.reqM2Service(
+      try {
+        const { data: res } = await this.reqM2Service(
         `/info/shrimpIndustry/search/searchByTypeId/${this.queryInfo2.TypeID2}/${this.queryInfo1.Infopage1}/${this.queryInfo1.Infosize1}`,
         "",
         "post"
@@ -809,53 +827,76 @@ export default {
         console.log(res);
         console.log("获取精彩专题2数据成功");
         this.jingcai2List = res.data.rows;
-
+      }else{
+        console.log('网络错误20001')
       }
+      } catch (error) {
+         console.log('网络错误19999')
+      }
+      
     },
 
     // 根据类型ID查询 精彩专题3  财富手册
     async getjingcai3() {
-      const { data: res } = await this.reqM2Service(
-        `/info/shrimpIndustry/search/searchByTypeId/${this.queryInfo3.TypeID3}/${this.queryInfo3.Currentpage}/${this.queryInfo3.pagesize}`,
-        "",
-        "post"
-      );
-      if (res.code === 20000) {
-        console.log("5" + res);
-        console.log("获取精彩专题3数据成功");
+      try {
+        const { data: res } = await this.reqM2Service(
+          `/info/shrimpIndustry/search/searchByTypeId/${this.queryInfo3.TypeID3}/${this.queryInfo3.Currentpage}/${this.queryInfo3.pagesize}`,
+          "",
+          "post"
+        );
+        if (res.code === 20000) {
+          console.log("5" + res);
+          console.log("获取精彩专题3数据成功");
+        } else {
+          this.$message.error("网络错误 20001");
+        }
+        this.pagelist = res.data.rows;
+        this.queryInfo3.total = res.data.total;
+      } catch (error) {
+        this.$message.error("网络错误 19999");
       }
-      this.pagelist = res.data.rows;
-      this.queryInfo3.total = res.data.total;
     },
     handleCurrentChange(newpage) {
       //改变页码
       this.queryInfo3.Currentpage = newpage;
       this.getjingcai3();
     },
-    //最新
+    //最新  分页
     async getNewData() {
-      const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustry/findByTime",
-        "",
-        "get"
-      );
-      this.NewDataList = res.data;
-      if (res.code === 20000) {
-        console.log("6" + res);
-        console.log("获取最新数据成功");
+      try {
+        const { data: res } = await this.reqM2Service(
+          "/info/shrimpIndustry/findByTime/1/9",
+          "",
+          "get"
+        );
+        this.NewDataList = res.data.rows;
+        if (res.code === 20000) {
+          console.log("6" + res);
+          console.log("获取最新数据成功");
+        } else {
+          this.$message.error("网络错误 20001");
+        }
+      } catch (error) {
+        this.$message.error("网络错误 19999");
       }
     },
     //每月
     async getMonthData() {
-      const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustry/findByClickMonthly",
-        "",
-        "get"
-      );
-      this.MonthDataList = res.data;
-      if (res.code === 20000) {
-        console.log("7" + res);
-        console.log("获取每月数据成功");
+      try {
+        const { data: res } = await this.reqM2Service(
+          "/info/shrimpIndustry/findByClickMonthly",
+          "",
+          "get"
+        );
+        this.MonthDataList = res.data;
+        if (res.code === 20000) {
+          console.log("7" + res);
+          console.log("获取每月数据成功");
+        } else {
+          this.$message.error("网络错误 20001");
+        }
+      } catch (error) {
+        this.$message.error("网络错误 19999");
       }
     },
     //热门点击量
@@ -871,6 +912,26 @@ export default {
         console.log("获取点击量数据成功");
         if (res.code === 20000) {
           this.ClickDataList = res.data.rows;
+        } else {
+          this.$message.error("网络错误 20001");
+        }
+      } catch (error) {
+        this.$message.error("网络错误 19999");
+      }
+    },
+    // 推荐，分页
+    async getRecommData() {
+      try {
+        const { data: res } = await this.reqM2Service(
+          "/info/shrimpIndustry/findByRecommend/1/8",
+          "",
+          "get"
+        );
+        console.log("8" + res);
+        console.log(res);
+        console.log("获取推荐数据成功");
+        if (res.code === 20000) {
+          this.RecommList = res.data.rows;
         } else {
           this.$message.error("网络错误 20001");
         }
@@ -1125,6 +1186,7 @@ export default {
 }
 li {
   padding: 6px 0 3px 0;
+  cursor: pointer;
 }
 .right {
   .midpic {
@@ -1134,9 +1196,6 @@ li {
       width: 100%;
       height: 100%;
     }
-  }
-  li {
-    cursor: pointer;
   }
   .ccy-li {
     span {
