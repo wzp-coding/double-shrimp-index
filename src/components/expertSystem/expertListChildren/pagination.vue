@@ -15,11 +15,11 @@
 export default {
   data() {
     return {
-      size:2,
-      page:1
+      page:1,
+      flag:this.resetPage
     };
   },
-  props:["total","resetPage"],
+  props:["total","resetPage","size"],
   methods: {
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
@@ -32,9 +32,10 @@ export default {
   },
   watch:{
     resetPage(){
-      if(this.resetPage){
+      this.flag = this.resetPage;
+      if(this.flag){
         this.page = 1
-        this.resetPage = !this.resetPage
+        this.flag = !this.flag
       }
     }
   }

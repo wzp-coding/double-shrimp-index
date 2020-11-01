@@ -14,7 +14,9 @@
           <div class="que_text reply_text">
             <span class="queicon replyicon">答</span>
             <span class="quetext replytext">
-              {{ oneReply ? oneReply.reply : "暂无" }}
+              {{
+                oneReply ? (oneReply.reply ? oneReply.reply : "暂无") : "暂无"
+              }}
             </span>
           </div>
         </div>
@@ -35,7 +37,7 @@ export default {
   methods: {
     toQuestionDetail() {
       this.$router.push({
-        name: "questionDetail",
+        name: "wzp_questionDetail",
         params: { id: this.oneReply.id },
       });
       location.reload();

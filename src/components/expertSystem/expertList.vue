@@ -37,6 +37,7 @@
         <pagination
           :total="total"
           :resetPage="resetPage"
+          :size="size"
           @pageChange="handlePageChange"
         ></pagination>
       </div>
@@ -71,6 +72,7 @@ export default {
       ],
       expertList: [],
       total: 50,
+      size:9,
       loading: true,
       expertTypeId: "0",
       sortTypeId: "0",
@@ -110,7 +112,7 @@ export default {
       this.resetPage = true;
     },
     // 根据排序方式获取(全部)类型的专家
-    getExpertListBySortWay(id = "0", page = 1, size = 1) {
+    getExpertListBySortWay(id = "0", page = 1, size = 9) {
       let httpUrl = "";
       switch (id) {
         // 咨询量
@@ -137,6 +139,7 @@ export default {
         res = res.data;
         if (res.code === 20000) {
           res = res.data;
+          console.log('res: ', res);
           this.total = res.total;
           this.expertList = [];
           res.rows.forEach((item) => this.expertList.push(item));
@@ -145,13 +148,14 @@ export default {
             message: "获取专家信息失败",
           });
         }
+        this.loading = false;
       });
     },
     // 点击不同的排序方式时，获取专家列表排序方式
     changeSortWay({ id }) {
       this.sortTypeId = id;
-      console.log('this.expertTypeId: ', this.expertTypeId);
-      console.log('this.sortTypeId: ', this.sortTypeId);
+      // console.log('this.expertTypeId: ', this.expertTypeId);
+      // console.log('this.sortTypeId: ', this.sortTypeId);
       this.getExpertListBySortAndType(this.sortTypeId,this.expertTypeId);
       // 重置换页
       this.resetPage = true;
@@ -161,10 +165,10 @@ export default {
       sortTypeId = "0",
       expertTypeId = "0",
       page = 1,
-      size = 1
+      size = 9
     ) {
-      console.log('sortTypeId: ', sortTypeId);
-      console.log('expertTypeId: ', expertTypeId);
+      // console.log('sortTypeId: ', sortTypeId);
+      // console.log('expertTypeId: ', expertTypeId);
       // 按全部类型专家搜索，再判断是哪种排序方式就行了
       if (expertTypeId == "0") {
         this.getExpertListBySortWay(sortTypeId, page, size);
@@ -175,27 +179,29 @@ export default {
         switch (sortTypeId) {
           // 咨询量
           case "1":
-            httpUrl = `http://106.75.154.40:9012/info/experts/findByConsultingNum/${expertTypeId}/${page}/${size}`;
+            httpUrl = `/experts/findByTypeAndConsultingNum/${expertTypeId}/${page}/${size}`;
             break;
           // 回复量
           case "2":
-            httpUrl = `http://106.75.154.40:9012/info/experts/findByRepliesNum/${expertTypeId}/${page}/${size}`;
+            httpUrl = `/experts/findByTypeAndRepliesNum/${expertTypeId}/${page}/${size}`;
             break;
           // 回复率
           case "3":
-            httpUrl = `http://106.75.154.40:9012/info/experts/findByRepliesPercent/${expertTypeId}/${page}/${size}`;
+            httpUrl = `/experts/findByTypeAndRepliesPercent/${expertTypeId}/${page}/${size}`;
             break;
           // 有用量
           case "4":
-            httpUrl = `http://106.75.154.40:9012/info/experts/findByPraiseNum/${expertTypeId}/${page}/${size}`;
+            httpUrl = `/experts/findByTypeAndPraiseNum/${expertTypeId}/${page}/${size}`;
             break;
           // 默认
           default:
-            httpUrl = `http://106.75.154.40:9012/info/experts/findByConsultingNum/${expertTypeId}/${page}/${size}`;
+            httpUrl = `/experts/findByTypeAndConsultingNum/${expertTypeId}/${page}/${size}`;
         }
-        this.$http.post(httpUrl).then(res=>{
-          console.log('res: ', res);
+        // this.$http.post(httpUrl)
+        this.reqM2Service(httpUrl,{},'post')
+        .then(res=>{
           res = res.data;
+          // console.log('res: ', res);
           if (res.code === 20000) {
             res = res.data;
             this.total = res.total;
@@ -212,10 +218,10 @@ export default {
     },
     // 处理换页请求
     handlePageChange({ page, size }) {
-      console.log('size: ', size);
-      console.log('page: ', page);
-      console.log('this.expertTypeId: ', this.expertTypeId);
-      console.log('this.sortTypeId: ', this.sortTypeId);
+      // console.log('size: ', size);
+      // console.log('page: ', page);
+      // console.log('this.expertTypeId: ', this.expertTypeId);
+      // console.log('this.sortTypeId: ', this.sortTypeId);
       this.getExpertListBySortAndType(this.sortTypeId,this.expertTypeId,page,size);
       // 取消重置换页
       this.resetPage = false;

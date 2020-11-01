@@ -51,13 +51,13 @@ export default {
     // 获取4条数据
     getFourDisease(page = 1, size = 4) {
       // 等分页查询接口完成加上去
-      let httpUrl = `http://120.78.14.141:9007/diagnose/search/all`;
+      let httpUrl = `http://106.75.154.40:9010/diagnose/search/all/${page}/${size}`;
       this.$http.get(httpUrl).then((res) => {
-        console.log(res.data);
         res = res.data;
+        console.log(res); 
         if (res.code === 20000) {
-          res = res.data[0].content;
-          this.queryResList = res.slice(0, 4);
+          res = res.data;
+          this.queryResList = res.rows;
           console.log(this.queryResList);
         }
       });

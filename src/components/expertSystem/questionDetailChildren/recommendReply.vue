@@ -50,8 +50,8 @@ export default {
       let httpTasks = [];
       ids.forEach((id) => {
         httpTasks.push(
-          this.$http.get(
-            `http://106.75.154.40:9012/info/details/findByPost/${id}/1/1`
+          this.reqM2Service(
+            `/details/findByPost/${id}/1/1`,{},'get'
           )
         );
       });
@@ -59,8 +59,7 @@ export default {
     },
     // 获取4个帖子问题进行展示
     async getRepliesList() {
-      await this.$http
-        .get(`http://106.75.154.40:9012/info/post/findAll/1/4`)
+      await this.reqM2Service(`/post/findAll/1/4`,{},"get")
         .then((res) => {
           res = res.data;
           console.log(res)
@@ -90,9 +89,10 @@ export default {
           }
         });
     },
+    
   },
   mounted(){
-    this.getRepliesList()
+      this.getRepliesList()
   }
 };
 </script>

@@ -70,6 +70,7 @@
         <pagination
           :total="queryTotal"
           :resetPage="false"
+          :size="size"
           @pageChange="handlePageChange"
           v-if="this.queryResList.length != 0"
         ></pagination>
@@ -101,46 +102,58 @@ export default {
       queryResList: [],
       queryTotal: 10,
       srcList: [],
+      size: 8,
     };
   },
   methods: {
     // 当子组件换页时
     handlePageChange({ page, size }) {
-      console.log("父组件:");
-      console.log("size: ", size);
-      console.log("page: ", page);
-      this.startQuery(page, size);
+      // console.log("父组件:");
+      // console.log("size: ", size);
+      // console.log("page: ", page);
+      this.getDiseaseInfoByKeys(page, size,this.input);
     },
-    // 点击开始查询
-    startQuery(page = 1, size = 8) {
+    // 根据关键字分页搜索
+    getDiseaseInfoByKeys(page=1,size=8,keys){
       // console.log('this.input: ', this.input);
       // console.log('this.value: ', this.value);
       let httpUrl = "";
       // 等分页查询接口完成加上去
       switch (this.value) {
         case "1":
-          httpUrl = `http://120.78.14.141:9007/diagnose/search/accurate?key=${this.input}`;
+          httpUrl = `http://106.75.154.40:9010/diagnose/search/accurate/${page}/${size}?key=${keys}`;
           break;
         case "2":
-          httpUrl = `http://120.78.14.141:9007/diagnose/search?key=${this.input}`;
+          httpUrl = `http://106.75.154.40:9010/diagnose/search/${page}/${size}?key=${keys}`;
           break;
       }
-      this.$http.get(httpUrl).then((res) => {
-        console.log(res.data);
+      this.$http({
+        url: httpUrl,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method:"get"
+      }).then((res) => {
         res = res.data;
+        console.log(res);
         if (res.code === 20000) {
           res = res.data;
-          this.queryResList = res.slice(0, 8);
-          // this.queryTotal = res.length
-          res.forEach((item) => this.srcList.push(item.pic));
+          this.queryResList = res.rows;
+          this.queryTotal = res.total;
+          this.queryResList.forEach((item) => this.srcList.push(item.pic));
         }
       });
+    },
+    // 点击开始查询
+    startQuery() {
+      this.getDiseaseInfoByKeys(1,8,this.input)
     },
   },
 };
 </script>
 <style lang="less" scoped>
 .lxl-content {
+  
   .pagination {
     width: 100%;
     padding: 20px;
@@ -166,10 +179,12 @@ export default {
   }
 }
 .queryDisease {
+
   .func_tip {
     margin: 0 0 10px 0;
   }
   .content {
+    width: 100%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
     .tips {
       margin: 10px 0;
