@@ -882,12 +882,11 @@ export default {
         myChart.resize();
       });
     },
+
     // 根据名称查询实体关联
     async searchConByName(searchData) {
-      this.formInline.searchData;
-      console.log("/entity/search/" + this.formInline.searchData);
       const { data: res } = await this.reqM3Service(
-        "/entity/search/" + this.formInline.searchData,
+        "/entity/search/" + searchData,
         "",
         "get"
       );
@@ -912,12 +911,14 @@ export default {
         "",
         "get"
       );
+
       // 过滤
       if (res.code === 20000) {
         // 返回的数据
         console.log(res.data);
         if (res.data.length !== 0) {
           this.infoData = res.data;
+          this.searchConByName(searchData);
         } else {
           this.$message.warning("暂无相关数据");
         }
