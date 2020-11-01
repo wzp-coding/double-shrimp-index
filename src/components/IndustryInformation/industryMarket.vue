@@ -830,7 +830,7 @@ export default {
         console.log('获取精彩专题3数据成功')
       }
       this.pagelist = res.data.rows;
-      this.queryInfo3.total = res.data.rows.length;
+      this.queryInfo3.total = res.data.total;
     },
     handleCurrentChange(newpage) {
       //改变页码
