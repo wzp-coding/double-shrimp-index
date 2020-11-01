@@ -80,7 +80,7 @@
           </div>
         </div>
         <div class="right">
-          <el-tabs v-model="activeName" @tab-click="handleClick">
+          <el-tabs v-model="activeName" >
             <el-tab-pane label="最新资讯" name="first">
               <div class="list" v-for="(item, index) in newDataList.slice(0, 5)" :key="index">
                 <router-link to="/instructdetail" style="text-decoration:none;color:black">
@@ -204,7 +204,6 @@ export default {
     //时间 最新
     this.getnewData()
 
-
     //每周
     this.getWeekData()
     
@@ -213,7 +212,6 @@ export default {
  },
   mounted() {
       console.log(this.$route.query.id);
-     
   },
   methods : {
     //找到相应ID
@@ -245,10 +243,6 @@ export default {
     async getMonthData(){
       const {data: res} = await this.reqM2Service("/info/shrimpIndustry/findByClickMonthly","", "get")
       this.MonthData = res.data
-    }
-    ,
-    handleClick(){
-
     }
   }
 };

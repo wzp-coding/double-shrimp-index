@@ -107,6 +107,10 @@ const routes = [
     ]
   },
   {
+    path: '/industryothermore',
+    component: industryothermore
+  },
+  {
     path: '/instructdetail',
     component: instructdetail
   },
