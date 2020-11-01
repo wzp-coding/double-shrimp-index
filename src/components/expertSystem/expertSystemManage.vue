@@ -33,19 +33,21 @@
                   <el-avatar
                     shape="circle"
                     :size="100"
-                    :src="userData.photo"
+                    :src="expertInfo.picture"
                   ></el-avatar>
                 </div>
-                <span class="user-avator-name">{{ userData.loginId }}</span>
-                <span class="user-avator-identity">{{ userData.role }}</span>
+                <span class="user-avator-name">{{expertInfo.name}}</span>
+                <span class="user-avator-identity">{{'专家'}}</span>
               </el-col>
               <el-col :span="17" class="user-attestation">
-                <div class="user-attestation-header">欢迎亲爱的店主！</div>
+                <div class="user-attestation-header">
+                  欢迎您，{{ expertInfo.name }}专家！
+                </div>
                 <div class="user-attestation-main">
                   <div class="wait">
                     <div class="amount">
-                      <el-badge :value="200" :max="99" class="item">
-                        5615
+                      <el-badge :value="0" :max="99" class="item">
+                        {{expertInfo.consultingNum}}
                       </el-badge>
                     </div>
                     <div class="text">累积提问</div>
@@ -53,17 +55,17 @@
                   <span></span>
                   <div class="wait">
                     <div class="amount">
-                      <el-badge :value="200" :max="99" class="item">
-                        5615
+                      <el-badge :value="0" :max="99" class="item">
+                        {{expertInfo.repliesNum}}
                       </el-badge>
                     </div>
-                    <div class="text">新增访客</div>
+                    <div class="text">累积回复</div>
                   </div>
                   <span></span>
                   <div class="wait">
                     <div class="amount">
-                      <el-badge :value="200" :max="99" class="item">
-                        51
+                      <el-badge :value="0" :max="99" class="item">
+                        {{repliesRate}}%
                       </el-badge>
                     </div>
                     <div class="text">回复率</div>
@@ -71,9 +73,7 @@
                   <span></span>
                   <div class="wait">
                     <div class="amount">
-                      <el-badge :value="0" :max="99" class="item">
-                        0
-                      </el-badge>
+                      <el-badge :value="0" :max="99" class="item"> {{expertInfo.praiseNum}} </el-badge>
                     </div>
                     <div class="text">累获点赞</div>
                   </div>
@@ -99,12 +99,45 @@ export default {
     return {
       isPath: this.$route.path,
       userData: {},
+      expertInfo: {},
     };
   },
-  created() {
-    console.log(this.$route.path);
+  methods: {
+    // 获取expertId
+    async getExpertIdByUserId(id) {
+      await this.reqM2Service(`/info/experts/findByUser/${id}`, {}, "get").then(
+        (res) => {
+          res = res.data;
+          if (res.code === 20000) {
+            res = res.data;
+            this.expertInfo = res;
+          } else {
+            this.$message({
+              message: "获取专家信息失败",
+            });
+          }
+          this.loading = false;
+        }
+      );
+    },
+  },
+  computed: {
+    repliesRate() {
+      if (this.expertInfo) {
+        return (
+          Math.floor(
+            (this.expertInfo.repliesNum / this.expertInfo.consultingNum) * 10000
+          ) / 100
+        );
+      }
+      return 0;
+    },
+  },
+  async mounted() {
+    // console.log(this.$route.path);
     this.userData = this.$store.state.userData;
-    console.log(this.userData);
+    await this.getExpertIdByUserId(this.$store.state.userData.userId);
+    console.log("this.expertInfo: ", this.expertInfo);
   },
 };
 </script>

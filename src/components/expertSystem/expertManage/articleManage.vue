@@ -281,6 +281,7 @@
     <!-- 添加改对话框--结束 -->
     <pagination
       :total="total"
+      :size="size"
       :resetPage="resetPage"
       @pageChange="handlePageChange"
     ></pagination>
@@ -297,7 +298,7 @@ export default {
       expertId: "",
       total: 50,
       page: 1,
-      size: 2,
+      size: 5,
       // 重置换页
       resetPage: false,
       // 单篇文章，用于修改页面
@@ -456,6 +457,7 @@ export default {
     handlePageChange({ page, size }) {
       console.log("size: ", size);
       console.log("page: ", page);
+      this.getArticleListByExpertId(this.expertId,page,size);
       // 取消重置换页
       this.resetPage = false;
     },
@@ -569,7 +571,7 @@ export default {
         });
     },
     //  根据expertId获取文章
-    async getArticleListByExpertId(id, page = 1, size = 10) {
+    async getArticleListByExpertId(id, page = 1, size = 5) {
       this.page = page;
       this.size = size;
       // await this.reqM2Service(
