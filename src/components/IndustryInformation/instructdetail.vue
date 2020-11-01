@@ -35,7 +35,7 @@
                 <p style="display: flex">
                   发布时间 {{ IdData.creationTime | timefilters
                   }}<span style="margin-left: 15px">
-                    {{ IdData.editor | limitword}}报告</span
+                    {{ IdData.editor | limitword }}报告</span
                   >
                 </p>
               </div>
@@ -90,23 +90,18 @@
             <el-tab-pane label="最新资讯" name="first">
               <div
                 class="list"
-                v-for="(item, index) in newDataList.slice(0, 5)"
+                v-for="(item, index) in newDataList"
                 :key="index"
               >
-                <router-link
-                  to="/instructdetail"
-                  style="text-decoration: none; color: black"
-                >
-                  <div class="block">
-                    <el-image
-                      :src="item.picture"
-                      @click="FRESH(item.id)"
-                    ></el-image>
-                    <div class="rightspan">
-                      <span @click="FRESH(item.id)">{{ item.title }}</span>
-                    </div>
+                <div class="block">
+                  <el-image
+                    :src="item.picture"
+                    @click="FRESH(item.id)"
+                  ></el-image>
+                  <div class="rightspan">
+                    <span @click="FRESH(item.id)">{{ item.title }}</span>
                   </div>
-                </router-link>
+                </div>
               </div>
             </el-tab-pane>
             <el-tab-pane label="热门资讯" name="second">
@@ -137,7 +132,7 @@
                 <div class="block">
                   <el-image
                     :src="item.picture"
-                   @click="FRESH(item.id)"
+                    @click="FRESH(item.id)"
                   ></el-image>
                   <div class="rightspan">
                     <span @click="FRESH(item.id)">{{ item.title }}</span>
@@ -263,19 +258,25 @@ export default {
         query: { id: id },
       });
     },
-    FRESH(ID){
-      this.$route.query.id=ID
-      this.getshrimpIndustryData()
+    FRESH(ID) {
+      this.$route.query.id = ID;
+      this.getshrimpIndustryData();
     },
+
     //找到相应ID文章
     async getshrimpIndustryData() {
-      const { data: res } = await this.reqM2Service(
+      try {
+        const { data: res } = await this.reqM2Service(
         `/info/information/${this.$route.query.id}`,
         "",
         "get"
       );
       this.IdData = res.data;
       console.log(res);
+      } catch (error) {
+        console.log('获取该ID文章信息失败')
+      }
+      
     },
     async getclickData() {
       const { data: res } = await this.reqM2Service(
@@ -285,6 +286,7 @@ export default {
       );
       this.numclicklist = res.data.rows;
     },
+
     async getnewData() {
       const { data: res } = await this.reqM2Service(
         "/info/shrimpIndustry/findByTime/1/5",
@@ -294,21 +296,32 @@ export default {
       this.newDataList = res.data.rows;
     },
 
+    //未分页
     async getWeekData() {
-      const { data: res } = await this.reqM2Service(
+      try {
+        const { data: res } = await this.reqM2Service(
         "/info/shrimpIndustry/findByClickWeekly",
         "",
         "get"
       );
       this.WeekDataList = res.data;
+      } catch (error) {
+        console.log('获取吗每周数据失败')
+      }
+      
     },
     async getMonthData() {
-      const { data: res } = await this.reqM2Service(
+      try {
+        const { data: res } = await this.reqM2Service(
         "/info/shrimpIndustry/findByClickMonthly",
         "",
         "get"
       );
       this.MonthData = res.data;
+      } catch (error) {
+        console.log('获取每月数据失败')
+      }
+      
     },
   },
 };
@@ -403,13 +416,28 @@ export default {
   .right {
     float: right;
     width: 30%;
+    .el-image{
+      cursor: pointer;
+    }
+    .rightspan{
+      span{
+        
+        color: #858585;
+        cursor: pointer;
+      }
+      span:hover{
+        color: black;
+        font-weight: 800px;
+      }
+    }
+    
     .el-tabs {
       padding-top: 8px;
     }
     .list {
       padding-top: 13px;
       width: 100%;
-      font-size: 14.21px;
+      font-size: 13px;
       .block {
         display: flex;
         display: block;
@@ -424,9 +452,8 @@ export default {
           display: block;
         }
         .rightspan {
-          width: 70%;
+          width: 68%;
           display: flex;
-
           float: right;
         }
       }

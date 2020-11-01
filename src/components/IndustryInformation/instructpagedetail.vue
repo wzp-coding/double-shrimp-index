@@ -24,7 +24,7 @@
             <el-input placeholder="请输入实体名称"></el-input>
             <el-button type="success">查询</el-button>
           </div>
-          <div class="body" v-for="item in TypeDataList" :key="item.id">
+          <div class="body" v-for="(item ,index) in TypePageList" :key="index">
             <div class="block">
               <div class="pic">
                 
@@ -42,13 +42,13 @@
                 </p>
                 
                 <!--底部区域--->
-                <p style="font-size: 13px; position: absolute; bottom: 4px">
+                <p style="font-size: 13px; position: absolute; bottom: 4px" >
                   发布时间:{{ item.creationTime | timefilters
-                  }}<span style="margin-left: 15px"
+                  }}<span style="margin-left:10px"
                     >阅读： {{ item.clickNum | readnum}}</span
                   >
                 </p>
-                <p
+                <!-- <p
                   style="
                     color: green;
                     font-size: 13px;
@@ -69,7 +69,7 @@
                   "
                 >
                   分类：
-                </p>
+                </p> -->
               </div>
             </div>
           </div>
@@ -80,12 +80,12 @@
             :page-size="queryinfo.size"
             :current-page="queryinfo.page"
             @current-change="handleCurrentChange"
-            style="display: flex; justify-content: center; margin-bottom: 30px"
+            style="display: flex; justify-content: center; margin-top: 30px"
           >
           </el-pagination>
         </el-aside>
         <el-main width="30%">
-          <el-tabs v-model="activeName" @tab-click="handleClick">
+          <el-tabs v-model="activeName">
             <el-tab-pane label="最新资讯" name="first">
               <div
                 class="list"
@@ -105,7 +105,7 @@
             <el-tab-pane label="热门资讯" name="second">
               <div
                 class="list"
-                v-for="(item, index) in numclicklist.slice(0, 5)"
+                v-for="(item, index) in numclicklist"
                 :key="index"
               >
                 <div class="block"  @click="TonewPath(item.id)">
@@ -117,7 +117,7 @@
               </div>
             </el-tab-pane>
           </el-tabs>
-          <el-tabs v-model="activeName1" @tab-click="handleClick">
+          <el-tabs v-model="activeName1" >
             <el-tab-pane label="本周热门" name="first明">
               <div
                 class="list"
@@ -135,7 +135,7 @@
             <el-tab-pane label="本月热门" name="second2">
               <div
                 class="list"
-                v-for="(item, index) in MonthData.slice(0, 5)"
+                v-for="(item, index) in MonthData.slice(0,5)"
                 :key="index"
               >
                 <div class="block"  @click="TonewPath(item.id)">
@@ -228,6 +228,9 @@ export default {
       //按点击量查询
       numclicklist: [],
 
+      //分页查询全部数据
+      TypePageList:[],
+
       //每月
       MonthData: [], //按最新  时间
       newDataList: [],
@@ -241,7 +244,7 @@ export default {
   },
   created() {
     //根据传过来的TypeID 搜索
-    this.getTypeData();
+    //this.getTypeData();
     //点击量 热度
     this.getclickData();
     //时间 最新
@@ -255,7 +258,10 @@ export default {
     this.getMonthData();
 
     //得到分类名
-    this.getTypeName();
+    //this.getTypeName();
+
+    //分页查询全部数据
+    this.getTypePageData();
   },
   mounted() {
     console.log(this.$route.query.id);
@@ -268,28 +274,43 @@ export default {
       });
     },
     async getclickData() {
-      const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustry/findByClickNum",
+      try {
+        const { data: res } = await this.reqM2Service(
+        "/info/shrimpIndustry/findByClickNum/1/5",
         "",
         "get"
       );
-      this.numclicklist = res.data;
+      this.numclicklist = res.data.rows;
+      } catch (error) {
+        console.log('网络错误')
+      }
+      
     },
     async getnewData() {
-      const { data: res } = await this.reqM2Service(
+      try {
+        const { data: res } = await this.reqM2Service(
         "/info/shrimpIndustry/findByTime",
         "",
         "get"
       );
       this.newDataList = res.data;
+      } catch (error) {
+        console.log('获取最新数据出错')
+      }
+      
     },
     async getRecommData() {
-      const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustry/findByRecommend",
+      try {
+        const { data: res } = await this.reqM2Service(
+        "/info/shrimpIndustry/findByRecommend/1/5",
         "",
-        "get"
+        "post"
       );
       this.RecommDataList = res.data;
+      } catch (error) {
+        console.log('获取推荐数据出错')
+      }
+      
     },
 
     async getWeekData() {
@@ -301,15 +322,34 @@ export default {
       this.WeekDataList = res.data;
     },
     async getMonthData() {
-      const { data: res } = await this.reqM2Service(
+      try {
+        const { data: res } = await this.reqM2Service(
         "/info/shrimpIndustry/findByClickMonthly",
         "",
         "get"
       );
       this.MonthData = res.data;
+      } catch (error) {
+        console.log('获取每月数据出错')
+      }
+      
     },
 
+
+    //分页查询全部数据
+    async getTypePageData(){
+      const {data :res} = await this.reqM2Service( `/info/shrimpIndustry/${this.queryinfo.page}/${this.queryinfo.size}`,"", "post")
+      this.TypePageList= res.data.rows;
+      this.queryinfo.total = res.data.total
+    },
+
+    //根据传过来的ID查询
     async getTypeData() {
+      try {
+        
+      } catch (error) {
+        
+      }
       const { data: res } = await this.reqM2Service(
         `/info/shrimpIndustry/search/searchByTypeId/${this.$route.query.id}/${this.queryinfo.page}/${this.queryinfo.size}`,
         "",
@@ -322,26 +362,26 @@ export default {
     handleCurrentChange(newpage) {
       //改变页码
       this.queryinfo.page = newpage;
-      this.getTypeData();
+      this.getTypePageData();
     },
 
 
     //得到分类名称
-    async getTypeName() {
-      const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustryTypes",
-        "",
-        "get"
-      );
-      for (var i = 0; i < res.data.length; i++) {
-        if (res.data[i].id == this.$route.query.id) {
-          this.TypeName = res.data[i].name;
-          console.log(this.TypeName);
-          break;
-        }
-      }
-    },
-    handleClick() {},
+    // async getTypeName() {
+    //   const { data: res } = await this.reqM2Service(
+    //     "/info/shrimpIndustryTypes",
+    //     "",
+    //     "get"
+    //   );
+    //   for (var i = 0; i < res.data.length; i++) {
+    //     if (res.data[i].id == this.$route.query.id) {
+    //       this.TypeName = res.data[i].name;
+    //       console.log(this.TypeName);
+    //       break;
+    //     }
+    //   }
+    // }
+    
   },
 };
 </script>
