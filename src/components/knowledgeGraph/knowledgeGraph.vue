@@ -1,4 +1,4 @@
-`<template>
+<template>
   <div class="lxl-body">
     <div class="lxl-box">
       <el-breadcrumb
@@ -108,7 +108,7 @@
             <el-badge value="常用查询" class="item"> </el-badge>
             <div class="lxl-tag">
               <el-tag
-                v-for="(item, i) in searchType[0]"
+                v-for="(item, i) in formInline.searchType[0]"
                 :key="i"
                 @click="searchInfoByName(item.name)"
                 >{{ item.name }}</el-tag
@@ -121,7 +121,7 @@
             <div class="lxl-tag">
               <el-tag
                 type="success"
-                v-for="(item, i) in searchType[1]"
+                v-for="(item, i) in formInline.searchType[1]"
                 :key="i"
                 @click="searchInfoByName(item.name)"
                 >{{ item.name }}</el-tag
@@ -134,7 +134,7 @@
             <el-badge value="病害查询" class="item"> </el-badge>
             <div class="lxl-tag">
               <el-tag
-                v-for="(item, i) in searchType[2]"
+                v-for="(item, i) in formInline.searchType[2]"
                 :key="i"
                 @click="searchInfoByName(item.name)"
                 >{{ item.name }}</el-tag
@@ -148,7 +148,7 @@
             <div class="lxl-tag">
               <el-tag
                 type="success"
-                v-for="(item, i) in searchType[3]"
+                v-for="(item, i) in formInline.searchType[3]"
                 :key="i"
                 @click="searchInfoByName(item.name)"
                 >{{ item.name }}</el-tag
@@ -160,7 +160,7 @@
             <el-badge value="养殖技术" class="item"> </el-badge>
             <div class="lxl-tag">
               <el-tag
-                v-for="(item, i) in searchType[4]"
+                v-for="(item, i) in formInline.searchType[4]"
                 :key="i"
                 @click="searchInfoByName(item.name)"
                 >{{ item.name }}</el-tag
@@ -192,8 +192,8 @@
             </div>
             <div></div>
           </div>
-          <div class="chart2 chart"></div>
-          <div class="chart1 chart"></div>
+          <div class="associationGraph chart"></div>
+          <div class="byAssociationGraph chart"></div>
         </el-main>
       </el-container>
     </div>
@@ -224,461 +224,182 @@ export default {
             "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
         },
       ],
-      searchType: [],
       //存储关联
       nodeLinkedList: [],
       nodeList: [],
       categoryList: [],
     };
   },
-  mounted() {
-    this.chart1();
-  },
+  mounted() {},
 
   created() {
     // 异步操作管理
     this.yibu();
+    this.searchInfoByName("沙虾");
   },
   methods: {
-    onSubmit() {
-      console.log("submit!");
-    },
-    chart1() {
-      let myChart = this.$echarts.init(document.querySelector(".chart1"));
-      var graph = {
-        nodes: [
-          {
-            name: "A",
-            value: ["教授", "在职", "党委办公室、校长办公室"],
-            category: "中心教师",
-            symbolSize: 50,
-            tooltip: {
-              formatter: "{b0}:{c0}",
-            },
-          },
-          {
-            name: "B",
-            category: "论文",
-            value: ["期刊论文", "2005"],
-            symbolSize: 20,
-            tooltip: {
-              formatter: "{b0}:{c0}",
-            },
-          },
-          {
-            name: "C",
-            category: "论文合作教师",
-            symbolSize: 50,
-          },
-
-          {
-            name: "D",
-            category: "项目",
-            value: ["信息与通信工程学院", "立项日期：20131101"],
-            symbolSize: 20,
-            tooltip: {
-              formatter: "{b0}:{c0}",
-            },
-          },
-          {
-            name: "N",
-            category: "项目合作教师",
-            symbolSize: 50,
-          },
-          {
-            name: "Q",
-            category: "项目",
-            symbolSize: 20,
-          },
-
-          {
-            name: "S",
-            category: "项目",
-            symbolSize: 20,
-          },
-          {
-            name: "E",
-            category: "专著专利",
-            symbolSize: 20,
-            value: ["专利文献", "2009-07-21"],
-            tooltip: {
-              formatter: "{b0}:{c0}",
-            },
-          },
-          {
-            name: "W",
-            category: "专著专利",
-            symbolSize: 20,
-          },
-          {
-            name: "Y",
-            category: "专著专利",
-            symbolSize: 20,
-          },
-          {
-            name: "Z",
-            category: "专著专利",
-            symbolSize: 20,
-          },
-          {
-            name: "F",
-            category: "专著专利合作教师",
-            symbolSize: 50,
-          },
-          {
-            name: "O",
-            category: "专著专利合作教师",
-            symbolSize: 50,
-          },
-          {
-            name: "P",
-            category: "专著专利合作教师",
-            symbolSize: 50,
-          },
-          {
-            value: ["信息与通信工程学院", "信息工程 "],
-            name: "G",
-            category: "课程",
-            symbolSize: 20,
-            tooltip: {
-              formatter: "{b0}:{c0}",
-            },
-          },
-          {
-            name: "I",
-            category: "课程",
-            symbolSize: 20,
-          },
-          {
-            name: "L",
-            category: "课程",
-            symbolSize: 20,
-          },
-          {
-            name: "H",
-            category: "课程合作教师",
-            symbolSize: 50,
-          },
-          {
-            name: "M",
-            category: "课程合作教师",
-            symbolSize: 50,
-          },
-        ],
-        links: [
-          {
-            source: "A",
-            target: "B",
-          },
-          {
-            source: "B",
-            target: "C",
-          },
-          {
-            source: "A",
-            target: "D",
-          },
-          {
-            source: "D",
-            target: "N",
-          },
-          {
-            source: "N",
-            target: "Q",
-          },
-          {
-            source: "N",
-            target: "R",
-          },
-          {
-            source: "A",
-            target: "E",
-          },
-          {
-            source: "E",
-            target: "F",
-          },
-          {
-            source: "F",
-            target: "W",
-          },
-          {
-            source: "F",
-            target: "Y",
-          },
-          {
-            source: "P",
-            target: "Z",
-          },
-          {
-            source: "E",
-            target: "O",
-          },
-          {
-            source: "E",
-            target: "P",
-          },
-          {
-            source: "A",
-            target: "G",
-          },
-          {
-            source: "G",
-            target: "H",
-          },
-          {
-            source: "G",
-            target: "M",
-          },
-          {
-            source: "M",
-            target: "I",
-          },
-          {
-            source: "M",
-            target: "L",
-          },
-        ],
-      };
-      const defaultCategory = "中心教师";
-      const graphTitle = "力导向关系图--实现点击节点展开折叠";
-      const currentGraph = {
-        nodes: {},
-        links: {},
-      };
-      const nodeMap = {};
-      // 页面加载时，第一次初始化图
-      function init() {
-        // 根据定义的常量，产生currentGraph的默认数据
-        // 遍历全部nodes和links，产生node映射map
-        for (let i = 0; i < graph.nodes.length; i++) {
-          if (graph.nodes[i].category === defaultCategory) {
-            currentGraph.nodes[graph.nodes[i].name] = graph.nodes[i];
-          }
-          nodeMap[graph.nodes[i].name] = graph.nodes[i];
-          nodeMap[graph.nodes[i].name]["links"] = {};
-          nodeMap[graph.nodes[i].name]["nodes"] = {};
-          nodeMap[graph.nodes[i].name]["hasAppend"] = false;
+    // 关联图标
+    associationGraph(searchData) {
+      // 初始化
+      let myChart = this.$echarts.init(
+        document.querySelector(".associationGraph")
+      );
+      let dataData = [];
+      let datalink = [];
+      const color1 = "#006acc";
+      const color2 = "#ff7d18";
+      const color3 = "#10a050";
+      // 数据遍历生成结构
+      this.nodeLinkedList.forEach((item) => {
+        // 不能省略
+        if (item.targetName == item.sourceName) {
+          item.targetName = item.targetName + "种";
         }
-        for (let i = 0; i < graph.links.length; i++) {
-          let link = graph.links[i];
-          if (
-            nodeMap[link.source] !== undefined &&
-            nodeMap[link.target] !== undefined
-          ) {
-            nodeMap[link.source].links[link.target] = link;
-            nodeMap[link.source].nodes[nodeMap[link.target].name] =
-              nodeMap[link.target];
-          }
-        }
-
-        for (let i = 0; i < graph.nodes.length; i++) {
-          graph.nodes[i].itemStyle = null;
-          graph.nodes[i].label = {
-            normal: {
-              show: graph.nodes[i].symbolSize > 15,
+        if (item.sourceName == searchData) {
+          let obj1 = {
+            name: item.targetName,
+            category: 0,
+          };
+          let obj2 = {
+            source: item.sourceName,
+            target: item.targetName,
+            name: item.name,
+            label: {
+              align: "center",
+              fontSize: 15,
+            },
+            lineStyle: {
+              color: "#ff7d18",
             },
           };
+          dataData.push(obj1);
+          datalink.push(obj2);
         }
-        redrawGraph();
-      }
-      // 处理点击节点展开
-      function append(nodeName) {
-        // 根据nodeName从nodeMap里拿出对应的nodes和links，并append到currentGraph.nodes currentGraph.links
-        let node = nodeMap[nodeName];
-        if (
-          node.hasAppend === true ||
-          Object.keys(node.nodes).length === 0 ||
-          Object.keys(node.links).length === 0
-        ) {
-          alert("无法继续展开");
-          return;
+      });
+      // 默认添加被查询的对象
+      dataData.push({ name: searchData, category: 1 });
+      // 颜色
+      dataData.forEach((item) => {
+        if (item.category === 0) {
+          item.symbolSize = 50;
+          item.itemStyle = {
+            color: "#006acc",
+          };
+        } else if (item.category === 1) {
+          item.symbolSize = 70;
+          item.itemStyle = {
+            color: "#ff7d18",
+          };
+        } else {
         }
-        Object.values(node.nodes).forEach((n) => {
-          currentGraph.nodes[n.name] = n;
-        });
-        Object.values(node.links).forEach((l) => {
-          currentGraph.links[l.source + "_" + l.target] = l;
-        });
-        node.hasAppend = true;
-        redrawGraph();
-      }
-      // 处理点击节点收缩
-      function remove(nodeName) {
-        //根据nodeName从nodeMap里拿出对应的nodes和links，从currentGraph.nodes currentGraph.links删除当前节点的nodes和links并且递归
-        let node = nodeMap[nodeName];
-        Object.values(node.nodes).forEach((n) => {
-          delete currentGraph.nodes[n.name];
-          if (n.hasAppend === true && Object.keys(n.nodes).length > 0) {
-            remove(n.name);
-          }
-        });
-        Object.values(node.links).forEach((l) => {
-          delete currentGraph.links[l.source + "_" + l.target];
-        });
-        // 设置flag 等于false
-        node.hasAppend = false;
-
-        redrawGraph();
-      }
-      // 根据更新后的option重新画图
-      function redrawGraph() {
-        option.series[0].data = Object.values(currentGraph.nodes);
-        option.series[0].links = Object.values(currentGraph.links);
-        console.log(option);
-        myChart.setOption(option);
-      }
-      const option = {
-        backgroundColor: "rgba(2, 21, 25,0.1)",
-
-        title: {
-          text: graphTitle,
-          top: "top",
-          left: "center",
+      });
+      let categories = [
+        {
+          itemStyle: {
+            color: color1,
+          },
         },
-        tooltip: {},
-        legend: [],
-        animation: false,
+        {
+          itemStyle: {
+            color: color2,
+          },
+        },
+      ];
+      let option = {
+        title: {
+          text: "关联知识图谱",
+        },
         series: [
           {
             type: "graph",
             layout: "force",
-            data: Object.values(currentGraph.nodes),
-            links: Object.values(currentGraph.links),
-            categories: [
-              {
-                name: "中心教师",
-                itemStyle: {
-                  color: "#c23531",
-                },
-              },
-              {
-                name: "专著专利合作教师",
-                itemStyle: {
-                  color: "#749f83",
-                },
-              },
-              {
-                name: "课程合作教师",
-                itemStyle: {
-                  color: "#6e7074",
-                },
-              },
-              {
-                name: "论文合作教师",
-                itemStyle: {
-                  color: "#2f4554",
-                },
-              },
-              {
-                name: "论文",
-                itemStyle: {
-                  color: "#61a0a8",
-                },
-              },
-              {
-                name: "专著专利",
-                itemStyle: {
-                  color: "#91c7ae",
-                },
-              },
-              {
-                name: "课程",
-                itemStyle: {
-                  color: "#999ea4",
-                },
-              },
-              {
-                name: "项目合作教师",
-                itemStyle: {
-                  color: "#DEB887",
-                },
-              },
-              {
-                name: "项目",
-                itemStyle: {
-                  color: "#bda29a",
-                },
-              },
-            ],
+            symbolSize: 58,
+            draggable: true,
             roam: true,
-            focusNodeAdjacency: false,
-            itemStyle: {
+            focusNodeAdjacency: true,
+            categories: categories,
+            edgeSymbol: ["", "arrow"],
+            edgeLabel: {
               normal: {
-                borderColor: "#fff",
-                borderWidth: 1,
-                shadowBlur: 10,
-                shadowColor: "rgba(0, 0, 0, 0.3)",
+                show: true,
+                textStyle: {
+                  fontSize: 20,
+                },
+                formatter(x) {
+                  return x.data.name;
+                },
               },
             },
             label: {
-              position: "right",
-              formatter: "{b}",
-            },
-            lineStyle: {
-              color: "target",
-              opacity: 0.6,
-              curveness: 0.3,
-            },
-            emphasis: {
-              lineStyle: {
-                width: 10,
-              },
+              show: true,
             },
             force: {
-              layoutAnimation: false,
-              repulsion: 500,
+              repulsion: 2000,
+              edgeLength: 130,
             },
+            data: dataData,
+            links: datalink,
           },
         ],
       };
-      init();
-      myChart.on("click", function (params) {
-        if (params.dataType === "node") {
-          const node = nodeMap[params.data.name];
-          if (node.hasAppend === true) {
-            remove(node.name);
-          } else {
-            append(node.name);
-          }
-        }
-      });
+
       myChart.setOption(option);
       // 自适应盒子大小,以及屏幕大小
       window.addEventListener("resize", function () {
         myChart.resize();
       });
     },
-    chart2() {
+    // 被关联
+    byAssociationGraph(searchData) {
       let dataData = [];
       let datalink = [];
-      this.nodeList.forEach((e) => {
-        let obj = {
-          category: e.category,
-          name: e.name,
-          symbolSize: 50,
-          label: {
-            align: "center",
-            fontSize: 15,
-          },
-        };
-        dataData.push(obj);
+      this.nodeLinkedList.forEach((item) => {
+        if (item.targetName == item.sourceName) {
+          item.targetName = item.targetName + "种";
+        }
+        if (item.sourceName != searchData) {
+          let obj1 = {
+            name: item.sourceName,
+            category: 0,
+          };
+          let obj2 = {
+            source: item.sourceName,
+            target: item.targetName,
+            name: item.name,
+            label: {
+              align: "center",
+              fontSize: 15,
+            },
+            itemStyle: {
+              color: "#006acc",
+            },
+          };
+          dataData.push(obj1);
+          datalink.push(obj2);
+        }
       });
-      this.nodeLinkedList.forEach((e) => {
-        let obj = {
-          source: e.sourceName,
-          target: e.targetName,
-          name: e.name,
-        };
-        datalink.push(obj);
+      dataData.push({ name: searchData, category: 1 });
+      dataData.forEach((item) => {
+        if (item.category === 0) {
+          item.symbolSize = 50;
+          item.itemStyle = {
+            color: "#006acc",
+          };
+        } else if (item.category === 1) {
+          item.symbolSize = 70;
+          item.itemStyle = {
+            color: "#ff7d18",
+          };
+        } else {
+        }
       });
-      console.log(dataData);
-      console.log(datalink);
 
-      let myChart = this.$echarts.init(document.querySelector(".chart2"));
+      let myChart = this.$echarts.init(
+        document.querySelector(".byAssociationGraph")
+      );
       let option = {
         title: {
-          text: "关联知识图谱",
+          text: "被关联知识图谱",
         },
         animationDurationUpdate: 1500,
         animationEasingUpdate: "quinticInOut",
@@ -753,79 +474,95 @@ export default {
       });
     },
 
-    // 根据名称查询实体关联
+    // 根据名称查询实体关联 **
+    // 参数为查询目标
     async searchConByName(searchData) {
       // const { data: res } = await this.reqM3Service(
       //   "/bait/es/?name=" + searchData,
       //   "",
       //   "get"
       // );
-      const { data: res } = await this.reqM3Service(
-        "/entity/search/" + searchData,
-        "",
-        "get"
-      );
-      // 过滤
-      if (res.code === 20000) {
-        // 返回的数据
-        console.log(res.data);
-        this.categoryList = res.data.categoryList;
-        this.nodeLinkedList = res.data.nodeLinkedList;
-        this.nodeList = res.data.nodeList;
-        this.chart2();
-      } else {
-        this.$message({
-          showClose: true,
-          message: res.message,
-          type: "error",
-        });
+      try {
+        const { data: res } = await this.reqM3Service(
+          "/entity/search/" + searchData,
+          "",
+          "get"
+        );
+        if (res.code === 20000) {
+          // console.log(res.data);
+          // 保存关联数据
+          this.categoryList = res.data.categoryList;
+          this.nodeLinkedList = res.data.nodeLinkedList;
+          this.nodeList = res.data.nodeList;
+          // 调用关联
+          this.associationGraph(searchData);
+          // 调用被关联
+          this.byAssociationGraph(searchData);
+        } else {
+          this.$message({
+            showClose: true,
+            message: res.message,
+            type: "error",
+          });
+        }
+      } catch (error) {
+        this.$message.error("网络开小差了！19999");
       }
-      console.log("guanlian");
-      console.log(res);
     },
     // 根据名称查询实体详细信息
     async searchInfoByName(searchData) {
-      const { data: res } = await this.reqM3Service(
-        "/entity/info/" + searchData,
-        "",
-        "get"
-      );
+      try {
+        const { data: res } = await this.reqM3Service(
+          "/entity/info/" + searchData,
+          "",
+          "get"
+        );
 
-      // 过滤
-      if (res.code === 20000) {
-        // 返回的数据
-        console.log(res.data);
-        if (res.data.length !== 0) {
-          this.infoData = res.data;
-          this.searchConByName(searchData);
+        // 过滤
+        if (res.code === 20000) {
+          // 返回的数据
+          // console.log(res.data);
+          if (res.data.length !== 0) {
+            this.infoData = res.data;
+            // 查询关联数据
+            this.searchConByName(searchData);
+          } else {
+            this.$message.warning("暂无相关数据");
+          }
         } else {
-          this.$message.warning("暂无相关数据");
+          this.$message({
+            showClose: true,
+            message: res.message,
+            type: "error",
+          });
         }
-      } else {
-        this.$message({
-          showClose: true,
-          message: res.message,
-          type: "error",
-        });
+      } catch (error) {
+        this.$message.error("网络开小差了！19999");
       }
     },
+    // 初始化查询列表
     async searchTypeAll(typeType, searchTypeIndex) {
-      const { data: res } = await this.reqM3Service(
-        "/entity/search/page?entityType=" + typeType + "&limit=20",
-        "",
-        "get"
-      );
-      // 过滤
-      if (res.code === 20000) {
-        // 返回的数据
-        this.searchType.push(res.data.rows);
-        this.formInline.searchType.push(res.data.rows);
-      } else {
-        this.$message({
-          showClose: true,
-          message: res.message,
-          type: "error",
-        });
+      try {
+        const { data: res } = await this.reqM3Service(
+          "/entity/search/page?entityType=" + typeType + "&limit=20",
+          "",
+          "get"
+        );
+        // 过滤
+        if (res.code === 20000) {
+          // 返回的数据
+          // 采用push可以即时更新，直接赋值则不行
+          this.formInline.searchType.push(res.data.rows);
+        } else {
+          this.$message({
+            showClose: true,
+            message: res.message,
+            type: "error",
+          });
+        }
+      } catch (error) {
+        this.$message.error("网络开小差了！19999");
+        this.formInline.searchType.push([{ name: "网络错误--暂无数据" }]);
       }
     },
     // 异步处理
