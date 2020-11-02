@@ -421,11 +421,11 @@ export default {
         type: "warning",
       })
         .then(() => {
-          // this.reqM2Service(`/info/diseaseArticles/delete/${id}`, {}, "delete")
-          this.$http
-            .delete(
-              `http://106.75.154.40:9012/info/diseaseArticles/delete/${id}`
-            )
+          this.reqM2Service(`/info/diseaseArticles/delete/${id}`, {}, "delete")
+          // this.$http
+          //   .delete(
+          //     `http://106.75.154.40:9012/info/diseaseArticles/delete/${id}`
+          //   )
             .then((res) => {
               res = res.data;
               console.log("res: ", res);
@@ -508,11 +508,12 @@ export default {
     },
     // 修改文章
     updateArticle(oneArticle) {
-      this.$http
-        .put(
-          `http://106.75.154.40:9005/diseaseArticles/update/${oneArticle.id}`,
-          oneArticle
-        )
+      // this.$http
+      //   .put(
+      //     `http://106.75.154.40:9005/diseaseArticles/update/${oneArticle.id}`,
+      //     oneArticle
+      //   )
+      this.reqM8Service(`/diseaseArticles/update/${oneArticle.id}`,oneArticle,'put')
         .then((res) => {
           res = res.data;
           if (res.code == 20000) {
@@ -555,8 +556,8 @@ export default {
     },
     // 获取expertId
     async getExpertIdByUserId(id) {
-      await this.$http
-        .get(`http://106.75.154.40:9012/info/experts/findByUser/${id}`)
+      await this.reqM2Service
+        (`/info/experts/findByUser/${id}`,{},'get')
         .then((res) => {
           res = res.data;
           if (res.code === 20000) {

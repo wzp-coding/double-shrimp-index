@@ -158,9 +158,12 @@ export default {
     },
     // 根据delUrl删除图片
     deleteImgByDelUrl(delUrl) {
-      this.$http
-        .delete(
-          `http://106.75.154.40:9012/education/file/delPic?delUrl=${delUrl}`
+      // this.$http
+      //   .delete(
+      //     `http://106.75.154.40:9012/education/file/delPic?delUrl=${delUrl}`
+      //   )
+      this.reqM2Service(
+          `/education/file/delPic?delUrl=${delUrl}`,{},'delete'
         )
         .then((res) => {
           // console.log('res: ', res);

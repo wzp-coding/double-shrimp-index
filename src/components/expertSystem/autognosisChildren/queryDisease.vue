@@ -121,19 +121,20 @@ export default {
       // 等分页查询接口完成加上去
       switch (this.value) {
         case "1":
-          httpUrl = `http://106.75.154.40:9010/diagnose/search/accurate/${page}/${size}?key=${keys}`;
+          httpUrl = `/diagnose/search/accurate/${page}/${size}?key=${keys}`;
           break;
         case "2":
-          httpUrl = `http://106.75.154.40:9010/diagnose/search/${page}/${size}?key=${keys}`;
+          httpUrl = `/diagnose/search/${page}/${size}?key=${keys}`;
           break;
       }
-      this.$http({
-        url: httpUrl,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "get",
-      }).then((res) => {
+      // this.$http({
+      //   url: httpUrl,
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   method: "get",
+      // })
+      this.reqM13Service(httpUrl,{},'get').then((res) => {
         res = res.data;
         console.log(res);
         if (res.code === 20000) {

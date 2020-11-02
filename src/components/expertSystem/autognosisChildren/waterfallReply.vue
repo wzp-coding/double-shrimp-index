@@ -94,8 +94,10 @@ export default {
       let httpTasks = [];
       ids.forEach((id) => {
         httpTasks.push(
-          this.$http.get(
-            `http://106.75.154.40:9012/info/details/findByPost/${id}/1/1`
+          // this.$http.get
+          this.reqM2Service
+          (
+            `/info/details/findByPost/${id}/1/1`,{},'get'
           )
         );
       });
@@ -105,8 +107,8 @@ export default {
     async getRepliesList(page = 1, size = 3) {
       this.page = page;
       this.size = size;
-      await this.$http
-        .get(`http://106.75.154.40:9012/info/post/findAll/${page}/${size}`)
+      await this.reqM2Service
+        (`/info/post/findAll/${page}/${size}`,{},'get')
         .then((res) => {
           res = res.data;
           if (res.code === 20000) {

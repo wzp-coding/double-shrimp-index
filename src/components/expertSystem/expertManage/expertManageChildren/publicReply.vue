@@ -121,9 +121,9 @@ export default {
     },
     // 根据回复id提交修改
     putReplyById(id, params) {
-      // this.reqM8Service(`/details/update/${id}`, params, "put")
-      this.$http
-        .put(`http://106.75.154.40:9005/details/update/${id}`, params)
+      this.reqM8Service(`/details/update/${id}`, params, "put")
+      // this.$http
+      //   .put(`http://106.75.154.40:9005/details/update/${id}`, params)
         .then((res) => {
           res = res.data;
           console.log("res: ", res);
@@ -153,10 +153,11 @@ export default {
     },
     // 根据delUrl删除图片
     deleteImgByDelUrl(delUrl) {
-      this.$http
-        .delete(
-          `http://106.75.154.40:9012/education/file/delPic?delUrl=${delUrl}`
-        )
+      // this.$http
+      //   .delete(
+      //     `http://106.75.154.40:9012/education/file/delPic?delUrl=${delUrl}`
+      //   )
+      this.reqM2Service(`/education/file/delPic?delUrl=${delUrl}`,{},'delete')
         .then((res) => {
           // console.log('res: ', res);
           res = res.data;

@@ -294,7 +294,7 @@ export default {
               console.log("res: ", res);
               if (res.code == 20000) {
                 this.$message({
-                  type: "info",
+                  type: "success",
                   message: "删除成功",
                 });
                 this.getReplyListByExpertId(

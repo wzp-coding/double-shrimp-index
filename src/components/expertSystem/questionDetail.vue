@@ -79,8 +79,8 @@ export default {
   methods: {
     // 获取专家信息expertInfo
     getExpertInfo(id) {
-      this.$http
-        .get(`http://106.75.154.40:9012/info/experts/findById/${id}`)
+      this.reqM2Service
+        (`/info/experts/findById/${id}`,{},'get')
         .then((res) => {
           res = res.data;
           if (res.code === 20000) {
@@ -91,8 +91,7 @@ export default {
     },
     // 获取帖子问题信息quesInfo
     getQuesInfo(id) {
-      this.$http
-        .get(`http://106.75.154.40:9012/info/post/findById/${id}`)
+      this.reqM2Service(`/info/post/findById/${id}`,{},'get')
         .then((res) => {
           res = res.data;
           if (res.code === 20000) {
@@ -116,8 +115,7 @@ export default {
     },
     // 获取帖子所有回复replyInfo
     getReplyInfo(id) {
-      this.$http
-        .get(`http://106.75.154.40:9012/info/details/findByPost/${id}/1/100`)
+      this.reqM2Service(`/info/details/findByPost/${id}/1/100`,{},'get')
         .then((res) => {
           res = res.data;
           if (res.code === 20000) {

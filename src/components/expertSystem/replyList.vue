@@ -82,8 +82,8 @@ export default {
       let httpTasks = [];
       ids.forEach((id) => {
         httpTasks.push(
-          this.$http.get(
-            `http://106.75.154.40:9012/info/details/findByPost/${id}/1/1`
+          this.reqM2Service(
+            `/info/details/findByPost/${id}/1/1`,{},'get'
           )
         );
       });
