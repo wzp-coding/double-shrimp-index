@@ -58,7 +58,7 @@
           </el-table-column>
           <el-table-column prop="stateInfo" label="审核状态" width="140">
           </el-table-column>
-           <el-table-column fixed="right" label="操作" width="60">
+          <el-table-column fixed="right" label="操作" width="60">
             <template slot-scope="scope">
               <el-button
                 @click="handleReply(scope.$index, scope.row)"
@@ -139,39 +139,19 @@
       </el-tab-pane>
     </el-tabs>
     <!-- 我的回复----结束 -->
-    <!-- 修改对话框--开始 -->
-    <el-dialog title="修改回复" :visible.sync="dialogFormVisible">
-      <el-form :model="form">
-        <el-form-item label="回复内容">
-          <el-input type="textarea" v-model="form.reply"></el-input>
-        </el-form-item>
-        <el-form-item label="上传图片">
-          <el-upload
-            action="http://106.75.154.40:9005/information/upload"
-            list-type="picture-card"
-            :on-preview="handlePictureCardPreview"
-            :on-remove="handleRemove"
-            :on-success="handleOnSuccess"
-            :on-error="handleOnError"
-            :file-list="fileList"
-          >
-            <i class="el-icon-plus"></i>
-          </el-upload>
-          <el-dialog :visible.sync="dialogVisible">
-            <img width="100%" :src="dialogImageUrl" alt="" />
-          </el-dialog>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="handleSubmitReply">确 定</el-button>
-      </div>
-    </el-dialog>
-    <!-- 修改对话框--结束 -->
+    <!-- 修改或者添加回复对话框 -->
+    <publicReply
+      :info="dialogInfo"
+      :title="dialogTitle"
+      :type="dialogType"
+      :show="show"
+      @changeShow="changeShow"
+    ></publicReply>
     <!-- 换页 -->
     <div class="pagination">
       <pagination
         :total="total"
+        :size="size"
         :resetPage="resetPage"
         @pageChange="handlePageChange"
       ></pagination>
@@ -181,170 +161,72 @@
 </template>
 <script>
 import pagination from "../expertListChildren/pagination";
+import publicReply from "./expertManageChildren/publicReply";
 export default {
   data() {
     return {
+      // 传递给对话框组件的属性
+      dialogTitle: "",
+      dialogType: "",
+      show: false,
+      dialogInfo: {
+        replyId: "",
+        quesId: "",
+        replierId: "",
+        replierName: "",
+        reply: "",
+        images: "",
+      },
+      // 传递给换页组件的属性
+      total: 50,
+      page: 1,
+      size: 5,
+      resetPage: false,
+      // 本组件的属性
       quesList: [],
       replyList: [],
-      total: 10,
-      page: 1,
-      size: 2,
-      resetPage: false,
       loading: true,
-      userId: "1264238099769200640",
       expertId: "",
+      expertName: "",
       tabIndex: 0,
-      dialogFormVisible: false,
-      form: {
-        reply: "",
-        images: [],
-      },
-      formLabelWidth: "120px",
-      dialogImageUrl: "",
-      dialogVisible: false,
-      fileList: [],
-      oneReplyInfo: {},
     };
   },
   components: {
     pagination,
+    publicReply,
+  },
+  watch:{
+    total(){
+      console.log('this.total: ', this.total);
+    }
   },
   methods: {
+    // 控制显示修改或者添加界面
+    changeShow() {
+      this.show = !this.show;
+    },
     // 点击回复按钮
-    handleReply(){
-
+    handleReply(index, row) {
+      // console.log(index, row);
+      this.changeShow();
+      this.dialogType = "add";
+      this.dialogTitle = "添加回复";
+      this.dialogInfo.quesId = row.id;
+      this.dialogInfo.replierId = this.expertId;
+      this.dialogInfo.replierName = this.expertName;
     },
-    // 提交帖子修改
-    handleSubmitReply() {
-      this.dialogFormVisible = false;
-      this.oneReplyInfo.images = this.form.images.join(",");
-      this.oneReplyInfo.reply = this.form.reply;
-      console.log(this.oneReplyInfo);
-      this.putReplyById(this.oneReplyInfo.id, this.oneReplyInfo);
-    },
-    // 根据帖子id提交修改
-    putReplyById(id, params) {
-      // this.reqM8Service(`/details/update/${id}`, params, "put")
-      this.$http.put(`http://106.75.154.40:9005/details/update/${id}`,params)
-      .then((res) => {
-        res = res.data;
-        console.log("res: ", res);
-        if (res.code == 20000) {
-          this.$message({
-            type: "success",
-            message: "修改成功",
-          });
-        } else {
-          this.$message({
-            type: "info",
-            message: "修改失败",
-          });
-        }
-      }).then(()=>{
-        this.getReplyListByExpertId(this.expertId,this.page,this.size);
-      });
-    },
-    // 删除图片
-    handleRemove(file, fileList) {
-      console.log("file: ", file);
-      let delUrl = file.response?.data;
-      // console.log('delUrl: ', delUrl);
-      this.deleteImgByDelUrl(delUrl);
-    },
-    // 根据delUrl删除图片
-    deleteImgByDelUrl(delUrl) {
-      this.$http
-        .delete(
-          `http://106.75.154.40:9012/education/file/delPic?delUrl=${delUrl}`
-        )
-        .then((res) => {
-          // console.log('res: ', res);
-          res = res.data;
-          if (res.code == 20000) {
-            this.$message({
-              type: "success",
-              message: "删除成功",
-            });
-          } else {
-            this.$message({
-              type: "info",
-              message: "删除失败",
-            });
-          }
-        });
-    },
-    // 图片预览
-    handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.url;
-      this.dialogVisible = true;
-    },
-    // 上传成功
-    handleOnSuccess(res, file, fileList) {
-      // console.log("file: ", file);
-      // console.log("res: ", res);
-      if (res.code == 20000) {
-        res = res.data;
-        this.form.images.push(res);
-        this.$message({
-          type: "success",
-          message: "上传成功",
-        });
-        // console.log('this.oneReplyInfo: ', this.oneReplyInfo);
-      } else {
-        this.$message({
-          type: "info",
-          message: "上传失败",
-        });
-      }
-    },
-    // 上传图片失败
-    handleOnError(err, file, fileList) {
-      console.log("err: ", err);
-      if (err) {
-        this.$message({
-          type: "info",
-          message: "上传失败",
-        });
-      }
-    },
-    // 编辑帖子或者回复
-    async handleEdit(index, row) {
-      // 清空fileList
-      this.fileList = [];
-      this.dialogFormVisible = true;
-      let id = row.id;
-      // console.log('id: ', id);
-      await this.getReplyInfoById(id);
-      // console.log("this.fileList: ", this.fileList);
-    },
-    // 根据id请求单个回复的信息
-    async getReplyInfoById(id) {
-      await this.reqM2Service(`/info/details/findById/${id}`, {}, "get").then(
-        (res) => {
-          res = res.data;
-          // console.log('res: ', res);
-          if (res.code == 20000) {
-            res = res.data;
-            this.oneReplyInfo = res;
-            this.form.reply = res.reply;
-            if (!!res.images) {
-              this.$set(this.form, "images", res.images.split(","));
-              this.oneReplyInfo.images = res.images.split(",");
-            } else {
-              this.$set(this.form, "images", []);
-              this.oneReplyInfo.images = [];
-            }
-            this.form.images.forEach((url) => {
-              this.fileList.push({ url });
-            });
-          } else {
-            this.$message({
-              type: "info",
-              message: "获取信息失败",
-            });
-          }
-        }
-      );
+    // 点击编辑按钮
+    handleEdit(index, row) {
+      // console.log(index, row);
+      this.changeShow();
+      this.dialogType = "update";
+      this.dialogTitle = "修改回复";
+      this.dialogInfo.replyId = row.id;
+      this.dialogInfo.quesId = row.postId;
+      this.dialogInfo.replierName = row.replierName;
+      this.dialogInfo.replierId = row.replier;
+      this.dialogInfo.reply = row.reply;
+      this.dialogInfo.images = row.images;
     },
     // 删除帖子或者回复
     deleteRow(index, rows) {
@@ -420,6 +302,7 @@ export default {
           res = res.data;
           if (res.code === 20000) {
             res = res.data;
+            this.expertName = res.name;
             this.expertId = res.id;
           } else {
             this.$message({
@@ -442,7 +325,7 @@ export default {
       this.resetPage = false;
     },
     //  根据expertId获取帖子
-    async getQuesListByExpertId(id, page = 1, size = 2) {
+    async getQuesListByExpertId(id, page = 1, size = 5) {
       this.page = page;
       this.size = size;
       await this.$http
@@ -487,7 +370,7 @@ export default {
         });
     },
     //  根据expertId获取回复
-    async getReplyListByExpertId(id, page = 1, size = 2) {
+    async getReplyListByExpertId(id, page = 1, size = 5) {
       this.page = page;
       this.size = size;
       await this.$http
@@ -496,6 +379,7 @@ export default {
         )
         .then((res) => {
           res = res.data;
+          // console.log('res: ', res);
           if (res.code === 20000) {
             res = res.data;
             this.total = res.total;
@@ -523,12 +407,12 @@ export default {
               }
               this.replyList.push(item);
             });
+            console.log(JSON.parse(JSON.stringify(this.replyList)));
           } else {
             this.$message({
               message: "获取帖子信息失败",
             });
           }
-          console.log(JSON.parse(JSON.stringify(this.replyList)));
 
           this.loading = false;
         });
@@ -560,10 +444,10 @@ export default {
   },
   async mounted() {
     // 先获取expertId
-    await this.getExpertIdByUserId(this.userId);
+    await this.getExpertIdByUserId(this.$store.state.userData.userId);
     // 根据expertId请求到相关的帖子
     await this.getQuesListByExpertId(this.expertId);
-    console.log(JSON.parse(JSON.stringify(this.quesList)));
+    // console.log(JSON.parse(JSON.stringify(this.quesList)));
   },
 };
 </script>

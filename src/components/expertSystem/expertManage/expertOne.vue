@@ -282,6 +282,7 @@ export default {
           if (res.code === 20000) {
             res = res.data;
             this.expertInfo = res;
+            this.fileList.push({url:this.expertInfo.picture})
             console.log('res: ', res);
           } else {
             this.$message({
