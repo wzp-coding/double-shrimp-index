@@ -136,13 +136,13 @@ export default {
     async requestAllData() {
       try {
         const { data: res } = await this.reqM3Service("/industry", "", "get");
-        console.log(res)
+        console.log(res);
         if (res.code === 20000) {
           this.industry = res.data;
           this.chart1(this.industry[2]);
           this.chart2(this.industry[1]);
           this.chart3(this.industry[1]);
-          this.chart4();
+          this.requestPrice();
           this.chart5(this.industry[1]);
           this.chart6(this.industry[1]);
           this.china(this.industry[3]);
@@ -156,7 +156,27 @@ export default {
         console.log(error);
       }
     },
-    //   第一个
+    async requestPrice() {
+      try {
+        const { data: res } = await this.reqM3Service(
+          "/price/prediction",
+          "",
+          "get"
+        );
+        console.log(res);
+        if (res.code === 20000) {
+          this.chart4();
+          console.log("chart4");
+        } else {
+          this.$message.error("网络开小差了，请稍后重试 20001");
+        }
+      } catch (error) {
+        this.$message.error("网络开小差了，请稍后重试 19999");
+        console.log(error);
+      }
+    },
+
+    //   左边第一个扇形图
     chart1(pieOne) {
       // 数据格式处理
       let dataArray = [];
@@ -206,6 +226,7 @@ export default {
         myChart.resize();
       });
     },
+    //
     chart2(barOne) {
       // 横坐标和纵坐标
       let times = [];
