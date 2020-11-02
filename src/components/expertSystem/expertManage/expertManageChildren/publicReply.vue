@@ -10,7 +10,7 @@
         class="demo-ruleForm"
       >
         <el-form-item label="回复内容" prop="reply">
-          <el-input type="textarea" v-model="form.reply"></el-input>
+          <el-input type="textarea" v-model="form.reply" :rows="5"></el-input>
         </el-form-item>
         <el-form-item label="上传图片" prop="images">
           <el-upload
@@ -87,10 +87,11 @@ export default {
       this.dialogFormVisible = false;
       this.oneReplyInfo = {
         images: this.form.images.join(","),
+        reply: this.form.reply,
         postId: this.info.quesId,
         replier: this.info.replierId,
         replierName: this.info.replierName,
-        reply: this.form.reply,
+        experts:this.info.experts,
       };
       console.log(this.oneReplyInfo);
       if (this.type == "update") {
@@ -109,7 +110,7 @@ export default {
             type: "success",
             message: "回复成功",
           });
-          this.resetFields("formReply");
+          this.resetForm("formReply");
         } else {
           this.$message({
             type: "info",
@@ -131,7 +132,7 @@ export default {
               type: "success",
               message: "修改成功",
             });
-            this.resetFields("formReply");
+            this.resetForm("formReply");
           } else {
             this.$message({
               type: "info",

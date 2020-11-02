@@ -176,6 +176,7 @@ export default {
         replierName: "",
         reply: "",
         images: "",
+        experts:true,
       },
       // 传递给换页组件的属性
       total: 50,
@@ -194,11 +195,6 @@ export default {
   components: {
     pagination,
     publicReply,
-  },
-  watch:{
-    total(){
-      console.log('this.total: ', this.total);
-    }
   },
   methods: {
     // 控制显示修改或者添加界面

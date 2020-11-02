@@ -76,7 +76,11 @@
     </el-card>
     <!-- 展示专家信息结束 -->
     <!-- 我要提问 -->
-    <addQuestion :show="show" @changeShow="changeShow" :expertId="expertId" :typeId="typeId"></addQuestion>
+    <addQuestion
+      :show="show"
+      @changeShow="changeShow"
+      :expertId="expertId"
+    ></addQuestion>
   </div>
 </template>
 <script>
@@ -88,9 +92,11 @@ export default {
   props: ["oneExpert"],
   data() {
     return {
+      // 传入我要提问组件的属性
       show: false,
-      expertId:"",
-      typeId:""
+      expertId: "",
+      // 本组件的属性
+      userExpertId:""
     };
   },
   methods: {
@@ -105,17 +111,67 @@ export default {
     changeShow() {
       this.show = !this.show;
     },
+    // 根据用户id获取用户的专家信息
+    async getExpertInfoByUserId(id) {
+      await this.reqM2Service(`/info/experts/findByUser/${id}`, {}, "get").then(
+        (res) => {
+          res = res.data;
+          if (res.code === 20000) {
+            res = res.data;
+            this.userExpertId = res.id;
+            // this.userExpertName = res.name;
+            // console.log("this.userExpertName: ", this.userExpertName);
+            // console.log("this.userExpertId: ", this.userExpertId);
+          } else {
+            this.$message({
+              message: "获取用户专家信息失败",
+            });
+          }
+          this.loading = false;
+        }
+      );
+    },
+    // 根据userId判断该用户是否是专家
+    async judgeUserIsExpert(id) {
+      let flag = false;
+      await this.reqM2Service(`/info/experts/isExperts/${id}`, {}, "get").then(
+        (res) => {
+          res = res.data;
+          if (res.code == 20000) {
+            // console.log("res: ", res);
+            flag = res.flag;
+          }
+        }
+      );
+      return flag;
+    },
     // 点击我要提问按钮
-    addQues() {
-      if(this.judgeUserIsLogin()){
+    async addQues() {
+      // 判断提问的专家是否是用户本身专家
+      // 先判断登录的用户是否是专家
+      let isExpert = await this.judgeUserIsExpert(
+        this.$store.state.userData.userId
+      );
+      if (isExpert) {
+        // 再判断该页面对应的专家是否是用户专家
+        await this.getExpertInfoByUserId(this.$store.state.userData.userId);
+        if (this.userExpertId == this.oneExpert.id) {
+          // 如果登录用户专家id等于该页面的专家id，则不可以提问
+          this.$message({
+            message:'禁止自问自答'
+          })
+          return;
+        }
+      }
+      // 判断用户登录了没
+      if (this.judgeUserIsLogin()) {
         // 将被提问的专家id传入
         this.expertId = this.oneExpert.id;
-        this.typeId = this.oneExpert.typeId;
         // 用户登录了
         this.show = true;
-      }else{
+      } else {
         // 用户未登录，跳转到登录页面
-        this.$router.push({path:'/login'})
+        this.$router.push({ path: "/login" });
       }
     },
     // 判断用户是否登录了
@@ -142,8 +198,7 @@ export default {
       return 0;
     },
   },
-  created() {
-  },
+  created() {},
 };
 </script>
 <style lang="less" scoped>

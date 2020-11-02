@@ -54,7 +54,7 @@
 </template>
 <script>
 export default {
-  props: ["show", "expertId", "typeId"],
+  props: ["show", "expertId"],
   data() {
     return {
       dialogFormVisible: false,
@@ -105,7 +105,7 @@ export default {
         userId: this.$store.state.userData.userId,
         userName: this.$store.state.userData.userName,
       };
-      console.log(this.oneQuesInfo);
+      // console.log(this.oneQuesInfo);
       await this.addNewQues(this.oneQuesInfo);
       // 清空表单
       this.fileList = [];

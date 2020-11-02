@@ -22,8 +22,8 @@
         "
         @click="toDiseaseDateil"
       >
-        <span style="color: #9e9e9e"> 更多 </span>
-        <i class="el-icon-caret-right"></i>
+        <!-- <span style="color: #9e9e9e"> 更多 </span>
+        <i class="el-icon-caret-right"></i> -->
       </div>
     </h3>
     <el-divider class="ccy-drvider"></el-divider>

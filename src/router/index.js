@@ -288,7 +288,12 @@ const routes = [
     // 疾病自诊
     path: '/autognosis',
     component: autognosis
-
+  },
+  {
+    // 疾病详情
+    path: '/autognosis/diseaseDateil',
+    component: diseaseDateil,
+    name: 'wzp_diseaseDateil'
   },
   {
     path: '/expertSystemManage',
