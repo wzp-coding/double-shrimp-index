@@ -96,10 +96,10 @@
                 <div class="block">
                   <el-image
                     :src="item.picture"
-                    @click="FRESH(item.id)"
+                    @click="TonewPath(item.id)"
                   ></el-image>
                   <div class="rightspan">
-                    <span @click="FRESH(item.id)">{{ item.title }}</span>
+                    <span @click="TonewPath(item.id)">{{ item.title }}</span>
                   </div>
                 </div>
               </div>
@@ -113,17 +113,17 @@
                 <div class="block">
                   <el-image
                     :src="item.picture"
-                    @click="FRESH(item.id)"
+                    @click="TonewPath(item.id)"
                   ></el-image>
                   <div class="rightspan">
-                    <span @click="FRESH(item.id)">{{ item.title }}</span>
+                    <span @click="TonewPath(item.id)">{{ item.title }}</span>
                   </div>
                 </div>
               </div>
             </el-tab-pane>
           </el-tabs>
           <el-tabs v-model="activeName1">
-            <el-tab-pane label="本周热门" name="first明">
+            <el-tab-pane label="本周热门" name="first1">
               <div
                 class="list"
                 v-for="(item, index) in WeekDataList.slice(0, 5)"
@@ -132,15 +132,15 @@
                 <div class="block">
                   <el-image
                     :src="item.picture"
-                    @click="FRESH(item.id)"
+                    @click="TonewPath(item.id)"
                   ></el-image>
                   <div class="rightspan">
-                    <span @click="FRESH(item.id)">{{ item.title }}</span>
+                    <span @click="TonewPath(item.id)">{{ item.title }}</span>
                   </div>
                 </div>
               </div>
             </el-tab-pane>
-            <el-tab-pane label="本月热门" name="second2">
+            <el-tab-pane label="本月热门" name="second1">
               <div
                 class="list"
                 v-for="(item, index) in MonthData.slice(0, 5)"
@@ -213,8 +213,8 @@ export default {
     return {
       src:
         "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
-      activeName: "second",
-      activeName1: "second2",
+      activeName: "first",
+      activeName1: "first1",
       //按点击量查询
       numclicklist: [],
 
@@ -251,18 +251,16 @@ export default {
     console.log(this.$route.query.id);
   },
   methods: {
-    //前往详情页
+    //前往详情页 与更新详情页
     TonewPath(id) {
+      console.log(id)
       this.$router.push({
         path: "/instructdetail",
         query: { id: id },
-      });
+      });   
+      this.$router.go(0);
     },
-    FRESH(ID) {
-      this.$route.query.id = ID;
-      this.getshrimpIndustryData();
-    },
-
+    
     //找到相应ID文章
     async getshrimpIndustryData() {
       try {

@@ -21,8 +21,13 @@
       <el-container>
         <el-aside width="67%">
           <div class="header">
-            <el-input placeholder="请输入实体名称"></el-input>
-            <el-button type="success">查询</el-button>
+            <el-input
+              placeholder="请输入实体名称"
+              v-model="SearchKey"
+            ></el-input>
+            <el-button type="success" @click="searchData(SearchKey)"
+              >查询</el-button
+            >
           </div>
           <div class="body" v-for="(item, index) in TypePageList" :key="index">
             <div class="block">
@@ -122,7 +127,7 @@
             </el-tab-pane>
           </el-tabs>
           <el-tabs v-model="activeName1">
-            <el-tab-pane label="本周热门" name="first明">
+            <el-tab-pane label="本周热门" name="first1">
               <div
                 class="list"
                 v-for="(item, index) in WeekDataList.slice(0, 5)"
@@ -136,7 +141,7 @@
                 </div>
               </div>
             </el-tab-pane>
-            <el-tab-pane label="本月热门" name="second2">
+            <el-tab-pane label="本月热门" name="second1">
               <div
                 class="list"
                 v-for="(item, index) in MonthData.slice(0, 5)"
@@ -221,8 +226,8 @@ export default {
     return {
       src:
         "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
-      activeName: "second",
-      activeName1: "second2",
+      activeName: "first",
+      activeName1: "first1",
 
       queryinfo: {
         page: 1,
@@ -241,9 +246,12 @@ export default {
       //每周
       WeekDataList: [],
       //分类信息查询
-      TypeDataList: [],
+      //  TypeDataList: [],
       //得到分类名称
       TypeName: "",
+      //搜索信息
+
+      SearchKey: "",
     };
   },
   created() {
@@ -254,7 +262,7 @@ export default {
     //时间 最新
     this.getnewData();
     //推荐
-    this.getRecommData();
+    // this.getRecommData();
 
     //每周
     this.getWeekData();
@@ -268,6 +276,7 @@ export default {
     this.getTypePageData();
 
     //搜索查询
+    this.searchData();
   },
   mounted() {
     console.log(this.$route.query.id);
@@ -291,6 +300,7 @@ export default {
         console.log("网络错误");
       }
     },
+
     async getnewData() {
       try {
         const { data: res } = await this.reqM2Service(
@@ -303,18 +313,6 @@ export default {
         console.log("获取最新数据出错");
       }
     },
-    async getRecommData() {
-      try {
-        const { data: res } = await this.reqM2Service(
-          "/info/shrimpIndustry/findByRecommend/1/5",
-          "",
-          "post"
-        );
-        this.RecommDataList = res.data;
-      } catch (error) {
-        console.log("获取推荐数据出错");
-      }
-    },
 
     async getWeekData() {
       const { data: res } = await this.reqM2Service(
@@ -324,6 +322,7 @@ export default {
       );
       this.WeekDataList = res.data;
     },
+
     async getMonthData() {
       try {
         const { data: res } = await this.reqM2Service(
@@ -349,39 +348,46 @@ export default {
     },
 
     //根据传过来的ID查询
-    async getTypeData() {
-      try {
-      } catch (error) {}
-      const { data: res } = await this.reqM2Service(
-        `/info/shrimpIndustry/search/searchByTypeId/${this.$route.query.id}/${this.queryinfo.page}/${this.queryinfo.size}`,
-        "",
-        "post"
-      );
-      this.TypeDataList = res.data.rows;
-      this.queryinfo.total = res.data.total;
-      //console.log(this.$route.query.id)
-    },
+    // async getTypeData() {
+    //   try {
+    //   } catch (error) {}
+    //   const { data: res } = await this.reqM2Service(
+    //     `/info/shrimpIndustry/search/searchByTypeId/${this.$route.query.id}/${this.queryinfo.page}/${this.queryinfo.size}`,
+    //     "",
+    //     "post"
+    //   );
+    //   this.TypeDataList = res.data.rows;
+    //   this.queryinfo.total = res.data.total;
+    //   //console.log(this.$route.query.id)
+    // },
     handleCurrentChange(newpage) {
       //改变页码
       this.queryinfo.page = newpage;
       this.getTypePageData();
     },
 
-    //得到分类名称
-    // async getTypeName() {
-    //   const { data: res } = await this.reqM2Service(
-    //     "/info/shrimpIndustryTypes",
-    //     "",
-    //     "get"
-    //   );
-    //   for (var i = 0; i < res.data.length; i++) {
-    //     if (res.data[i].id == this.$route.query.id) {
-    //       this.TypeName = res.data[i].name;
-    //       console.log(this.TypeName);
-    //       break;
-    //     }
-    //   }
-    // }
+    searchData(SearchKey) {
+      let httpUrl = `http://106.75.154.40:9010/industry/search/time/${this.queryinfo.page}/${this.queryinfo.size}/1?key=${this.SearchKey}`;
+      try {
+        this.$http.get(httpUrl).then((res) => {
+          console.log(res.data);
+          if (res.data.code === 20000) {
+            
+
+            console.log("成功返回 搜索数据");
+            res = res.data;
+            this.TypePageList = res.data.rows;
+            this.queryinfo.total = res.data.total;
+
+            //this.$message.warning("暂无相关数据");
+          } else {
+            console.log("请求搜索数据失败");
+          }
+        });
+      } catch (error) {
+        console.log("搜索接口请求失败");
+      }
+    },
   },
 };
 </script>
@@ -465,13 +471,13 @@ export default {
         width: 67%;
         display: flex;
         float: right;
-        span{
+        span {
           color: #858585;
           cursor: pointer;
         }
-        span:hover{
+        span:hover {
           color: black;
-        font-weight: 800px;
+          font-weight: 800px;
         }
       }
     }

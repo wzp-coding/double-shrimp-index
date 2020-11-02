@@ -631,8 +631,8 @@ export default {
       } else {
         var len = val.length;
         if (len > 80) {
-          str: "";
-          str = val.substring(0, 80) + "......";
+          
+          var  str = val.substring(0, 80) + "......";
           return str;
         } else {
           return val;
