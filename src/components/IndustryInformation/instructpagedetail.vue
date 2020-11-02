@@ -21,34 +21,45 @@
       <el-container>
         <el-aside width="67%">
           <div class="header">
-            <el-input placeholder="请输入实体名称"></el-input>
-            <el-button type="success">查询</el-button>
+            <el-input
+              placeholder="请输入实体名称"
+              v-model="SearchKey"
+            ></el-input>
+            <el-button type="success" @click="searchData(SearchKey)"
+              >查询</el-button
+            >
           </div>
-          <div class="body" v-for="item in TypeDataList" :key="item.id">
+          <div class="body" v-for="(item, index) in TypePageList" :key="index">
             <div class="block">
               <div class="pic">
-                
-                  <el-image :src="item.picture"></el-image>
-                
+                <el-image :src="item.picture"></el-image>
               </div>
               <div class="news">
                 <h3 style="margin-top: 3px">{{ item.title }}</h3>
                 <p
                   class="textover"
-                  style="font-size: 14.5px; margin-bottom: 15px; margin-top: 10px"
+                  style="
+                    font-size: 14.5px;
+                    margin-bottom: 15px;
+                    margin-top: 10px;
+                  "
                 >
-                  {{ item.summary | limitword}}
-                  <span style="color:green;cursor: pointer;" @click="TonewPath(item.id)" >[详情]</span>
+                  {{ item.summary | limitword }}
+                  <span
+                    style="color: green; cursor: pointer"
+                    @click="TonewPath(item.id)"
+                    >[详情]</span
+                  >
                 </p>
-                
+
                 <!--底部区域--->
                 <p style="font-size: 13px; position: absolute; bottom: 4px">
                   发布时间:{{ item.creationTime | timefilters
-                  }}<span style="margin-left: 15px"
-                    >阅读： {{ item.clickNum | readnum}}</span
+                  }}<span style="margin-left: 10px"
+                    >阅读： {{ item.clickNum | readnum }}</span
                   >
                 </p>
-                <p
+                <!-- <p
                   style="
                     color: green;
                     font-size: 13px;
@@ -69,7 +80,7 @@
                   "
                 >
                   分类：
-                </p>
+                </p> -->
               </div>
             </div>
           </div>
@@ -80,35 +91,33 @@
             :page-size="queryinfo.size"
             :current-page="queryinfo.page"
             @current-change="handleCurrentChange"
-            style="display: flex; justify-content: center; margin-bottom: 30px"
+            style="display: flex; justify-content: center; margin-top: 30px"
           >
           </el-pagination>
         </el-aside>
         <el-main width="30%">
-          <el-tabs v-model="activeName" @tab-click="handleClick">
+          <el-tabs v-model="activeName">
             <el-tab-pane label="最新资讯" name="first">
               <div
                 class="list"
                 v-for="(item, index) in newDataList.slice(0, 5)"
                 :key="index"
               >
-                
-                  <div class="block" @click="TonewPath(item.id)">
-                    <el-image :src="item.picture"></el-image>
-                    <div class="rightspan">
-                      <span>{{ item.title }}</span>
-                    </div>
+                <div class="block" @click="TonewPath(item.id)">
+                  <el-image :src="item.picture"></el-image>
+                  <div class="rightspan">
+                    <span>{{ item.title }}</span>
                   </div>
-                
+                </div>
               </div>
             </el-tab-pane>
             <el-tab-pane label="热门资讯" name="second">
               <div
                 class="list"
-                v-for="(item, index) in numclicklist.slice(0, 5)"
+                v-for="(item, index) in numclicklist"
                 :key="index"
               >
-                <div class="block"  @click="TonewPath(item.id)">
+                <div class="block" @click="TonewPath(item.id)">
                   <el-image :src="item.picture"></el-image>
                   <div class="rightspan">
                     <span>{{ item.title }}</span>
@@ -117,14 +126,14 @@
               </div>
             </el-tab-pane>
           </el-tabs>
-          <el-tabs v-model="activeName1" @tab-click="handleClick">
-            <el-tab-pane label="本周热门" name="first明">
+          <el-tabs v-model="activeName1">
+            <el-tab-pane label="本周热门" name="first1">
               <div
                 class="list"
                 v-for="(item, index) in WeekDataList.slice(0, 5)"
                 :key="index"
               >
-                <div class="block"  @click="TonewPath(item.id)">
+                <div class="block" @click="TonewPath(item.id)">
                   <el-image :src="item.picture"></el-image>
                   <div class="rightspan">
                     <span>{{ item.title }}</span>
@@ -132,13 +141,13 @@
                 </div>
               </div>
             </el-tab-pane>
-            <el-tab-pane label="本月热门" name="second2">
+            <el-tab-pane label="本月热门" name="second1">
               <div
                 class="list"
                 v-for="(item, index) in MonthData.slice(0, 5)"
                 :key="index"
               >
-                <div class="block"  @click="TonewPath(item.id)">
+                <div class="block" @click="TonewPath(item.id)">
                   <el-image :src="item.picture"></el-image>
                   <div class="rightspan">
                     <span>{{ item.title }}</span>
@@ -198,27 +207,27 @@ export default {
         }
       }
     },
-    istypeName(val){
-        if(val == null || val == ""){
-            return "暂无分类";
-        }else{
-            return val;
-        }
+    istypeName(val) {
+      if (val == null || val == "") {
+        return "暂无分类";
+      } else {
+        return val;
+      }
     },
-    readnum(val){
-        if(val == null || val == ""){
-            return 0;
-        }else{
-            return val;
-        }
-    }
+    readnum(val) {
+      if (val == null || val == "") {
+        return 0;
+      } else {
+        return val;
+      }
+    },
   },
   data() {
     return {
       src:
         "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
-      activeName: "second",
-      activeName1: "second2",
+      activeName: "first",
+      activeName1: "first1",
 
       queryinfo: {
         page: 1,
@@ -228,26 +237,32 @@ export default {
       //按点击量查询
       numclicklist: [],
 
+      //分页查询全部数据
+      TypePageList: [],
+
       //每月
       MonthData: [], //按最新  时间
       newDataList: [],
       //每周
       WeekDataList: [],
       //分类信息查询
-      TypeDataList: [],
+      //  TypeDataList: [],
       //得到分类名称
       TypeName: "",
+      //搜索信息
+
+      SearchKey: "",
     };
   },
   created() {
     //根据传过来的TypeID 搜索
-    this.getTypeData();
+    //this.getTypeData();
     //点击量 热度
     this.getclickData();
     //时间 最新
     this.getnewData();
     //推荐
-    this.getRecommData();
+    // this.getRecommData();
 
     //每周
     this.getWeekData();
@@ -255,7 +270,13 @@ export default {
     this.getMonthData();
 
     //得到分类名
-    this.getTypeName();
+    //this.getTypeName();
+
+    //分页查询全部数据
+    this.getTypePageData();
+
+    //搜索查询
+    this.searchData();
   },
   mounted() {
     console.log(this.$route.query.id);
@@ -268,28 +289,29 @@ export default {
       });
     },
     async getclickData() {
-      const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustry/findByClickNum",
-        "",
-        "get"
-      );
-      this.numclicklist = res.data;
+      try {
+        const { data: res } = await this.reqM2Service(
+          "/info/shrimpIndustry/findByClickNum/1/5",
+          "",
+          "get"
+        );
+        this.numclicklist = res.data.rows;
+      } catch (error) {
+        console.log("网络错误");
+      }
     },
+
     async getnewData() {
-      const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustry/findByTime",
-        "",
-        "get"
-      );
-      this.newDataList = res.data;
-    },
-    async getRecommData() {
-      const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustry/findByRecommend",
-        "",
-        "get"
-      );
-      this.RecommDataList = res.data;
+      try {
+        const { data: res } = await this.reqM2Service(
+          "/info/shrimpIndustry/findByTime",
+          "",
+          "get"
+        );
+        this.newDataList = res.data;
+      } catch (error) {
+        console.log("获取最新数据出错");
+      }
     },
 
     async getWeekData() {
@@ -300,48 +322,72 @@ export default {
       );
       this.WeekDataList = res.data;
     },
+
     async getMonthData() {
-      const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustry/findByClickMonthly",
-        "",
-        "get"
-      );
-      this.MonthData = res.data;
+      try {
+        const { data: res } = await this.reqM2Service(
+          "/info/shrimpIndustry/findByClickMonthly",
+          "",
+          "get"
+        );
+        this.MonthData = res.data;
+      } catch (error) {
+        console.log("获取每月数据出错");
+      }
     },
 
-    async getTypeData() {
+    //分页查询全部数据
+    async getTypePageData() {
       const { data: res } = await this.reqM2Service(
-        `/info/shrimpIndustry/search/searchByTypeId/${this.$route.query.id}/${this.queryinfo.page}/${this.queryinfo.size}`,
+        `/info/shrimpIndustry/${this.queryinfo.page}/${this.queryinfo.size}`,
         "",
         "post"
       );
-      this.TypeDataList = res.data.rows;
+      this.TypePageList = res.data.rows;
       this.queryinfo.total = res.data.total;
-      //console.log(this.$route.query.id)
     },
+
+    //根据传过来的ID查询
+    // async getTypeData() {
+    //   try {
+    //   } catch (error) {}
+    //   const { data: res } = await this.reqM2Service(
+    //     `/info/shrimpIndustry/search/searchByTypeId/${this.$route.query.id}/${this.queryinfo.page}/${this.queryinfo.size}`,
+    //     "",
+    //     "post"
+    //   );
+    //   this.TypeDataList = res.data.rows;
+    //   this.queryinfo.total = res.data.total;
+    //   //console.log(this.$route.query.id)
+    // },
     handleCurrentChange(newpage) {
       //改变页码
       this.queryinfo.page = newpage;
-      this.getTypeData();
+      this.getTypePageData();
     },
 
+    searchData(SearchKey) {
+      let httpUrl = `http://106.75.154.40:9010/industry/search/time/${this.queryinfo.page}/${this.queryinfo.size}/1?key=${this.SearchKey}`;
+      try {
+        this.$http.get(httpUrl).then((res) => {
+          console.log(res.data);
+          if (res.data.code === 20000) {
+            
 
-    //得到分类名称
-    async getTypeName() {
-      const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustryTypes",
-        "",
-        "get"
-      );
-      for (var i = 0; i < res.data.length; i++) {
-        if (res.data[i].id == this.$route.query.id) {
-          this.TypeName = res.data[i].name;
-          console.log(this.TypeName);
-          break;
-        }
+            console.log("成功返回 搜索数据");
+            res = res.data;
+            this.TypePageList = res.data.rows;
+            this.queryinfo.total = res.data.total;
+
+            //this.$message.warning("暂无相关数据");
+          } else {
+            console.log("请求搜索数据失败");
+          }
+        });
+      } catch (error) {
+        console.log("搜索接口请求失败");
       }
     },
-    handleClick() {},
   },
 };
 </script>
@@ -378,6 +424,7 @@ export default {
       width: 100%;
       height: 185px;
       display: flex;
+      cursor: pointer;
       justify-content: space-between;
       border-bottom: 1px solid rgb(230, 230, 230);
       .pic {
@@ -424,6 +471,14 @@ export default {
         width: 67%;
         display: flex;
         float: right;
+        span {
+          color: #858585;
+          cursor: pointer;
+        }
+        span:hover {
+          color: black;
+          font-weight: 800px;
+        }
       }
     }
   }

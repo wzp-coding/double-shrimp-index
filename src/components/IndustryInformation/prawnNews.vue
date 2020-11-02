@@ -23,7 +23,7 @@
             <div class="block" style="margin-bottom: 8px">
               <div
                 class="blockson"
-                v-for="item in datalist.slice(0, 3)"
+                v-for="item in duixialist"
                 :key="item.id"
                 @click="TonewPath(item.id)"
               >
@@ -84,10 +84,10 @@
             <div class="main" v-for="item in pagelist" :key="item.id">
               <div
                 class="mainson"
-                style="border-bottom: 1px solid rgb(230, 230, 230)"
+                style="border-bottom: 1px solid rgb(230, 230, 230);"
               >
                 <div class="pic" @click="TonewPath(item.id)">
-                  <el-image :src="item.picture"></el-image>
+                  <el-image :src="item.picture" ></el-image>
                 </div>
                 <div class="sonr">
                   <div
@@ -163,7 +163,7 @@
                     "
                   >
                     <span
-                      @click="ToOtherMore(waybytime)"
+                      @click="ToMorePage(queryInfo.TypeID)"
                       style=" cursor: pointer;color: #9e9e9e"
                     >
                       更多
@@ -173,17 +173,16 @@
                 </h3>
                 <el-divider class="ccy-drvider"></el-divider>
 
-                <ul>
+                <ul class="ccy-css" style="margin-bottom:6px">
                   <li
-                    v-for="(item, index) in dataTimeList.slice(0, 6)"
+                    v-for="(item, index) in dataTimeList"
                     :key="index"
                     @click="TonewPath(item.id)"
-                    :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
                   >
                     {{ item.title }}
                   </li>
                 </ul>
-                <br />
+               
                 <h3
                   style="
                     margin-bottom: -22px;
@@ -212,7 +211,7 @@
                       color: rgb(93, 183, 60);
                     "
                   >
-                    <span style=" cursor: pointer;color: #9e9e9e" @click="ToOtherMore(waybyrecommed)"> 更多 </span>
+                    <span style=" cursor: pointer;color: #9e9e9e" @click="ToMorePage(queryInfo.TypeID)"> 更多 </span>
                     <i class="el-icon-caret-right"></i>
                   </div>
                 </h3>
@@ -220,12 +219,12 @@
                   class="ccy-drvider"
                   style="display: inline-block; margin-top: -30px"
                 ></el-divider>
-                <ul>
+                <ul class="ccy-css">
                   <li
                     v-for="(item, index) in dataRecommList.slice(0, 6)"
                     :key="index"
                     @click="TonewPath(item.id)"
-                    :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
+                    
                   >
                     {{ item.title }}
                   </li>
@@ -257,18 +256,18 @@
                       color: rgb(93, 183, 60);
                     "
                   >
-                    <span style=" cursor: pointer;color: #9e9e9e" @click="ToOtherMore(waybyclick)"> 更多 </span>
+                    <span style=" cursor: pointer;color: #9e9e9e" @click="ToMorePage(queryInfo.TypeID)"> 更多 </span>
                     <i class="el-icon-caret-right"></i>
                   </div>
                 </h3>
                 <el-divider class="ccy-drvider"></el-divider>
 
-                <ul>
+                <ul class="ccy-css">
                   <li
                     v-for="(item, index) in dataClickList.slice(0, 6)"
                     :key="index"
                     @click="TonewPath(item.id)"
-                    :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
+                   
                   >
                     {{ item.title }}
                   </li>
@@ -368,8 +367,23 @@ export default {
       // 类型分页
       pagelist: [],
 
-      //查询所有产业资讯
-      datalist: [],
+      //查询对虾资讯
+      duixialist: [
+        {
+          picture: "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+          title:'暂无数据'
+        },
+        {
+          picture: "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+          title:'暂无数据'
+        },
+        {
+          picture: "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+          title:'暂无数据'
+        }
+       
+      ],
+      duixiaId: '1320625468222869504',
 
       //按时间  最新
       dataTimeList: [],
@@ -390,8 +404,8 @@ export default {
   created() {
     // 对虾养殖 分页
     this.getPageList(),
-      //获取所有产业资讯
-      this.getAllData(),
+      //获取对虾资讯
+      this.getduixia(),
       //获取最新
       this.getNewData(),
       //按推荐
@@ -423,16 +437,23 @@ export default {
         query: { path: path },
       });
     },
-    //查询全部
-    async getAllData() {
+
+    //对虾资讯
+    async getduixia() {
       const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustry",
+        `/info/shrimpIndustry/search/searchByTypeId/${this.duixiaId}/1/3`,
         "",
-        "get"
+        "post"
       );
-      this.datalist = res.data;
-      // console.log(res.data)
+      if(res.data.rows.length == 0){
+        
+      }else{
+        this.duixialist = res.data.rows
+      }
+      
+      
     },
+
 
     //分页  1316745747953225728
     async getPageList() {
@@ -444,7 +465,7 @@ export default {
       console.log(this.queryInfo.TypeID);
       console.log(res);
       this.pagelist = res.data.rows;
-      this.queryInfo.total = res.data.rows.length;
+      this.queryInfo.total = res.data.total;
       console.log(res.data.rows);
       //console.log(this.queryInfo.pagelist)
     },
@@ -457,12 +478,17 @@ export default {
     },
     async getNewData() {
       ///info/shrimpIndustry/findByTime
-      const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustry/findByTime",
+      try {
+        const { data: res } = await this.reqM2Service(
+        "/info/shrimpIndustry/findByTime/1/9",
         "",
         "get"
       );
-      this.dataTimeList = res.data;
+      this.dataTimeList = res.data.rows;
+      } catch (error) {
+        console.log('获取最新数据失败')
+      }
+      
     },
     async getRecommedData() {
       ///info/shrimpIndustry/findByTime
@@ -539,16 +565,22 @@ export default {
   }
 }
 .ccy-css {
-  color: black;
-  text-decoration: none;
-  font-size: 15.21px;
-  font-weight: 700;
-}
-.ccy-cssn {
-  text-decoration: none;
-  color: black;
+  color: #858585;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
   font-size: 13px;
-  font-weight: 500;
+}
+.ccy-css > li:hover {
+  color: black;
+  font-weight: 800px;
+}
+.ccy-css:first-line {
+  color: black;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  font-size: 15px;
+  font-weight: 700;
 }
 .el-image {
   cursor: pointer;
@@ -587,14 +619,6 @@ export default {
     }
   }
 }
-.router-link {
-  span {
-    text-decoration: none;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-}
 .zhuti {
   display: flex;
   justify-content: space-between;
@@ -627,7 +651,7 @@ export default {
           text-overflow: ellipsis;
           overflow: hidden;
           white-space: nowrap;
-          font-size: 14.5px;
+          font-size: 13.5px;
         }
       }
     }
@@ -635,10 +659,11 @@ export default {
       width: 100%;
       display: flex;
       flex-direction: column;
+      margin-top: -22px;
       .mainson {
         width: 100%;
         display: flex;
-        margin-top: -20px;
+        
         height: 190px;
         position: relative;
         .pic {
@@ -669,7 +694,7 @@ export default {
             cursor: pointer;
             text-overflow: ellipsis;
             overflow: hidden;
-            list-style-position: inside;
+            font-size: 15px;
             white-space: nowrap;
           }
           span {
@@ -694,7 +719,7 @@ export default {
         overflow: hidden;
         white-space: nowrap;
         list-style-position: inside;
-        width: 220px;
+        width: 250px;
         cursor: pointer;
         margin-bottom: 3px;
       }
