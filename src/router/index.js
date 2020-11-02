@@ -111,7 +111,6 @@ const routes = [
   {
     path: '/industryMarket',
     component: industryMarket
-
   },
   {
     path: '/instructpagedetail',
