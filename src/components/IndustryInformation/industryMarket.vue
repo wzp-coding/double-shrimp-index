@@ -274,8 +274,8 @@
                   :key="i"
                   @click="TonewPath(item.id)"
                 >
-
-                  <el-image :src="item.picture" v-if="item.picture"></el-image>
+                    <!-- v-if="item.picture" -->
+                  <el-image :src="item.picture" ></el-image>
                   <span>{{ item.title }}</span>
                 </div>
               </div>
@@ -437,7 +437,7 @@
                 </li>
               </ul>
 
-              <div class="midpic">
+              <div class="midpic" style="margin:6px 0 10px 0">
                 <el-image
                   v-if="NewDataList[8].picture"
                   :src="NewDataList[8].picture"
@@ -521,11 +521,11 @@
             </div>
             <div class="rightmd">
               <ul class="ccy-css">
-                <li
+                <li style="width:200px"
                   v-for="(item, index) in MonthDataList"
                   :key="index"
                   @click="TonewPath(item.id)"
-                  style="width: 180px"
+                  
                 >
                   {{ item.title }}
                 </li>
@@ -778,7 +778,7 @@ export default {
     async getWeekData() {
       try {
         const { data: res } = await this.reqM2Service(
-          "/info/shrimpIndustry/findByClickWeekly",
+          "/info/shrimpIndustry/findByClickWeekly/1/9",
           "",
           "get"
         );
@@ -786,9 +786,8 @@ export default {
           console.log("2" + res);
           console.log(res);
           console.log("获取每周精品数据成功");
-          this.weekliList = res.data.slice(0, 9);
-          console.log(res);
-          console.log(this.weekliList);
+          this.weekliList = res.data.rows;
+          
         }
       } catch (error) {
         console.log("网络错误19999");
@@ -884,7 +883,7 @@ export default {
     async getMonthData() {
       try {
         const { data: res } = await this.reqM2Service(
-          "/info/shrimpIndustry/findByClickMonthly",
+          "/info/shrimpIndustry/findByClickMonthly/1/9",
           "",
           "get"
         );
@@ -893,7 +892,7 @@ export default {
           console.log("7" + res);
           console.log(res.data.length);
           console.log("获取每月数据成功");
-          this.MonthDataList = res.data.slice(0, 7);
+          this.MonthDataList = res.data.rows;
         } else {
           console.log("网络错误 20001");
         }

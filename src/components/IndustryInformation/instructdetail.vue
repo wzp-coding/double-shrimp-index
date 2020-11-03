@@ -126,7 +126,7 @@
             <el-tab-pane label="本周热门" name="first1">
               <div
                 class="list"
-                v-for="(item, index) in WeekDataList.slice(0, 5)"
+                v-for="(item, index) in WeekDataList"
                 :key="index"
               >
                 <div class="block">
@@ -143,7 +143,7 @@
             <el-tab-pane label="本月热门" name="second1">
               <div
                 class="list"
-                v-for="(item, index) in MonthData.slice(0, 5)"
+                v-for="(item, index) in MonthData"
                 :key="index"
               >
                 <div class="block">
@@ -271,6 +271,7 @@ export default {
         "get"
       );
       this.IdData = res.data;
+      console.log('获取到文章')
       console.log(res);
       } catch (error) {
         console.log('获取该ID文章信息失败')
@@ -288,7 +289,7 @@ export default {
 
     async getnewData() {
       const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustry/findByTime/1/5",
+        "/info/shrimpIndustry/findByTime/1/6",
         "",
         "get"
       );
@@ -299,11 +300,11 @@ export default {
     async getWeekData() {
       try {
         const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustry/findByClickWeekly",
+        "/info/shrimpIndustry/findByClickWeekly/1/6",
         "",
         "get"
       );
-      this.WeekDataList = res.data;
+      this.WeekDataList = res.data.rows;
       } catch (error) {
         console.log('获取吗每周数据失败')
       }
@@ -312,11 +313,11 @@ export default {
     async getMonthData() {
       try {
         const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustry/findByClickMonthly",
+        "/info/shrimpIndustry/findByClickMonthly/1/5",
         "",
         "get"
       );
-      this.MonthData = res.data;
+      this.MonthData = res.data.rows;
       } catch (error) {
         console.log('获取每月数据失败')
       }

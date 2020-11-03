@@ -25,7 +25,7 @@
               placeholder="请输入实体名称"
               v-model="SearchKey"
             ></el-input>
-            <el-button type="success" @click="searchData(SearchKey)"
+            <el-button type="success" @click="toSearch(SearchKey)"
               >查询</el-button
             >
           </div>
@@ -145,7 +145,7 @@
             <el-tab-pane label="本周热门" name="first1">
               <div
                 class="list"
-                v-for="(item, index) in WeekDataList.slice(0, 5)"
+                v-for="(item, index) in WeekDataList"
                 :key="index"
               >
                 <div class="block">
@@ -162,7 +162,7 @@
             <el-tab-pane label="本月热门" name="second1">
               <div
                 class="list"
-                v-for="(item, index) in MonthData.slice(0, 5)"
+                v-for="(item, index) in MonthData"
                 :key="index"
               >
                 <div class="block">
@@ -275,7 +275,6 @@ export default {
       SearchKey: "",
 
       isSearch: null,
-      isnew:false,
     };
   },
   created() {
@@ -351,22 +350,22 @@ export default {
 
     async getWeekData() {
       const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustry/findByClickWeekly",
+        "/info/shrimpIndustry/findByClickWeekly/1/5",
         "",
         "get"
       );
       console.log(res);
-      this.WeekDataList = res.data;
+      this.WeekDataList = res.data.rows;
     },
 
     async getMonthData() {
       try {
         const { data: res } = await this.reqM2Service(
-          "/info/shrimpIndustry/findByClickMonthly",
+          "/info/shrimpIndustry/findByClickMonthly/1/5",
           "",
           "get"
         );
-        this.MonthData = res.data;
+        this.MonthData = res.data.rows;
       } catch (error) {
         console.log("获取每月数据出错");
       }
@@ -425,26 +424,27 @@ export default {
       //改变页码
       this.queryinfo.page = newpage;
       if (this.isSearch === 1) {
-        this.isnew = false
         this.searchData(this.SearchKey);
       }else if(this.isSearch==2){
         this.getTypePageData();
-        this.queryinfo.page=1
+        this.queryinfo.page=1;
       }else{
         this.getTypePageData();
-        this.queryinfo.page=1
+        this.queryinfo.page=1;
       }
     },
 
+    //查询函数
+    toSearch(SearchKey){
+      this.queryinfo.page = 1;
+      console.log(this.queryinfo.page)
+      this.searchData(SearchKey);
+    },
     searchData(SearchKey) {
       
       //this.isSearch = 1 代表点击了搜索或由其他页面搜索而进
       this.isSearch = 1;
-      if(this.isnew){
-        this.queryinfo.page = 1;
-        this.isnew = false;
-      }
-      // this.$message.success(this.SearchKey)
+      
       let httpUrl = `http://106.75.154.40:9010/industry/search/time/${this.queryinfo.page}/${this.queryinfo.size}/1?key=${SearchKey}`;
       try {
         this.$http.get(httpUrl).then((res) => {
@@ -453,7 +453,6 @@ export default {
             console.log("成功返回 搜索数据");
             res = res.data;
             //判断返回的数组是否有数据
-            console.log('233')
             if (res.data.rows.length !== 0) {
               console.log("数组存在且有信息");
               //更新分页列表

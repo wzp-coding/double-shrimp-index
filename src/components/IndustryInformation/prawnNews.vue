@@ -230,7 +230,7 @@
                 ></el-divider>
                 <ul class="ccy-css">
                   <li
-                    v-for="(item, index) in dataRecommList.slice(0, 6)"
+                    v-for="(item, index) in dataRecommList"
                     :key="index"
                     @click="TonewPath(item.id)"
                   >
@@ -277,7 +277,7 @@
 
                 <ul class="ccy-css">
                   <li
-                    v-for="(item, index) in dataClickList.slice(0, 6)"
+                    v-for="(item, index) in dataClickList"
                     :key="index"
                     @click="TonewPath(item.id)"
                   >
@@ -504,20 +504,20 @@ export default {
     async getRecommedData() {
       ///info/shrimpIndustry/findByTime
       const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustry/findByRecommend",
+        "/info/shrimpIndustry/findByRecommend/1/6",
         "",
         "get"
       );
-      this.dataRecommList = res.data;
+      this.dataRecommList = res.data.rows;
     },
     async getHotData() {
       ///info/shrimpIndustry/findByTime
       const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustry/findByClickNum",
+        "/info/shrimpIndustry/findByClickNum/1/6",
         "",
         "get"
       );
-      this.dataClickList = res.data;
+      this.dataClickList = res.data.rows;
     },
     //获取所有分类信息
     async getTypeData() {
