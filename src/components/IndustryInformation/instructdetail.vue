@@ -11,10 +11,10 @@
             <el-breadcrumb-item>产业咨询</el-breadcrumb-item>
           </el-breadcrumb>
         </div>
-        <div class="tr">
+        <!-- <div class="tr">
           <input type="text" placeholder="  搜索你想要的农产品资讯" />
           <i class="el-icon-search"></i>
-        </div>
+        </div> -->
       </div>
       <el-divider></el-divider>
       <div class="main">
@@ -31,10 +31,10 @@
                 ></el-avatar>
               </div>
               <div class="lxl-title">
-                <h3>{{ IdData.editor }}</h3>
+                <h3 >{{ IdData.title }}</h3>
                 <p style="display: flex">
                   发布时间 {{ IdData.creationTime | timefilters
-                  }}<span style="margin-left: 15px">
+                  }}<span style="margin-left: 15px" >
                     {{ IdData.editor | limitword }}报告</span
                   >
                 </p>
@@ -79,7 +79,7 @@
               虾""品牌影响力，那可都是响当起博兴县南美白对虾产业，那可是有着“中国白对虾生态养殖第一县""的美誉，不 </span
             > -->
             <el-divider></el-divider>
-            <h3 style="margin-bottom: 30px; font-family: btt">
+            <h3 style="margin-bottom: 30px; font-family: btt" >
               {{ numclicklist[1].editor }}报告
             </h3>
           </div>
@@ -230,7 +230,8 @@ export default {
 
       //每月
       MonthData: [],
-      IdData: {},
+      IdData: {
+      },
     };
   },
   created() {
@@ -407,7 +408,7 @@ export default {
         width: 98%;
         height: 310px;
         padding: 20px 0 35px 0;
-        display: block;
+        
       }
     }
   }

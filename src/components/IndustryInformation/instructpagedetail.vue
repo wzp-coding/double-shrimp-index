@@ -32,10 +32,10 @@
           <div class="body" v-for="(item, index) in TypePageList" :key="index">
             <div class="block">
               <div class="pic">
-                <el-image :src="item.picture"></el-image>
+                <el-image :src="item.picture" @click="TonewPath(item.id)"></el-image>
               </div>
               <div class="news">
-                <h3 style="margin-top: 3px">{{ item.title }}</h3>
+                <h3 style="margin-top: 3px" @click="TonewPath(item.id)">{{ item.title }}</h3>
                 <p
                   class="textover"
                   style="
@@ -103,10 +103,10 @@
                 v-for="(item, index) in newDataList.slice(0, 5)"
                 :key="index"
               >
-                <div class="block" @click="TonewPath(item.id)">
-                  <el-image :src="item.picture"></el-image>
+                <div class="block" >
+                  <el-image :src="item.picture" @click="TonewPath(item.id)"></el-image>
                   <div class="rightspan">
-                    <span>{{ item.title }}</span>
+                    <span @click="TonewPath(item.id)">{{ item.title }}</span>
                   </div>
                 </div>
               </div>
@@ -117,10 +117,10 @@
                 v-for="(item, index) in numclicklist"
                 :key="index"
               >
-                <div class="block" @click="TonewPath(item.id)">
-                  <el-image :src="item.picture"></el-image>
+                <div class="block" >
+                  <el-image :src="item.picture" @click="TonewPath(item.id)"></el-image>
                   <div class="rightspan">
-                    <span>{{ item.title }}</span>
+                    <span @click="TonewPath(item.id)">{{ item.title }}</span>
                   </div>
                 </div>
               </div>
@@ -133,10 +133,10 @@
                 v-for="(item, index) in WeekDataList.slice(0, 5)"
                 :key="index"
               >
-                <div class="block" @click="TonewPath(item.id)">
-                  <el-image :src="item.picture"></el-image>
+                <div class="block">
+                  <el-image :src="item.picture" @click="TonewPath(item.id)"></el-image>
                   <div class="rightspan">
-                    <span>{{ item.title }}</span>
+                    <span @click="TonewPath(item.id)">{{ item.title }}</span>
                   </div>
                 </div>
               </div>
@@ -147,10 +147,10 @@
                 v-for="(item, index) in MonthData.slice(0, 5)"
                 :key="index"
               >
-                <div class="block" @click="TonewPath(item.id)">
-                  <el-image :src="item.picture"></el-image>
+                <div class="block" >
+                  <el-image :src="item.picture" @click="TonewPath(item.id)"></el-image>
                   <div class="rightspan">
-                    <span>{{ item.title }}</span>
+                    <span @click="TonewPath(item.id)">{{ item.title }}</span>
                   </div>
                 </div>
               </div>
@@ -320,6 +320,7 @@ export default {
         "",
         "get"
       );
+      console.log(res)
       this.WeekDataList = res.data;
     },
 
@@ -372,14 +373,15 @@ export default {
         this.$http.get(httpUrl).then((res) => {
           console.log(res.data);
           if (res.data.code === 20000) {
-            
-
             console.log("成功返回 搜索数据");
             res = res.data;
-            this.TypePageList = res.data.rows;
-            this.queryinfo.total = res.data.total;
-
-            //this.$message.warning("暂无相关数据");
+            //判断返回的数组是否有数据
+            if(res.data.rows.length !==0){
+              this.TypePageList = res.data.rows;
+              this.queryinfo.total = res.data.total;
+            }else{
+              this.$message.warning("暂无相关数据");
+            }
           } else {
             console.log("请求搜索数据失败");
           }

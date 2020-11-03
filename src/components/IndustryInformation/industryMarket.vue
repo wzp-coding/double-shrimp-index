@@ -12,8 +12,13 @@
           </el-breadcrumb>
         </div>
         <div class="tr">
-          <el-input v-model="searchInput" placeholder="搜索你想要的资讯">
+          <el-input placeholder="请输入内容" v-model="searchInput">
+            <i  class="el-input__icon el-icon-search"></i>
           </el-input>
+          <!-- <el-input v-model="searchInput" placeholder="搜索你想要的资讯" >
+            
+            <i class="el-icon-search" ></i>
+          </el-input> -->
         </div>
       </div>
       <el-divider></el-divider>
@@ -124,7 +129,7 @@
                   <el-divider class="ccy-drvider"></el-divider>
                   <ul class="ccy-css">
                     <li
-                      v-for="(item, i) in weekliList.slice(0, 7)"
+                      v-for="(item, i) in weekliList"
                       @click="ToMorePage(queryInfo1.TypeID1)"
                       :key="i"
                     >
@@ -193,7 +198,7 @@
                   </div>
                   <div class="onetoplb">
                     <!-- 对虾行情左下文字 -->
-                    <ul class="ccy-css" >
+                    <ul class="ccy-css">
                       <li
                         @click="TonewPath(item.id)"
                         v-for="(item, index) in jingcai1List.slice(0, 4)"
@@ -207,7 +212,7 @@
                 <!-- one 对虾行情右边 -->
                 <div class="onetopr">
                   <div class="onetopr1">
-                    <ul class="ccy-css" style="margin-left:15px">
+                    <ul class="ccy-css" style="margin-left: 15px">
                       <li
                         @click="TonewPath(item.id)"
                         v-for="(item, index) in jingcai1List.slice(4, 14)"
@@ -305,7 +310,7 @@
                 <el-divider class="ccy-drvider"></el-divider>
               </div>
               <div class="onebottom" v-for="(item, i) in pagelist" :key="i">
-                <div class="four">
+                <div class="four" style="cursor: pointer">
                   <div class="pic">
                     <el-image
                       :src="item.picture"
@@ -418,8 +423,8 @@
               </div>
             </h3>
             <el-divider class="ccy-drvider"></el-divider>
-            <div style="width:100%">
-              <ul class="ccy-css" >
+            <div style="width: 100%">
+              <ul class="ccy-css">
                 <li
                   @click="TonewPath(item.id)"
                   v-for="(item, index) in NewDataList"
@@ -513,7 +518,7 @@
             <div class="rightmd">
               <ul class="ccy-css">
                 <li
-                  v-for="(item, index) in MonthDataList.slice(0, 7)"
+                  v-for="(item, index) in MonthDataList"
                   :key="index"
                   @click="TonewPath(item.id)"
                   style="width: 180px"
@@ -626,20 +631,18 @@ export default {
     },
     //限制文字个数
     limitword(val) {
-      if (val == null || val == "" ) {
+      if (val == null || val == "") {
         return "暂无数据";
       } else {
         var len = val.length;
         if (len > 80) {
-          
-          var  str = val.substring(0, 80) + "......";
+          var str = val.substring(0, 80) + "......";
           return str;
         } else {
           return val;
         }
       }
     },
-    
   },
 
   data() {
@@ -765,77 +768,80 @@ export default {
         query: { id: id },
       });
     },
-    //
-    ToOtherMore(path) {
+    ToSearch(SearchKey) {
       this.$router.push({
-        path: "/industryothermore",
-        query: { path: path },
+        path: "/instructpagedetail",
+        query: { SearchKey: SearchKey },
       });
     },
+    //
+    // ToOtherMore(path) {
+    //   this.$router.push({
+    //     path: "/industryothermore",
+    //     query: { path: path },
+    //   });
+    // },
 
     //每周精品
     async getWeekData() {
       try {
         const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustry/findByClickWeekly",
-        "",
-        "get"
-      );
-      if (res.code === 20000) {
-        console.log("2" + res);
-        console.log(res);
-        console.log("获取每周精品数据成功");
-        this.weekliList = res.data;
-        console.log(res);
-        console.log(this.weekliList);
-      }
+          "/info/shrimpIndustry/findByClickWeekly",
+          "",
+          "get"
+        );
+        if (res.code === 20000) {
+          console.log("2" + res);
+          console.log(res);
+          console.log("获取每周精品数据成功");
+          this.weekliList = res.data.slice(0, 9);
+          console.log(res);
+          console.log(this.weekliList);
+        }
       } catch (error) {
-        console.log('网络错误19999')
+        console.log("网络错误19999");
       }
-      
     },
 
     //精彩专题 1 对虾养殖
     async getjingcai1() {
       try {
         const { data: res } = await this.reqM2Service(
-        `/info/shrimpIndustry/search/searchByTypeId/${this.queryInfo1.TypeID1}/${this.queryInfo1.Infopage1}/${this.queryInfo1.Infosize1}`,
-        "",
-        "post"
-      );
-      if (res.code === 20000) {
-        console.log("3" + res);
-        console.log(res);
-        console.log("获取精彩专题1数据成功");
-      }
-      this.jingcai1List = res.data.rows;
-      this.queryInfo1.Infototal1 = res.data.rows.length;
+          `/info/shrimpIndustry/search/searchByTypeId/${this.queryInfo1.TypeID1}/${this.queryInfo1.Infopage1}/${this.queryInfo1.Infosize1}`,
+          "",
+          "post"
+        );
+        if (res.code === 20000) {
+          console.log("3" + res);
+          console.log(res);
+          console.log("获取精彩专题1数据成功");
+        }
+        this.jingcai1List = res.data.rows;
+        this.queryInfo1.Infototal1 = res.data.rows.length;
       } catch (error) {
-        console.log('网络错误1999')
+        console.log("网络错误1999");
       }
-      
     },
 
     //精彩专题2 1320648223462920192
     async getjingcai2() {
       try {
         const { data: res } = await this.reqM2Service(
-        `/info/shrimpIndustry/search/searchByTypeId/${this.queryInfo2.TypeID2}/${this.queryInfo1.Infopage1}/${this.queryInfo1.Infosize1}`,
-        "",
-        "post"
-      );
-      if (res.code === 20000) {
-        console.log("4" + res);
-        console.log(res);
-        console.log("获取精彩专题2数据成功");
-        this.jingcai2List = res.data.rows;
-      }else{
-        console.log('网络错误20001')
-      }
+          `/info/shrimpIndustry/search/searchByTypeId/${this.queryInfo2.TypeID2}/${this.queryInfo1.Infopage1}/${this.queryInfo1.Infosize1}`,
+          "",
+          "post"
+        );
+        if (res.code === 20000) {
+          console.log("4" + res);
+          console.log(res);
+          console.log("获取精彩专题2数据成功");
+          this.jingcai2List = res.data.rows;
+        } else {
+          console.log("网络错误20001");
+        }
       } catch (error) {
-         console.log('网络错误19999')
+        console.log("网络错误19999");
       }
-      
     },
 
     // 根据类型ID查询 精彩专题3  财富手册
@@ -890,10 +896,12 @@ export default {
           "",
           "get"
         );
-        this.MonthDataList = res.data;
+
         if (res.code === 20000) {
           console.log("7" + res);
+          console.log(res.data.length);
           console.log("获取每月数据成功");
+          this.MonthDataList = res.data.slice(0, 7);
         } else {
           console.log("网络错误 20001");
         }
@@ -916,7 +924,6 @@ export default {
           this.ClickDataList = res.data.rows;
         } else {
           console.log("网络错误 20001");
-          
         }
       } catch (error) {
         console.log("网络错误 19999");
@@ -982,14 +989,17 @@ export default {
   justify-content: space-between;
   .tr {
     position: relative;
-    input {
-      padding-left: 10px;
-      border: 2px solid #d8d8d8;
-      border-radius: 100px;
-      width: 198px;
-      height: 38px;
-      outline: none;
+    .el-input {
+      cursor: pointer !important;
     }
+    // input {
+    //   padding-left: 10px;
+    //   border: 2px solid #d8d8d8;
+    //   border-radius: 100px;
+    //   width: 198px;
+    //   height: 38px;
+    //   outline: none;
+    // }
     i {
       top: 13px;
       position: absolute;
@@ -1054,131 +1064,131 @@ export default {
 .left {
   margin-top: -10px;
   .one {
-  width: 99%;
-  display: flex;
-  padding: 1px;
-  flex-wrap: wrap;
-  flex-direction: column;
-  .onetop {
+    width: 99%;
     display: flex;
-    width: 100%;
-    li {
-      font-size: 13px;
-      cursor: pointer;
+    padding: 1px;
+    flex-wrap: wrap;
+    flex-direction: column;
+    .onetop {
+      display: flex;
+      width: 100%;
+      li {
+        font-size: 13px;
+        cursor: pointer;
+      }
+      .onetopl {
+        width: 50%;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        li {
+          width: 320px;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+          list-style-position: inside;
+          margin-left: -15px;
+        }
+        .block {
+          display: flex;
+          justify-content: space-between;
+          span {
+            padding-left: 5px;
+            display: block;
+          }
+          .blockson {
+            position: relative;
+            .el-image {
+              width: 208px;
+              height: 130px;
+              cursor: pointer !important;
+            }
+            span {
+              cursor: pointer;
+              width: 204px;
+              position: absolute;
+              background-color: #333;
+              opacity: 0.7;
+              text-overflow: ellipsis;
+              bottom: 5px;
+              overflow: hidden;
+              white-space: nowrap;
+              text-align: center;
+            }
+          }
+        }
+      }
+      .onetopr {
+        padding-left: 26px;
+        li {
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+          list-style-position: inside;
+          margin-left: -15px;
+          width: 310px;
+          font-size: 13px;
+        }
+      }
     }
-    .onetopl {
-      width: 50%;
+    .onemide {
       display: flex;
       flex-wrap: wrap;
-      flex-direction: column;
-      li {
-        width: 320px;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-        list-style-position: inside;
-        margin-left: -15px;
-      }
-      .block {
-        display: flex;
-        justify-content: space-between;
-        span {
-          padding-left: 5px;
-          display: block;
-        }
-        .blockson {
-          position: relative;
-          .el-image {
-            width: 208px;
-            height: 130px;
-            cursor: pointer !important;
-          }
-          span {
-            cursor: pointer;
-            width: 204px;
-            position: absolute;
-            background-color: #333;
-            opacity: 0.7;
-            text-overflow: ellipsis;
-            bottom: 5px;
-            overflow: hidden;
-            white-space: nowrap;
-            text-align: center;
-          }
-        }
-      }
-    }
-    .onetopr {
-      padding-left: 26px;
-      li {
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-        list-style-position: inside;
-        margin-left: -15px;
-        width: 310px;
-        font-size: 13px;
-      }
-    }
-  }
-  .onemide {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    width: 100%;
-    .zhuangti {
-      width: 24%;
-      display: block;
-      height: 150px;
-
-      position: relative;
-      .el-image {
+      justify-content: space-between;
+      width: 100%;
+      .zhuangti {
+        width: 24%;
         display: block;
-        width: 100%;
         height: 150px;
+
+        position: relative;
+        .el-image {
+          display: block;
+          width: 100%;
+          height: 150px;
+        }
+        span {
+          position: absolute;
+          display: block;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+          width: 100%;
+          background-color: #333;
+          opacity: 0.8;
+          font-size: 14.5px;
+          bottom: 4px;
+          color: black;
+          text-align: center;
+        }
+      }
+    }
+    .onebottom {
+      flex-direction: column;
+      .four {
+        height: 150px;
+        position: relative;
+        width: 99%;
+        display: flex;
+        align-content: space-between;
+        padding-left: 2px;
+        .pic {
+          width: 25%;
+          padding-right: 15px;
+          .el-image {
+            width: 100%;
+            height: 155px;
+          }
+        }
+        .news {
+          width: 72%;
+        }
       }
       span {
-        position: absolute;
-        display: block;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-        width: 100%;
-        background-color: #333;
-        opacity: 0.8;
-        font-size: 14.5px;
-        bottom: 4px;
-        color: black;
-        text-align: center;
+        cursor: pointer;
       }
     }
   }
-  .onebottom {
-    flex-direction: column;
-    .four {
-      height: 150px;
-      position: relative;
-      width: 99%;
-      display: flex;
-      align-content: space-between;
-      padding-left: 2px;
-      .pic {
-        width: 25%;
-        padding-right: 15px;
-        .el-image {
-          width: 100%;
-          height: 155px;
-        }
-      }
-      .news {
-        width: 72%;
-      }
-    }
-    span {
-      cursor: pointer;
-    }
-  }
-}
 }
 
 .el-main {
@@ -1186,7 +1196,6 @@ export default {
   .right {
     margin-left: 30px;
   }
-  
 }
 
 li {
@@ -1194,7 +1203,7 @@ li {
   cursor: pointer;
 }
 .right {
-  li{
+  li {
     display: block;
     overflow: hidden; // 超出文本的部分不显示
     text-overflow: ellipsis;
