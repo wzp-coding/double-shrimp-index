@@ -133,7 +133,7 @@
               :page-size="queryInfo.pagesize"
               :current-page="queryInfo.Currentpage"
               @current-change="handleCurrentChange"
-              style="display: flex; justify-content: center; margin-top: 20px"
+              style="display: flex; justify-content: center; margin: 20px 0 20px 0"
             >
             </el-pagination>
           </div>
@@ -365,7 +365,7 @@ export default {
       //按类型查询分页
       queryInfo: {
         Currentpage: 1, //页数
-        pagesize: 3, //每页数
+        pagesize: 5, //每页数
         total: null, //总页数
 
         //默认 1316745747953225728
