@@ -21,6 +21,7 @@ Vue.prototype.$http = axios
 //配置axios
 //->1,模块一接口,url地址
 axios.defaults.baseM1URL = domain.Base_M1_URL
+axios.defaults.baseM12URL = domain.Base_M12_URL
 axios.defaults.baseM13URL = domain.Base_M13_URL
 //->1,模块一接口,url地址
 //->2,模块二接口,url地址

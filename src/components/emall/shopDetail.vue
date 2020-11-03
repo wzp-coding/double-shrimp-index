@@ -66,6 +66,7 @@ export default {
     };
   },
   methods: {
+    
     // 获取店铺信息函数
     async getShopInfo() {
       const { data: res } = await this.reqM4Service(

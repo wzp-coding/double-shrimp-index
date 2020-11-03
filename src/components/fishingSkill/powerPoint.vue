@@ -15,40 +15,47 @@
         <div class="searchPart">
           <el-input
             placeholder="请输入内容"
-            v-model="input"
+            v-model="queryInfo.query"
+            clearable
+            @clear="pptList"
             class="input-with-select"
           >
-            <el-button slot="append" icon="el-icon-search"></el-button>
+            <el-button slot="append" icon="el-icon-search" @click="searchPPTList"></el-button>
           </el-input>
         </div>
       </div>
       <div class="format">
-        <label for="">格式： </label>
-        <el-button v-for="(item, i) in formatList" :key="i">{{
-          item
+        <label for="">类型： </label>
+        <el-button @click="pptList">全部</el-button>
+        <el-button v-for="item in formattab" :key="item.id" @click="formatList(item.id)">{{
+          item.name
         }}</el-button>
+        
       </div>
       <div class="lxl-card">
         <div class="PPT-item">
-          <div v-for="(item, i) in 9" :key="i">
+          <!-- v-for="(item, i) in 10" :key="i" -->
+          <div v-for="item in pptlist" :key="item.id">
             <el-card class="card">
               <el-image
-                src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                :src="item.pic"
                 class="image"
               >
               </el-image>
               <div>
                 <div>
                   <p style="padding: 10px">
-                   编译和热更新（用于开发环境）
+                   {{item.title}}
 
                   </p>
                 </div>
                 <div class="btns">
-                  <i class="el-icon-download" style="color: green">下载</i>
+                  <a :href="item.contentUrl" :download="item.contentUrl">
+                    <i class="el-icon-download" style="color: green" @click="pptList">下载</i></a>
                   <i
                     class="el-icon-view"
                     style="margin-right: 10px; color: #4398d0"
+                    @click="bindPreview(item.contentUrl)"
                     >查看</i
                   >
                 </div>
@@ -58,8 +65,18 @@
         </div>
       </div>
       <div class="pagination">
-        <el-pagination background layout="prev, pager, next" :total="1000">
-        </el-pagination>
+         <!-- 分页区域 -->
+            <el-pagination
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="queryInfo.pagenum"
+              :page-size="queryInfo.pagesize"
+              layout="prev, pager,next, total, jumper"
+              :total="total"
+              style="padding-left: 200px;
+              padding-top: 10px;"
+              >
+            </el-pagination>
       </div>
     </div>
   </div>
@@ -70,9 +87,104 @@ export default {
     return {
       input: "",
       select: "",
-      formatList: ["PPT", "PPTX", "PDF", "WORD"],
-    };
+      formattab: [],
+      // 所有演示文稿
+      pptlist: [],
+      // 分页区域查询参数对象
+      queryInfo: {
+        query: '',
+        pagenum: 1,
+        pagesize: 12,
+      },
+      // 总数据条数
+      total: 0,
+      
+    }
   },
+  created () {
+    // 所有演示文稿
+    this.pptList();
+    // 搜索演示文稿
+    this.searchPPTList();
+    this.formatTab();
+    this.formatList();
+
+  },
+  methods: {
+    async pptList() {
+        const { data: res } = await this.reqM2Service("/education/manuscripts/findAll/"+ this.queryInfo.pagenum+"/"+this.queryInfo.pagesize,{
+        params: this.queryInfo
+      },'get')
+      console.log(res)
+
+        if (res.code !== 20000) {
+        return this.$message.error('获取列表失败！')
+      }
+        this.pptlist = res.data.rows
+        this.total = res.data.total
+        console.log(this.pptlist)
+      },
+      // 分页区域
+      handleSizeChange(newSize) {
+        this.queryInfo.pagesize = newSize
+        this.pptList()
+      },
+      handleCurrentChange(newPage) {
+        this.queryInfo.pagenum = newPage
+        this.pptList()
+      },
+      // 搜索演示文稿
+      async searchPPTList() {
+        const { data: res } = await this.reqM13Service("/education/search/time/"+ this.queryInfo.pagenum+"/"+this.queryInfo.pagesize+"/2?key="+this.queryInfo.query,{
+        params: this.queryInfo
+      },'get')
+        console.log(res)
+        if (res.code !== 20000) {
+        return this.$message.error('获取列表失败！')
+      }
+        this.pptlist = res.data.rows
+        this.total = res.data.total
+        console.log(this.pptlist)
+      },
+      // 查找演示文稿类型
+      async formatTab() {
+        const { data: res } = await this.reqM2Service("/education/manuscriptsTypes" , "" ,'get')
+        console.log(res)
+        if (res.code !== 20000) {
+        return this.$message.error('获取列表失败！')
+      }
+        this.formattab = res.data;
+        console.log(this.formattab);
+        
+      },
+      // 按类型查找
+      async formatList(id) {
+        const { data: res } = await this.reqM2Service("/education/manuscripts/search/searchByTypeId/" + id +"/"+ this.queryInfo.pagenum+"/"+this.queryInfo.pagesize,
+         "" , 'get')
+        console.log(res)
+        if (res.code !== 20000) {
+        return this.$message.error('获取列表失败！')
+      }
+        this.pptlist = res.data.rows
+        this.total = res.data.total
+        console.log(this.pptlist)
+      },
+      
+      bindPreview(url) {
+        console.log(url);
+        // console.log(/(doc)|(ppt)|(pptx)|(xls)/.test(url));
+        // 跳转到空白页面预览，得等域名部署后
+        if (/(doc)|(ppt)|(pptx)|(xls)/.test(url)) {
+          url =
+            "http://view.officeapps.live.com/op/view.aspx?src=" + encodeURIComponent(url);
+           // 测试
+          url =
+          "https://view.officeapps.live.com/op/view.aspx?src=http%3a%2f%2fvideo.ch9.ms%2fbuild%2f2011%2fslides%2fTOOL-532T_Sutter.pptx";
+        }
+        // console.log(url);
+        window.open(url);
+    }
+  }
 };
 </script>
 <style lang="less" scoped>
@@ -108,6 +220,10 @@ export default {
   > * {
     margin: 0 10px 0 10px;
   }
+}
+.image {
+  width: 235px;
+  height: 180px;
 }
 .pagination {
   width: 100%;

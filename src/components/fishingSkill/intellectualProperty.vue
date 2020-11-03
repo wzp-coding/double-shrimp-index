@@ -114,7 +114,7 @@
               placeholder="请输入内容"
               v-model="queryInfo.query"
               clearable
-              @click="getTableList">
+              @clear="getTableList">
               
             <el-button
               slot="append"
@@ -175,7 +175,13 @@
               prop="file"
               align="center"
               header-align="center">
-              <a href="http://134.175.208.235/group1/M00/00/20/rBAAD1-JnKKACJO3AAA81Oz8uUg43.docx" download="http://134.175.208.235/group1/M00/00/20/rBAAD1-JnKKACJO3AAA81Oz8uUg43.docx"><el-button icon="el-icon-download" size="mini"></el-button></a>
+              <template slot-scope="scope">
+              <a :href="scope.row.file" :download="scope.row.file">
+              <el-button icon="el-icon-download" size="mini" @click="getTableList"></el-button>
+              </a>
+
+              </template>
+              
             </el-table-column>
             </el-table>
 
@@ -245,7 +251,7 @@
       // 按时间查询政策法规
       this.getTimeList();
     },
-  // +  +  
+
     methods: {
       // 右侧表格数据
       async getTableList() {
@@ -385,7 +391,10 @@
         min +
         ":" +
         sec;
-      return times;}
+
+        // 截取年月日
+        let shortTimes = times.substring(0,10);
+      return shortTimes;}
   }
 }
 </script>

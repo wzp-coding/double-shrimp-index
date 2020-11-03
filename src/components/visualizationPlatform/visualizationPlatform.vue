@@ -114,6 +114,8 @@ export default {
             "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
         },
       ],
+      orgindata: [],
+      predictdata: [],
     };
   },
   mounted() {
@@ -161,10 +163,13 @@ export default {
         const { data: res } = await this.reqM3Service(
           "/price/prediction",
           "",
-          "get"
+          "post"
         );
         console.log(res);
         if (res.code === 20000) {
+          // 实际值，预测值
+          this.orgindata = res.data.orgindata.reverse();
+          this.predictdata = res.data.predictdata.reverse();
           this.chart4();
           console.log("chart4");
         } else {
@@ -206,7 +211,7 @@ export default {
         },
         series: [
           {
-            name: "面积模式",
+            name: "占据面积比例",
             type: "pie",
             radius: ["0%", "65%"],
             center: ["45%", "50%"],
@@ -379,22 +384,8 @@ export default {
     },
     chart4() {
       let myChart = this.$echarts.init(document.querySelector(".chart4"));
-      const yData = [
-        {
-          year: "2020",
-          data: [
-            [123, 123, 123, 123, 54, 32, 73],
-            [56, 45, 52, 12, 56, 76, 23],
-          ],
-        },
-        {
-          year: "2021",
-          data: [
-            [14, 13, 53, 163, 24, 82, 33],
-            [54, 45, 42, 72, 76, 36, 13],
-          ],
-        },
-      ];
+      //由于两组数据可能不等长，因此取最短的作为对比
+
       let option = {
         color: ["#a3fea7", "grey"],
         tooltip: {
@@ -408,7 +399,6 @@ export default {
         },
         legend: {
           orient: "vertical",
-          data: ["邮件营销", "联盟广告"],
           textStyle: {
             color: "white",
           },
@@ -429,20 +419,22 @@ export default {
             type: "category",
             boundaryGap: false,
             data: [
-              "周一",
-              "周二",
-              "周三",
-              "周四",
-              "周五",
-              "周六",
-              "周日",
-              "周一",
-              "周二",
-              "周三",
-              "周四",
-              "周五",
-              "周六",
-              "周日",
+              "16",
+              "15",
+              "14",
+              "13",
+              "12",
+              "11",
+              "10",
+              "9",
+              "8",
+              "7",
+              "6",
+              "5",
+              "4",
+              "3",
+              "2",
+              "1",
             ],
             axisLabel: {
               color: "white",
@@ -477,26 +469,11 @@ export default {
         ],
         series: [
           {
-            name: "邮件营销",
+            name: "实际值",
             type: "line",
             smooth: true,
             areaStyle: {},
-            data: [
-              180,
-              132,
-              101,
-              134,
-              90,
-              230,
-              210,
-              10,
-              32,
-              81,
-              120,
-              70,
-              24,
-              12,
-            ],
+            data: this.orgindata,
             showSymbol: false,
             itemStyle: {
               borderColor: "#728eab",
@@ -504,7 +481,7 @@ export default {
             },
           },
           {
-            name: "联盟广告",
+            name: "预测值",
             type: "line",
             smooth: true,
             areaStyle: {
@@ -527,22 +504,7 @@ export default {
               ),
               shadowColor: "rgba(0,0,0,1)",
             },
-            data: [
-              22,
-              182,
-              19,
-              234,
-              290,
-              30,
-              310,
-              120,
-              132,
-              101,
-              12,
-              90,
-              230,
-              210,
-            ],
+            data: this.predictdata,
             showSymbol: false,
             itemStyle: {
               borderColor: "#dad9b2",

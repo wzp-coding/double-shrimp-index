@@ -11,20 +11,46 @@
         <el-breadcrumb-item>远程教育</el-breadcrumb-item>
       </el-breadcrumb>
       <el-divider></el-divider>
+      <!--  -->
+      <el-input
+        placeholder="搜索您要的视频"
+        prefix-icon="el-icon-search"
+        v-model="input.key"
+      >
+        <div slot="append">
+          <el-button icon="el-icon-search" @click="searchVideo">搜索</el-button>
+        </div>
+      </el-input>
       <!-- 导航栏 -->
       <div class="Tabs">
         <el-tabs v-model="activeName" @tab-click="classChange">
           <el-tab-pane label="课程分类：" disabled name="zero"></el-tab-pane>
-          <el-tab-pane v-for="(nav, index) in classNav" :key="nav.id" :label="nav.name" :name="index + ''" :id="nav.id">
+          <el-tab-pane
+            v-for="(nav, index) in classNav"
+            :key="index"
+            :label="nav.name"
+            :name="index + ''"
+            :id="nav.id"
+          >
             <!-- 视频区域 -->
             <div class="videoArea">
               <el-row :gutter="20">
-                <el-col :span="6" v-for="(item, index) in videoItems" :key="item.id">
+                <el-col
+                  :span="6"
+                  v-for="(item, index) in videoItems"
+                  :key="item.id"
+                >
                   <div>
-                    <el-card class="adviseCard bottom" :body-style="{ padding: '0px' }">
+                    <el-card
+                      class="adviseCard bottom"
+                      :body-style="{ padding: '0px' }"
+                    >
                       <div class="video">
                         <el-image :src="item.pic" class="videoItem"></el-image>
-                        <i class="el-icon-video-play" @click="goVideo(item)"></i>
+                        <i
+                          class="el-icon-video-play"
+                          @click="goVideo(item)"
+                        ></i>
                       </div>
                       <div style="padding: 14px; height: 60px">
                         <span>{{ item.title | ellipsis }}</span>
@@ -34,18 +60,18 @@
                           >
                         </div>
                         <el-button
-                            type="text"
-                            :class="[
-                              'learnButton',
-                              index < 1
-                                ? 'specialButton_a'
-                                : index < 2
-                                ? 'specialButton_b'
-                                : 'learnButton',
-                            ]"
-                            @click="goVideo(item)"
-                            >立即学习</el-button
-                          >
+                          type="text"
+                          :class="[
+                            'learnButton',
+                            index < 1
+                              ? 'specialButton_a'
+                              : index < 2
+                              ? 'specialButton_b'
+                              : 'learnButton',
+                          ]"
+                          @click="goVideo(item)"
+                          >立即学习</el-button
+                        >
                       </div>
                     </el-card>
                   </div>
@@ -54,18 +80,16 @@
             </div>
             <div class="pagination">
               <el-pagination
-              @current-change="handleCurrentChange"
-              :current-page="videoInfo.page"
-              :page-size="videoInfo.size"
-              layout="prev, pager, next, jumper"
-              :hide-on-single-page="true"
-              :total="videoTotal">
-            </el-pagination>
+                @current-change="handleCurrentChange"
+                :current-page="videoInfo.page"
+                :page-size="videoInfo.size"
+                layout="prev, pager, next, jumper"
+                :hide-on-single-page="true"
+                :total="videoTotal"
+              >
+              </el-pagination>
             </div>
           </el-tab-pane>
-          <!-- <el-tab-pane label="基础操作" name="second">基础操作</el-tab-pane>
-          <el-tab-pane label="工具与使用" name="third">工具与使用</el-tab-pane>
-          <el-tab-pane label="数据转换" name="fourth">数据转换</el-tab-pane> -->
         </el-tabs>
       </div>
     </div>
@@ -75,7 +99,11 @@
 export default {
   data() {
     return {
-      activeName: '0',
+      input: {
+        key: "",
+      },
+      flag: true,
+      activeName: "0",
       // 分类导航
       classNav: [],
       // 课程分类的 id
@@ -83,62 +111,96 @@ export default {
       // 视频参数
       videoInfo: {
         page: 1,
-        size: 8
+        size: 8,
       },
+      pageNum: 1,
       // 视频
       videoItems: [],
-      videoTotal: 0
+      videoTotal: 0,
     };
   },
   created() {
-    this.getClassNav()
+    this.getClassNav();
   },
   methods: {
+    async searchVideo() {
+      this.flag = false;
+      const { data: res } = await this.reqM12Service(
+        `/education/search/time/${this.pageNum}/10/1`,
+        { key: this.input.key },
+        "get"
+      );
+      console.log(res);
+      if (res.code !== 20000) {
+        return this.$message.error("获取搜索数据失败！");
+      }
+      this.activeName = this.classNav.length - 1 + "";
+      this.videoItems = res.data.rows;
+      console.log(this.videoItems);
+    },
     async goVideo(item) {
-      item.clickNum++
+      item.clickNum++;
+      console.log(item);
+      const { data: res } = await this.reqM22Service(
+        `/education/update/${item.id}`,
+        item,
+        "put"
+      );
+      console.log(res);
       this.$router.push({
-        path: '/videoPlay',
-        name: 'videoPlay',
-        query: item
-      })
+        path: "/videoPlay",
+        name: "videoPlay",
+        query: item,
+      });
     },
     async getClassNav() {
-      const { data: res } = await this.reqM2Service("/education/educationTypes",'','get')
+      const { data: res } = await this.reqM2Service(
+        "/education/educationTypes",
+        "",
+        "get"
+      );
       if (res.code !== 20000) {
-        return this.$message.error('请求导航数据失败！')
+        return this.$message.error("请求导航数据失败！");
       }
-      this.classNav = res.data
-      console.log(this.classNav[0].id)
-      this.classId = this.classNav[0].id
-      this.getClass(this.classNav[0].id)
+      this.classNav = res.data;
+      console.log(this.classNav);
+      this.classId = this.classNav[0].id;
+      this.getClass(this.classNav[0].id);
     },
-    // async getAllClass() {
-    //   const { data: res } = await this.reqM2Service(`/education/findAll/${this.videoInfo.page}/${this.videoInfo.size}`,'','get')
-    //   this.videoItems = res.data.rows
-    //   this.videoTotal = res.data.total
-    //   console.log(this.videoItems)
-    //   console.log(this.videoTotal)
-    // },
     async getClass(typeId) {
-      // const { data: res } = await this.$http.get('http://106.75.154.40:9012/education/education')
-      const { data: res } = await this.reqM2Service(`/education/education/search/searchByTypeId/${typeId}/${this.videoInfo.page}/${this.videoInfo.size}`,'','get')
-      this.videoItems = res.data.rows
-      this.videoTotal = res.data.total
+      const { data: res } = await this.reqM2Service(
+        `/education/education/search/searchByTypeId/${typeId}/${this.videoInfo.page}/${this.videoInfo.size}`,
+        "",
+        "get"
+      );
+      console.log(typeId);
+      this.videoItems = res.data.rows;
+      this.videoTotal = res.data.total;
       // console.log(this.videoItems)
     },
     classChange(tab) {
+      if (this.activeName === this.classNav.length - 1 + "") {
+        this.flag = false;
+      } else {
+        this.flag = true;
+      }
       // 获取 id
-      this.classId = tab.$attrs['id']
+      this.classId = tab.$attrs["id"];
       // 恢复默认
-      this.videoInfo.page = 1
+      this.videoInfo.page = 1;
       // 根据 id 改变网络请求
-      this.getClass(this.classId)
+      this.getClass(this.classId);
+      console.log(this.activeName);
     },
     // 监听 pagenum 改变
     handleCurrentChange(newPage) {
-      this.videoInfo.page = newPage
-      this.getClass(this.classId)
-    }
+      this.videoInfo.page = newPage;
+      if (flag) {
+        this.getClass(this.classId);
+      } else {
+        this.searchVideo();
+      }
+    },
   },
   filters: {
     ellipsis(value) {
@@ -182,7 +244,6 @@ export default {
   .el-tabs__item.is-active {
     color: #46c048;
   }
-  
 }
 .Tabs {
   .el-tabs__active-bar {

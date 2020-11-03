@@ -48,28 +48,25 @@
           </el-input>
         </el-col>
       </el-row>
-      <!--  -->
-      <div class="menu">
-        <el-menu
-          :default-active="defaultActive"
-          class="el-menu-demo"
-          mode="horizontal"
-          @select="handleSelect"
-          v-for="(item, i) in menuItem"
-          :key="i"
-        >
-          <el-menu-item index="0" disabled class="menuTitle">{{
-            item.categoryName
-          }}</el-menu-item>
-          <el-menu-item
-            v-for="(nav, i) in item.children"
-            :key="i"
-            :index="nav.categoryId"
-            >{{ nav.categoryName }}</el-menu-item
-          >
-        </el-menu>
+      <div class="menu" v-loading="loading">
+        <el-row :gutter="20" v-for="(item, i) in menuItem" :key="i">
+          <el-col :span="3">
+            <el-button type="primary"  @click="handleSelect(item.categoryId)">
+              {{ item.categoryName }}</el-button
+            >
+          </el-col>
+          <el-col :span="21">
+            <el-button
+              type="success"
+              plain
+              v-for="(nav, i) in item.children"
+              :key="i"
+              @click="handleSelect(nav.categoryId)"
+              >{{ nav.categoryName }}</el-button
+            >
+          </el-col>
+        </el-row>
       </div>
-      <!--  -->
       <div class="goods">
         <el-row :gutter="20">
           <el-col :span="5" v-for="(item, i) in goods" :key="i">
@@ -89,7 +86,7 @@
               <span class="sellPrice"
                 >{{ item.productPrice }}元{{ item.productUnit }}</span
               >
-              <span class="totalCount">成交{{ item.productNum }}万元</span>
+              <span class="totalCount">库存：{{ item.productNum }}</span>
             </div>
             <div class="titleArea" @click="goToGoodsDetail(item)">
               <el-tag
@@ -205,6 +202,8 @@
 export default {
   data() {
     return {
+      // 加载
+      loading: true,
       inputRuleForm: {
         productTitle: "",
       },
@@ -218,135 +217,17 @@ export default {
       input: "",
       // 搜索信息
       searchInfo: {
-        productTitle: '',
-        level: "10"
+        productTitle: "",
+        level: "10",
       },
       inputForm: {
-        productTitle: ''
+        productTitle: "",
       },
       select: "",
       defaultActive: "",
-      menuItem: [
-        {
-          categoryId: 2,
-          categoryName: "品种",
-          children: ["近源新对虾", "日本车虾", "刀额新对虾"],
-        },
-        { id: 3, title: "饲养方式", navs: ["野生", "人工养植"] },
-        {
-          id: 4,
-          title: "品种",
-          navs: ["近源新对虾", "日本车虾", "刀额新对虾"],
-        },
-        {
-          id: 5,
-          title: "品种",
-          navs: ["近源新对虾", "日本车虾", "刀额新对虾"],
-        },
-        {
-          id: 6,
-          title: "品种",
-          navs: ["近源新对虾", "日本车虾", "刀额新对虾"],
-        },
-        {
-          id: 7,
-          title: "品种",
-          navs: ["近源新对虾", "日本车虾", "刀额新对虾"],
-        },
-      ],
+      menuItem: [],
       // 商品列表
-      goods: [
-        {
-          id: 1,
-          img:
-            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-          price: 14.4,
-          total: 34.2,
-          title: "法国3001带舌猪头,耳大头白，进口猪肉中的“劳力士”",
-          position: "郑州",
-        },
-        {
-          id: 2,
-          img:
-            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-          price: 17.0,
-          total: 52.3,
-          title: "生态大闸蟹 大闸蟹",
-          position: "兴化南",
-        },
-        {
-          id: 3,
-          img:
-            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-          price: 17.0,
-          total: 52.3,
-          title: "生态大闸蟹 大闸蟹",
-          position: "兴化南",
-        },
-        {
-          id: 4,
-          img:
-            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-          price: 17.0,
-          total: 52.3,
-          title: "生态大闸蟹 大闸蟹",
-          position: "兴化南",
-        },
-        {
-          id: 5,
-          img:
-            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-          price: 18.0,
-          total: 52.3,
-          title: "生态大闸蟹 大闸蟹",
-          position: "兴化南",
-        },
-        {
-          id: 6,
-          img:
-            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-          price: 18.0,
-          total: 44.3,
-          title: "测试测试测试测试测试",
-          position: "广州东",
-        },
-        {
-          id: 7,
-          img:
-            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-          price: 18.0,
-          total: 52.3,
-          title: "生态大闸蟹 大闸蟹",
-          position: "兴化南",
-        },
-        {
-          id: 8,
-          img:
-            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-          price: 18.0,
-          total: 52.3,
-          title: "生态大闸蟹 大闸蟹",
-          position: "兴化南",
-        },
-        {
-          id: 9,
-          img:
-            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-          price: 18.0,
-          total: 52.3,
-          title: "生态大闸蟹 大闸蟹",
-          position: "兴化南",
-        },
-        {
-          id: 10,
-          img:
-            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-          price: 18.0,
-          total: 52.3,
-          title: "生态大闸蟹 大闸蟹",
-          position: "兴化南",
-        },
-      ],
+      goods: [],
       // 商品数目
       goodsNum: 0,
       // 商品页码
@@ -359,113 +240,9 @@ export default {
       allId: 0,
       currentPage: 0,
       // 同类推荐
-      sameRecommend: [
-        {
-          id: 1,
-          img:
-            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-          price: 14.4,
-          total: 34.2,
-          title: "法国3001带舌猪头,耳大头白，进口猪肉中的“劳力士”",
-          position: "郑州",
-        },
-        {
-          id: 2,
-          img:
-            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-          price: 17.0,
-          total: 52.3,
-          title: "生态大闸蟹 大闸蟹",
-          position: "兴化南",
-        },
-        {
-          id: 3,
-          img:
-            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-          price: 17.0,
-          total: 52.3,
-          title: "生态大闸蟹 大闸蟹",
-          position: "兴化南",
-        },
-        {
-          id: 4,
-          img:
-            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-          price: 17.0,
-          total: 52.3,
-          title: "生态大闸蟹 大闸蟹",
-          position: "兴化南",
-        },
-        {
-          id: 5,
-          img:
-            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-          price: 18.0,
-          total: 52.3,
-          title: "生态大闸蟹 大闸蟹",
-          position: "兴化南",
-        },
-        {
-          id: 6,
-          img:
-            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-          price: 18.0,
-          total: 44.3,
-          title: "测试测试测试测试测试",
-          position: "广州东",
-        },
-      ],
+      sameRecommend: [],
       // 最新推荐
-      hotRecommend: [
-        {
-          id: 1,
-          img:
-            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
-          price: 14.4,
-          title: "法国3001带舌猪头,耳大头白，进口猪肉中的“劳力士”",
-          position: "郑州",
-        },
-        {
-          id: 2,
-          img:
-            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
-          price: 14.4,
-          title: "法国3001带舌猪头,耳大头白，进口猪肉中的“劳力士”",
-          position: "郑州",
-        },
-        {
-          id: 3,
-          img:
-            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
-          price: 14.4,
-          title: "法国3001带舌猪头,耳大头白，进口猪肉中的“劳力士”",
-          position: "郑州",
-        },
-        {
-          id: 4,
-          img:
-            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
-          price: 14.4,
-          title: "法国3001带舌猪头,耳大头白，进口猪肉中的“劳力士”",
-          position: "郑州",
-        },
-        {
-          id: 5,
-          img:
-            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
-          price: 14.4,
-          title: "法国3001带舌猪头,耳大头白，进口猪肉中的“劳力士”",
-          position: "郑州",
-        },
-        {
-          id: 6,
-          img:
-            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
-          price: 14.4,
-          title: "法国3001带舌猪头,耳大头白，进口猪肉中的“劳力士”",
-          position: "郑州",
-        },
-      ],
+      hotRecommend: [],
     };
   },
   created() {
@@ -478,18 +255,20 @@ export default {
     searchGoods() {},
     async handleSelect(index) {
       this.defaultActive = index;
-      console.log(this.defaultActive)
       const { data: res } = await this.reqM4Service(
         `/category/${index}`,
         "",
         "get"
       );
+      // console.log(res)
       this.$router.push({
         path: "/emallSearch",
         name: "emallSearch",
         query: res.data,
       });
-
+      this.getItem();
+      // 获取最新推荐
+      this.getHotRecommend();
       // window.location.reload();
     },
     bindIndex(Id) {
@@ -497,7 +276,7 @@ export default {
     },
     handleCurrentChange(newPage) {
       this.goodsPage = newPage;
-      this.getGoods();
+      this.getItem();
     },
     goToGoodsDetail(item) {
       this.$router.push({
@@ -507,11 +286,8 @@ export default {
       });
     },
     async goTo(title) {
-      if (title === '') {
-        return this.$message.error('请输入搜索内容')
-      }
-      this.searchInfo.productTitle = this.inputRuleForm.productTitle
-      this.goToSearch(this.searchInfo)
+      this.searchInfo.productTitle = this.inputRuleForm.productTitle;
+      this.goToSearch(this.searchInfo);
     },
     goToSearch(item) {
       this.$router.push({
@@ -519,65 +295,44 @@ export default {
         name: "emallSearch",
         query: item,
       });
-      window.location.reload();
+      this.getItem();
+      // 获取最新推荐
+      this.getHotRecommend();
     },
     async getItem() {
       this.cateItem = this.$route.query;
-      console.log(this.cateItem);
-      // if(this.cateItem instanceof Array) {
-      //   // console.log(this.cateItem)
-      //   this.defaultActive = this.cateItem[0].categoryId;
-      //   this.goods = this.cateItem
-      //   this.goodsNum = this.cateItem.length
-      //   this.goods.forEach(element => {
-      //     element.productImages = element.productImages.split(',')
-      //   });
-      //   // console.log(this.defaultActive)
-      //   // 获取同类推荐
-      //   this.getSameRecommend()
-      // } else {
+      // console.log(this.cateItem);
       if (this.cateItem.level == 3) {
-        const { data: res } = await this.reqM4Service(
-          `/category/${this.cateItem.parentId}`,
-          "",
-          "get"
-        );
-        if (res.code !== 20000) {
-          return this.$message.error("获取所属分类信息失败！");
-        }
-        // console.log(res)
-        this.defaultActive = res.data.categoryId;
-        console.log(this.defaultActive)
-
+        this.defaultActive = this.cateItem.parentId;
+        // console.log(this.defaultActive)
+        this.params.categoryId = this.defaultActive;
         this.getGoods();
-      } else if (this.cateItem.level == 2) {
+      } else if (this.cateItem.level == 2 || this.cateItem.level == 1) {
         this.defaultActive = this.cateItem.categoryId;
-        console.log(this.defaultActive)
-
+        console.log(this.defaultActive);
+        this.params.categoryId = this.defaultActive;
         this.getGoods();
-        
       } else {
         this.inputForm.productTitle = this.cateItem.productTitle;
         const { data: res } = await this.reqM4Service(
-          "/product/search",
+          `/product/search/${this.goodsPage}/25`,
           this.inputForm,
           "post"
         );
         if (res.code !== 20000) {
           return this.$message.error("获取商品信息失败！");
         }
-        this.goods = res.data;
-        this.goodsNum = res.data.length;
-        this.defaultActive = res.data[0].categoryId;
-        console.log(this.defaultActive)
-        this.goods.forEach(element => {
-          element.productImages = element.productImages.split(',');
+        this.goods = res.data.rows;
+        // console.log(this.goods)
+        this.goodsNum = res.data.total;
+        this.defaultActive = res.data.rows[0].categoryId;
+        this.goods.forEach((element) => {
+          element.productImages = element.productImages.split(",");
         });
       }
       this.params.categoryId = this.defaultActive;
       // 获取同类推荐
       this.getSameRecommend();
-      // }
     },
     // 获取前台树形结构
     async getQuery() {
@@ -591,22 +346,23 @@ export default {
         return this.$message.error("获取分类信息失败！");
       }
       this.menuItem = res.data;
+      this.loading = false;
       // console.log(this.menuItem)
     },
     // 获取对应类别商品
     async getGoods() {
       const { data: res } = await this.reqM4Service(
-        `/product/search/${this.goodsPage}/25`,
-        this.params,
-        "post"
+        `/product/queryBycategoryId/${this.defaultActive}/${this.goodsPage}/25`,
+        "",
+        "get"
       );
-      // console.log(res)
+      console.log(res);
       if (res.code !== 20000) {
         return this.$message.error("获取商品信息失败！");
       }
       this.goods = res.data.rows;
       this.goodsNum = res.data.total;
-      // console.log(this.goods)
+      console.log(this.goods);
       this.goods.forEach((element) => {
         element.productImages = element.productImages.split(",");
       });
@@ -638,7 +394,7 @@ export default {
       if (res.code !== 20000) {
         return this.$message.error("获取同类推荐信息失败！");
       }
-      this.sameRecommend = res.data;
+      this.sameRecommend = res.data.rows;
       this.sameRecommend.forEach((element) => {
         element.productImages = element.productImages.split(",");
       });
@@ -748,29 +504,8 @@ export default {
 }
 .menu {
   margin-top: 30px;
-  .el-menu-item {
-    width: 100px;
-    height: 40px !important;
-    line-height: 40px !important;
-    text-align: center;
-    margin-right: 10px !important;
-    margin-bottom: 10px !important;
-  }
-  .el-menu-item.is-disabled {
-    padding-left: 0;
-    color: #39bf3e;
-    font-weight: 700;
-    text-align: left;
-    opacity: 1;
-  }
-  .el-menu--horizontal .el-menu-item:not(.is-disabled):focus,
-  .el-menu--horizontal > .el-menu-item.is-active {
-    background: #39bf3e;
-    border: none;
-    color: #fff;
-  }
-  .el-menu.el-menu--horizontal {
-    border: none;
+  .el-row {
+    margin-bottom: 20px;
   }
 }
 .el-col-5 {

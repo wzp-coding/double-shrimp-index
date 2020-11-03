@@ -11,9 +11,9 @@
       </el-breadcrumb>
       <el-divider></el-divider>
       <!--  -->
-      <el-input placeholder="搜索您要的文章" prefix-icon="el-icon-search">
+      <el-input placeholder="搜索您要的文章" prefix-icon="el-icon-search" v-model="input.key">
         <div slot="append">
-          <el-button icon="el-icon-search">搜索</el-button>
+          <el-button icon="el-icon-search" @click="searchArticle()">搜索</el-button>
         </div>
       </el-input>
       <!-- 上部分 -->
@@ -197,6 +197,10 @@ export default {
     return {
       // 导航分类
       navCate: [],
+      // 输入内容
+      input: {
+        key: ""
+      },
       // 文章类型名字
       articleType: "",
       // 最新文章是否显示
@@ -265,7 +269,7 @@ export default {
       // 推荐文章数量
       adviseArticleTotal: 0,
       // 推荐文章的页码
-      Pagenum: 1,
+      pageNum: 1,
       // 当初所处分类的id
       onId: 0,
       // “更多”按钮是否显示
@@ -278,6 +282,23 @@ export default {
     this.getAdviseArticle();
   },
   methods: {
+    async searchArticle() {
+      this.cardShow = false;
+      this.articleType = "搜索内容";
+      this.moreButtonShow = false;
+
+      const { data: res } = await this.reqM12Service(
+        `/education/search/time/${this.pageNum}/10/0`,
+        { key:this.input.key },
+        "get"
+      );
+      console.log(res)
+      if (res.code !== 20000) {
+        return this.$message.error("获取搜索数据失败！");
+      }
+      this.adviseArticleTotal = res.data.total;
+      this.adviseArticle = res.data.rows;
+    },
     async getArticlesTypes() {
       const { data: res } = await this.reqM2Service(
         "/education/technicalArticlesTypes",
@@ -297,7 +318,7 @@ export default {
         "",
         "get"
       );
-      console.log(res);
+      // console.log(res);
       if (res.code !== 20000) {
         return this.$message.error("获取文章数据失败！");
       }
@@ -309,14 +330,14 @@ export default {
     },
     async getAdviseArticle() {
       const { data: res } = await this.reqM2Service(
-        `/education/technicalArticles/findByRecommend/${this.Pagenum}/8`,
+        `/education/technicalArticles/findByRecommend/${this.pageNum}/8`,
         "",
         "get"
       );
       if (res.code !== 20000) {
         return this.$message.error("获取推荐文章数据失败！");
       }
-      console.log(res);
+      // console.log(res);
       if (res.data.rows) {
         this.adviseArticle = res.data.rows;
       }
@@ -324,7 +345,7 @@ export default {
     },
     async getArticlesByTypes(typeId) {
       const { data: res } = await this.reqM2Service(
-        `/education/technicalArticles/search/searchByTypeId/${typeId}/${this.Pagenum}/16`,
+        `/education/technicalArticles/search/searchByTypeId/${typeId}/${this.pageNum}/16`,
         "",
         "get"
       );
@@ -346,7 +367,7 @@ export default {
       this.onId = Id;
       if (Id == 1) {
         const { data: res } = await this.reqM2Service(
-          `/education/technicalArticles/findByTime/${this.Pagenum}/8`,
+          `/education/technicalArticles/findByTime/${this.pageNum}/8`,
           "",
           "get"
         );
@@ -366,7 +387,7 @@ export default {
     handleSelect(index) {
       this.onId = index;
       console.log(index);
-      this.Pagenum = 1;
+      this.pageNum = 1;
       if (index === "0") {
         this.getLateArticles();
         this.getAdviseArticle();
@@ -375,7 +396,7 @@ export default {
       }
     },
     handleCurrentChange(newPage) {
-      this.Pagenum = newPage;
+      this.pageNum = newPage;
       this.getMoreArticle(this.onId);
     },
   },

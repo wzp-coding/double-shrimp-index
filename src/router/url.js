@@ -2,6 +2,7 @@
 module.exports = {
     domain: {
         Base_M1_URL: 'http://106.75.154.40:9012', //慈峰
+        Base_M12_URL: 'http://106.75.154.40:9010', //慈峰
         Base_M13_URL: 'http://106.75.154.40:9010', //慈峰
         Base_M2_URL: 'http://106.75.154.40:9012', //晓钰
         Base_M3_URL: 'http://120.79.63.74:9013', //梓渊
