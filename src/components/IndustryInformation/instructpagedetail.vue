@@ -32,10 +32,15 @@
           <div class="body" v-for="(item, index) in TypePageList" :key="index">
             <div class="block">
               <div class="pic">
-                <el-image :src="item.picture" @click="TonewPath(item.id)"></el-image>
+                <el-image
+                  :src="item.picture"
+                  @click="TonewPath(item.id)"
+                ></el-image>
               </div>
               <div class="news">
-                <h3 style="margin-top: 3px" @click="TonewPath(item.id)">{{ item.title }}</h3>
+                <h3 @click="TonewPath(item.id)">
+                  {{ item.title }}
+                </h3>
                 <p
                   class="textover"
                   style="
@@ -46,12 +51,11 @@
                 >
                   {{ item.summary | limitword }}
                   <span
-                    style="color: green; cursor: pointer"
+                    
                     @click="TonewPath(item.id)"
                     >[详情]</span
                   >
                 </p>
-
                 <!--底部区域--->
                 <p style="font-size: 13px; position: absolute; bottom: 4px">
                   发布时间:{{ item.creationTime | timefilters
@@ -91,7 +95,12 @@
             :page-size="queryinfo.size"
             :current-page="queryinfo.page"
             @current-change="handleCurrentChange"
-            style="display: flex; justify-content: center; margin-top: 30px"
+            style="
+              display: flex;
+              justify-content: center;
+              margin-top: 30px;
+              margin-bottom: 15px;
+            "
           >
           </el-pagination>
         </el-aside>
@@ -103,8 +112,11 @@
                 v-for="(item, index) in newDataList.slice(0, 5)"
                 :key="index"
               >
-                <div class="block" >
-                  <el-image :src="item.picture" @click="TonewPath(item.id)"></el-image>
+                <div class="block">
+                  <el-image
+                    :src="item.picture"
+                    @click="TonewPath(item.id)"
+                  ></el-image>
                   <div class="rightspan">
                     <span @click="TonewPath(item.id)">{{ item.title }}</span>
                   </div>
@@ -117,8 +129,11 @@
                 v-for="(item, index) in numclicklist"
                 :key="index"
               >
-                <div class="block" >
-                  <el-image :src="item.picture" @click="TonewPath(item.id)"></el-image>
+                <div class="block">
+                  <el-image
+                    :src="item.picture"
+                    @click="TonewPath(item.id)"
+                  ></el-image>
                   <div class="rightspan">
                     <span @click="TonewPath(item.id)">{{ item.title }}</span>
                   </div>
@@ -134,7 +149,10 @@
                 :key="index"
               >
                 <div class="block">
-                  <el-image :src="item.picture" @click="TonewPath(item.id)"></el-image>
+                  <el-image
+                    :src="item.picture"
+                    @click="TonewPath(item.id)"
+                  ></el-image>
                   <div class="rightspan">
                     <span @click="TonewPath(item.id)">{{ item.title }}</span>
                   </div>
@@ -147,8 +165,11 @@
                 v-for="(item, index) in MonthData.slice(0, 5)"
                 :key="index"
               >
-                <div class="block" >
-                  <el-image :src="item.picture" @click="TonewPath(item.id)"></el-image>
+                <div class="block">
+                  <el-image
+                    :src="item.picture"
+                    @click="TonewPath(item.id)"
+                  ></el-image>
                   <div class="rightspan">
                     <span @click="TonewPath(item.id)">{{ item.title }}</span>
                   </div>
@@ -252,6 +273,9 @@ export default {
       //搜索信息
 
       SearchKey: "",
+
+      isSearch: null,
+      isnew:false,
     };
   },
   created() {
@@ -273,13 +297,23 @@ export default {
     //this.getTypeName();
 
     //分页查询全部数据
-    this.getTypePageData();
+    // this.getTypePageData();
 
     //搜索查询
-    this.searchData();
+    //this.searchData();
   },
   mounted() {
+    console.log("钩子函数");
     console.log(this.$route.query.id);
+    console.log(this.$route.query.SearchKey);
+    if (this.$route.query.SearchKey) {
+      this.SearchKey = this.$route.query.SearchKey;
+      this.searchData(this.SearchKey);
+    } else {
+      this.getTypePageData();
+    }
+
+    //this.searchData(this.$route.query.SearchKey);
   },
   methods: {
     TonewPath(id) {
@@ -308,6 +342,7 @@ export default {
           "",
           "get"
         );
+
         this.newDataList = res.data;
       } catch (error) {
         console.log("获取最新数据出错");
@@ -320,7 +355,7 @@ export default {
         "",
         "get"
       );
-      console.log(res)
+      console.log(res);
       this.WeekDataList = res.data;
     },
 
@@ -338,15 +373,39 @@ export default {
     },
 
     //分页查询全部数据
-    async getTypePageData() {
-      const { data: res } = await this.reqM2Service(
-        `/info/shrimpIndustry/${this.queryinfo.page}/${this.queryinfo.size}`,
-        "",
-        "post"
-      );
-      this.TypePageList = res.data.rows;
-      this.queryinfo.total = res.data.total;
+
+    getTypePageData() {
+      let httpUrl1 = `http://106.75.154.40:9012/info/shrimpIndustry/${this.queryinfo.page}/${this.queryinfo.size}`;
+      try {
+        this.$http.post(httpUrl1).then((res) => {
+          console.log(res.data);
+          res=res.data
+          // res.data.rows.forEach((item) => {
+          //   this.TypePageList.push(item);            
+          // });
+          this.TypePageList = res.data.rows;
+          this.queryinfo.total = res.data.total;
+        });
+      } catch (error) {
+        console.log("分页接口请求失败");
+      }
     },
+
+    // async getTypePageData() {
+    //   try {
+    //     const { data: res } = await this.reqM2Service(
+    //     `/info/shrimpIndustry/${this.queryinfo.page}/${this.queryinfo.size}`,
+    //     "",
+    //     "post"
+    //   );
+
+    //   this.TypePageList = res.data.rows;
+    //   this.queryinfo.total = res.data.total;
+    //   } catch (error1) {
+
+    //   }
+
+    // },
 
     //根据传过来的ID查询
     // async getTypeData() {
@@ -361,14 +420,32 @@ export default {
     //   this.queryinfo.total = res.data.total;
     //   //console.log(this.$route.query.id)
     // },
+
     handleCurrentChange(newpage) {
       //改变页码
       this.queryinfo.page = newpage;
-      this.getTypePageData();
+      if (this.isSearch === 1) {
+        this.isnew = false
+        this.searchData(this.SearchKey);
+      }else if(this.isSearch==2){
+        this.getTypePageData();
+        this.queryinfo.page=1
+      }else{
+        this.getTypePageData();
+        this.queryinfo.page=1
+      }
     },
 
     searchData(SearchKey) {
-      let httpUrl = `http://106.75.154.40:9010/industry/search/time/${this.queryinfo.page}/${this.queryinfo.size}/1?key=${this.SearchKey}`;
+      
+      //this.isSearch = 1 代表点击了搜索或由其他页面搜索而进
+      this.isSearch = 1;
+      if(this.isnew){
+        this.queryinfo.page = 1;
+        this.isnew = false;
+      }
+      // this.$message.success(this.SearchKey)
+      let httpUrl = `http://106.75.154.40:9010/industry/search/time/${this.queryinfo.page}/${this.queryinfo.size}/1?key=${SearchKey}`;
       try {
         this.$http.get(httpUrl).then((res) => {
           console.log(res.data);
@@ -376,18 +453,32 @@ export default {
             console.log("成功返回 搜索数据");
             res = res.data;
             //判断返回的数组是否有数据
-            if(res.data.rows.length !==0){
+            console.log('233')
+            if (res.data.rows.length !== 0) {
+              console.log("数组存在且有信息");
+              //更新分页列表
               this.TypePageList = res.data.rows;
               this.queryinfo.total = res.data.total;
-            }else{
+            } else {
+              //没有所搜索的信息
+              //将SearchKey赋为空 
+              this.SearchKey= '';
               this.$message.warning("暂无相关数据");
+              this.queryinfo.page = 1;
+              //调用获取全部分类函数
+              this.getTypePageData();
+              //代表没有相关搜索内容
+              this.isSearch =2
             }
           } else {
+            //请求不到搜索内容用全部分页代替
             console.log("请求搜索数据失败");
+            this.getTypePageData();
           }
         });
       } catch (error) {
         console.log("搜索接口请求失败");
+        this.getTypePageData();
       }
     },
   },
@@ -426,7 +517,6 @@ export default {
       width: 100%;
       height: 185px;
       display: flex;
-      cursor: pointer;
       justify-content: space-between;
       border-bottom: 1px solid rgb(230, 230, 230);
       .pic {
@@ -434,16 +524,29 @@ export default {
         margin-top: 5px;
         width: 33%;
         .el-image {
+          cursor: pointer;
           height: 95%;
           width: 100%;
         }
       }
       .news {
+        h3{
+          cursor: pointer;
+          margin-top: 3px;
+        }
         position: relative;
         width: 65%;
         .textover {
           text-overflow: ellipsis;
+          span{
+            color: green;
+            cursor: pointer
+          }
+          span:hover{
+            color: orange;
+          }
         }
+        
       }
     }
   }

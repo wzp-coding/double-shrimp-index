@@ -12,13 +12,12 @@
           </el-breadcrumb>
         </div>
         <div class="tr">
-          <el-input placeholder="请输入内容" v-model="searchInput">
-            <i  class="el-input__icon el-icon-search"></i>
-          </el-input>
-          <!-- <el-input v-model="searchInput" placeholder="搜索你想要的资讯" >
-            
-            <i class="el-icon-search" ></i>
-          </el-input> -->
+          <el-input
+            type="text"
+            v-model="SearchKey"
+            placeholder="请输入实体名称"
+          ></el-input>
+          <i class="el-icon-search" @click="ToSearch(SearchKey)"></i>
         </div>
       </div>
       <el-divider></el-divider>
@@ -268,13 +267,15 @@
               </div>
               <div class="onemide">
                 <!-- jingcai2List -->
+                <!-- v-if="item.picture" -->
                 <div
                   class="zhuangti"
                   v-for="(item, i) in 4"
                   :key="i"
                   @click="TonewPath(item.id)"
                 >
-                  <el-image :src="item.picture"></el-image>
+
+                  <el-image :src="item.picture" v-if="item.picture"></el-image>
                   <span>{{ item.title }}</span>
                 </div>
               </div>
@@ -312,7 +313,8 @@
               <div class="onebottom" v-for="(item, i) in pagelist" :key="i">
                 <div class="four" style="cursor: pointer">
                   <div class="pic">
-                    <el-image
+                    <el-image      
+                    
                       :src="item.picture"
                       @click="TonewPath(item.id)"
                     ></el-image>
@@ -325,12 +327,13 @@
                         margin-bottom: 15px;
                         margin-top: 10px;
                       "
+                      class="pp"
                       @click="TonewPath(item.id)"
                     >
                       {{ item.summary | limitword }}
 
                       <span
-                        style="text-decoration: none; color: green"
+                        
                         @click="TonewPath(item.id)"
                         >[详情]</span
                       >
@@ -436,6 +439,7 @@
 
               <div class="midpic">
                 <el-image
+                  v-if="NewDataList[8].picture"
                   :src="NewDataList[8].picture"
                   @click="TonewPath(NewDataList[8].id)"
                 ></el-image>
@@ -717,14 +721,9 @@ export default {
       //推荐 ，分页
       RecommList: [],
 
-      //热度 点击量
-      // waybytime: "info/shrimpIndustry/findByTime",
-      // waybyclick: "info/shrimpIndustry/findByClickNum",
-      // waybyrecommed: "info/shrimpIndustry/findByRecommend",
-      // waybyweek: "info/shrimpIndustry/findByClickWeekly",
-      // waybymonth: "info/shrimpIndustry/findByClickMonthly",
-      // waybyall: "info/shrimpIndustry",
       ClickDataList: [],
+
+      SearchKey:'',
 
       src:
         "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
@@ -774,13 +773,6 @@ export default {
         query: { SearchKey: SearchKey },
       });
     },
-    //
-    // ToOtherMore(path) {
-    //   this.$router.push({
-    //     path: "/industryothermore",
-    //     query: { path: path },
-    //   });
-    // },
 
     //每周精品
     async getWeekData() {
@@ -989,19 +981,9 @@ export default {
   justify-content: space-between;
   .tr {
     position: relative;
-    .el-input {
-      cursor: pointer !important;
-    }
-    // input {
-    //   padding-left: 10px;
-    //   border: 2px solid #d8d8d8;
-    //   border-radius: 100px;
-    //   width: 198px;
-    //   height: 38px;
-    //   outline: none;
-    // }
     i {
       top: 13px;
+      cursor: pointer;
       position: absolute;
       right: 20px;
     }
@@ -1140,7 +1122,6 @@ export default {
         width: 24%;
         display: block;
         height: 150px;
-
         position: relative;
         .el-image {
           display: block;
@@ -1182,6 +1163,15 @@ export default {
         }
         .news {
           width: 72%;
+          .pp{
+            span{
+              text-decoration: none; 
+              color: green
+            }
+            span:hover{
+              color:orange
+            }
+          }
         }
       }
       span {

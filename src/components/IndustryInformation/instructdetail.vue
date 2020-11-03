@@ -34,7 +34,7 @@
                 <h3 >{{ IdData.title }}</h3>
                 <p style="display: flex">
                   发布时间 {{ IdData.creationTime | timefilters
-                  }}<span style="margin-left: 15px" >
+                  }}<span style="margin-left: 15px" v-if="IdData.editor">
                     {{ IdData.editor | limitword }}报告</span
                   >
                 </p>
@@ -79,7 +79,7 @@
               虾""品牌影响力，那可都是响当起博兴县南美白对虾产业，那可是有着“中国白对虾生态养殖第一县""的美誉，不 </span
             > -->
             <el-divider></el-divider>
-            <h3 style="margin-bottom: 30px; font-family: btt" >
+            <h3 style="margin-bottom: 30px; font-family: btt" v-if="numclicklist[1].editor">
               {{ numclicklist[1].editor }}报告
             </h3>
           </div>
