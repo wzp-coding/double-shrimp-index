@@ -439,7 +439,7 @@
 
               <div class="midpic" style="margin:6px 0 10px 0">
                 <el-image
-                  v-if="NewDataList[8].picture"
+                  
                   :src="NewDataList[8].picture"
                   @click="TonewPath(NewDataList[8].id)"
                 ></el-image>
