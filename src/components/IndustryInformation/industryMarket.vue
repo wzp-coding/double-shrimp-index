@@ -551,12 +551,9 @@
                     color: rgb(93, 183, 60);
                   "
                 >
-                  <router-link
-                    style="text-decoration: none"
-                    to="/instructdetail"
-                  >
-                    <span style="cursor: pointer; color: #9e9e9e"> 更多 </span>
-                  </router-link>
+                  
+                    <span @click="ToMorePage(queryInfo1.TypeID1)" style="cursor: pointer; color: #9e9e9e"> 更多 </span>
+                  
                   <i class="el-icon-caret-right"></i>
                 </div>
               </h3>
