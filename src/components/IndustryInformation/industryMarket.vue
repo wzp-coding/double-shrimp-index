@@ -221,17 +221,7 @@
                       </li>
                     </ul>
                   </div>
-                  <!-- <div class="onetopr2">
-                    <ul class="ccy-css">
-                      <li
-                        v-for="(item, index) in jingcai1List.slice(8, 16)"
-                        :key="index"
-                        @click="TonewPath(item.id)"
-                      >
-                        {{ item.summary }}
-                      </li>
-                    </ul>
-                  </div> -->
+                
                 </div>
               </div>
               <!-- 对虾行情 end -->
@@ -270,12 +260,12 @@
                 <!-- v-if="item.picture" -->
                 <div
                   class="zhuangti"
-                  v-for="(item, i) in 4"
+                  v-for="(item, i) in jingcai2List"
                   :key="i"
                   @click="TonewPath(item.id)"
                 >
                     <!-- v-if="item.picture" -->
-                  <el-image :src="item.picture" ></el-image>
+                  <el-image :src="item.picture" v-if="item.picture"></el-image>
                   <span>{{ item.title }}</span>
                 </div>
               </div>
@@ -314,7 +304,7 @@
                 <div class="four" style="cursor: pointer">
                   <div class="pic">
                     <el-image      
-                    
+                      v-if="item.picture"
                       :src="item.picture"
                       @click="TonewPath(item.id)"
                     ></el-image>
@@ -440,8 +430,8 @@
               <div class="midpic" style="margin:6px 0 10px 0">
                 <el-image
                   
-                  :src="NewDataList[8].picture"
-                  @click="TonewPath(NewDataList[8].id)"
+                  :src="NewDataList[7].picture"
+                  @click="TonewPath(NewDataList[7].id)"
                 ></el-image>
               </div>
 
@@ -783,6 +773,11 @@ export default {
           console.log("2" + res);
           console.log(res);
           console.log("获取每周精品数据成功");
+          for(var i=0 ; i<res.data.rows.length;i++){
+            if(!res.data.rows.picture){
+              res.data.rows.picture = 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg'
+            }
+          }
           this.weekliList = res.data.rows;
           
         }
@@ -811,7 +806,7 @@ export default {
       }
     },
 
-    //精彩专题2 1320648223462920192
+    //精彩专题2 1320648223462920192 1321798043531612160
     async getjingcai2() {
       try {
         const { data: res } = await this.reqM2Service(
@@ -823,6 +818,10 @@ export default {
           console.log("4" + res);
           console.log(res);
           console.log("获取精彩专题2数据成功");
+          if(res.data.rows ==0){
+            this.jingcai2List[0] = this.weekliList[0]
+            return ;
+          }
           this.jingcai2List = res.data.rows;
         } else {
           console.log("网络错误20001");
@@ -847,6 +846,8 @@ export default {
           console.log("网络错误 20001");
         }
         this.pagelist = res.data.rows;
+        console.log('222')
+        console.log(this.pagelist)
         this.queryInfo3.total = res.data.total;
       } catch (error) {
         console.log("网络错误 19999");

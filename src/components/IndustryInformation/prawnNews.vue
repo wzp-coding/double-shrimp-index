@@ -27,8 +27,8 @@
             <div class="block" style="margin-bottom: 8px">
               <div
                 class="blockson"
-                v-for="item in duixialist"
-                :key="item.id"
+                v-for="(item, index) in pagelist.slice(0, 3)"
+                :key="index"
                 @click="TonewPath(item.id)"
               >
                 <el-image :src="item.picture"></el-image>
@@ -64,7 +64,7 @@
                       border-left: 6px solid rgb(93, 183, 60);
                     "
                   ></span>
-                  热门资讯
+                  {{this.queryInfo.TypeName}}
                 </div>
                 <div
                   style="
@@ -133,7 +133,11 @@
               :page-size="queryInfo.pagesize"
               :current-page="queryInfo.Currentpage"
               @current-change="handleCurrentChange"
-              style="display: flex; justify-content: center; margin: 20px 0 20px 0"
+              style="
+                display: flex;
+                justify-content: center;
+                margin: 20px 0 20px 0;
+              "
             >
             </el-pagination>
           </div>
@@ -154,7 +158,7 @@
                         border-left: 6px solid rgb(93, 183, 60);
                       "
                     ></span>
-                    最新资讯
+                    财富手册
                   </div>
                   <el-tag type="danger" size="small" style="margin-top: 3px"
                     >New</el-tag
@@ -179,7 +183,7 @@
 
                 <ul class="ccy-css" style="margin-bottom: 6px">
                   <li
-                    v-for="(item, index) in dataTimeList"
+                    v-for="(item, index) in caifuList"
                     :key="index"
                     @click="TonewPath(item.id)"
                   >
@@ -201,13 +205,12 @@
                         border-left: 6px solid rgb(93, 183, 60);
                       "
                     ></span>
-                    热门资讯
+                    对虾行情
                   </div>
-                  <router-link to="/industryothermore">
+                  
                     <el-tag type="danger" size="small" style="margin-top: 3px"
                       >热卖</el-tag
-                    ></router-link
-                  >
+                    >
                   <div
                     style="
                       font-size: 0.8rem;
@@ -230,7 +233,7 @@
                 ></el-divider>
                 <ul class="ccy-css">
                   <li
-                    v-for="(item, index) in dataRecommList"
+                    v-for="(item, index) in hangqingList"
                     :key="index"
                     @click="TonewPath(item.id)"
                   >
@@ -252,7 +255,7 @@
                         border-left: 6px solid rgb(93, 183, 60);
                       "
                     ></span>
-                    热门资讯
+                    产链前沿
                   </div>
                   <el-tag type="danger" size="small" style="margin-top: 3px"
                     >Hot</el-tag
@@ -277,7 +280,7 @@
 
                 <ul class="ccy-css">
                   <li
-                    v-for="(item, index) in dataClickList"
+                    v-for="(item, index) in chanlianList"
                     :key="index"
                     @click="TonewPath(item.id)"
                   >
@@ -367,10 +370,8 @@ export default {
         Currentpage: 1, //页数
         pagesize: 5, //每页数
         total: null, //总页数
-
-        //默认 1316745747953225728
-        TypeID: "1316743601669148672",
-        TypeName: "财富手册",
+        TypeID: "1321798002377101312",
+        TypeName: "虾行产业",
       },
 
       // waybytime: "info/shrimpIndustry/findByTime",
@@ -379,34 +380,41 @@ export default {
       // 类型分页
       pagelist: [],
 
+      //虾行产业  1321798002377101312  类型ID
+      xiahang: "1321798002377101312",
+
       //查询对虾资讯
-      duixialist: [
-        {
-          picture:
-            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
-          title: "暂无数据",
-        },
-        {
-          picture:
-            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
-          title: "暂无数据",
-        },
-        {
-          picture:
-            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
-          title: "暂无数据",
-        },
-      ],
+      // duixialist: [
+      //   {
+      //     picture:
+      //       "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+      //     title: "暂无数据",
+      //   },
+      //   {
+      //     picture:
+      //       "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+      //     title: "暂无数据",
+      //   },
+      //   {
+      //     picture:
+      //       "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+      //     title: "暂无数据",
+      //   },
+      // ],
       duixiaId: "1320625468222869504",
 
-      //按时间  最新
-      dataTimeList: [],
-
-      //按推荐
-      dataRecommList: [],
-
-      //按点击量
-      dataClickList: [],
+      //财富手册
+      caifuList: [],
+      caifuID: "1316745747953225728",
+      size1: 9,
+      //对虾行情
+      hangqingList: [],
+      hangqingId: "1323970833487630336",
+      size2: 7,
+      //产链前沿
+      chanlianList: [],
+      chanlianId: "1321798043531612160",
+      size3: 6,
 
       //分类信息查询
       TypeDataList: [],
@@ -418,18 +426,12 @@ export default {
     };
   },
   created() {
-    // 对虾养殖 分页
+    //  分页 虾行产业
     this.getPageList(),
-      //获取对虾资讯
-      this.getduixia(),
-      //获取最新
-      this.getNewData(),
-      //按推荐
-      this.getRecommedData(),
-      //按热度 点击量
-      this.getHotData(),
-      //分类信息获取
-      this.getTypeData();
+      this.getTypeData(),
+      this.getTypeInfo(this.caifuID, this.size1),
+      this.getTypeInfo(this.hangqingId, this.size2),
+      this.getTypeInfo(this.chanlianId, this.size3);
   },
   methods: {
     //前往详情页
@@ -454,32 +456,51 @@ export default {
         query: { SearchKey: SearchKey },
       });
     },
-    //对虾资讯
-    async getduixia() {
-      const { data: res } = await this.reqM2Service(
-        `/info/shrimpIndustry/search/searchByTypeId/${this.duixiaId}/1/3`,
-        "",
-        "post"
-      );
-      if (res.data.rows.length == 0) {
-      } else {
-        this.duixialist = res.data.rows;
+
+    //根据类型ID查询  非分页
+    async getTypeInfo(TypeNum, size) {
+      try {
+        const { data: res } = await this.reqM2Service(
+          `/info/shrimpIndustry/search/searchByTypeId/${TypeNum}/1/${size}`,
+          "",
+          "post"
+        );
+        if (res.data.rows.length == 0) {
+          console.log("所请求的接口无数据");
+        } else {
+          if (size == 9) {
+            this.caifuLis = res.data.rows;
+            console.log("财富");
+            console.log(res.data);
+          } else if (size == 7) {
+            this.hangqingList = res.data.rows;
+            console.log(res.data);
+          } else fi(size == 6);
+          this.caifuList = res.data.rows;
+          console.log(res.data);
+        }
+      } catch (error) {
+        console.log("请求接口失败");
       }
     },
 
-    //分页  1316745747953225728
+    //分页 根据类型ID查询
+    //虾行产业 1316745747953225728
     async getPageList() {
-      const { data: res } = await this.reqM2Service(
-        `/info/shrimpIndustry/search/searchByTypeId/${this.queryInfo.TypeID}/${this.queryInfo.Currentpage}/${this.queryInfo.pagesize}`,
-        "",
-        "post"
-      );
-      console.log(this.queryInfo.TypeID);
-      console.log(res);
-      this.pagelist = res.data.rows;
-      this.queryInfo.total = res.data.total;
-      console.log(res.data.rows);
-      //console.log(this.queryInfo.pagelist)
+      try {
+        const { data: res } = await this.reqM2Service(
+          `/info/shrimpIndustry/search/searchByTypeId/${this.queryInfo.TypeID}/${this.queryInfo.Currentpage}/${this.queryInfo.pagesize}`,
+          "",
+          "post"
+        );
+        console.log(this.queryInfo.TypeID);
+        console.log(res);
+        this.pagelist = res.data.rows;
+        this.queryInfo.total = res.data.total;
+        console.log(res.data.rows);
+      } catch (error2) {
+        console.log("请求类型分页接口失败");
+      }
     },
 
     handleCurrentChange(newpage) {
@@ -488,45 +509,19 @@ export default {
       this.queryInfo.Currentpage = newpage;
       this.getPageList();
     },
-    async getNewData() {
-      ///info/shrimpIndustry/findByTime
+
+    //获取所有分类信息
+    async getTypeData() {
       try {
         const { data: res } = await this.reqM2Service(
-          "/info/shrimpIndustry/findByTime/1/9",
+          "/info/shrimpIndustryTypes",
           "",
           "get"
         );
-        this.dataTimeList = res.data.rows;
-      } catch (error) {
-        console.log("获取最新数据失败");
+        this.TypeDataList = res.data;
+      } catch (error3) {
+        console.log("请求分类信息接口失败");
       }
-    },
-    async getRecommedData() {
-      ///info/shrimpIndustry/findByTime
-      const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustry/findByRecommend/1/6",
-        "",
-        "get"
-      );
-      this.dataRecommList = res.data.rows;
-    },
-    async getHotData() {
-      ///info/shrimpIndustry/findByTime
-      const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustry/findByClickNum/1/6",
-        "",
-        "get"
-      );
-      this.dataClickList = res.data.rows;
-    },
-    //获取所有分类信息
-    async getTypeData() {
-      const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustryTypes",
-        "",
-        "get"
-      );
-      this.TypeDataList = res.data;
     },
 
     TypeChange(ChangeID, ChangeName) {

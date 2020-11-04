@@ -423,6 +423,7 @@ export default {
     handleCurrentChange(newpage) {
       //改变页码
       this.queryinfo.page = newpage;
+
       if (this.isSearch === 1) {
         this.searchData(this.SearchKey);
       }else if(this.isSearch==2){
@@ -437,14 +438,14 @@ export default {
     //查询函数
     toSearch(SearchKey){
       this.queryinfo.page = 1;
+      this.isSearch = 1
       console.log(this.queryinfo.page)
-      this.searchData(SearchKey);
+      this.handleCurrentChange(1);
+      //this.searchData(SearchKey);
     },
     searchData(SearchKey) {
-      
       //this.isSearch = 1 代表点击了搜索或由其他页面搜索而进
       this.isSearch = 1;
-      
       let httpUrl = `http://106.75.154.40:9010/industry/search/time/${this.queryinfo.page}/${this.queryinfo.size}/1?key=${SearchKey}`;
       try {
         this.$http.get(httpUrl).then((res) => {
