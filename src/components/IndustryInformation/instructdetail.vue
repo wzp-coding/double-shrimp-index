@@ -31,7 +31,7 @@
                 ></el-avatar>
               </div>
               <div class="lxl-title">
-                <h3 >{{ IdData.title }}</h3>
+                <h3>{{ IdData.title }}</h3>
                 <p style="display: flex">
                   发布时间 {{ IdData.creationTime | timefilters
                   }}<span style="margin-left: 15px" v-if="IdData.editor">
@@ -42,19 +42,7 @@
             </div>
           </div>
           <div class="wenzhang">
-            <div v-html="IdData.content"></div>
-            <!-- <span>江北鱼米之乡，中国博兴乔庄。</span><br /><br />
-            <span>农民喜庆丰收节，—虾带来百业兴。</span><br /><br />
-            <span
-              >齐鲁网·闪电新闻9月16日讯山东·博兴中国农民丰收节系列活动，今天拉开了帷幕，
-              首场活动就是在博兴县乔庄镇打渔张森林公园举办的首届博兴虾王争霸赛。 </span
-            ><br /><br />
-            <span
-              >说起博兴县南美白对虾产业，那可是有着“中国白对虾生态养殖第一县""的美誉，不管
-              是养殖规模，还是对虾品质，那可都是响当当的全国第一。为了进一步增强"博兴对
-              虾""品牌影响力，增强养殖户信心，搭建养殖对虾信息交流平台，博兴县总工会、博兴
-              县渔业服务中心、乔庄镇党委政府共同发起了本届博兴虾王争霸赛。
-            </span> -->
+            <div class="wenzhangfirst" v-html="IdData.content" id="test"></div>
             <div class="block">
               <el-image :src="IdData.picture"></el-image>
             </div>
@@ -78,10 +66,12 @@
               是养殖规模，还是对虾品质，那可都是响当当的全国第一。为了进一步增强"博兴对
               虾""品牌影响力，那可都是响当起博兴县南美白对虾产业，那可是有着“中国白对虾生态养殖第一县""的美誉，不 </span
             > -->
-            <el-divider></el-divider>
-            <h3 style="margin-bottom: 30px; font-family: btt" v-if="numclicklist[1].editor">
+            <!-- <h3
+              style="margin-bottom: 30px; font-family: btt"
+              v-if="numclicklist[1].editor"
+            >
               {{ numclicklist[1].editor }}报告
-            </h3>
+            </h3> -->
           </div>
         </div>
 
@@ -107,7 +97,7 @@
             <el-tab-pane label="热门资讯" name="second">
               <div
                 class="list"
-                v-for="(item, index) in numclicklist.slice(0, 5)"
+                v-for="(item, index) in numclicklist"
                 :key="index"
               >
                 <div class="block">
@@ -141,11 +131,7 @@
               </div>
             </el-tab-pane>
             <el-tab-pane label="本月热门" name="second1">
-              <div
-                class="list"
-                v-for="(item, index) in MonthData"
-                :key="index"
-              >
+              <div class="list" v-for="(item, index) in MonthData" :key="index">
                 <div class="block">
                   <el-image
                     :src="item.picture"
@@ -230,8 +216,7 @@ export default {
 
       //每月
       MonthData: [],
-      IdData: {
-      },
+      IdData: {},
     };
   },
   created() {
@@ -254,29 +239,28 @@ export default {
   methods: {
     //前往详情页 与更新详情页
     TonewPath(id) {
-      console.log(id)
+      console.log(id);
       this.$router.push({
         path: "/instructdetail",
         query: { id: id },
-      });   
+      });
       this.$router.go(0);
     },
-    
+
     //找到相应ID文章
     async getshrimpIndustryData() {
       try {
         const { data: res } = await this.reqM2Service(
-        `/info/information/${this.$route.query.id}`,
-        "",
-        "get"
-      );
-      this.IdData = res.data;
-      console.log('获取到文章')
-      console.log(res);
+          `/info/information/${this.$route.query.id}`,
+          "",
+          "get"
+        );
+        this.IdData = res.data;
+        console.log("获取到文章");
+        console.log(res);
       } catch (error) {
-        console.log('获取该ID文章信息失败')
+        console.log("获取该ID文章信息失败");
       }
-      
     },
     async getclickData() {
       const { data: res } = await this.reqM2Service(
@@ -296,32 +280,29 @@ export default {
       this.newDataList = res.data.rows;
     },
 
-    //未分页
     async getWeekData() {
       try {
         const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustry/findByClickWeekly/1/6",
-        "",
-        "get"
-      );
-      this.WeekDataList = res.data.rows;
+          "/info/shrimpIndustry/findByClickWeekly/1/6",
+          "",
+          "get"
+        );
+        this.WeekDataList = res.data.rows;
       } catch (error) {
-        console.log('获取吗每周数据失败')
+        console.log("获取吗每周数据失败");
       }
-      
     },
     async getMonthData() {
       try {
         const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustry/findByClickMonthly/1/5",
-        "",
-        "get"
-      );
-      this.MonthData = res.data.rows;
+          "/info/shrimpIndustry/findByClickMonthly/1/5",
+          "",
+          "get"
+        );
+        this.MonthData = res.data.rows;
       } catch (error) {
-        console.log('获取每月数据失败')
+        console.log("获取每月数据失败");
       }
-      
     },
   },
 };
@@ -403,33 +384,38 @@ export default {
     .wenzhang {
       width: 100%;
       font-size: 20.5px;
-      display: block;
+
       padding: 17px 0 0 5px;
+      #test {
+        /deep/img {
+          width: 98%;
+          height: 310px;
+        }
+      }
       .block .el-image {
         width: 98%;
         height: 310px;
         padding: 20px 0 35px 0;
-        
       }
     }
   }
   .right {
     float: right;
     width: 30%;
-    .el-image{
+    .el-image {
       cursor: pointer;
     }
-    .rightspan{
-      span{
+    .rightspan {
+      span {
         color: #858585;
         cursor: pointer;
       }
-      span:hover{
+      span:hover {
         color: black;
         font-weight: 800px;
       }
     }
-    
+
     .el-tabs {
       padding-top: 8px;
     }
