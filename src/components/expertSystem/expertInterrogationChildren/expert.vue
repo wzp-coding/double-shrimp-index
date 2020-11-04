@@ -50,8 +50,7 @@ export default {
   },
   methods: {
     getExpertList() {
-      this.$http
-        .get(`http://106.75.154.40:9012/info/experts/findAll/1/3`)
+      this.reqM2Service(`/info/experts/findAll/1/3`,{},'get')
         .then((res) => {
           res = res.data;
           if (res.code === 20000) {

@@ -58,16 +58,15 @@ export default {
       let httpTasks = [];
       ids.forEach((id) => {
         httpTasks.push(
-          this.$http.get(
-            `http://106.75.154.40:9012/info/details/findByPost/${id}/1/1`
+          this.reqM2Service(
+            `/info/details/findByPost/${id}/1/1`,{},'get'
           )
         );
       });
       return this.$http.all(httpTasks);
     },
     async getRepliesList() {
-      await this.$http
-        .get(`http://106.75.154.40:9012/info/post/findAll/1/6`)
+      await this.reqM2Service(`/info/post/findAll/1/6`,{},'get')
         .then((res) => {
           res = res.data;
           if (res.code === 20000) {

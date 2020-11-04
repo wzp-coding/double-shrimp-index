@@ -25,19 +25,6 @@
             v-model="inputRuleForm.productTitle"
             prefix-icon="el-icon-search"
           >
-            <div slot="prepend">
-              <div>
-                <el-select
-                  v-model="select"
-                  placeholder="供应"
-                  style="width: 90px"
-                >
-                  <el-option label="餐厅" value="1"></el-option>
-                  <el-option label="订单" value="2"></el-option>
-                  <el-option label="用户" value="3"></el-option>
-                </el-select>
-              </div>
-            </div>
             <div slot="append">
               <el-button
                 @click="goTo(inputRuleForm.productTitle)"
@@ -51,7 +38,7 @@
       <div class="menu" v-loading="loading">
         <el-row :gutter="20" v-for="(item, i) in menuItem" :key="i">
           <el-col :span="3">
-            <el-button type="primary"  @click="handleSelect(item.categoryId)">
+            <el-button type="primary" @click="handleSelect(item.categoryId)">
               {{ item.categoryName }}</el-button
             >
           </el-col>
@@ -204,6 +191,7 @@ export default {
     return {
       // 加载
       loading: true,
+      loading2: true,
       inputRuleForm: {
         productTitle: "",
       },
@@ -322,13 +310,19 @@ export default {
         if (res.code !== 20000) {
           return this.$message.error("获取商品信息失败！");
         }
-        this.goods = res.data.rows;
+        console.log(res)
+        if (res.data.total !== 0) {
+          this.goods = res.data.rows;
         // console.log(this.goods)
-        this.goodsNum = res.data.total;
-        this.defaultActive = res.data.rows[0].categoryId;
-        this.goods.forEach((element) => {
-          element.productImages = element.productImages.split(",");
-        });
+          this.goodsNum = res.data.total;
+          this.defaultActive = res.data.rows[0].categoryId;
+          this.goods.forEach((element) => {
+            element.productImages = element.productImages.split(",");
+          });
+        } else {
+          this.$message.error('查无结果！')
+        }
+        this.loading2 = false
       }
       this.params.categoryId = this.defaultActive;
       // 获取同类推荐

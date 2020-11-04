@@ -137,8 +137,56 @@
           </el-table-column>
         </el-table>
       </el-tab-pane>
+      <!-- 我的回复----结束 -->
+      <el-tab-pane label="删除历史">
+        <el-table :data="deleteReplyList" style="width: 100%" max-height="500">
+          <el-table-column type="expand">
+            <template slot-scope="props">
+              <el-form label-position="left" class="demo-table-expand">
+                <el-form-item label="回帖id">
+                  <span>: {{ props.row.id }}</span>
+                </el-form-item>
+                <el-form-item label="创建时间">
+                  <span>: {{ props.row.creationTime }}</span>
+                </el-form-item>
+                <el-form-item label="审核状态">
+                  <span>: {{ props.row.stateInfo }}</span>
+                </el-form-item>
+                <el-form-item label="回复内容">
+                  <span>: {{ props.row.reply }}</span>
+                </el-form-item>
+                <!-- 预览图片有bug -->
+                <el-form-item
+                  label="图片说明"
+                  v-if="props.row.images.length != 0"
+                  >:
+                  <div class="demo-image__preview" style="margin-top: 10px">
+                    <el-image
+                      v-for="(item, index) in props.row.images"
+                      :key="index"
+                      style="width: 100px; height: 100px; margin-right: 10px"
+                      :src="item"
+                      :preview-src-list="props.row.images"
+                      fit="cover"
+                    >
+                    </el-image>
+                  </div>
+                </el-form-item>
+                <el-form-item label="回复者">
+                  <span>: {{ props.row.replierName }}</span>
+                </el-form-item>
+              </el-form>
+            </template>
+          </el-table-column>
+          <el-table-column fixed prop="creationTime" label="日期" width="180">
+          </el-table-column>
+          <el-table-column prop="reply" label="回复" width="520">
+          </el-table-column>
+          <el-table-column prop="stateInfo" label="审核状态" width="100">
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
     </el-tabs>
-    <!-- 我的回复----结束 -->
     <!-- 修改或者添加回复对话框 -->
     <publicReply
       :info="dialogInfo"
@@ -176,6 +224,7 @@ export default {
         replierName: "",
         reply: "",
         images: "",
+        experts: true,
       },
       // 传递给换页组件的属性
       total: 50,
@@ -185,6 +234,7 @@ export default {
       // 本组件的属性
       quesList: [],
       replyList: [],
+      deleteReplyList: [],
       loading: true,
       expertId: "",
       expertName: "",
@@ -194,11 +244,6 @@ export default {
   components: {
     pagination,
     publicReply,
-  },
-  watch:{
-    total(){
-      console.log('this.total: ', this.total);
-    }
   },
   methods: {
     // 控制显示修改或者添加界面
@@ -239,43 +284,25 @@ export default {
         type: "warning",
       })
         .then(() => {
-          if (this.tabIndex == 0) {
-            // 删除帖子
-            this.$http
-              .delete(`http://106.75.154.40:9005/post/delete/${id}`)
-              .then((res) => {
-                res = res.data;
-                if (res.code == 20000) {
-                  this.$message({
-                    type: "info",
-                    message: "删除成功",
-                  });
-                  this.getQuesListByExpertId(
-                    this.expertId,
-                    this.page,
-                    this.size
-                  );
-                }
+          // 删除回复
+          // this.$http
+          //   .put(`http://106.75.154.40:9005/details/delete/${id}`)
+          this.reqM8Service(`/details/delete/${id}`, {}, "put").then((res) => {
+            res = res.data;
+            console.log("res: ", res);
+            if (res.code == 20000) {
+              this.$message({
+                type: "success",
+                message: "删除成功",
               });
-          } else if (this.tabIndex == 1) {
-            // 删除回复
-            this.$http
-              .delete(`http://106.75.154.40:9005/details/delete/${id}`)
-              .then((res) => {
-                res = res.data;
-                if (res.code == 20000) {
-                  this.$message({
-                    type: "info",
-                    message: "删除成功",
-                  });
-                  this.getReplyListByExpertId(
-                    this.expertId,
-                    this.page,
-                    this.size
-                  );
-                }
+              this.getReplyListByExpertId(this.expertId, this.page, this.size);
+            } else {
+              this.$message({
+                type: "info",
+                message: res.message,
               });
-          }
+            }
+          });
         })
         .catch(() => {
           this.$message({
@@ -291,14 +318,15 @@ export default {
         this.getQuesListByExpertId(this.expertId);
       } else if (this.tabIndex == 1) {
         this.getReplyListByExpertId(this.expertId);
+      } else if (this.tabIndex == 2) {
+        this.getDeletedReplyList();
       }
       this.resetPage = true;
     },
     // 获取expertId
     async getExpertIdByUserId(id) {
-      await this.$http
-        .get(`http://106.75.154.40:9012/info/experts/findByUser/${id}`)
-        .then((res) => {
+      await this.reqM2Service(`/info/experts/findByUser/${id}`, {}, "get").then(
+        (res) => {
           res = res.data;
           if (res.code === 20000) {
             res = res.data;
@@ -310,7 +338,8 @@ export default {
             });
           }
           this.loading = false;
-        });
+        }
+      );
     },
     // 处理换页请求
     handlePageChange({ page, size }) {
@@ -320,6 +349,8 @@ export default {
         this.getQuesListByExpertId(this.expertId, page, size);
       } else if (this.tabIndex == 1) {
         this.getReplyListByExpertId(this.expertId, page, size);
+      } else if (this.tabIndex == 2) {
+        this.getDeletedReplyList(page, size);
       }
       // 取消重置换页
       this.resetPage = false;
@@ -328,94 +359,128 @@ export default {
     async getQuesListByExpertId(id, page = 1, size = 5) {
       this.page = page;
       this.size = size;
-      await this.$http
-        .get(
-          `http://106.75.154.40:9012/info/post/findByExperts/${id}/${page}/${size}`
-        )
-        .then((res) => {
+      await this.reqM2Service(
+        `/info/post/findByExperts/${id}/${page}/${size}`,
+        {},
+        "get"
+      ).then((res) => {
+        res = res.data;
+        if (res.code === 20000) {
           res = res.data;
-          if (res.code === 20000) {
-            res = res.data;
-            this.total = res.total;
-            this.quesList = [];
-            res.rows.forEach((item) => {
-              // 处理状态state
-              switch (item.state) {
-                case 0:
-                  item.stateInfo = "审核中";
-                  break;
-                case 1:
-                  item.stateInfo = "审核通过";
-                  break;
-                case 2:
-                  item.stateInfo = "审核失败";
-                  break;
-              }
-              // 处理时间格式
-              item.creationTime = this.formatTime(item.creationTime);
-              // 处理图片字符串
-              if (!!item.images) {
-                this.$set(item, "images", item.images.split(","));
-              } else {
-                this.$set(item, "images", []);
-              }
-              this.quesList.push(item);
-            });
-          } else {
-            this.$message({
-              message: "获取帖子信息失败",
-            });
-          }
-          this.loading = false;
-        });
+          this.total = res.total;
+          this.quesList = [];
+          res.rows.forEach((item) => {
+            // 处理状态state
+            switch (item.state) {
+              case 0:
+                item.stateInfo = "审核中";
+                break;
+              case 1:
+                item.stateInfo = "审核通过";
+                break;
+              case 2:
+                item.stateInfo = "审核失败";
+                break;
+            }
+            // 处理时间格式
+            item.creationTime = this.formatTime(item.creationTime);
+            // 处理图片字符串
+            if (!!item.images) {
+              this.$set(item, "images", item.images.split(","));
+            } else {
+              this.$set(item, "images", []);
+            }
+            this.quesList.push(item);
+          });
+        } else {
+          this.$message({
+            message: "获取帖子信息失败",
+          });
+        }
+        this.loading = false;
+      });
     },
     //  根据expertId获取回复
     async getReplyListByExpertId(id, page = 1, size = 5) {
       this.page = page;
       this.size = size;
-      await this.$http
-        .get(
-          `http://106.75.154.40:9012/info/details/findByReplier/${id}/${page}/${size}`
-        )
-        .then((res) => {
+      await this.reqM2Service(
+        `/info/details/findByReplier/${id}/${page}/${size}`,
+        {},
+        "get"
+      ).then((res) => {
+        res = res.data;
+        // console.log('res: ', res);
+        if (res.code === 20000) {
           res = res.data;
-          // console.log('res: ', res);
-          if (res.code === 20000) {
-            res = res.data;
-            this.total = res.total;
-            this.replyList = [];
-            res.rows.forEach((item) => {
-              // 处理状态state
-              switch (item.state) {
-                case 0:
-                  item.stateInfo = "审核中";
-                  break;
-                case 1:
-                  item.stateInfo = "审核通过";
-                  break;
-                case 2:
-                  item.stateInfo = "审核失败";
-                  break;
-              }
-              // 处理时间格式
-              item.creationTime = this.formatTime(item.creationTime);
-              // 处理图片字符串
-              if (!!item.images) {
-                this.$set(item, "images", item.images.split(","));
-              } else {
-                this.$set(item, "images", []);
-              }
-              this.replyList.push(item);
-            });
-            console.log(JSON.parse(JSON.stringify(this.replyList)));
-          } else {
-            this.$message({
-              message: "获取帖子信息失败",
-            });
-          }
+          this.total = res.total;
+          this.replyList = [];
+          res.rows.forEach((item) => {
+            // 处理状态state
+            switch (item.state) {
+              case 0:
+                item.stateInfo = "审核中";
+                break;
+              case 1:
+                item.stateInfo = "审核通过";
+                break;
+              case 2:
+                item.stateInfo = "审核失败";
+                break;
+            }
+            // 处理时间格式
+            item.creationTime = this.formatTime(item.creationTime);
+            // 处理图片字符串
+            if (!!item.images) {
+              this.$set(item, "images", item.images.split(","));
+            } else {
+              this.$set(item, "images", []);
+            }
+            this.replyList.push(item);
+          });
+          // console.log(JSON.parse(JSON.stringify(this.replyList)));
+        } else {
+          this.$message({
+            message: "获取帖子信息失败",
+          });
+        }
 
-          this.loading = false;
-        });
+        this.loading = false;
+      });
+    },
+    // 获取删除回复历史记录
+    getDeletedReplyList(page = 1, size = 5) {
+      this.reqM2Service(
+        `/info/details/findDelete/${page}/${size}`,
+        {},
+        "get"
+      ).then((res) => {
+        res = res.data;
+        if (res.code == 20000) {
+          res = res.data;
+          this.total = res.total;
+          this.deleteReplyList = [];
+          // console.log('res: ', res);
+          res.rows.forEach((item) => {
+            // 处理状态state
+            item.stateInfo = "已删除";
+            // 处理时间格式
+            item.creationTime = this.formatTime(item.creationTime);
+            // 处理图片字符串
+            if (!!item.images) {
+              this.$set(item, "images", item.images.split(","));
+            } else {
+              this.$set(item, "images", []);
+            }
+            this.deleteReplyList.push(item);
+          });
+        } else {
+          this.$message({
+            message: res.message,
+          });
+        }
+        this.loading = false;
+      });
     },
     // 格式化时间
     formatTime(date) {

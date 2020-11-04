@@ -296,8 +296,12 @@ export default {
       if (res.code !== 20000) {
         return this.$message.error("获取搜索数据失败！");
       }
-      this.adviseArticleTotal = res.data.total;
-      this.adviseArticle = res.data.rows;
+      if (res.data.total === 0) {
+        this.$message.error('查无结果！')
+      } else {
+        this.adviseArticleTotal = res.data.total;
+        this.adviseArticle = res.data.rows;
+      }
     },
     async getArticlesTypes() {
       const { data: res } = await this.reqM2Service(

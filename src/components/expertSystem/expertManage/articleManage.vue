@@ -1,7 +1,7 @@
 <template>
   <div class="articleManage">
     <div class="title">
-      文章管理
+      <h2>文章管理</h2>
       <div class="addArticle">
         <el-button
           type="primary"
@@ -12,73 +12,144 @@
         >
       </div>
     </div>
-    <el-table :data="articleList" style="width: 100%" max-height="500">
-      <el-table-column type="expand">
-        <template slot-scope="props">
-          <el-form label-position="left" class="demo-table-expand">
-            <el-form-item label="文章id">
-              <span>: {{ props.row.id }}</span>
-            </el-form-item>
-            <el-form-item label="文章类型id">
-              <span>: {{ props.row.typeId }}</span>
-            </el-form-item>
-            <el-form-item label="标题">
-              <span>: {{ props.row.title }}</span>
-            </el-form-item>
-            <el-form-item label="概要">
-              <span>: {{ props.row.summary }}</span>
-            </el-form-item>
-            <el-form-item label="文章内容">
-              <div v-html="props.row.content"></div>
-            </el-form-item>
-            <el-form-item label="创建时间">
-              <span>: {{ props.row.creationTime }}</span>
-            </el-form-item>
-            <el-form-item label="审核状态">
-              <span>: {{ props.row.stateInfo }}</span>
-            </el-form-item>
-            <el-form-item label="点击量">
-              <span>: {{ props.row.clickNum }}</span>
-            </el-form-item>
-            <el-form-item label="推荐">
-              <span>: {{ props.row.recommend }}</span>
-            </el-form-item>
-            <el-form-item label="封面"
-              >:
-              <img :src="props.row.picture" alt="" />
-            </el-form-item>
-            <el-form-item label="作者">
-              <span
-                >:
-                {{ props.row.editor == "" ? "暂无" : props.row.editor }}</span
+    <el-tabs
+      type="border-card"
+      v-loading="loading"
+      v-model="tabIndex"
+      @tab-click="handleClick"
+    >
+      <el-tab-pane label="文章管理">
+        <el-table :data="articleList" style="width: 100%" max-height="500">
+          <el-table-column type="expand">
+            <template slot-scope="props">
+              <el-form label-position="left" class="demo-table-expand">
+                <el-form-item label="文章id">
+                  <span>: {{ props.row.id }}</span>
+                </el-form-item>
+                <el-form-item label="文章类型id">
+                  <span>: {{ props.row.typeId }}</span>
+                </el-form-item>
+                <el-form-item label="标题">
+                  <span>: {{ props.row.title }}</span>
+                </el-form-item>
+                <el-form-item label="概要">
+                  <span>: {{ props.row.summary }}</span>
+                </el-form-item>
+                <el-form-item label="文章内容">
+                  <div v-html="props.row.content"></div>
+                </el-form-item>
+                <el-form-item label="创建时间">
+                  <span>: {{ props.row.creationTime }}</span>
+                </el-form-item>
+                <el-form-item label="审核状态">
+                  <span>: {{ props.row.stateInfo }}</span>
+                </el-form-item>
+                <el-form-item label="点击量">
+                  <span>: {{ props.row.clickNum }}</span>
+                </el-form-item>
+                <el-form-item label="推荐">
+                  <span>: {{ props.row.recommend }}</span>
+                </el-form-item>
+                <el-form-item label="封面"
+                  >:
+                  <img :src="props.row.picture" alt="" />
+                </el-form-item>
+                <el-form-item label="作者">
+                  <span
+                    >:
+                    {{
+                      props.row.editor == "" ? "暂无" : props.row.editor
+                    }}</span
+                  >
+                </el-form-item>
+              </el-form>
+            </template>
+          </el-table-column>
+          <el-table-column fixed prop="creationTime" label="日期" width="180">
+          </el-table-column>
+          <el-table-column prop="title" label="标题" width="400">
+          </el-table-column>
+          <el-table-column prop="stateInfo" label="审核状态" width="100">
+          </el-table-column>
+          <el-table-column fixed="right" label="操作" width="120">
+            <template slot-scope="scope">
+              <el-button
+                @click.native.prevent="deleteRow(scope.$index, articleList)"
+                type="text"
+                size="small"
               >
-            </el-form-item>
-          </el-form>
-        </template>
-      </el-table-column>
-      <el-table-column fixed prop="creationTime" label="日期" width="180">
-      </el-table-column>
-      <el-table-column prop="title" label="标题" width="400"> </el-table-column>
-      <el-table-column prop="stateInfo" label="审核状态" width="100">
-      </el-table-column>
-      <el-table-column fixed="right" label="操作" width="120">
-        <template slot-scope="scope">
-          <el-button
-            @click.native.prevent="deleteRow(scope.$index, articleList)"
-            type="text"
-            size="small"
-          >
-            删除
-          </el-button>
-          <el-button
-            @click="handleEdit(scope.$index, scope.row)"
-            type="text"
-            size="small"
-            >编辑</el-button
-          >
-        </template>
-      </el-table-column>
-    </el-table>
+                删除
+              </el-button>
+              <el-button
+                @click="handleEdit(scope.$index, scope.row)"
+                type="text"
+                size="small"
+                >编辑</el-button
+              >
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
+      <el-tab-pane label="删除历史">
+        <el-table
+          :data="deleteArticleList"
+          style="width: 100%"
+          max-height="500"
+        >
+          <el-table-column type="expand">
+            <template slot-scope="props">
+              <el-form label-position="left" class="demo-table-expand">
+                <el-form-item label="文章id">
+                  <span>: {{ props.row.id }}</span>
+                </el-form-item>
+                <el-form-item label="文章类型id">
+                  <span>: {{ props.row.typeId }}</span>
+                </el-form-item>
+                <el-form-item label="标题">
+                  <span>: {{ props.row.title }}</span>
+                </el-form-item>
+                <el-form-item label="概要">
+                  <span>: {{ props.row.summary }}</span>
+                </el-form-item>
+                <el-form-item label="文章内容">
+                  <div v-html="props.row.content"></div>
+                </el-form-item>
+                <el-form-item label="创建时间">
+                  <span>: {{ props.row.creationTime }}</span>
+                </el-form-item>
+                <el-form-item label="审核状态">
+                  <span>: {{ props.row.stateInfo }}</span>
+                </el-form-item>
+                <el-form-item label="点击量">
+                  <span>: {{ props.row.clickNum }}</span>
+                </el-form-item>
+                <el-form-item label="推荐">
+                  <span>: {{ props.row.recommend }}</span>
+                </el-form-item>
+                <el-form-item label="封面"
+                  >:
+                  <img :src="props.row.picture" alt="" />
+                </el-form-item>
+                <el-form-item label="作者">
+                  <span
+                    >:
+                    {{
+                      props.row.editor == "" ? "暂无" : props.row.editor
+                    }}</span
+                  >
+                </el-form-item>
+              </el-form>
+            </template>
+          </el-table-column>
+          <el-table-column fixed prop="creationTime" label="日期" width="180">
+          </el-table-column>
+          <el-table-column prop="title" label="标题" width="520">
+          </el-table-column>
+          <el-table-column prop="stateInfo" label="审核状态" width="100">
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
+    </el-tabs>
     <!-- 修改对话框--开始 -->
     <el-dialog title="修改文章" :visible.sync="dialogFormVisibleUpdate">
       <el-row>
@@ -270,7 +341,7 @@
               </el-upload>
             </el-form-item>
           </el-form>
-          <div class="form-button" style="text-align:center;">
+          <div class="form-button" style="text-align: center">
             <el-button type="success" @click="submitForm('ruleForm')"
               >提交文章</el-button
             >
@@ -337,6 +408,9 @@ export default {
         ],
         content: [{ required: true, message: "请输入正文", trigger: "change" }],
       },
+      deleteArticleList: [],
+      loading: true,
+      tabIndex: 0,
     };
   },
   components: {
@@ -344,6 +418,45 @@ export default {
     mqEditor,
   },
   methods: {
+    // 切换tab栏
+    handleClick() {
+      console.log(this.tabIndex);
+      if (this.tabIndex == 0) {
+        // 根据expertId请求到相关的文章
+        this.getArticleListByExpertId(this.expertId);
+      } else if (this.tabIndex == 1) {
+        this.getDeletedArticleList();
+      }
+      this.resetPage = true;
+    },
+    // 获取删除文章历史记录
+    getDeletedArticleList(page = 1, size = 5) {
+      this.reqM2Service(
+        `/info/diseaseArticles/findDelete/${page}/${size}`,
+        {},
+        "get"
+      ).then((res) => {
+        res = res.data;
+        if (res.code == 20000) {
+          res = res.data;
+          this.total = res.total;
+          this.deleteArticleList = [];
+          console.log("res: ", res);
+          res.rows.forEach((item) => {
+            // 处理状态state
+            item.stateInfo = "已删除";
+            // 处理时间格式
+            item.creationTime = this.formatTime(item.creationTime);
+            this.deleteArticleList.push(item);
+          });
+        } else {
+          this.$message({
+            message: res.message,
+          });
+        }
+        this.loading = false;
+      });
+    },
     // 点击发表文章按钮
     handleAdd() {
       this.isAddBtn = true;
@@ -366,18 +479,20 @@ export default {
     },
     // 根据文章id获取信息
     async getArticleById(id) {
-      await this.reqM2Service(`/info/information/${id}`, {}, "get").then((res) => {
-        res = res.data;
-        if (res.code == 20000) {
-          console.log("res: ", res);
+      await this.reqM2Service(`/info/information/${id}`, {}, "get").then(
+        (res) => {
           res = res.data;
-          this.oneArticle = res;
-        } else {
-          this.$message({
-            message: "获取文章失败",
-          });
+          if (res.code == 20000) {
+            console.log("res: ", res);
+            res = res.data;
+            this.oneArticle = res;
+          } else {
+            this.$message({
+              message: "获取文章失败",
+            });
+          }
         }
-      });
+      );
     },
     // 获取文章类型
     async getTypes() {
@@ -396,7 +511,7 @@ export default {
         })
         .then((options) => {
           this.options = options;
-          if(!this.isAddBtn){
+          if (!this.isAddBtn) {
             // 处理一下初始时显示的typeid
             this.options.some((item) => {
               // console.log('item: ', item.id,'this.ruleForm.typeId: ', this.ruleForm.typeId);
@@ -421,11 +536,11 @@ export default {
         type: "warning",
       })
         .then(() => {
-          // this.reqM2Service(`/info/diseaseArticles/delete/${id}`, {}, "delete")
-          this.$http
-            .delete(
-              `http://106.75.154.40:9012/info/diseaseArticles/delete/${id}`
-            )
+          this.reqM2Service(`/info/diseaseArticles/delete/${id}`, {}, "delete")
+            // this.$http
+            //   .delete(
+            //     `http://106.75.154.40:9012/info/diseaseArticles/delete/${id}`
+            //   )
             .then((res) => {
               res = res.data;
               console.log("res: ", res);
@@ -455,9 +570,13 @@ export default {
     },
     // 处理换页请求
     handlePageChange({ page, size }) {
-      console.log("size: ", size);
-      console.log("page: ", page);
-      this.getArticleListByExpertId(this.expertId,page,size);
+      // console.log("size: ", size);
+      // console.log("page: ", page);
+      if (this.tabIndex == 0) {
+        this.getArticleListByExpertId(this.expertId, page, size);
+      } else if (this.tabIndex == 1) {
+        this.getDeletedArticleList(page, size);
+      }
       // 取消重置换页
       this.resetPage = false;
     },
@@ -475,7 +594,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           if (this.isAddBtn) {
-            this.addArticle(this.ruleForm,this.expertId);
+            this.addArticle(this.ruleForm, this.expertId);
           } else {
             this.updateArticle(this.ruleForm);
           }
@@ -488,47 +607,53 @@ export default {
       });
     },
     // 发表文章
-    addArticle(oneArticle,expertId) {
-      this.reqM2Service(`/info/diseaseArticles/add?expertsId=${expertId}`, oneArticle, "post").then(
-        (res) => {
-          res = res.data;
-          if (res.code == 20000) {
-            this.dialogFormVisibleAdd = false;
-            this.$message({
-              message: res.message,
-            });
-            this.resetForm('ruleForm');
-          } else {
-            this.$message({
-              message: "提交失败!",
-            });
-          }
+    addArticle(oneArticle, expertId) {
+      this.reqM2Service(
+        `/info/diseaseArticles/add?expertsId=${expertId}`,
+        oneArticle,
+        "post"
+      ).then((res) => {
+        res = res.data;
+        if (res.code == 20000) {
+          this.dialogFormVisibleAdd = false;
+          this.$message({
+            message: res.message,
+          });
+          this.resetForm("ruleForm");
+        } else {
+          this.$message({
+            message: "提交失败!",
+          });
         }
-      );
+      });
     },
     // 修改文章
     updateArticle(oneArticle) {
-      this.$http
-        .put(
-          `http://106.75.154.40:9005/diseaseArticles/update/${oneArticle.id}`,
-          oneArticle
-        )
-        .then((res) => {
-          res = res.data;
-          if (res.code == 20000) {
-            // console.log('res: ', res);
-            this.dialogFormVisibleUpdate = false;
-            // 重新渲染文章
-            this.getArticleListByExpertId(this.expertId, this.page, this.size);
-            this.$message({
-              message: res.message,
-            });
-          } else {
-            this.$message({
-              message: "修改失败!",
-            });
-          }
-        });
+      // this.$http
+      //   .put(
+      //     `http://106.75.154.40:9005/diseaseArticles/update/${oneArticle.id}`,
+      //     oneArticle
+      //   )
+      this.reqM8Service(
+        `/diseaseArticles/update/${oneArticle.id}`,
+        oneArticle,
+        "put"
+      ).then((res) => {
+        res = res.data;
+        if (res.code == 20000) {
+          // console.log('res: ', res);
+          this.dialogFormVisibleUpdate = false;
+          // 重新渲染文章
+          this.getArticleListByExpertId(this.expertId, this.page, this.size);
+          this.$message({
+            message: res.message,
+          });
+        } else {
+          this.$message({
+            message: "修改失败!",
+          });
+        }
+      });
     },
     // 重置表单
     resetForm(formName) {
@@ -555,9 +680,8 @@ export default {
     },
     // 获取expertId
     async getExpertIdByUserId(id) {
-      await this.$http
-        .get(`http://106.75.154.40:9012/info/experts/findByUser/${id}`)
-        .then((res) => {
+      await this.reqM2Service(`/info/experts/findByUser/${id}`, {}, "get").then(
+        (res) => {
           res = res.data;
           if (res.code === 20000) {
             res = res.data;
@@ -568,7 +692,8 @@ export default {
             });
           }
           this.loading = false;
-        });
+        }
+      );
     },
     //  根据expertId获取文章
     async getArticleListByExpertId(id, page = 1, size = 5) {
@@ -658,7 +783,7 @@ export default {
     font-weight: 500;
     .addArticle {
       position: absolute;
-      top: 0;
+      bottom: 3px;
       right: 0;
     }
   }

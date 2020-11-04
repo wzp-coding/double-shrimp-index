@@ -54,7 +54,7 @@
 </template>
 <script>
 export default {
-  props: ["show", "expertId", "typeId"],
+  props: ["show", "expertId"],
   data() {
     return {
       dialogFormVisible: false,
@@ -105,7 +105,7 @@ export default {
         userId: this.$store.state.userData.userId,
         userName: this.$store.state.userData.userName,
       };
-      console.log(this.oneQuesInfo);
+      // console.log(this.oneQuesInfo);
       await this.addNewQues(this.oneQuesInfo);
       // 清空表单
       this.fileList = [];
@@ -158,9 +158,12 @@ export default {
     },
     // 根据delUrl删除图片
     deleteImgByDelUrl(delUrl) {
-      this.$http
-        .delete(
-          `http://106.75.154.40:9012/education/file/delPic?delUrl=${delUrl}`
+      // this.$http
+      //   .delete(
+      //     `http://106.75.154.40:9012/education/file/delPic?delUrl=${delUrl}`
+      //   )
+      this.reqM2Service(
+          `/education/file/delPic?delUrl=${delUrl}`,{},'delete'
         )
         .then((res) => {
           // console.log('res: ', res);

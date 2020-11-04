@@ -27,19 +27,6 @@
               v-model="inputRuleForm.productTitle"
               prefix-icon="el-icon-search"
             >
-              <div slot="prepend">
-                <div>
-                  <el-select
-                    v-model="select"
-                    placeholder="供应"
-                    style="width: 90px"
-                  >
-                    <el-option label="餐厅" value="1"></el-option>
-                    <el-option label="订单" value="2"></el-option>
-                    <el-option label="用户" value="3"></el-option>
-                  </el-select>
-                </div>
-              </div>
               <div slot="append">
                 <el-button
                   @click="goTo(inputRuleForm.productTitle)"
@@ -1326,7 +1313,7 @@ export default {
     },
     // 获取前台树形结构
     async getQuery() {
-      // document.documentElement.scrollTop = document.body.scrollTop = 0;
+      document.documentElement.scrollTop = document.body.scrollTop = 0;
       const { data: res } = await this.reqM4Service(
         "/category/queryAll",
         "",

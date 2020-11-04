@@ -61,7 +61,7 @@ export default {
   data() {
     return {
       activeName: "homePage",
-      shopId: "bdfba4564sdfb",
+      shopId: this.$route.query.merchantId,
       shopInfo: { shopAddress: "" },
     };
   },

@@ -36,7 +36,7 @@
                     :src="expertInfo.picture"
                   ></el-avatar>
                 </div>
-                <span class="user-avator-name">{{expertInfo.name}}</span>
+                <span class="user-avator-name" style="cursor:pointer" @click="toExpertDetail">{{expertInfo.name}}</span>
                 <span class="user-avator-identity">{{'专家'}}</span>
               </el-col>
               <el-col :span="17" class="user-attestation">
@@ -103,6 +103,13 @@ export default {
     };
   },
   methods: {
+    // 跳转到专家详情页面
+    toExpertDetail(){
+      this.$router.push({
+        name: "wzp_expertDetail",
+        params: { id: this.expertInfo.id },
+      });
+    },
     // 获取expertId
     async getExpertIdByUserId(id) {
       await this.reqM2Service(`/info/experts/findByUser/${id}`, {}, "get").then(

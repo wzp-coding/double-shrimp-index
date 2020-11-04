@@ -111,49 +111,59 @@ export default {
       // console.log("父组件:");
       // console.log("size: ", size);
       // console.log("page: ", page);
-      this.getDiseaseInfoByKeys(page, size,this.input);
+      this.getDiseaseInfoByKeys(page, size, this.input);
     },
     // 根据关键字分页搜索
-    getDiseaseInfoByKeys(page=1,size=8,keys){
+    getDiseaseInfoByKeys(page = 1, size = 8, keys) {
       // console.log('this.input: ', this.input);
       // console.log('this.value: ', this.value);
       let httpUrl = "";
       // 等分页查询接口完成加上去
       switch (this.value) {
         case "1":
-          httpUrl = `http://106.75.154.40:9010/diagnose/search/accurate/${page}/${size}?key=${keys}`;
+          httpUrl = `/diagnose/search/accurate/${page}/${size}?key=${keys}`;
           break;
         case "2":
-          httpUrl = `http://106.75.154.40:9010/diagnose/search/${page}/${size}?key=${keys}`;
+          httpUrl = `/diagnose/search/${page}/${size}?key=${keys}`;
           break;
       }
-      this.$http({
-        url: httpUrl,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method:"get"
-      }).then((res) => {
+      // this.$http({
+      //   url: httpUrl,
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   method: "get",
+      // })
+      this.reqM13Service(httpUrl,{},'get').then((res) => {
         res = res.data;
         console.log(res);
         if (res.code === 20000) {
           res = res.data;
           this.queryResList = res.rows;
+          if (res.total == 0) {
+            this.$message({
+              message: "查询不到相关数据",
+            });
+            return;
+          }
           this.queryTotal = res.total;
           this.queryResList.forEach((item) => this.srcList.push(item.pic));
+        } else {
+          this.$message({
+            message: res.message,
+          });
         }
       });
     },
     // 点击开始查询
     startQuery() {
-      this.getDiseaseInfoByKeys(1,8,this.input)
+      this.getDiseaseInfoByKeys(1, 8, this.input);
     },
   },
 };
 </script>
 <style lang="less" scoped>
 .lxl-content {
-  
   .pagination {
     width: 100%;
     padding: 20px;
@@ -179,7 +189,6 @@ export default {
   }
 }
 .queryDisease {
-
   .func_tip {
     margin: 0 0 10px 0;
   }

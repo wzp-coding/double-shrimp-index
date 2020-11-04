@@ -134,19 +134,23 @@ export default {
       if (res.code !== 20000) {
         return this.$message.error("获取搜索数据失败！");
       }
-      this.activeName = this.classNav.length - 1 + "";
-      this.videoItems = res.data.rows;
-      console.log(this.videoItems);
+      if(res.data.total === 0) {
+        this.$message.error('查无结果！')
+      } else {
+        this.activeName = this.classNav.length - 1 + "";
+        this.videoItems = res.data.rows;
+        console.log(this.videoItems);
+      }
     },
     async goVideo(item) {
       item.clickNum++;
-      console.log(item);
+      console.log(item)
       const { data: res } = await this.reqM22Service(
         `/education/update/${item.id}`,
         item,
         "put"
       );
-      console.log(res);
+      console.log(res)
       this.$router.push({
         path: "/videoPlay",
         name: "videoPlay",
@@ -163,7 +167,7 @@ export default {
         return this.$message.error("请求导航数据失败！");
       }
       this.classNav = res.data;
-      console.log(this.classNav);
+      console.log(this.classNav)
       this.classId = this.classNav[0].id;
       this.getClass(this.classNav[0].id);
     },
@@ -173,7 +177,7 @@ export default {
         "",
         "get"
       );
-      console.log(typeId);
+      console.log(typeId)
       this.videoItems = res.data.rows;
       this.videoTotal = res.data.total;
       // console.log(this.videoItems)
@@ -190,7 +194,7 @@ export default {
       this.videoInfo.page = 1;
       // 根据 id 改变网络请求
       this.getClass(this.classId);
-      console.log(this.activeName);
+      console.log(this.activeName)
     },
     // 监听 pagenum 改变
     handleCurrentChange(newPage) {

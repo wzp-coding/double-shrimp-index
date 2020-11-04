@@ -8,6 +8,7 @@
         >
           <el-breadcrumb-item>当前位置</el-breadcrumb-item>
           <el-breadcrumb-item :to="{ path: '/emall' }">电子商城</el-breadcrumb-item>
+          <el-breadcrumb-item @click.native="goLastPage" style="cursor:pointer; font-weight: 700">返回上一级</el-breadcrumb-item>
           <el-breadcrumb-item>商品详情页面</el-breadcrumb-item>
         </el-breadcrumb>
         <!-- 分割线 -->
@@ -73,7 +74,7 @@
             </div>
             <!-- 购买区域 -->
             <div class="buyButton">
-              <el-button style="margin-right: 20px" @click="addCart">加入购物车</el-button>
+              <el-button style="margin: 10px 20px 0 0" @click="addCart">加入购物车</el-button>
               <el-button type="primary" @click="buy">立即采购</el-button>
             </div>
           </el-col>
@@ -169,18 +170,12 @@
         <el-dialog
           title="加入购物车"
           :visible.sync="cartDialogVisible"
-          width="50%">
-            <div>
-              <span class="cTitle">当前商品：</span>
-              <span>{{ cateItem.productTitle }}</span>
-            </div>
-            <div style="margin-top: 20px">
-              <span>请选择加入购物车的数量：</span><el-input-number v-model="cartItem.num" :min="1" :max="Number(cateItem.productNum)" label="描述文字"></el-input-number>
+          width="30%">
+            <p>是否将该商品加入购物车？</p>
             <span slot="footer" class="dialog-footer">
               <el-button @click="cartDialogVisible = false">取 消</el-button>
               <el-button type="primary" @click="addToCart">确 定</el-button>
             </span>
-            </div>
         </el-dialog>
       </div>
     </div>
@@ -209,6 +204,7 @@ export default {
         ImgUrl: 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg',
         activeName: 'first',
         // 是否显示对话框
+        flag: false,
         cartDialogVisible: false,
         // 购物车的对象
         cartItem: {
@@ -231,6 +227,9 @@ export default {
       this.getMerchant()
     },
     methods: {
+      goLastPage() {
+        this.$router.go(-1)
+      },
       handleClick() {},
       getIndex(imgUrl){
         this.ImgUrl = imgUrl;
@@ -244,7 +243,10 @@ export default {
         window.location.reload()
       },
       goToShopDetail() {
-        this.$router.push('/shopDetail')
+        this.$router.push({
+          path: '/shopDetail',
+          query: this.merchant
+        })
       },
       async getItem() {
         this.cateItem = this.$route.query
@@ -307,13 +309,13 @@ export default {
       },
       checkLogin() {
         const tokenStr = window.sessionStorage.getItem('token')
-        if(!tokenStr) {
+        if(tokenStr) {
+          this.flag = true
+        } else {
+          this.flag = false
           var result = confirm('请先登录！')
           if (result === true) {
             this.$router.push('/login')
-          }
-          else {
-            return true
           }
         }
       },
@@ -324,7 +326,10 @@ export default {
       // 打开加入购物车对话框
       addCart() {
         this.checkLogin()
-        this.cartDialogVisible = true
+        if (this.flag == true) {
+          console.log(this.flag)
+          this.cartDialogVisible = true
+        }
       },
       // 加入购物车
       async addToCart() {
@@ -496,8 +501,5 @@ export default {
 }
 .cTitle {
   font-weight: 700;
-}
-.dialog-footer {
-  float: right;
 }
 </style>

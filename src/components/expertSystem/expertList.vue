@@ -87,7 +87,8 @@ export default {
   methods: {
     // 获取专家类型
     getExpertCategoryList() {
-      this.$http.get(`http://106.75.154.40:9012/info/expertsType`).then((res) => {
+      this.reqM2Service(`/info/expertsType`,{},'get')
+      .then((res) => {
         res = res.data;
         if (res.code === 20000) {
           res = res.data;
@@ -117,25 +118,25 @@ export default {
       switch (id) {
         // 咨询量
         case "1":
-          httpUrl = `http://106.75.154.40:9012/info/experts/findByConsultingNum/${page}/${size}`;
+          httpUrl = `/info/experts/findByConsultingNum/${page}/${size}`;
           break;
         // 回复量
         case "2":
-          httpUrl = `http://106.75.154.40:9012/info/experts/findByRepliesNum/${page}/${size}`;
+          httpUrl = `/info/experts/findByRepliesNum/${page}/${size}`;
           break;
         // 回复率
         case "3":
-          httpUrl = `http://106.75.154.40:9012/info/experts/findByRepliesPercent/${page}/${size}`;
+          httpUrl = `/info/experts/findByRepliesPercent/${page}/${size}`;
           break;
         // 有用量
         case "4":
-          httpUrl = `http://106.75.154.40:9012/info/experts/findByPraiseNum/${page}/${size}`;
+          httpUrl = `/info/experts/findByPraiseNum/${page}/${size}`;
           break;
         // 默认
         default:
-          httpUrl = `http://106.75.154.40:9012/info/experts/findByConsultingNum/${page}/${size}`;
+          httpUrl = `/info/experts/findByConsultingNum/${page}/${size}`;
       }
-      this.$http.post(httpUrl).then((res) => {
+      this.reqM2Service(httpUrl,{},'post').then((res) => {
         res = res.data;
         if (res.code === 20000) {
           res = res.data;

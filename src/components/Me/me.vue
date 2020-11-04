@@ -89,10 +89,18 @@ export default {
       shopList: [],
     };
   },
+  methods:{
+    
+  },
   created() {
+    if(!window.sessionStorage.getItem('token')){
+      this.$message({
+        message:'请先登录！'
+      })
+      this.$router.push('/login');
+    }
     // 用户数据渲染
     this.userData = this.$store.state.userData;
-  
   },
   methods: {
 

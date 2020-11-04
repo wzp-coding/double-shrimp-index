@@ -32,6 +32,7 @@ axios.defaults.baseM3URL = domain.Base_M3_URL
 axios.defaults.baseM4URL = domain.Base_M4_URL
 axios.defaults.baseM41URL = domain.Base_M41_URL
 
+axios.defaults.baseM8URL = domain.Base_M8_URL
 Vue.prototype.$echarts = echarts
 
 new Vue({
@@ -39,3 +40,6 @@ new Vue({
   store,
   render: h => h(App)
 }).$mount('#app')
+router.afterEach((to,from, next) => {
+    window.scrollTo(0,0)
+  })
