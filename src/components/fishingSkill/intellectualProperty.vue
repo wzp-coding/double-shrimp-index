@@ -30,7 +30,6 @@
                   </li>
                 </ul>
             </div>
-            <br>
         
             <!-- 左栏第二栏内容区 -->
             <!-- 按点击量查询政策法规 -->
@@ -200,7 +199,6 @@
         
             </div>  
         </div>
-
       </div>
     </div>
     </div>
@@ -452,6 +450,7 @@ a {
       text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.3);
     }
   }
+  // 左栏第一栏内容
   .left1rword {
     font-size: 13px;
     line-height: 2em;
@@ -489,7 +488,7 @@ a {
       text-overflow: ellipsis;
     }
   }
-
+  // 左栏第二栏更多
   .left23more {
     width: 100%;
     height: 20px;
@@ -509,9 +508,6 @@ a {
     font-weight: 800;
   }
 }
-
-
-
 
 // 右栏
 .lsx-right {
@@ -533,9 +529,7 @@ a {
     opacity: 0.5;
     font-weight: 600;
   }
-  
 }
-
 </style>
 
 

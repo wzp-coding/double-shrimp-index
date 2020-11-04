@@ -6,10 +6,11 @@
         class="lxl-breadcrumb"
       >
         <el-breadcrumb-item>当前位置</el-breadcrumb-item>
-        <el-breadcrumb-item>渔技学堂</el-breadcrumb-item>
+        <el-breadcrumb-item>渔技学堂</el-breadcrumb-item>       
         <el-breadcrumb-item><template>
               <router-link to="/intellectualProperty"><span style="cursor:pointer">知识产权</span></router-link>
               </template></el-breadcrumb-item>
+        <el-breadcrumb-item>全文下载</el-breadcrumb-item>
       </el-breadcrumb>
       <el-divider></el-divider>
       <div class="article">
@@ -45,11 +46,11 @@
       </div>
       
 
-      <div class="property">
+      <div class="property" :data="passage">
         <template>
           <el-tabs v-model="activeName" @tab-click="handleClick">
-          <el-tab-pane label="相关专利发明" name="first">相关专利发明</el-tab-pane>
-          <el-tab-pane label="相关标准" name="second">相关标准</el-tab-pane>
+          <el-tab-pane label="相关专利发明" name="first">{{passage.invention}}</el-tab-pane>
+          <el-tab-pane label="相关标准" name="second">{{passage.standard}}</el-tab-pane>
           </el-tabs>
         </template>
       </div>

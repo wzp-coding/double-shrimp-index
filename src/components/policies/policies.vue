@@ -385,7 +385,9 @@ export default {
         min +
         ":" +
         sec;
-      return times;
+        // 截取年月日
+        let shortTimes = times.substring(0,10);
+      return shortTimes;
     },
   },
 };
@@ -475,26 +477,25 @@ a {
 
 // 左栏第二三栏标题
 .left23head {
+  height: 40px;
   display: flex;
   background-color: #f7f7f7;
-  border-bottom: 2px solid #004787;
+  border-bottom: 1px solid #004787;
   justify-content: space-between;
-  align-items: center;
   .left23headleft {
-    height: 34px;
-    width: 48px;
-    background-color: #004787;
-    text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.4);
-    color: #f7f7f7;
-    font-size: 16px;
-    padding-top: 12px;
-    padding-left: 12px;
-    border-bottom: none;
+    width: 60px;
+    padding-top: 8px;
+    color: #004787;
+    font-size: 17px;
+    font-weight: 600;
+    text-align: center;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
+    text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
   }
   .left23headright {
-    padding-right: 30px;
+    padding-top: 11px;
+    padding-right: 12px;
     font-size: 13px;
     a {
       color: #7a776e;
@@ -524,19 +525,19 @@ a {
   height: 38px;
   display: flex;
   background-color: #f7f7f7;
-  border-bottom: 2px solid #004787;
+  border-bottom: 1px solid #004787;
   .right1headleft {
-    height: 32px;
-    width: 80px;
+    height: 30px;
+    width: 60px;
     padding-top: 8px;
-    background-color: #004787;
-    color: #f7f7f7;
+    color: #004787;
     font-size: 16px;
+    font-weight: 600;
     text-align: center;
     border-bottom: none;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
-    text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.4);
+    text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.3);
   }
 }
 // 右栏第一栏内容
