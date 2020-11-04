@@ -12,8 +12,12 @@
           </el-breadcrumb>
         </div>
         <div class="tr">
-          <input type="text" placeholder="  搜索你想要的农产品资讯" />
-          <i class="el-icon-search"></i>
+          <el-input
+            type="text"
+            v-model="SearchKey"
+            placeholder="请输入实体名称"
+          ></el-input>
+          <i class="el-icon-search" @click="ToSearch(SearchKey)"></i>
         </div>
       </div>
       <el-divider></el-divider>
@@ -81,13 +85,13 @@
               </h3>
               <el-divider class="ccy-drvider"></el-divider>
             </div>
-            <div class="main" v-for="item in pagelist" :key="item.id">
+            <div class="main" v-for="(item, index) in pagelist" :key="index">
               <div
                 class="mainson"
-                style="border-bottom: 1px solid rgb(230, 230, 230);"
+                style="border-bottom: 1px solid rgb(230, 230, 230)"
               >
                 <div class="pic" @click="TonewPath(item.id)">
-                  <el-image :src="item.picture" ></el-image>
+                  <el-image :src="item.picture"></el-image>
                 </div>
                 <div class="sonr">
                   <div
@@ -101,8 +105,8 @@
                     <span style="width: 100%">
                       {{ item.summary | limitword }}
                     </span>
-                    <span style="color: green" @click="TonewPath(item.id)"
-                      >[详细]</span
+                    <span class="spanpm" @click="TonewPath(item.id)"
+                      >[详情]</span
                     >
                   </div>
                   <div class="lbtm" style="width: 100%">
@@ -129,7 +133,7 @@
               :page-size="queryInfo.pagesize"
               :current-page="queryInfo.Currentpage"
               @current-change="handleCurrentChange"
-              style="display: flex; justify-content: center; margin-top: 20px"
+              style="display: flex; justify-content: center; margin: 20px 0 20px 0"
             >
             </el-pagination>
           </div>
@@ -164,7 +168,7 @@
                   >
                     <span
                       @click="ToMorePage(queryInfo.TypeID)"
-                      style=" cursor: pointer;color: #9e9e9e"
+                      style="cursor: pointer; color: #9e9e9e"
                     >
                       更多
                     </span>
@@ -173,7 +177,7 @@
                 </h3>
                 <el-divider class="ccy-drvider"></el-divider>
 
-                <ul class="ccy-css" style="margin-bottom:6px">
+                <ul class="ccy-css" style="margin-bottom: 6px">
                   <li
                     v-for="(item, index) in dataTimeList"
                     :key="index"
@@ -182,7 +186,7 @@
                     {{ item.title }}
                   </li>
                 </ul>
-               
+
                 <h3
                   style="
                     margin-bottom: -22px;
@@ -211,7 +215,12 @@
                       color: rgb(93, 183, 60);
                     "
                   >
-                    <span style=" cursor: pointer;color: #9e9e9e" @click="ToMorePage(queryInfo.TypeID)"> 更多 </span>
+                    <span
+                      style="cursor: pointer; color: #9e9e9e"
+                      @click="ToMorePage(queryInfo.TypeID)"
+                    >
+                      更多
+                    </span>
                     <i class="el-icon-caret-right"></i>
                   </div>
                 </h3>
@@ -221,10 +230,9 @@
                 ></el-divider>
                 <ul class="ccy-css">
                   <li
-                    v-for="(item, index) in dataRecommList.slice(0, 6)"
+                    v-for="(item, index) in dataRecommList"
                     :key="index"
                     @click="TonewPath(item.id)"
-                    
                   >
                     {{ item.title }}
                   </li>
@@ -256,7 +264,12 @@
                       color: rgb(93, 183, 60);
                     "
                   >
-                    <span style=" cursor: pointer;color: #9e9e9e" @click="ToMorePage(queryInfo.TypeID)"> 更多 </span>
+                    <span
+                      style="cursor: pointer; color: #9e9e9e"
+                      @click="ToMorePage(queryInfo.TypeID)"
+                    >
+                      更多
+                    </span>
                     <i class="el-icon-caret-right"></i>
                   </div>
                 </h3>
@@ -264,10 +277,9 @@
 
                 <ul class="ccy-css">
                   <li
-                    v-for="(item, index) in dataClickList.slice(0, 6)"
+                    v-for="(item, index) in dataClickList"
                     :key="index"
                     @click="TonewPath(item.id)"
-                   
                   >
                     {{ item.title }}
                   </li>
@@ -353,7 +365,7 @@ export default {
       //按类型查询分页
       queryInfo: {
         Currentpage: 1, //页数
-        pagesize: 3, //每页数
+        pagesize: 5, //每页数
         total: null, //总页数
 
         //默认 1316745747953225728
@@ -361,29 +373,31 @@ export default {
         TypeName: "财富手册",
       },
 
-      waybytime: "info/shrimpIndustry/findByTime",
-      waybyclick:"info/shrimpIndustry/findByClickNum",
-      waybyrecommed:"info/shrimpIndustry/findByRecommend",
+      // waybytime: "info/shrimpIndustry/findByTime",
+      // waybyclick:"info/shrimpIndustry/findByClickNum",
+      // waybyrecommed:"info/shrimpIndustry/findByRecommend",
       // 类型分页
       pagelist: [],
 
       //查询对虾资讯
       duixialist: [
         {
-          picture: "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
-          title:'暂无数据'
+          picture:
+            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+          title: "暂无数据",
         },
         {
-          picture: "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
-          title:'暂无数据'
+          picture:
+            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+          title: "暂无数据",
         },
         {
-          picture: "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
-          title:'暂无数据'
-        }
-       
+          picture:
+            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+          title: "暂无数据",
+        },
       ],
-      duixiaId: '1320625468222869504',
+      duixiaId: "1320625468222869504",
 
       //按时间  最新
       dataTimeList: [],
@@ -396,6 +410,8 @@ export default {
 
       //分类信息查询
       TypeDataList: [],
+
+      SearchKey: "",
 
       src:
         "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
@@ -424,20 +440,20 @@ export default {
       });
     },
     //前往更多页面   传入类型ID
-    ToMorePage(id) {
+    ToMorePage(path) {
       this.$router.push({
         path: "/instructpagedetail",
-        query: { id: id },
-      });
-    },
-    ///info/shrimpIndustry/findByTime
-    ToOtherMore(path) {
-      this.$router.push({
-        path: "/industryothermore",
         query: { path: path },
       });
     },
+    ///info/shrimpIndustry/findByTime
 
+    ToSearch(SearchKey) {
+      this.$router.push({
+        path: "/instructpagedetail",
+        query: { SearchKey: SearchKey },
+      });
+    },
     //对虾资讯
     async getduixia() {
       const { data: res } = await this.reqM2Service(
@@ -445,15 +461,11 @@ export default {
         "",
         "post"
       );
-      if(res.data.rows.length == 0){
-        
-      }else{
-        this.duixialist = res.data.rows
+      if (res.data.rows.length == 0) {
+      } else {
+        this.duixialist = res.data.rows;
       }
-      
-      
     },
-
 
     //分页  1316745747953225728
     async getPageList() {
@@ -480,33 +492,32 @@ export default {
       ///info/shrimpIndustry/findByTime
       try {
         const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustry/findByTime/1/9",
-        "",
-        "get"
-      );
-      this.dataTimeList = res.data.rows;
+          "/info/shrimpIndustry/findByTime/1/9",
+          "",
+          "get"
+        );
+        this.dataTimeList = res.data.rows;
       } catch (error) {
-        console.log('获取最新数据失败')
+        console.log("获取最新数据失败");
       }
-      
     },
     async getRecommedData() {
       ///info/shrimpIndustry/findByTime
       const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustry/findByRecommend",
+        "/info/shrimpIndustry/findByRecommend/1/6",
         "",
         "get"
       );
-      this.dataRecommList = res.data;
+      this.dataRecommList = res.data.rows;
     },
     async getHotData() {
       ///info/shrimpIndustry/findByTime
       const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustry/findByClickNum",
+        "/info/shrimpIndustry/findByClickNum/1/6",
         "",
         "get"
       );
-      this.dataClickList = res.data;
+      this.dataClickList = res.data.rows;
     },
     //获取所有分类信息
     async getTypeData() {
@@ -549,16 +560,9 @@ export default {
   justify-content: space-between;
   .tr {
     position: relative;
-    input {
-      padding-left: 10px;
-      border: 2px solid #d8d8d8;
-      border-radius: 100px;
-      width: 198px;
-      height: 38px;
-      outline: none;
-    }
     i {
       top: 13px;
+      cursor: pointer;
       position: absolute;
       right: 20px;
     }
@@ -615,7 +619,6 @@ export default {
       outline: none;
       border-radius: 20px;
       font-size-adjust: inherit;
-     
     }
   }
 }
@@ -663,7 +666,7 @@ export default {
       .mainson {
         width: 100%;
         display: flex;
-        
+
         height: 190px;
         position: relative;
         .pic {
@@ -683,6 +686,12 @@ export default {
               color: green;
               list-style: none;
               text-decoration: none;
+            }
+            .spanpm {
+              color: green;
+            }
+            .spanpm:hover {
+              color: orange;
             }
           }
           display: flex;

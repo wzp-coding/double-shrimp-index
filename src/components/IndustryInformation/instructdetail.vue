@@ -11,10 +11,10 @@
             <el-breadcrumb-item>产业咨询</el-breadcrumb-item>
           </el-breadcrumb>
         </div>
-        <div class="tr">
+        <!-- <div class="tr">
           <input type="text" placeholder="  搜索你想要的农产品资讯" />
           <i class="el-icon-search"></i>
-        </div>
+        </div> -->
       </div>
       <el-divider></el-divider>
       <div class="main">
@@ -31,10 +31,10 @@
                 ></el-avatar>
               </div>
               <div class="lxl-title">
-                <h3>{{ IdData.editor }}</h3>
+                <h3 >{{ IdData.title }}</h3>
                 <p style="display: flex">
                   发布时间 {{ IdData.creationTime | timefilters
-                  }}<span style="margin-left: 15px">
+                  }}<span style="margin-left: 15px" v-if="IdData.editor">
                     {{ IdData.editor | limitword }}报告</span
                   >
                 </p>
@@ -79,7 +79,7 @@
               虾""品牌影响力，那可都是响当起博兴县南美白对虾产业，那可是有着“中国白对虾生态养殖第一县""的美誉，不 </span
             > -->
             <el-divider></el-divider>
-            <h3 style="margin-bottom: 30px; font-family: btt">
+            <h3 style="margin-bottom: 30px; font-family: btt" v-if="numclicklist[1].editor">
               {{ numclicklist[1].editor }}报告
             </h3>
           </div>
@@ -126,7 +126,7 @@
             <el-tab-pane label="本周热门" name="first1">
               <div
                 class="list"
-                v-for="(item, index) in WeekDataList.slice(0, 5)"
+                v-for="(item, index) in WeekDataList"
                 :key="index"
               >
                 <div class="block">
@@ -143,7 +143,7 @@
             <el-tab-pane label="本月热门" name="second1">
               <div
                 class="list"
-                v-for="(item, index) in MonthData.slice(0, 5)"
+                v-for="(item, index) in MonthData"
                 :key="index"
               >
                 <div class="block">
@@ -230,7 +230,8 @@ export default {
 
       //每月
       MonthData: [],
-      IdData: {},
+      IdData: {
+      },
     };
   },
   created() {
@@ -270,6 +271,7 @@ export default {
         "get"
       );
       this.IdData = res.data;
+      console.log('获取到文章')
       console.log(res);
       } catch (error) {
         console.log('获取该ID文章信息失败')
@@ -287,7 +289,7 @@ export default {
 
     async getnewData() {
       const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustry/findByTime/1/5",
+        "/info/shrimpIndustry/findByTime/1/6",
         "",
         "get"
       );
@@ -298,11 +300,11 @@ export default {
     async getWeekData() {
       try {
         const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustry/findByClickWeekly",
+        "/info/shrimpIndustry/findByClickWeekly/1/6",
         "",
         "get"
       );
-      this.WeekDataList = res.data;
+      this.WeekDataList = res.data.rows;
       } catch (error) {
         console.log('获取吗每周数据失败')
       }
@@ -311,11 +313,11 @@ export default {
     async getMonthData() {
       try {
         const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustry/findByClickMonthly",
+        "/info/shrimpIndustry/findByClickMonthly/1/5",
         "",
         "get"
       );
-      this.MonthData = res.data;
+      this.MonthData = res.data.rows;
       } catch (error) {
         console.log('获取每月数据失败')
       }
@@ -407,7 +409,7 @@ export default {
         width: 98%;
         height: 310px;
         padding: 20px 0 35px 0;
-        display: block;
+        
       }
     }
   }
