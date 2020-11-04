@@ -287,29 +287,22 @@ export default {
           // 删除回复
           // this.$http
           //   .put(`http://106.75.154.40:9005/details/delete/${id}`)
-          this.reqM8Service(`/details/delete/${id}`, {}, "put")
-          .then(
-            (res) => {
-              res = res.data;
-              console.log("res: ", res);
-              if (res.code == 20000) {
-                this.$message({
-                  type: "success",
-                  message: "删除成功",
-                });
-                this.getReplyListByExpertId(
-                  this.expertId,
-                  this.page,
-                  this.size
-                );
-              }else{
-                this.$message({
-                  type: "info",
-                  message: res.message,
-                });
-              }
+          this.reqM8Service(`/details/delete/${id}`, {}, "put").then((res) => {
+            res = res.data;
+            console.log("res: ", res);
+            if (res.code == 20000) {
+              this.$message({
+                type: "success",
+                message: "删除成功",
+              });
+              this.getReplyListByExpertId(this.expertId, this.page, this.size);
+            } else {
+              this.$message({
+                type: "info",
+                message: res.message,
+              });
             }
-          );
+          });
         })
         .catch(() => {
           this.$message({
@@ -470,20 +463,7 @@ export default {
           // console.log('res: ', res);
           res.rows.forEach((item) => {
             // 处理状态state
-            switch (item.state) {
-              case 0:
-                item.stateInfo = "审核中";
-                break;
-              case 1:
-                item.stateInfo = "审核通过";
-                break;
-              case 2:
-                item.stateInfo = "审核失败";
-                break;
-              case 3:
-                item.stateInfo = "已删除";
-                break;
-            }
+            item.stateInfo = "已删除";
             // 处理时间格式
             item.creationTime = this.formatTime(item.creationTime);
             // 处理图片字符串

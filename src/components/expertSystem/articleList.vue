@@ -162,15 +162,15 @@ export default {
         switch (sortTypeId) {
           // 点击量
           case "1":
-            httpUrl = `/info/diseaseArticles/findByTypeAndClick/${articleTypeId}/${page}/${size}`;
+            httpUrl = `/info/diseaseArticles/findByClickAndType/${articleTypeId}/${page}/${size}`;
             break;
           // 发布时间
           case "2":
-            httpUrl = `/info/diseaseArticles/findByTypeAndTime/${articleTypeId}/${page}/${size}`;
+            httpUrl = `/info/diseaseArticles/findByTimeAndType/${articleTypeId}/${page}/${size}`;
             break;
           // 默认
           default:
-            httpUrl = `/info/diseaseArticles/findByTypeAndTime/${articleTypeId}/${page}/${size}`;
+            httpUrl = `/info/diseaseArticles/findByTimeAndType/${articleTypeId}/${page}/${size}`;
         }
         this.reqM2Service(httpUrl, {}, "get").then((res) => {
           console.log("res: ", res);

@@ -422,20 +422,17 @@ export default {
     handleClick() {
       console.log(this.tabIndex);
       if (this.tabIndex == 0) {
-         // 根据expertId请求到相关的文章
-         this.getArticleListByExpertId(this.expertId);
+        // 根据expertId请求到相关的文章
+        this.getArticleListByExpertId(this.expertId);
       } else if (this.tabIndex == 1) {
-        this.$message({
-          message:'接口'
-        })
-        // this.getDeletedArticleList();
+        this.getDeletedArticleList();
       }
       this.resetPage = true;
     },
     // 获取删除文章历史记录
     getDeletedArticleList(page = 1, size = 5) {
       this.reqM2Service(
-        // `/info/details/findDelete/${page}/${size}`,
+        `/info/diseaseArticles/findDelete/${page}/${size}`,
         {},
         "get"
       ).then((res) => {
@@ -444,23 +441,10 @@ export default {
           res = res.data;
           this.total = res.total;
           this.deleteArticleList = [];
-          // console.log('res: ', res);
+          console.log("res: ", res);
           res.rows.forEach((item) => {
             // 处理状态state
-            switch (item.state) {
-              case 0:
-                item.stateInfo = "审核中";
-                break;
-              case 1:
-                item.stateInfo = "审核通过";
-                break;
-              case 2:
-                item.stateInfo = "审核失败";
-                break;
-              case 3:
-                item.stateInfo = "已删除";
-                break;
-            }
+            item.stateInfo = "已删除";
             // 处理时间格式
             item.creationTime = this.formatTime(item.creationTime);
             this.deleteArticleList.push(item);
@@ -591,7 +575,7 @@ export default {
       if (this.tabIndex == 0) {
         this.getArticleListByExpertId(this.expertId, page, size);
       } else if (this.tabIndex == 1) {
-        this.getDeletedArticleList( page, size);
+        this.getDeletedArticleList(page, size);
       }
       // 取消重置换页
       this.resetPage = false;
@@ -783,8 +767,8 @@ export default {
   async mounted() {
     // 先获取expertId
     await this.getExpertIdByUserId(this.$store.state.userData.userId);
-            // 根据expertId请求到相关的文章
-       await  this.getArticleListByExpertId(this.expertId);
+    // 根据expertId请求到相关的文章
+    await this.getArticleListByExpertId(this.expertId);
     // console.log(JSON.parse(JSON.stringify(this.articleList)));
   },
 };
