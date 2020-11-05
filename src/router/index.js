@@ -95,6 +95,7 @@ import footer from '../components/login/footer.vue'
 
 Vue.use(VueRouter)
 
+
 const routes = [
   {
     path: '/',

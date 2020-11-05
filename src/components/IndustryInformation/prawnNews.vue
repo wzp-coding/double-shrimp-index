@@ -38,11 +38,12 @@
             <div class="sort">
               <el-row>
                 <span style="font-size: 15px">分类：</span>
+
                 <el-button
                   type="success"
                   size="mini"
                   plain
-                  v-for="(item, index) in TypeDataList.slice(0, 9)"
+                  v-for="(item, index) in TypeDataList.slice(0, 6)"
                   :key="index"
                   @click="TypeChange(item.id, item.name)"
                   >{{ item.name }}</el-button
@@ -64,7 +65,7 @@
                       border-left: 6px solid rgb(93, 183, 60);
                     "
                   ></span>
-                  {{this.queryInfo.TypeName}}
+                  {{ this.queryInfo.TypeName }}
                 </div>
                 <div
                   style="
@@ -207,10 +208,10 @@
                     ></span>
                     对虾行情
                   </div>
-                  
-                    <el-tag type="danger" size="small" style="margin-top: 3px"
-                      >热卖</el-tag
-                    >
+
+                  <el-tag type="danger" size="small" style="margin-top: 3px"
+                    >热卖</el-tag
+                  >
                   <div
                     style="
                       font-size: 0.8rem;
@@ -383,24 +384,6 @@ export default {
       //虾行产业  1321798002377101312  类型ID
       xiahang: "1321798002377101312",
 
-      //查询对虾资讯
-      // duixialist: [
-      //   {
-      //     picture:
-      //       "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
-      //     title: "暂无数据",
-      //   },
-      //   {
-      //     picture:
-      //       "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
-      //     title: "暂无数据",
-      //   },
-      //   {
-      //     picture:
-      //       "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
-      //     title: "暂无数据",
-      //   },
-      // ],
       duixiaId: "1320625468222869504",
 
       //财富手册
@@ -427,11 +410,11 @@ export default {
   },
   created() {
     //  分页 虾行产业
-    this.getPageList(),
-      this.getTypeData(),
-      this.getTypeInfo(this.caifuID, this.size1),
-      this.getTypeInfo(this.hangqingId, this.size2),
-      this.getTypeInfo(this.chanlianId, this.size3);
+    this.getPageList();
+    this.getTypeData();
+    this.getTypeInfo(this.caifuID, this.size1);
+    this.getTypeInfo(this.hangqingId, this.size2);
+    this.getTypeInfo(this.chanlianId, this.size3);
   },
   methods: {
     //前往详情页
@@ -469,14 +452,20 @@ export default {
           console.log("所请求的接口无数据");
         } else {
           if (size == 9) {
-            this.caifuLis = res.data.rows;
+            this.caifuLis = res.data.rows.sort((a, b) => {
+              return a.clickNum - b.clickNum;
+            });
             console.log("财富");
             console.log(res.data);
           } else if (size == 7) {
-            this.hangqingList = res.data.rows;
+            this.hangqingList = res.data.rows.sort((a, b) => {
+              return a.clickNum - b.clickNum;
+            });
             console.log(res.data);
           } else fi(size == 6);
-          this.caifuList = res.data.rows;
+          this.caifuList = res.data.rows.sort((a, b) => {
+            return a.clickNum - b.clickNum;
+          });
           console.log(res.data);
         }
       } catch (error) {
