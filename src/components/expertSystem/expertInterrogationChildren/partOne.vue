@@ -84,4 +84,9 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.partOne{
+  /deep/.mini_expert_card{
+    margin: 10px 0;
+  }
+}
 </style>

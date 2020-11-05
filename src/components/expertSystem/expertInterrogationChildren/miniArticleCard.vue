@@ -33,9 +33,9 @@ export default {
 </script>
 <style lang="less" scoped>
 .mini_article_card {
-  &:nth-child(1) {
-    margin: 10px 0 4px 0;
-  }
+  // &:nth-child(1) {
+  //   margin: 10px 0 4px 0;
+  // }
   margin-bottom: 4px;
   .article_item {
     display: flex;

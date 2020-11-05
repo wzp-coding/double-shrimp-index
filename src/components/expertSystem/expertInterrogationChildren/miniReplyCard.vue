@@ -119,9 +119,9 @@ export default {
 </script>
 <style lang="less" scoped>
 .mini_reply_card {
-  &:nth-child(1) {
-    margin: 10px 0 4px 0;
-  }
+  // &:nth-child(1) {
+  //   margin: 10px 0 4px 0;
+  // }
   margin-bottom: 4px;
   .ques_item {
     display: flex;
