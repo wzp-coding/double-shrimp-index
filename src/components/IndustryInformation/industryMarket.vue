@@ -27,9 +27,9 @@
             <!--左大部分-->
             <div class="header">
               <!-- 图片 -->
-              <div class="pictop">
+              <div class="pictop" >
                 <!-- 行情资讯 -->
-                <div class="block1" v-if="ClickDataList[0].picture">
+                <div class="block1" v-if="ClickDataList.length !== 0">
                   <el-image
                     style="height: 280px"
                     @click="TonewPath(ClickDataList[0].id)"
@@ -37,9 +37,10 @@
                   ></el-image>
                 </div>
                 <!-- 每周精品 -->
-                <div class="block2">
+                <div class="block2" v-if="weekliList.length !== 0">
                   <div v-if="weekliList[0].picture">
                     <el-image
+                      v-if="weekliList[0].picture"
                       @click="TonewPath(weekliList[0].id)"
                       style="height: 165px"
                       :src="weekliList[0].picture"
@@ -47,6 +48,7 @@
                   </div>
                   <div v-if="weekliList[1].picture">
                     <el-image
+                      v-if="weekliList[1].picture"
                       @click="TonewPath(weekliList[1].id)"
                       style="height: 165px"
                       :src="weekliList[1].picture"
@@ -132,7 +134,7 @@
                   <ul class="ccy-css">
                     <li
                       v-for="(item, i) in weekliList"
-                      @click="TonewPath(item.id) "
+                      @click="TonewPath(item.id)"
                       :key="i"
                     >
                       {{ item.title }}
@@ -176,9 +178,8 @@
             <div class="one">
               <div class="onetop">
                 <div class="onetopl">
-                  <div class="block">
+                  <div class="block" v-if="jingcai1List.length !== 0">
                     <div
-                      
                       class="blockson"
                       @click="TonewPath(jingcai1List[0].id)"
                     >
@@ -189,7 +190,6 @@
                       <span>{{ jingcai1List[0].title }}</span>
                     </div>
                     <div
-                      
                       class="blockson"
                       @click="TonewPath(jingcai1List[1].id)"
                     >
@@ -259,7 +259,7 @@
                 </h3>
                 <el-divider class="ccy-drvider"></el-divider>
               </div>
-              <div class="onemide">
+              <div class="onemide" v-if="jingcai2List.length !==0">
                 <!-- jingcai2List -->
                 <!-- v-if="item.picture" -->
                 <div
@@ -268,7 +268,7 @@
                   :key="i"
                   @click="TonewPath(item.id)"
                 >
-                  <el-image :src="item.picture" ></el-image>
+                  <el-image :src="item.picture"></el-image>
                   <span>{{ item.title }}</span>
                 </div>
               </div>
@@ -303,10 +303,15 @@
                 </h3>
                 <el-divider class="ccy-drvider"></el-divider>
               </div>
-              <div class="onebottom" v-for="(item, i) in pagelist" :key="i">
-                <div class="four" style="cursor: pointer">
-                  <div class="pic">
-                    <div v-if="item.picture">
+              <div
+                class="onebottom"
+                v-for="(item, index) in pagelist"
+                :key="index"
+               
+              >
+                <div class="four" style="cursor: pointer"  v-if="pagelist.length !=0">
+                  <div class="pic" >
+                    <div>
                       <el-image
                         v-if="item.picture"
                         :src="item.picture"
@@ -428,9 +433,12 @@
                 </li>
               </ul>
 
-              <div class="midpic" style="margin: 6px 0 10px 0">
+              <div
+                class="midpic"
+                style="margin: 6px 0 10px 0"
+                v-if="NewDataList[7].picture"
+              >
                 <el-image
-                  v-if="NewDataList[7].picture"
                   :src="NewDataList[7].picture"
                   @click="TonewPath(NewDataList[7].id)"
                 ></el-image>
@@ -681,7 +689,7 @@ export default {
         TypeID3: "1316743601669148672",
       },
 
-      temp:[],
+      temp: [],
       //精彩专题3 数组
       pagelist: [],
 
@@ -708,7 +716,7 @@ export default {
           picture:
             "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
           title: "暂无数据",
-        }
+        },
       ],
 
       //最新资讯
@@ -783,10 +791,8 @@ export default {
           "",
           "get"
         );
+        console.log(res);
         if (res.code === 20000) {
-          console.log("2" + res);
-          console.log(res);
-         
           console.log("获取每周精品数据成功");
           this.weekliList = res.data.rows;
         }
@@ -808,8 +814,9 @@ export default {
           console.log(res);
           console.log("获取精彩专题1数据成功");
         }
+       
         this.jingcai1List = res.data.rows;
-        this.jingcai1List[1].picture = 'http://134.175.208.235/group1/M00/00/20/rBAAD1-ZOLyAYAFMAADynn54-4s678.jpg'
+        this.jingcai1List[1].picture = "http://134.175.208.235/group1/M00/00/20/rBAAD1-ZOLyAYAFMAADynn54-4s678.jpg";
         this.queryInfo1.Infototal1 = res.data.rows.length;
       } catch (error) {
         console.log("网络错误1999");
@@ -828,9 +835,9 @@ export default {
           console.log("4" + res);
           console.log(res);
           console.log("获取精彩专题2数据成功");
-          if(res.data.rows == 0){
-            this.jingcai2List = this.TempList
-          }else{
+          if (res.data.rows.length === 0) {
+            this.jingcai2List = this.TempList;
+          } else {
             this.jingcai2List = res.data.rows;
           }
         } else {
@@ -840,7 +847,6 @@ export default {
         console.log("网络错误19999");
       }
     },
-
 
     // 根据类型ID查询 精彩专题3  财富手册
     async getjingcai3() {
@@ -854,10 +860,11 @@ export default {
           console.log("5" + res);
 
           console.log("获取精彩专题3数据成功");
-          for(var i=0;i<5;i++){
-            this.temp[i] = res.data.rows[i]
-            if( this.temp[i].picture=='1' || !this.temp[i].picture || this.temp[i].picture == "string"){
-              this.temp[i].picture = "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg"
+          for (var i = 0; i < 5; i++) {
+            this.temp[i] = res.data.rows[i];
+            let isUrl = this.temp[i].picture.substring(0, 4);
+            if (isUrl !== "http") {
+              this.temp[i].picture = this.src;
             }
           }
           this.pagelist = this.temp;
@@ -929,11 +936,14 @@ export default {
           "get"
         );
         console.log("8" + res);
+        
         console.log(res);
         console.log("获取点击量数据成功");
-       
+
         if (res.code === 20000) {
           this.ClickDataList = res.data.rows;
+          console.log(Object.keys(ClickDataList));
+          console.log('yiyi')
         } else {
           console.log("网络错误 20001");
         }

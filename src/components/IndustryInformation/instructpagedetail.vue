@@ -93,7 +93,7 @@
             layout="prev, pager, next"
             :total="queryinfo.total"
             :page-size="queryinfo.size"
-            :current-page="queryinfo.page"
+            :current-page.sync="queryinfo.page"
             @current-change="handleCurrentChange"
             style="
               display: flex;
@@ -421,6 +421,7 @@ export default {
     // },
 
     handleCurrentChange(newpage) {
+      console.log(newpage)
       //改变页码
       this.queryinfo.page = newpage;
 
@@ -437,11 +438,11 @@ export default {
 
     //查询函数
     toSearch(SearchKey){
-      this.queryinfo.page = 1;
       this.isSearch = 1
+      this.queryinfo.page = 1;
       console.log(this.queryinfo.page)
       this.handleCurrentChange(1);
-      //this.searchData(SearchKey);
+      this.searchData(SearchKey);
     },
     searchData(SearchKey) {
       //this.isSearch = 1 代表点击了搜索或由其他页面搜索而进
