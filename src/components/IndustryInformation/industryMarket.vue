@@ -178,7 +178,7 @@
             <div class="one">
               <div class="onetop">
                 <div class="onetopl">
-                  <div class="block" v-if="jingcai1List.length !== 0">
+                  <div class="block" v-if="jingcai1List.length">
                     <div
                       class="blockson"
                       @click="TonewPath(jingcai1List[0].id)"
@@ -259,7 +259,7 @@
                 </h3>
                 <el-divider class="ccy-drvider"></el-divider>
               </div>
-              <div class="onemide" v-if="jingcai2List.length !==0">
+              <div class="onemide" v-if="jingcai2List.length">
                 <!-- jingcai2List -->
                 <!-- v-if="item.picture" -->
                 <div
@@ -268,7 +268,7 @@
                   :key="i"
                   @click="TonewPath(item.id)"
                 >
-                  <el-image :src="item.picture"></el-image>
+                  <el-image :src="item.picture" ></el-image>
                   <span>{{ item.title }}</span>
                 </div>
               </div>
@@ -303,15 +303,10 @@
                 </h3>
                 <el-divider class="ccy-drvider"></el-divider>
               </div>
-              <div
-                class="onebottom"
-                v-for="(item, index) in pagelist"
-                :key="index"
-               
-              >
-                <div class="four" style="cursor: pointer"  v-if="pagelist.length !=0">
-                  <div class="pic" >
-                    <div>
+              <div class="onebottom" v-for="(item, index) in pagelist" :key="index">
+                <div class="four" style="cursor: pointer" v-if="pagelist.length">
+                  <div class="pic">
+                    <div >
                       <el-image
                         v-if="item.picture"
                         :src="item.picture"
@@ -436,7 +431,7 @@
               <div
                 class="midpic"
                 style="margin: 6px 0 10px 0"
-                v-if="NewDataList[7].picture"
+                v-if="NewDataList.length"
               >
                 <el-image
                   :src="NewDataList[7].picture"
@@ -783,23 +778,26 @@ export default {
       });
     },
 
+
     //每周精品
-    async getWeekData() {
-      try {
-        const { data: res } = await this.reqM2Service(
-          "/info/shrimpIndustry/findByClickWeekly/1/9",
-          "",
-          "get"
-        );
-        console.log(res);
-        if (res.code === 20000) {
-          console.log("获取每周精品数据成功");
-          this.weekliList = res.data.rows;
-        }
-      } catch (error) {
-        console.log("网络错误19999");
+
+  async getWeekData() {
+    try {
+      const { data: res } = await this.reqM2Service(
+        "/info/shrimpIndustry/findByClickWeekly/1/9",
+        "",
+        "get"
+      );
+      console.log(res);
+      if (res.code === 20000) {
+        console.log("获取每周精品数据成功");
+        this.weekliList = res.data.rows;
       }
-    },
+    } catch (error) {
+      console.log("网络错误19999");
+    }
+  },
+
 
     //精彩专题 1 对虾养殖
     async getjingcai1() {
