@@ -308,7 +308,7 @@
                   <div class="pic">
                     <div >
                       <el-image
-                        v-if="item.picture"
+                        
                         :src="item.picture"
                         @click="TonewPath(item.id)"
                       ></el-image>
@@ -814,7 +814,7 @@ export default {
         }
        
         this.jingcai1List = res.data.rows;
-        this.jingcai1List[1].picture = "http://134.175.208.235/group1/M00/00/20/rBAAD1-ZOLyAYAFMAADynn54-4s678.jpg";
+        // this.jingcai1List[1].picture = "http://134.175.208.235/group1/M00/00/20/rBAAD1-ZOLyAYAFMAADynn54-4s678.jpg";
         this.queryInfo1.Infototal1 = res.data.rows.length;
       } catch (error) {
         console.log("网络错误1999");
@@ -856,26 +856,22 @@ export default {
         );
         if (res.code === 20000) {
           console.log("5" + res);
-
           console.log("获取精彩专题3数据成功");
-          for (var i = 0; i < 5; i++) {
-            this.temp[i] = res.data.rows[i];
-            let isUrl = this.temp[i].picture.substring(0, 4);
-            if (isUrl !== "http") {
-              this.temp[i].picture = this.src;
-            }
-          }
-          this.pagelist = this.temp;
+          // for (var i = 0; i < 5; i++) {
+          //   this.temp[i] = res.data.rows[i];
+          //   let isUrl = this.temp[i].picture.substring(0, 4);
+          //   if (isUrl !== "http") {
+          //     this.temp[i].picture = this.src;
+          //   }
+          // }
+          this.pagelist = res.data.rows;
           console.log("222");
           console.log(this.pagelist);
           this.queryInfo3.total = res.data.total;
         } else {
           console.log("网络错误 20001");
         }
-        // this.pagelist = res.data.rows;
-        // console.log("222");
-        // console.log(this.pagelist);
-        // this.queryInfo3.total = res.data.total;
+      
       } catch (error) {
         console.log("网络错误 19999");
       }
