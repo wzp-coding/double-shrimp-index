@@ -8,7 +8,7 @@
             class="lxl-breadcrumb"
           >
             <el-breadcrumb-item>当前位置</el-breadcrumb-item>
-            <el-breadcrumb-item>产业咨询</el-breadcrumb-item>
+            <el-breadcrumb-item>产业资讯</el-breadcrumb-item>
           </el-breadcrumb>
         </div>
         <div class="tr">
@@ -27,24 +27,29 @@
             <!--左大部分-->
             <div class="header">
               <!-- 图片 -->
-              <div class="pictop">
+              <div class="pictop" >
                 <!-- 行情资讯 -->
-                <div class="block1" @click="TonewPath(datalist[0].id)">
+                <div class="block1" v-if="ClickDataList.length !== 0">
                   <el-image
                     style="height: 280px"
+                    @click="TonewPath(ClickDataList[0].id)"
                     :src="ClickDataList[0].picture"
                   ></el-image>
                 </div>
                 <!-- 每周精品 -->
-                <div class="block2">
-                  <div @click="TonewPath(weekliList[0].id)">
+                <div class="block2" v-if="weekliList.length !== 0">
+                  <div v-if="weekliList[0].picture">
                     <el-image
+                      v-if="weekliList[0].picture"
+                      @click="TonewPath(weekliList[0].id)"
                       style="height: 165px"
                       :src="weekliList[0].picture"
                     ></el-image>
                   </div>
-                  <div @click="TonewPath(weekliList[1].id)">
+                  <div v-if="weekliList[1].picture">
                     <el-image
+                      v-if="weekliList[1].picture"
+                      @click="TonewPath(weekliList[1].id)"
                       style="height: 165px"
                       :src="weekliList[1].picture"
                     >
@@ -129,7 +134,7 @@
                   <ul class="ccy-css">
                     <li
                       v-for="(item, i) in weekliList"
-                      @click="ToMorePage(queryInfo1.TypeID1)"
+                      @click="TonewPath(item.id)"
                       :key="i"
                     >
                       {{ item.title }}
@@ -173,7 +178,7 @@
             <div class="one">
               <div class="onetop">
                 <div class="onetopl">
-                  <div class="block">
+                  <div class="block" v-if="jingcai1List.length">
                     <div
                       class="blockson"
                       @click="TonewPath(jingcai1List[0].id)"
@@ -221,17 +226,6 @@
                       </li>
                     </ul>
                   </div>
-                  <!-- <div class="onetopr2">
-                    <ul class="ccy-css">
-                      <li
-                        v-for="(item, index) in jingcai1List.slice(8, 16)"
-                        :key="index"
-                        @click="TonewPath(item.id)"
-                      >
-                        {{ item.summary }}
-                      </li>
-                    </ul>
-                  </div> -->
                 </div>
               </div>
               <!-- 对虾行情 end -->
@@ -265,16 +259,15 @@
                 </h3>
                 <el-divider class="ccy-drvider"></el-divider>
               </div>
-              <div class="onemide">
+              <div class="onemide" v-if="jingcai2List.length">
                 <!-- jingcai2List -->
                 <!-- v-if="item.picture" -->
                 <div
                   class="zhuangti"
-                  v-for="(item, i) in 4"
+                  v-for="(item, i) in jingcai2List"
                   :key="i"
                   @click="TonewPath(item.id)"
                 >
-                    <!-- v-if="item.picture" -->
                   <el-image :src="item.picture" ></el-image>
                   <span>{{ item.title }}</span>
                 </div>
@@ -310,14 +303,16 @@
                 </h3>
                 <el-divider class="ccy-drvider"></el-divider>
               </div>
-              <div class="onebottom" v-for="(item, i) in pagelist" :key="i">
-                <div class="four" style="cursor: pointer">
+              <div class="onebottom" v-for="(item, index) in pagelist" :key="index">
+                <div class="four" style="cursor: pointer" v-if="pagelist.length">
                   <div class="pic">
-                    <el-image      
-                    
-                      :src="item.picture"
-                      @click="TonewPath(item.id)"
-                    ></el-image>
+                    <div >
+                      <el-image
+                        
+                        :src="item.picture"
+                        @click="TonewPath(item.id)"
+                      ></el-image>
+                    </div>
                   </div>
                   <div class="news">
                     <h3 @click="TonewPath(item.id)">{{ item.title }}</h3>
@@ -332,11 +327,7 @@
                     >
                       {{ item.summary | limitword }}
 
-                      <span
-                        
-                        @click="TonewPath(item.id)"
-                        >[详情]</span
-                      >
+                      <span @click="TonewPath(item.id)">[详情]</span>
                     </p>
                     <!--底部区域--->
                     <p style="font-size: 13px; position: absolute; bottom: 0">
@@ -437,11 +428,14 @@
                 </li>
               </ul>
 
-              <div class="midpic" style="margin:6px 0 10px 0">
+              <div
+                class="midpic"
+                style="margin: 6px 0 10px 0"
+                v-if="NewDataList.length"
+              >
                 <el-image
-                  
-                  :src="NewDataList[8].picture"
-                  @click="TonewPath(NewDataList[8].id)"
+                  :src="NewDataList[7].picture"
+                  @click="TonewPath(NewDataList[7].id)"
                 ></el-image>
               </div>
 
@@ -521,11 +515,11 @@
             </div>
             <div class="rightmd">
               <ul class="ccy-css">
-                <li style="width:200px"
+                <li
+                  style="width: 200px"
                   v-for="(item, index) in MonthDataList"
                   :key="index"
                   @click="TonewPath(item.id)"
-                  
                 >
                   {{ item.title }}
                 </li>
@@ -551,9 +545,13 @@
                     color: rgb(93, 183, 60);
                   "
                 >
-                  
-                    <span @click="ToMorePage(queryInfo1.TypeID1)" style="cursor: pointer; color: #9e9e9e"> 更多 </span>
-                  
+                  <span
+                    @click="ToMorePage(queryInfo1.TypeID1)"
+                    style="cursor: pointer; color: #9e9e9e"
+                  >
+                    更多
+                  </span>
+
                   <i class="el-icon-caret-right"></i>
                 </div>
               </h3>
@@ -653,16 +651,7 @@ export default {
       searchInput: "",
 
       //每周精品
-      weekliList: [
-        {
-          picture:
-            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
-        },
-        {
-          picture:
-            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
-        },
-      ],
+      weekliList: [],
 
       //精彩专题1
       jingcai1List: [],
@@ -695,6 +684,7 @@ export default {
         TypeID3: "1316743601669148672",
       },
 
+      temp: [],
       //精彩专题3 数组
       pagelist: [],
 
@@ -702,6 +692,21 @@ export default {
       TypeIdData: [],
 
       TempList: [
+        {
+          picture:
+            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+          title: "暂无数据",
+        },
+        {
+          picture:
+            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+          title: "暂无数据",
+        },
+        {
+          picture:
+            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+          title: "暂无数据",
+        },
         {
           picture:
             "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
@@ -720,7 +725,7 @@ export default {
 
       ClickDataList: [],
 
-      SearchKey:'',
+      SearchKey: "",
 
       src:
         "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
@@ -751,12 +756,14 @@ export default {
   },
   methods: {
     //前往详情页
+
     TonewPath(id) {
       this.$router.push({
         path: "/instructdetail",
         query: { id: id },
       });
     },
+
     //前往更多页面
     ToMorePage(id) {
       this.$router.push({
@@ -771,25 +778,26 @@ export default {
       });
     },
 
+
     //每周精品
-    async getWeekData() {
-      try {
-        const { data: res } = await this.reqM2Service(
-          "/info/shrimpIndustry/findByClickWeekly/1/9",
-          "",
-          "get"
-        );
-        if (res.code === 20000) {
-          console.log("2" + res);
-          console.log(res);
-          console.log("获取每周精品数据成功");
-          this.weekliList = res.data.rows;
-          
-        }
-      } catch (error) {
-        console.log("网络错误19999");
+
+  async getWeekData() {
+    try {
+      const { data: res } = await this.reqM2Service(
+        "/info/shrimpIndustry/findByClickWeekly/1/9",
+        "",
+        "get"
+      );
+      console.log(res);
+      if (res.code === 20000) {
+        console.log("获取每周精品数据成功");
+        this.weekliList = res.data.rows;
       }
-    },
+    } catch (error) {
+      console.log("网络错误19999");
+    }
+  },
+
 
     //精彩专题 1 对虾养殖
     async getjingcai1() {
@@ -804,18 +812,20 @@ export default {
           console.log(res);
           console.log("获取精彩专题1数据成功");
         }
+       
         this.jingcai1List = res.data.rows;
+        // this.jingcai1List[1].picture = "http://134.175.208.235/group1/M00/00/20/rBAAD1-ZOLyAYAFMAADynn54-4s678.jpg";
         this.queryInfo1.Infototal1 = res.data.rows.length;
       } catch (error) {
         console.log("网络错误1999");
       }
     },
 
-    //精彩专题2 1320648223462920192
+    //精彩专题2 1320648223462920192 1321798043531612160
     async getjingcai2() {
       try {
         const { data: res } = await this.reqM2Service(
-          `/info/shrimpIndustry/search/searchByTypeId/${this.queryInfo2.TypeID2}/${this.queryInfo1.Infopage1}/${this.queryInfo1.Infosize1}`,
+          `/info/shrimpIndustry/search/searchByTypeId/${this.queryInfo2.TypeID2}/${this.queryInfo2.Infopage2}/${this.queryInfo2.Infosize2}`,
           "",
           "post"
         );
@@ -823,7 +833,11 @@ export default {
           console.log("4" + res);
           console.log(res);
           console.log("获取精彩专题2数据成功");
-          this.jingcai2List = res.data.rows;
+          if (res.data.rows.length === 0) {
+            this.jingcai2List = this.TempList;
+          } else {
+            this.jingcai2List = res.data.rows;
+          }
         } else {
           console.log("网络错误20001");
         }
@@ -843,11 +857,21 @@ export default {
         if (res.code === 20000) {
           console.log("5" + res);
           console.log("获取精彩专题3数据成功");
+          // for (var i = 0; i < 5; i++) {
+          //   this.temp[i] = res.data.rows[i];
+          //   let isUrl = this.temp[i].picture.substring(0, 4);
+          //   if (isUrl !== "http") {
+          //     this.temp[i].picture = this.src;
+          //   }
+          // }
+          this.pagelist = res.data.rows;
+          console.log("222");
+          console.log(this.pagelist);
+          this.queryInfo3.total = res.data.total;
         } else {
           console.log("网络错误 20001");
         }
-        this.pagelist = res.data.rows;
-        this.queryInfo3.total = res.data.total;
+      
       } catch (error) {
         console.log("网络错误 19999");
       }
@@ -906,10 +930,14 @@ export default {
           "get"
         );
         console.log("8" + res);
+        
         console.log(res);
         console.log("获取点击量数据成功");
+
         if (res.code === 20000) {
           this.ClickDataList = res.data.rows;
+          console.log(Object.keys(ClickDataList));
+          console.log('yiyi')
         } else {
           console.log("网络错误 20001");
         }
@@ -1159,13 +1187,13 @@ export default {
         }
         .news {
           width: 72%;
-          .pp{
-            span{
-              text-decoration: none; 
-              color: green
+          .pp {
+            span {
+              text-decoration: none;
+              color: green;
             }
-            span:hover{
-              color:orange
+            span:hover {
+              color: orange;
             }
           }
         }

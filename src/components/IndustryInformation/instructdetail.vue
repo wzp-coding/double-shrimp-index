@@ -8,7 +8,10 @@
             class="lxl-breadcrumb"
           >
             <el-breadcrumb-item>当前位置</el-breadcrumb-item>
-            <el-breadcrumb-item>产业咨询</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/industryMarket' }"
+              >产业资讯</el-breadcrumb-item
+            >
+            <el-breadcrumb-item>详情</el-breadcrumb-item>
           </el-breadcrumb>
         </div>
         <!-- <div class="tr">
@@ -20,7 +23,7 @@
       <div class="main">
         <div class="left">
           <div class="LeftTop">
-            <span style="font-size: 36px">{{ CurrentData.title }}"</span>
+            <span style="font-size: 36px">{{ IdData.title }}</span>
             <el-divider></el-divider>
             <div class="pandc">
               <div class="pic">
@@ -31,7 +34,7 @@
                 ></el-avatar>
               </div>
               <div class="lxl-title">
-                <h3>{{ IdData.title }}</h3>
+                <h3>{{ IdData.editor | limitword }}</h3>
                 <p style="display: flex">
                   发布时间 {{ IdData.creationTime | timefilters
                   }}<span style="margin-left: 15px" v-if="IdData.editor">
@@ -41,37 +44,9 @@
               </div>
             </div>
           </div>
-          <div class="wenzhang">
-            <div class="wenzhangfirst" v-html="IdData.content" id="test"></div>
-            <div class="block">
-              <el-image :src="IdData.picture"></el-image>
-            </div>
-            <!-- <span>山东主持人国博兴乔庄</span><br /><br />
-            <span
-              >说起博兴县南美白对虾产业，那可是有着“中国白对虾生态养殖第一县""的美誉，不管
-              是养殖规模，还是对虾品质，那可都是响当当的全国第一。为了进一步增强"博兴对
-              虾""品牌影响力
-                是养殖规模，还是对虾品质，那可都是响当当的全国第一。为了进一步增强"博兴对
-              虾""品牌影响力
-                是养殖规模，还是对虾品质，那可都是响当当的全国第一。为了进一步增强"博兴对
-              虾""品牌影响力
-                是养殖规模，还是对虾品质，那可都是响当当的全国第一。为了进一步增强"博兴对
-              虾""品牌影响力
-            </span> -->
-            <div class="block">
-              <el-image :src="IdData.picture" style="height: 430px"></el-image>
-            </div>
-            <!-- <span>
-              说起博兴县南美白对虾产业，那可是有着“中国白对虾生态养殖第一县""的美誉，不管
-              是养殖规模，还是对虾品质，那可都是响当当的全国第一。为了进一步增强"博兴对
-              虾""品牌影响力，那可都是响当起博兴县南美白对虾产业，那可是有着“中国白对虾生态养殖第一县""的美誉，不 </span
-            > -->
-            <!-- <h3
-              style="margin-bottom: 30px; font-family: btt"
-              v-if="numclicklist[1].editor"
-            >
-              {{ numclicklist[1].editor }}报告
-            </h3> -->
+          <!-- 富文本内容填充区域 -->
+          <div class="article">
+            <div class="article" v-html="IdData.content" id="test"></div>
           </div>
         </div>
 
@@ -381,7 +356,7 @@ export default {
         }
       }
     }
-    .wenzhang {
+    .article {
       width: 100%;
       font-size: 20.5px;
 

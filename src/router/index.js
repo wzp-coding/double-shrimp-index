@@ -51,6 +51,7 @@ import informationRecommendation from '../components/intelligentDecision/informa
 import precisionFeeding from '../components/intelligentDecision/precisionFeeding.vue'
 // 大数据
 import visualizationPlatform from '../components/visualizationPlatform/visualizationPlatform.vue'
+import guangdong from '../components/visualizationPlatform/guangdong.vue'
 
 // 店铺详情
 import emall from '../components/emall/emall.vue'
@@ -88,6 +89,7 @@ import footer from '../components/login/footer.vue'
 
 
 Vue.use(VueRouter)
+
 
 const routes = [
   {
@@ -333,6 +335,11 @@ const routes = [
   {
     path: '/visualizationPlatform',
     component: visualizationPlatform
+
+  },
+  {
+    path: '/guangdong',
+    component: guangdong
 
   },
   {

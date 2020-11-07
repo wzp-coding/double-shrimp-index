@@ -900,6 +900,11 @@ export default {
         ],
       };
       myChart.setOption(option);
+
+      myChart.on("click", function (params) {
+        // 由于作用域的问题只能通过这个方式实现跳转
+        window.location.href = "#/guangdong";
+      });
     },
   },
 };

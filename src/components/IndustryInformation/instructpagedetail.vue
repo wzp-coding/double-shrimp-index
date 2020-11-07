@@ -29,7 +29,7 @@
               >查询</el-button
             >
           </div>
-          <div class="body" v-for="(item, index) in TypePageList" :key="index">
+          <div class="body"  v-for="(item, index) in TypePageList" :key="index">
             <div class="block">
               <div class="pic">
                 <el-image
@@ -91,6 +91,7 @@
           <el-pagination
             background
             layout="prev, pager, next"
+            v-if="this.pageshow"
             :total="queryinfo.total"
             :page-size="queryinfo.size"
             :current-page="queryinfo.page"
@@ -272,6 +273,8 @@ export default {
       TypeName: "",
       //搜索信息
 
+      pageshow:true,
+
       SearchKey: "",
 
       isSearch: null,
@@ -421,6 +424,7 @@ export default {
     // },
 
     handleCurrentChange(newpage) {
+      console.log(newpage)
       //改变页码
       this.queryinfo.page = newpage;
       if (this.isSearch === 1) {
@@ -436,15 +440,14 @@ export default {
 
     //查询函数
     toSearch(SearchKey){
+      this.isSearch = 1
+      this.pageshow = false;  
       this.queryinfo.page = 1;
-      console.log(this.queryinfo.page)
-      this.searchData(SearchKey);
+      this.handleCurrentChange(this.queryinfo.page);
     },
     searchData(SearchKey) {
-      
       //this.isSearch = 1 代表点击了搜索或由其他页面搜索而进
       this.isSearch = 1;
-      
       let httpUrl = `http://106.75.154.40:9010/industry/search/time/${this.queryinfo.page}/${this.queryinfo.size}/1?key=${SearchKey}`;
       try {
         this.$http.get(httpUrl).then((res) => {
@@ -458,6 +461,7 @@ export default {
               //更新分页列表
               this.TypePageList = res.data.rows;
               this.queryinfo.total = res.data.total;
+              this.pageshow = true;
             } else {
               //没有所搜索的信息
               //将SearchKey赋为空 
@@ -468,6 +472,7 @@ export default {
               this.getTypePageData();
               //代表没有相关搜索内容
               this.isSearch =2
+              this.pageshow = true;
             }
           } else {
             //请求不到搜索内容用全部分页代替
@@ -478,6 +483,7 @@ export default {
       } catch (error) {
         console.log("搜索接口请求失败");
         this.getTypePageData();
+        this.pageshow = true;
       }
     },
   },
