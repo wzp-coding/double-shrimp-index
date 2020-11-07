@@ -18,7 +18,7 @@
         <el-row :gutter="20">
           <!-- 左侧图片 -->
           <el-col :span="7" class="navPic">
-            <el-image src=""></el-image>
+            <el-image style="height:50px;width:200px" src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1377955304,2628213089&fm=26&gp=0.jpg"></el-image>
           </el-col>
           <!-- 搜索框 -->
           <el-col :span="15" style="margin: 15px 0">
@@ -104,13 +104,13 @@
           <el-col :span="19">
             <div class="mainPic">
               <el-image
-                src="https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg"
+                src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=4099914066,55174512&fm=26&gp=0.jpg"
               ></el-image>
             </div>
             <div class="fourPic">
               <el-row :gutter="10">
                 <el-col :span="6" v-for="(item, i) in fourPicture" :key="i">
-                  <el-image :src="item.src"></el-image>
+                  <el-image style="height:205px" :src="item.src"></el-image>
                 </el-col>
               </el-row>
             </div>
@@ -1256,22 +1256,22 @@ export default {
         {
           id: 1,
           src:
-            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+            "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1858510871,3796732153&fm=15&gp=0.jpg",
         },
         {
           id: 2,
           src:
-            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+            "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1715821268,753973572&fm=15&gp=0.jpg",
         },
         {
           id: 3,
           src:
-            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+            "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=407280600,2321204096&fm=15&gp=0.jpg",
         },
         {
           id: 4,
           src:
-            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+            "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=256868016,1558383594&fm=26&gp=0.jpg",
         },
       ],
     };
