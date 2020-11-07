@@ -105,8 +105,11 @@ export default {
         userId: this.$store.state.userData.userId,
         userName: this.$store.state.userData.userName,
       };
+      this.$refs['formAdd'].validate((valid)=>{
+        console.log(valid);
+      })
       // console.log(this.oneQuesInfo);
-      await this.addNewQues(this.oneQuesInfo);
+      // await this.addNewQues(this.oneQuesInfo);
       // 清空表单
       this.fileList = [];
       this.resetFields('formAdd')
