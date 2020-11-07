@@ -107,7 +107,7 @@
         </el-aside>
         <el-main width="30%">
           <el-tabs v-model="activeName">
-            <el-tab-pane label="最新资讯" name="first">
+            <!-- <el-tab-pane label="最新资讯" name="first">
               <div
                 class="list"
                 v-for="(item, index) in newDataList.slice(0, 5)"
@@ -123,8 +123,8 @@
                   </div>
                 </div>
               </div>
-            </el-tab-pane>
-            <el-tab-pane label="热门资讯" name="second">
+            </el-tab-pane> -->
+            <el-tab-pane label="热门资讯" name="first" >
               <div
                 class="list"
                 v-for="(item, index) in numclicklist"
@@ -142,7 +142,7 @@
               </div>
             </el-tab-pane>
           </el-tabs>
-          <el-tabs v-model="activeName1">
+          <!-- <el-tabs v-model="activeName1">
             <el-tab-pane label="本周热门" name="first1">
               <div
                 class="list"
@@ -177,7 +177,7 @@
                 </div>
               </div>
             </el-tab-pane>
-          </el-tabs>
+          </el-tabs> -->
         </el-main>
       </el-container>
     </div>
@@ -286,14 +286,14 @@ export default {
     //点击量 热度
     this.getclickData();
     //时间 最新
-    this.getnewData();
+    // this.getnewData();
     //推荐
     // this.getRecommData();
 
     //每周
-    this.getWeekData();
+    // this.getWeekData();
     //每月
-    this.getMonthData();
+    // this.getMonthData();
 
     //得到分类名
     //this.getTypeName();
@@ -345,7 +345,7 @@ export default {
           "get"
         );
 
-        this.newDataList = res.data;
+        this.newDataList = res.data.rows;
       } catch (error) {
         console.log("获取最新数据出错");
       }

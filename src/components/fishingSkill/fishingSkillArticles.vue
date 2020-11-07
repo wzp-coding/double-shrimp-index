@@ -11,9 +11,15 @@
       </el-breadcrumb>
       <el-divider></el-divider>
       <!--  -->
-      <el-input placeholder="搜索您要的文章" prefix-icon="el-icon-search" v-model="input.key">
+      <el-input
+        placeholder="搜索您要的文章"
+        prefix-icon="el-icon-search"
+        v-model="input.key"
+      >
         <div slot="append">
-          <el-button icon="el-icon-search" @click="searchArticle()">搜索</el-button>
+          <el-button icon="el-icon-search" @click="searchArticle()"
+            >搜索</el-button
+          >
         </div>
       </el-input>
       <!-- 上部分 -->
@@ -71,7 +77,7 @@
               class="illpic"
             >
               <div class="illCard">
-                <el-card :body-style="{ padding: '0px' }">
+                <el-card :body-style="{ padding: '0px', height: '300px' }">
                   <el-image
                     :src="item.pic"
                     class="illimage"
@@ -138,7 +144,7 @@
           <el-row :gutter="20" class="articleRow">
             <el-col :span="4.8" v-for="(item, i) in adviseArticle" :key="i">
               <div class="adviseArticleCard">
-                <el-card :body-style="{ padding: '0px' }" class="adviseCard">
+                <el-card :body-style="{ padding: '0px', height: '300px' }" class="adviseCard">
                   <el-image
                     :src="item.pic"
                     class="advisedImage"
@@ -199,7 +205,7 @@ export default {
       navCate: [],
       // 输入内容
       input: {
-        key: ""
+        key: "",
       },
       // 文章类型名字
       articleType: "",
@@ -289,15 +295,15 @@ export default {
 
       const { data: res } = await this.reqM12Service(
         `/education/search/time/${this.pageNum}/10/0`,
-        { key:this.input.key },
+        { key: this.input.key },
         "get"
       );
-      console.log(res)
+      console.log(res);
       if (res.code !== 20000) {
         return this.$message.error("获取搜索数据失败！");
       }
       if (res.data.total === 0) {
-        this.$message.error('查无结果！')
+        this.$message.error("查无结果！");
       } else {
         this.adviseArticleTotal = res.data.total;
         this.adviseArticle = res.data.rows;
@@ -440,6 +446,7 @@ export default {
 }
 .illpic {
   margin-top: 10px;
+  height: 300px;
 }
 .nav {
   .el-menu-item {
@@ -513,7 +520,7 @@ export default {
 }
 .illimage {
   width: 100%;
-  height: 150px;
+  height: 200px;
 }
 .page {
   margin: 20px auto;

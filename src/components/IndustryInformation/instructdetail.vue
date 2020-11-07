@@ -87,7 +87,7 @@
               </div>
             </el-tab-pane>
           </el-tabs>
-          <el-tabs v-model="activeName1">
+          <!-- <el-tabs v-model="activeName1">
             <el-tab-pane label="本周热门" name="first1">
               <div
                 class="list"
@@ -118,7 +118,7 @@
                 </div>
               </div>
             </el-tab-pane>
-          </el-tabs>
+          </el-tabs> -->
         </div>
       </div>
     </div>
@@ -203,10 +203,10 @@ export default {
     this.getnewData();
 
     //每周
-    this.getWeekData();
+    // this.getWeekData();
 
     //每月
-    this.getMonthData();
+    // this.getMonthData();
   },
   mounted() {
     console.log(this.$route.query.id);

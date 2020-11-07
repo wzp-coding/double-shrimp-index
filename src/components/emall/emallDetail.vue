@@ -58,7 +58,7 @@
             </div>
             <el-divider></el-divider>
             <!-- 规格选择 -->
-            <div>
+            <!-- <div>
               <el-row>
                 <el-col :span="3" style="font-size: 14px">规格选择：</el-col>
                 <el-col :span="21" class="classButton">
@@ -71,7 +71,7 @@
                     <el-button plain>朴素按钮</el-button>
                 </el-col>
               </el-row>
-            </div>
+            </div> -->
             <!-- 购买区域 -->
             <div class="buyButton">
               <el-button style="margin: 10px 20px 0 0" @click="addCart">加入购物车</el-button>

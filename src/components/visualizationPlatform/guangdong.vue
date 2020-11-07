@@ -28,11 +28,11 @@
           <div class="chart chart5"></div>
           <div class="panel-footer"></div>
         </div>
-        <div class="panel pie">
+        <!-- <div class="panel pie">
           <h3>广东养殖面积</h3>
           <div class="chart chart7"></div>
           <div class="panel-footer"></div>
-        </div>
+        </div> -->
       </div>
       <div class="col">
         <!-- <div class="no">
@@ -55,7 +55,7 @@
           <div class="map3"></div>
           <div class="chartMap"></div>
         </div>
-        <div class="lxl-detail">
+        <!-- <div class="lxl-detail">
           <div class="someThing">
             <div class="lxl-1">
               <div>
@@ -78,7 +78,7 @@
             </div>
             <div></div>
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="col">
         <div class="panel bar2">
@@ -92,15 +92,15 @@
           <div class="panel-footer"></div>
         </div>
         <div class="panel pie2">
-          <h3>饼状图</h3>
+          <h3>广东对虾量</h3>
           <div class="chart chart6"></div>
           <div class="panel-footer"></div>
         </div>
-        <div class="panel pie2">
+        <!-- <div class="panel pie2">
           <h3>饼状图</h3>
           <div class="chart chart8"></div>
           <div class="panel-footer"></div>
-        </div>
+        </div> -->
       </div>
     </section>
   </div>

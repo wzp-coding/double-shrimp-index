@@ -27,7 +27,7 @@
             <!--左大部分-->
             <div class="header">
               <!-- 图片 -->
-              <div class="pictop" >
+              <div class="pictop">
                 <!-- 行情资讯 -->
                 <div class="block1" v-if="ClickDataList.length !== 0">
                   <el-image
@@ -37,25 +37,23 @@
                   ></el-image>
                 </div>
                 <!-- 每周精品 -->
-                <div class="block2" v-if="weekliList.length !== 0">
-                  <div v-if="weekliList[0].picture">
+                <!-- <div class="block2"> -->
+                <!-- <div>
                     <el-image
-                      v-if="weekliList[0].picture"
                       @click="TonewPath(weekliList[0].id)"
                       style="height: 165px"
                       :src="weekliList[0].picture"
                     ></el-image>
                   </div>
-                  <div v-if="weekliList[1].picture">
+                  <div>
                     <el-image
-                      v-if="weekliList[1].picture"
                       @click="TonewPath(weekliList[1].id)"
                       style="height: 165px"
                       :src="weekliList[1].picture"
                     >
                     </el-image>
-                  </div>
-                </div>
+                  </div> -->
+                <!-- </div> -->
               </div>
               <!-- head start -->
               <div class="ccy-info">
@@ -98,7 +96,7 @@
                   </ul>
                   <!-- 热门资讯结束 -->
                   <!-- 每周精品 -->
-                  <h3
+                  <!-- <h3
                     style="
                       display: flex;
                       justify-content: space-between;
@@ -139,7 +137,7 @@
                     >
                       {{ item.title }}
                     </li>
-                  </ul>
+                  </ul> -->
                   <!-- 每周精品结束 -->
                 </div>
               </div>
@@ -178,26 +176,26 @@
             <div class="one">
               <div class="onetop">
                 <div class="onetopl">
-                  <div class="block" v-if="jingcai1List.length">
+                  <div class="block" v-if="shrimpMarketList.length">
                     <div
                       class="blockson"
-                      @click="TonewPath(jingcai1List[0].id)"
+                      @click="TonewPath(shrimpMarketList[0].id)"
                     >
                       <el-image
                         style="height: 120px"
-                        :src="jingcai1List[0].picture"
+                        :src="shrimpMarketList[0].picture"
                       ></el-image>
-                      <span>{{ jingcai1List[0].title }}</span>
+                      <span>{{ shrimpMarketList[0].title }}</span>
                     </div>
                     <div
                       class="blockson"
-                      @click="TonewPath(jingcai1List[1].id)"
+                      @click="TonewPath(shrimpMarketList[1].id)"
                     >
                       <el-image
                         style="height: 120px"
-                        :src="jingcai1List[1].picture"
+                        :src="shrimpMarketList[1].picture"
                       ></el-image>
-                      <span>{{ jingcai1List[1].title }}</span>
+                      <span>{{ shrimpMarketList[1].title }}</span>
                     </div>
                   </div>
                   <div class="onetoplb">
@@ -205,7 +203,7 @@
                     <ul class="ccy-css">
                       <li
                         @click="TonewPath(item.id)"
-                        v-for="(item, index) in jingcai1List.slice(0, 4)"
+                        v-for="(item, index) in shrimpMarketList.slice(0, 4)"
                         :key="index"
                       >
                         {{ item.title }}
@@ -219,7 +217,7 @@
                     <ul class="ccy-css" style="margin-left: 15px">
                       <li
                         @click="TonewPath(item.id)"
-                        v-for="(item, index) in jingcai1List.slice(4, 14)"
+                        v-for="(item, index) in shrimpMarketList.slice(4, 14)"
                         :key="index"
                       >
                         {{ item.title }}
@@ -259,16 +257,16 @@
                 </h3>
                 <el-divider class="ccy-drvider"></el-divider>
               </div>
-              <div class="onemide" v-if="jingcai2List.length">
-                <!-- jingcai2List -->
+              <div class="onemide" v-if="frontierProductionChainList.length">
+                <!-- frontierProductionChainList -->
                 <!-- v-if="item.picture" -->
                 <div
                   class="zhuangti"
-                  v-for="(item, i) in jingcai2List"
+                  v-for="(item, i) in frontierProductionChainList"
                   :key="i"
                   @click="TonewPath(item.id)"
                 >
-                  <el-image :src="item.picture" ></el-image>
+                  <el-image :src="item.picture"></el-image>
                   <span>{{ item.title }}</span>
                 </div>
               </div>
@@ -303,12 +301,19 @@
                 </h3>
                 <el-divider class="ccy-drvider"></el-divider>
               </div>
-              <div class="onebottom" v-for="(item, index) in pagelist" :key="index">
-                <div class="four" style="cursor: pointer" v-if="pagelist.length">
+              <div
+                class="onebottom"
+                v-for="(item, index) in pagelist"
+                :key="index"
+              >
+                <div
+                  class="four"
+                  style="cursor: pointer"
+                  v-if="pagelist.length"
+                >
                   <div class="pic">
-                    <div >
+                    <div>
                       <el-image
-                        
                         :src="item.picture"
                         @click="TonewPath(item.id)"
                       ></el-image>
@@ -481,7 +486,7 @@
                 </li>
               </ul>
 
-              <h3 style="display: flex; justify-content: space-between">
+              <!-- <h3 style="display: flex; justify-content: space-between">
                 <div>
                   <span
                     style="
@@ -510,8 +515,8 @@
 
                   <i class="el-icon-caret-right"></i>
                 </div>
-              </h3>
-              <el-divider class="ccy-drvider"></el-divider>
+              </h3> -->
+              <!-- <el-divider class="ccy-drvider"></el-divider> -->
             </div>
             <div class="rightmd">
               <ul class="ccy-css">
@@ -652,9 +657,10 @@ export default {
 
       //每周精品
       weekliList: [],
+      weekliListPic: [],
 
       //精彩专题1
-      jingcai1List: [],
+      shrimpMarketList: [],
 
       queryInfo1: {
         Infopage1: 1,
@@ -663,14 +669,14 @@ export default {
         TypeID1: "1316745747953225728",
       },
 
-      //精彩专题 2
-      jingcai2List: [],
+      // 产链前沿
+      frontierProductionChainList: [],
 
       queryInfo2: {
         Infopage2: 1,
         Infosize2: 4,
         Infototal2: null,
-        TypeID2: "1320648223462920192",
+        TypeID2: "1320546102558199808",
       },
 
       //精彩专题3 分页
@@ -685,7 +691,7 @@ export default {
       },
 
       temp: [],
-      //精彩专题3 数组
+      // 财富手册
       pagelist: [],
 
       //根据类型ID查询
@@ -722,7 +728,7 @@ export default {
 
       //推荐 ，分页
       RecommList: [],
-
+      // 点击量
       ClickDataList: [],
 
       SearchKey: "",
@@ -732,38 +738,31 @@ export default {
     };
   },
   created() {
-    // //每周精品
-    this.getWeekData();
-    // //精彩专题 1 按类型查询 对虾养殖
-    this.getjingcai1();
-
-    // //精彩专题2
-    this.getjingcai2();
-    //   //精彩专题3
-    this.getjingcai3();
-
-    // //最新资讯
-    this.getNewData();
-
-    // //每月
-    this.getMonthData();
-
     //点击量 热度
     this.getClickData();
-
-    //推荐
+    // 每周精品
+    // this.getWeekData();
+    // 对虾行情
+    this.shrimpMarket();
+    // 产链前沿
+    this.frontierProductionChain();
+    // 财富手册
+    this.wealth();
+    // 最新资讯
+    this.getNewData();
+    // 每月精品
+    // this.getMonthData();
+    // 推荐
     this.getRecommData();
   },
   methods: {
     //前往详情页
-
     TonewPath(id) {
       this.$router.push({
         path: "/instructdetail",
         query: { id: id },
       });
     },
-
     //前往更多页面
     ToMorePage(id) {
       this.$router.push({
@@ -771,36 +770,33 @@ export default {
         query: { id: id },
       });
     },
+    // 前往搜索页面
     ToSearch(SearchKey) {
       this.$router.push({
         path: "/instructpagedetail",
         query: { SearchKey: SearchKey },
       });
     },
-
-
     //每周精品
-
-  async getWeekData() {
-    try {
-      const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustry/findByClickWeekly/1/9",
-        "",
-        "get"
-      );
-      console.log(res);
-      if (res.code === 20000) {
-        console.log("获取每周精品数据成功");
-        this.weekliList = res.data.rows;
+    async getWeekData() {
+      try {
+        const { data: res } = await this.reqM2Service(
+          "/info/shrimpIndustry/findByClickWeekly/1/7",
+          "",
+          "get"
+        );
+        console.log("111111");
+        console.log(res);
+        if (res.code === 20000) {
+          // weekliListPic
+          this.weekliList = res.data.rows;
+        }
+      } catch (error) {
+        console.log("网络错误19999");
       }
-    } catch (error) {
-      console.log("网络错误19999");
-    }
-  },
-
-
-    //精彩专题 1 对虾养殖
-    async getjingcai1() {
+    },
+    //对虾行情
+    async shrimpMarket() {
       try {
         const { data: res } = await this.reqM2Service(
           `/info/shrimpIndustry/search/searchByTypeId/${this.queryInfo1.TypeID1}/${this.queryInfo1.Infopage1}/${this.queryInfo1.Infosize1}`,
@@ -812,17 +808,15 @@ export default {
           console.log(res);
           console.log("获取精彩专题1数据成功");
         }
-       
-        this.jingcai1List = res.data.rows;
-        // this.jingcai1List[1].picture = "http://134.175.208.235/group1/M00/00/20/rBAAD1-ZOLyAYAFMAADynn54-4s678.jpg";
+
+        this.shrimpMarketList = res.data.rows;
         this.queryInfo1.Infototal1 = res.data.rows.length;
       } catch (error) {
         console.log("网络错误1999");
       }
     },
-
-    //精彩专题2 1320648223462920192 1321798043531612160
-    async getjingcai2() {
+    // 产链前沿
+    async frontierProductionChain() {
       try {
         const { data: res } = await this.reqM2Service(
           `/info/shrimpIndustry/search/searchByTypeId/${this.queryInfo2.TypeID2}/${this.queryInfo2.Infopage2}/${this.queryInfo2.Infosize2}`,
@@ -830,13 +824,12 @@ export default {
           "post"
         );
         if (res.code === 20000) {
-          console.log("4" + res);
-          console.log(res);
-          console.log("获取精彩专题2数据成功");
+          console.log("1123231")
+          console.log(res)
           if (res.data.rows.length === 0) {
-            this.jingcai2List = this.TempList;
+            this.frontierProductionChainList = this.TempList;
           } else {
-            this.jingcai2List = res.data.rows;
+            this.frontierProductionChainList = res.data.rows;
           }
         } else {
           console.log("网络错误20001");
@@ -845,9 +838,8 @@ export default {
         console.log("网络错误19999");
       }
     },
-
-    // 根据类型ID查询 精彩专题3  财富手册
-    async getjingcai3() {
+    // 财富手册
+    async wealth() {
       try {
         const { data: res } = await this.reqM2Service(
           `/info/shrimpIndustry/search/searchByTypeId/${this.queryInfo3.TypeID3}/${this.queryInfo3.Currentpage}/${this.queryInfo3.pagesize}`,
@@ -855,23 +847,11 @@ export default {
           "post"
         );
         if (res.code === 20000) {
-          console.log("5" + res);
-          console.log("获取精彩专题3数据成功");
-          // for (var i = 0; i < 5; i++) {
-          //   this.temp[i] = res.data.rows[i];
-          //   let isUrl = this.temp[i].picture.substring(0, 4);
-          //   if (isUrl !== "http") {
-          //     this.temp[i].picture = this.src;
-          //   }
-          // }
           this.pagelist = res.data.rows;
-          console.log("222");
-          console.log(this.pagelist);
           this.queryInfo3.total = res.data.total;
         } else {
           console.log("网络错误 20001");
         }
-      
       } catch (error) {
         console.log("网络错误 19999");
       }
@@ -879,9 +859,9 @@ export default {
     handleCurrentChange(newpage) {
       //改变页码
       this.queryInfo3.Currentpage = newpage;
-      this.getjingcai3();
+      this.wealth();
     },
-    //最新  分页
+    //最新资讯  分页
     async getNewData() {
       try {
         const { data: res } = await this.reqM2Service(
@@ -889,10 +869,8 @@ export default {
           "",
           "get"
         );
-        this.NewDataList = res.data.rows;
         if (res.code === 20000) {
-          console.log("6" + res);
-          console.log("获取最新数据成功");
+          this.NewDataList = res.data.rows;
         } else {
           console.log("网络错误 20001");
         }
@@ -900,7 +878,7 @@ export default {
         console.log("网络错误 19999");
       }
     },
-    //每月
+    //每月精品
     async getMonthData() {
       try {
         const { data: res } = await this.reqM2Service(
@@ -908,11 +886,7 @@ export default {
           "",
           "get"
         );
-
         if (res.code === 20000) {
-          console.log("7" + res);
-          console.log(res.data.length);
-          console.log("获取每月数据成功");
           this.MonthDataList = res.data.rows;
         } else {
           console.log("网络错误 20001");
@@ -925,24 +899,17 @@ export default {
     async getClickData() {
       try {
         const { data: res } = await this.reqM2Service(
-          "/info/shrimpIndustry/findByClickNum/1/7",
+          "/info/shrimpIndustry/findByClickNum/1/9",
           "",
           "get"
         );
-        console.log("8" + res);
-        
-        console.log(res);
-        console.log("获取点击量数据成功");
-
         if (res.code === 20000) {
           this.ClickDataList = res.data.rows;
-          console.log(Object.keys(ClickDataList));
-          console.log('yiyi')
         } else {
-          console.log("网络错误 20001");
+          console.log(res.message);
         }
       } catch (error) {
-        console.log("网络错误 19999");
+        console.log(error);
       }
     },
     // 推荐，分页
@@ -953,10 +920,9 @@ export default {
           "",
           "get"
         );
-        console.log("8" + res);
-        console.log(res);
-        console.log("获取推荐数据成功");
         if (res.code === 20000) {
+          console.log("res");
+          console.log(res);
           this.RecommList = res.data.rows;
         } else {
           console.log("网络错误 20001");

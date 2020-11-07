@@ -681,7 +681,7 @@ export default {
   }
 }
 .lxl-box {
-  width: 100%;
+  width: 1250px;
   margin-bottom: 30px;
 }
 .lxl-container {

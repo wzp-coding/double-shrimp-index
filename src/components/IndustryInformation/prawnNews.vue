@@ -210,7 +210,7 @@
                   </div>
 
                   <el-tag type="danger" size="small" style="margin-top: 3px"
-                    >热卖</el-tag
+                    >重点</el-tag
                   >
                   <div
                     style="
@@ -381,7 +381,7 @@ export default {
       TypeDataList: [],
 
       SearchKey: "",
-      prawnIn: "1319266507900981248",
+      prawnIn: "1321798002377101312",
       src:
         "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
     };
@@ -430,7 +430,7 @@ export default {
           console.log("所请求的接口无数据");
         } else {
           if (size == 9) {
-            this.caifuLis = res.data.rows.sort((a, b) => {
+            this.caifuList = res.data.rows.sort((a, b) => {
               return a.clickNum - b.clickNum;
             });
             console.log("财富");
@@ -440,11 +440,12 @@ export default {
               return a.clickNum - b.clickNum;
             });
             console.log(res.data);
-          } else fi(size == 6);
-          this.caifuList = res.data.rows.sort((a, b) => {
-            return a.clickNum - b.clickNum;
-          });
-          console.log(res.data);
+          } else if (size == 6) {
+            this.chanlianList = res.data.rows.sort((a, b) => {
+              return a.clickNum - b.clickNum;
+              console.log(res.data);
+            });
+          }
         }
       } catch (error) {
         console.log("请求接口失败");
