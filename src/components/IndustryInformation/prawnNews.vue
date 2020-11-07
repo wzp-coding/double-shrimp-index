@@ -89,6 +89,7 @@
             <div class="main" v-for="(item, index) in pagelist" :key="index">
               <div
                 class="mainson"
+                v-if="pagelist.length !=0"
                 style="border-bottom: 1px solid rgb(230, 230, 230)"
               >
                 <div class="pic" @click="TonewPath(item.id)">
@@ -515,6 +516,7 @@ export default {
 
     TypeChange(ChangeID, ChangeName) {
       //console.log(ChangeID)
+      this.queryInfo.Currentpage = 1 ;
       this.queryInfo.TypeID = ChangeID;
       this.queryInfo.TypeName = ChangeName;
       //console.log(this.queryInfo.TypeID)
