@@ -10,7 +10,7 @@
         class="demo-ruleForm"
       >
         <el-form-item label="回复内容" prop="reply">
-          <el-input type="textarea" v-model="form.reply" :rows="5"></el-input>
+          <el-input type="textarea" v-model="form.reply" autosize :rows="5"></el-input>
         </el-form-item>
         <el-form-item label="上传图片" prop="images">
           <el-upload

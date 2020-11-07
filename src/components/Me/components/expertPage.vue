@@ -1,25 +1,18 @@
 <template>
   <div class="lxl-card">
     <div>
-      <el-button v-if="isExpert" type="primary" @click="toExpertManage()" plain
-        >进入专家管理中心</el-button
-      >
       <el-button
-        v-else-if="isNotApply"
+        v-if="!isApplying && !isExpert"
         type="primary"
         @click="applyToBeExpert()"
         plain
         >申请成为专家</el-button
       >
-      <div v-else-if="!isRefused">
+      <el-button v-if="isExpert" type="primary" @click="toExpertManage()" plain
+        >进入专家管理中心</el-button
+      >
+      <div v-else-if="isApplying">
         <h3>申请专家进度：审核中，请耐心等候···</h3>
-      </div>
-      <div v-else>
-        <h3>
-          申请专家进度：申请失败，请
-          <el-button type="primary" @click="applyToBeExpert">重新申请</el-button
-          >···
-        </h3>
       </div>
     </div>
     <!-- 申请专家对话框--开始 -->
@@ -123,10 +116,9 @@
 export default {
   data() {
     return {
-      content: "",
-      isExpert: "",
-      isNotApply: "",
-      isRefused: "",
+      isExpert: false,
+      isApplying: false,
+      isRefused: false,
       userId: "",
       // 申请对话框
       label: {
@@ -203,7 +195,7 @@ export default {
     // 根据userId判断该用户是否申请过专家
     async judgeUserIsAppliedExpert(id) {
       let flag = false;
-      await this.reqM2Service(`/info/experts/isApply/${id}`, {}, "get").then(
+      await this.reqM2Service(`/info/experts/isApplying/${id}`, {}, "get").then(
         (res) => {
           res = res.data;
           if (res.code == 20000) {
@@ -261,6 +253,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.addExpertInfo(this.ruleForm);
+          this.isApplying = true;
         } else {
           this.$message({
             message: "输入不合法!",
@@ -316,23 +309,24 @@ export default {
       // console.log("isExpert: ", isExpert);
       if (isExpert) {
         // 如果是专家，可以跳转到专家中心
-        this.isExpert = isExpert;
+        this.isExpert = true;
       } else {
-        // 如果不是专家，则判断是否申请过专家
-        let isApply = await this.judgeUserIsAppliedExpert(
+        // 如果不是专家，则判断是否正在申请专家
+        let isApplying = await this.judgeUserIsAppliedExpert(
           this.$store.state.userData.userId
         );
-        console.log("isApply: ", isApply);
-        if (!isApply) {
-          this.isNotApply = true;
-        } else {
-          // 如果申请过，判断申请中还是申请已经失败
-          let isRefused = await this.judgeUserIsRefused(
-            this.$store.state.userData.userId
-          );
-          console.log("isRefused: ", isRefused);
-          this.isRefused = isRefused;
-        }
+        console.log("isApplying: ", isApplying);
+        if (isApplying) {
+          this.isApplying = true;
+        } 
+        // else {
+        //   // 如果申请过，判断申请是否已经失败
+        //   let isRefused = await this.judgeUserIsRefused(
+        //     this.$store.state.userData.userId
+        //   );
+        //   console.log("isRefused: ", isRefused);
+        //   this.isRefused = isRefused;
+        // }
       }
     },
   },

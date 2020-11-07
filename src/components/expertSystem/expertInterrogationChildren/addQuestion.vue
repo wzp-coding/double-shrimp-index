@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- 修改对话框--开始 -->
+    <!-- 对话框--开始 -->
     <el-dialog append-to-body title="发帖" :visible.sync="dialogFormVisible">
       <el-row>
         <el-col :span="16">
@@ -12,7 +12,7 @@
             class="demo-ruleForm"
           >
             <el-form-item label="发帖内容" prop="ques">
-              <el-input type="textarea" v-model="form.ques"></el-input>
+              <el-input type="textarea" v-model="form.ques" autosize></el-input>
             </el-form-item>
             <el-form-item label="帖子类型" prop="typeId">
               <el-select v-model="form.typeId" placeholder="请选择">
@@ -25,7 +25,7 @@
                 </el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="上传图片">
+            <el-form-item label="上传图片" prop="images">
               <el-upload
                 action="http://106.75.154.40:9005/information/upload"
                 list-type="picture-card"
@@ -49,7 +49,7 @@
         <el-button type="primary" @click="handleSubmitQues">确 定</el-button>
       </div>
     </el-dialog>
-    <!-- 修改对话框--结束 -->
+    <!-- 对话框--结束 -->
   </div>
 </template>
 <script>
@@ -106,13 +106,16 @@ export default {
         userName: this.$store.state.userData.userName,
       };
       this.$refs['formAdd'].validate((valid)=>{
-        console.log(valid);
+        if(valid){
+          this.addNewQues(this.oneQuesInfo);
+        }else{
+          this.$message({
+            message:"输入不合法"
+          })
+        }
       })
       // console.log(this.oneQuesInfo);
-      // await this.addNewQues(this.oneQuesInfo);
-      // 清空表单
-      this.fileList = [];
-      this.resetFields('formAdd')
+      
     },
     // 重置表单
     resetForm(formName) {
@@ -143,6 +146,9 @@ export default {
             type: "success",
             message: "添加成功",
           });
+          // 清空表单
+          this.fileList = [];
+          this.resetForm('formAdd')
           this.dialogFormVisible = false;
         } else {
           this.$message({
