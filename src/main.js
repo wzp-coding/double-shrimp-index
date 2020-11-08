@@ -21,12 +21,14 @@ Vue.prototype.$http = axios
 //配置axios
 //->1,模块一接口,url地址
 axios.defaults.baseM1URL = domain.Base_M1_URL
+axios.defaults.baseM12URL = domain.Base_M12_URL
 axios.defaults.baseM13URL = domain.Base_M13_URL
 //->1,模块一接口,url地址
 //->2,模块二接口,url地址
 axios.defaults.baseM2URL = domain.Base_M2_URL
 //->3,模块三接口,url地址
 axios.defaults.baseM3URL = domain.Base_M3_URL
+axios.defaults.baseM31URL = domain.Base_M31_URL
 //->4,模块四接口,url地址
 axios.defaults.baseM4URL = domain.Base_M4_URL
 axios.defaults.baseM41URL = domain.Base_M41_URL
@@ -39,3 +41,6 @@ new Vue({
   store,
   render: h => h(App)
 }).$mount('#app')
+router.afterEach((to,from, next) => {
+    window.scrollTo(0,0)
+  })

@@ -12,33 +12,37 @@
           </el-breadcrumb>
         </div>
         <div class="tr">
-          <input type="text" placeholder="  搜索你想要的农产品资讯" />
-          <i class="el-icon-search"></i>
+          <el-input
+            type="text"
+            v-model="SearchKey"
+            placeholder="请输入实体名称"
+          ></el-input>
+          <i class="el-icon-search" @click="ToSearch(SearchKey)"></i>
         </div>
       </div>
       <el-divider></el-divider>
       <el-container>
-        <div class="zhuti">
+        <div class="theme">
           <div class="left">
             <div class="block" style="margin-bottom: 8px">
               <div
                 class="blockson"
-                v-for="item in datalist.slice(0, 3)"
-                :key="item.id"
+                v-for="(item, index) in pagelist.slice(0, 3)"
+                :key="index"
                 @click="TonewPath(item.id)"
               >
                 <el-image :src="item.picture"></el-image>
                 <span>{{ item.title }}</span>
               </div>
             </div>
-            <div class="sort">
+            <div>
               <el-row>
                 <span style="font-size: 15px">分类：</span>
                 <el-button
                   type="success"
                   size="mini"
                   plain
-                  v-for="(item, index) in TypeDataList.slice(0, 9)"
+                  v-for="(item, index) in TypeDataList.slice(0, 4)"
                   :key="index"
                   @click="TypeChange(item.id, item.name)"
                   >{{ item.name }}</el-button
@@ -60,7 +64,7 @@
                       border-left: 6px solid rgb(93, 183, 60);
                     "
                   ></span>
-                  热门资讯
+                  {{ this.queryInfo.TypeName }}
                 </div>
                 <div
                   style="
@@ -81,9 +85,10 @@
               </h3>
               <el-divider class="ccy-drvider"></el-divider>
             </div>
-            <div class="main" v-for="item in pagelist" :key="item.id">
+            <div class="main" v-for="(item, index) in pagelist" :key="index">
               <div
                 class="mainson"
+                v-if="pagelist.length != 0"
                 style="border-bottom: 1px solid rgb(230, 230, 230)"
               >
                 <div class="pic" @click="TonewPath(item.id)">
@@ -98,11 +103,11 @@
                     <h2>{{ item.title }}</h2>
                   </div>
                   <div class="pm" style="width: 100%; margin: 10px 0">
-                    <span style="width: 100%">
-                      {{ item.summary | limitword }}
+                    <span style="width: 100%" class="contentShow">
+                      {{ item.summary }}
                     </span>
-                    <span style="color: green" @click="TonewPath(item.id)"
-                      >[详细]</span
+                    <span class="spanpm" @click="TonewPath(item.id)"
+                      >[详情]</span
                     >
                   </div>
                   <div class="lbtm" style="width: 100%">
@@ -129,7 +134,11 @@
               :page-size="queryInfo.pagesize"
               :current-page="queryInfo.Currentpage"
               @current-change="handleCurrentChange"
-              style="display: flex; justify-content: center; margin-top: 20px"
+              style="
+                display: flex;
+                justify-content: center;
+                margin: 20px 0 20px 0;
+              "
             >
             </el-pagination>
           </div>
@@ -150,7 +159,7 @@
                         border-left: 6px solid rgb(93, 183, 60);
                       "
                     ></span>
-                    最新资讯
+                    财富手册
                   </div>
                   <el-tag type="danger" size="small" style="margin-top: 3px"
                     >New</el-tag
@@ -163,8 +172,8 @@
                     "
                   >
                     <span
-                      @click="ToOtherMore(waybytime)"
-                      style=" cursor: pointer;color: #9e9e9e"
+                      @click="ToMorePage(queryInfo.TypeID)"
+                      style="cursor: pointer; color: #9e9e9e"
                     >
                       更多
                     </span>
@@ -173,17 +182,16 @@
                 </h3>
                 <el-divider class="ccy-drvider"></el-divider>
 
-                <ul>
+                <ul class="ccy-css" style="margin-bottom: 6px">
                   <li
-                    v-for="(item, index) in dataTimeList.slice(0, 6)"
+                    v-for="(item, index) in caifuList"
                     :key="index"
                     @click="TonewPath(item.id)"
-                    :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
                   >
                     {{ item.title }}
                   </li>
                 </ul>
-                <br />
+
                 <h3
                   style="
                     margin-bottom: -22px;
@@ -198,12 +206,11 @@
                         border-left: 6px solid rgb(93, 183, 60);
                       "
                     ></span>
-                    热门资讯
+                    对虾行情
                   </div>
-                  <router-link to="/industryothermore">
-                    <el-tag type="danger" size="small" style="margin-top: 3px"
-                      >热卖</el-tag
-                    ></router-link
+
+                  <el-tag type="danger" size="small" style="margin-top: 3px"
+                    >重点</el-tag
                   >
                   <div
                     style="
@@ -212,7 +219,12 @@
                       color: rgb(93, 183, 60);
                     "
                   >
-                    <span style=" cursor: pointer;color: #9e9e9e" @click="ToOtherMore(waybyrecommed)"> 更多 </span>
+                    <span
+                      style="cursor: pointer; color: #9e9e9e"
+                      @click="ToMorePage(queryInfo.TypeID)"
+                    >
+                      更多
+                    </span>
                     <i class="el-icon-caret-right"></i>
                   </div>
                 </h3>
@@ -220,12 +232,11 @@
                   class="ccy-drvider"
                   style="display: inline-block; margin-top: -30px"
                 ></el-divider>
-                <ul>
+                <ul class="ccy-css">
                   <li
-                    v-for="(item, index) in dataRecommList.slice(0, 6)"
+                    v-for="(item, index) in hangqingList"
                     :key="index"
                     @click="TonewPath(item.id)"
-                    :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
                   >
                     {{ item.title }}
                   </li>
@@ -245,7 +256,7 @@
                         border-left: 6px solid rgb(93, 183, 60);
                       "
                     ></span>
-                    热门资讯
+                    产链前沿
                   </div>
                   <el-tag type="danger" size="small" style="margin-top: 3px"
                     >Hot</el-tag
@@ -257,18 +268,22 @@
                       color: rgb(93, 183, 60);
                     "
                   >
-                    <span style=" cursor: pointer;color: #9e9e9e" @click="ToOtherMore(waybyclick)"> 更多 </span>
+                    <span
+                      style="cursor: pointer; color: #9e9e9e"
+                      @click="ToMorePage(queryInfo.TypeID)"
+                    >
+                      更多
+                    </span>
                     <i class="el-icon-caret-right"></i>
                   </div>
                 </h3>
                 <el-divider class="ccy-drvider"></el-divider>
 
-                <ul>
+                <ul class="ccy-css">
                   <li
-                    v-for="(item, index) in dataClickList.slice(0, 6)"
+                    v-for="(item, index) in chanlianList"
                     :key="index"
                     @click="TonewPath(item.id)"
-                    :class="[index == 0 ? 'ccy-css' : 'ccy-cssn']"
                   >
                     {{ item.title }}
                   </li>
@@ -333,73 +348,51 @@ export default {
         return times;
       }
     },
-    //限制文字个数
-    limitword(val) {
-      if (val == null || val == "") {
-        return "暂无数据";
-      } else {
-        var len = val.length;
-        if (len > 80) {
-          var str = "";
-          str = val.substring(0, 80) + "......";
-          return str;
-        } else {
-          return val;
-        }
-      }
-    },
   },
   data() {
     return {
       //按类型查询分页
       queryInfo: {
         Currentpage: 1, //页数
-        pagesize: 3, //每页数
+        pagesize: 5, //每页数
         total: null, //总页数
-
-        //默认 1316745747953225728
-        TypeID: "1316743601669148672",
-        TypeName: "财富手册",
+        TypeID: "1321798002377101312",
+        TypeName: "虾行产业",
       },
-
-      waybytime: "info/shrimpIndustry/findByTime",
-      waybyclick:"info/shrimpIndustry/findByClickNum",
-      waybyrecommed:"info/shrimpIndustry/findByRecommend",
       // 类型分页
       pagelist: [],
 
-      //查询所有产业资讯
-      datalist: [],
+      //虾行产业  1321798002377101312  类型ID
+      xiahang: "1321798002377101312",
 
-      //按时间  最新
-      dataTimeList: [],
+      duixiaId: "1320625468222869504",
 
-      //按推荐
-      dataRecommList: [],
+      //财富手册
+      caifuList: [],
+      caifuID: "1316743601669148672",
+      //对虾行情
+      hangqingList: [],
+      hangqingId: "1316745747953225728",
+      //产链前沿
+      chanlianList: [],
+      chanlianId: "1320546102558199808",
 
-      //按点击量
-      dataClickList: [],
-
-      //分类信息查询
+      //分类信息
       TypeDataList: [],
 
+      SearchKey: "",
+      prawnIn: "1321798002377101312",
       src:
         "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
     };
   },
   created() {
-    // 对虾养殖 分页
-    this.getPageList(),
-      //获取所有产业资讯
-      this.getAllData(),
-      //获取最新
-      this.getNewData(),
-      //按推荐
-      this.getRecommedData(),
-      //按热度 点击量
-      this.getHotData(),
-      //分类信息获取
-      this.getTypeData();
+    //  分页 虾行产业
+    this.getPageList(this.prawnIn);
+    this.getTypeData();
+    this.getTypeInfo(this.caifuID, 9);
+    this.getTypeInfo(this.hangqingId, 7);
+    this.getTypeInfo(this.chanlianId, 6);
   },
   methods: {
     //前往详情页
@@ -410,43 +403,72 @@ export default {
       });
     },
     //前往更多页面   传入类型ID
-    ToMorePage(id) {
+    ToMorePage(path) {
       this.$router.push({
         path: "/instructpagedetail",
-        query: { id: id },
-      });
-    },
-    ///info/shrimpIndustry/findByTime
-    ToOtherMore(path) {
-      this.$router.push({
-        path: "/industryothermore",
         query: { path: path },
       });
     },
-    //查询全部
-    async getAllData() {
-      const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustry",
-        "",
-        "get"
-      );
-      this.datalist = res.data;
-      // console.log(res.data)
+    ///info/shrimpIndustry/findByTime
+
+    ToSearch(SearchKey) {
+      this.$router.push({
+        path: "/instructpagedetail",
+        query: { SearchKey: SearchKey },
+      });
     },
 
-    //分页  1316745747953225728
-    async getPageList() {
-      const { data: res } = await this.reqM2Service(
-        `/info/shrimpIndustry/search/searchByTypeId/${this.queryInfo.TypeID}/${this.queryInfo.Currentpage}/${this.queryInfo.pagesize}`,
-        "",
-        "post"
-      );
-      console.log(this.queryInfo.TypeID);
-      console.log(res);
-      this.pagelist = res.data.rows;
-      this.queryInfo.total = res.data.rows.length;
-      console.log(res.data.rows);
-      //console.log(this.queryInfo.pagelist)
+    //根据类型ID查询  非分页
+    async getTypeInfo(TypeNum, size) {
+      try {
+        const { data: res } = await this.reqM2Service(
+          `/info/shrimpIndustry/search/searchByTypeId/${TypeNum}/1/${size}`,
+          "",
+          "post"
+        );
+        if (res.data.rows.length == 0) {
+          console.log("所请求的接口无数据");
+        } else {
+          if (size == 9) {
+            this.caifuList = res.data.rows.sort((a, b) => {
+              return a.clickNum - b.clickNum;
+            });
+            console.log("财富");
+            console.log(res.data);
+          } else if (size == 7) {
+            this.hangqingList = res.data.rows.sort((a, b) => {
+              return a.clickNum - b.clickNum;
+            });
+            console.log(res.data);
+          } else if (size == 6) {
+            this.chanlianList = res.data.rows.sort((a, b) => {
+              return a.clickNum - b.clickNum;
+              console.log(res.data);
+            });
+          }
+        }
+      } catch (error) {
+        console.log("请求接口失败");
+      }
+    },
+
+    //分页 根据类型ID查询
+    //虾行产业 1316745747953225728
+    async getPageList(TypeID) {
+      try {
+        const { data: res } = await this.reqM2Service(
+          `/info/shrimpIndustry/search/searchByTypeId/${TypeID}/${this.queryInfo.Currentpage}/${this.queryInfo.pagesize}`,
+          "",
+          "post"
+        );
+        console.log(TypeID);
+        console.log(res);
+        this.pagelist = res.data.rows;
+        this.queryInfo.total = res.data.total;
+        console.log(res.data.rows);
+      } catch (error2) {
+        console.log("请求类型分页接口失败");
+      }
     },
 
     handleCurrentChange(newpage) {
@@ -455,49 +477,31 @@ export default {
       this.queryInfo.Currentpage = newpage;
       this.getPageList();
     },
-    async getNewData() {
-      ///info/shrimpIndustry/findByTime
-      const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustry/findByTime",
-        "",
-        "get"
-      );
-      this.dataTimeList = res.data;
-    },
-    async getRecommedData() {
-      ///info/shrimpIndustry/findByTime
-      const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustry/findByRecommend",
-        "",
-        "get"
-      );
-      this.dataRecommList = res.data;
-    },
-    async getHotData() {
-      ///info/shrimpIndustry/findByTime
-      const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustry/findByClickNum",
-        "",
-        "get"
-      );
-      this.dataClickList = res.data;
-    },
+
     //获取所有分类信息
     async getTypeData() {
-      const { data: res } = await this.reqM2Service(
-        "/info/shrimpIndustryTypes",
-        "",
-        "get"
-      );
-      this.TypeDataList = res.data;
+      try {
+        const { data: res } = await this.reqM2Service(
+          "/info/shrimpIndustryTypes",
+          "",
+          "get"
+        );
+        if (res.code !== 20000) {
+          return console.log(res.message);
+        }
+        this.TypeDataList = res.data;
+      } catch (error3) {
+        console.log("请求分类信息接口失败");
+      }
     },
-
+    // 分类切换
     TypeChange(ChangeID, ChangeName) {
       //console.log(ChangeID)
+      this.queryInfo.Currentpage = 1;
       this.queryInfo.TypeID = ChangeID;
       this.queryInfo.TypeName = ChangeName;
       //console.log(this.queryInfo.TypeID)
-      this.getPageList();
+      this.getPageList(ChangeID);
     },
   },
 };
@@ -523,32 +527,31 @@ export default {
   justify-content: space-between;
   .tr {
     position: relative;
-    input {
-      padding-left: 10px;
-      border: 2px solid #d8d8d8;
-      border-radius: 100px;
-      width: 198px;
-      height: 38px;
-      outline: none;
-    }
     i {
       top: 13px;
+      cursor: pointer;
       position: absolute;
       right: 20px;
     }
   }
 }
 .ccy-css {
-  color: black;
-  text-decoration: none;
-  font-size: 15.21px;
-  font-weight: 700;
-}
-.ccy-cssn {
-  text-decoration: none;
-  color: black;
+  color: #858585;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
   font-size: 13px;
-  font-weight: 500;
+}
+.ccy-css > li:hover {
+  color: black;
+  font-weight: 800px;
+}
+.ccy-css:first-line {
+  color: black;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  font-size: 15px;
+  font-weight: 700;
 }
 .el-image {
   cursor: pointer;
@@ -583,19 +586,10 @@ export default {
       outline: none;
       border-radius: 20px;
       font-size-adjust: inherit;
-     
     }
   }
 }
-.router-link {
-  span {
-    text-decoration: none;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-}
-.zhuti {
+.theme {
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -627,7 +621,7 @@ export default {
           text-overflow: ellipsis;
           overflow: hidden;
           white-space: nowrap;
-          font-size: 14.5px;
+          font-size: 13.5px;
         }
       }
     }
@@ -635,10 +629,11 @@ export default {
       width: 100%;
       display: flex;
       flex-direction: column;
+      margin-top: -22px;
       .mainson {
         width: 100%;
         display: flex;
-        margin-top: -20px;
+
         height: 190px;
         position: relative;
         .pic {
@@ -659,6 +654,12 @@ export default {
               list-style: none;
               text-decoration: none;
             }
+            .spanpm {
+              color: green;
+            }
+            .spanpm:hover {
+              color: orange;
+            }
           }
           display: flex;
           flex-direction: column;
@@ -669,7 +670,7 @@ export default {
             cursor: pointer;
             text-overflow: ellipsis;
             overflow: hidden;
-            list-style-position: inside;
+            font-size: 15px;
             white-space: nowrap;
           }
           span {
@@ -694,7 +695,7 @@ export default {
         overflow: hidden;
         white-space: nowrap;
         list-style-position: inside;
-        width: 220px;
+        width: 250px;
         cursor: pointer;
         margin-bottom: 3px;
       }
@@ -711,5 +712,12 @@ export default {
       }
     }
   }
+}
+.contentShow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
 </style>

@@ -5,7 +5,7 @@ import industryMarket from '../components/IndustryInformation/industryMarket.vue
 import prawnNews from '../components/IndustryInformation/prawnNews.vue'
 import instructdetail from '../components/IndustryInformation/instructdetail.vue'
 import instructpagedetail from '../components/IndustryInformation/instructpagedetail.vue'
-import industryothermore from '../components/IndustryInformation/industryothermore.vue'
+
 
 // 政策法规
 import policies from '../components/policies/policies.vue'
@@ -51,6 +51,7 @@ import informationRecommendation from '../components/intelligentDecision/informa
 import precisionFeeding from '../components/intelligentDecision/precisionFeeding.vue'
 // 大数据
 import visualizationPlatform from '../components/visualizationPlatform/visualizationPlatform.vue'
+import guangdong from '../components/visualizationPlatform/guangdong.vue'
 
 // 店铺详情
 import emall from '../components/emall/emall.vue'
@@ -89,21 +90,13 @@ import footer from '../components/login/footer.vue'
 
 Vue.use(VueRouter)
 
+
 const routes = [
   {
     path: '/',
     redirect: '/industryMarket',
-    children: [
-      {
-        path: '/',
-        redirect: '/instructdetail'
-      }
-    ]
   },
-  {
-    path: '/industryothermore',
-    component: industryothermore
-  },
+
   {
     path: '/instructdetail',
     component: instructdetail
@@ -345,6 +338,11 @@ const routes = [
 
   },
   {
+    path: '/guangdong',
+    component: guangdong
+
+  },
+  {
     path: '/emall',
     component: emall
 
@@ -441,5 +439,8 @@ router.beforeEach((to, from, next) => {
   next()
 })
 
-
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 export default router

@@ -33,11 +33,21 @@
             <!-- 左栏第一栏右侧文字 -->
             <div class="left1rword">
               <ul>
-                <li class="left1rword0" v-for="item in policieslist" :key="item.id">
+                <li
+                  class="left1rword0"
+                  v-for="item in policieslist"
+                  :key="item.id"
+                >
                   <!-- 左栏第一栏右侧文字标题 -->
                   <div class="left1rwordtitle">
                     <template>
-                    <router-link :to="{path:'policiesListArticle',query:{id:item.id}}">{{ item.title }}</router-link>
+                      <router-link
+                        :to="{
+                          path: 'policiesListArticle',
+                          query: { id: item.id },
+                        }"
+                        >{{ item.title }}</router-link
+                      >
                     </template>
                   </div>
                   <!-- 左栏第一栏右侧文字时间 -->
@@ -56,9 +66,9 @@
               <div class="left23headleft">专家</div>
               <div class="left23headright">
                 <template>
-                <router-link to="/policiesExpertMoreArticle">
-                  更多 <i class="el-icon-d-arrow-right"></i>
-                </router-link>
+                  <router-link to="/policiesExpertMoreArticle">
+                    更多 <i class="el-icon-d-arrow-right"></i>
+                  </router-link>
                 </template>
               </div>
             </div>
@@ -67,7 +77,13 @@
               <ul>
                 <li v-for="item in expertlist" :key="item.id">
                   <template>
-                    <router-link :to="{path:'policiesListArticle',query:{id:item.id}}">{{ item.title }}</router-link>
+                    <router-link
+                      :to="{
+                        path: 'policiesListArticle',
+                        query: { id: item.id },
+                      }"
+                      >{{ item.title }}</router-link
+                    >
                   </template>
                 </li>
               </ul>
@@ -81,9 +97,9 @@
               <div class="left23headleft">媒体</div>
               <div class="left23headright">
                 <template>
-                <router-link to="/policiesMediaMoreArticle">
-                  更多 <i class="el-icon-d-arrow-right"></i>
-                </router-link></template>
+                  <router-link to="/policiesMediaMoreArticle">
+                    更多 <i class="el-icon-d-arrow-right"></i> </router-link
+                ></template>
               </div>
             </div>
             <!-- 左栏第三栏内容区 -->
@@ -92,116 +108,145 @@
               <ul>
                 <li v-for="item in medialist" :key="item.id">
                   <template>
-              <router-link :to="{path:'policiesListArticle',query:{id:item.id}}">{{ item.title }}</router-link>
-              </template>
+                    <router-link
+                      :to="{
+                        path: 'policiesListArticle',
+                        query: { id: item.id },
+                      }"
+                      >{{ item.title }}</router-link
+                    >
+                  </template>
                 </li>
               </ul>
             </div>
           </div>
-
         </div>
 
         <!-- 右侧栏 -->
         <div class="lsx-right">
-            <!-- 右侧栏第一栏标题区 -->
-            <div class="right1head">
-              <div class="right1headleft">官方</div>
-            </div>
-            <!-- 右侧栏第一栏内容区 -->
-            <!-- 专家列表 -->
-            <div class="right1rword">
-                <ul>
-                  <li v-for="item in expertlist" :key="item.id">
-                    <template>
-              <router-link :to="{path:'policiesListArticle',query:{id:item.id}}">{{ item.title }}</router-link>
-              </template>
-                  </li>
-                </ul>
-            </div>
-            <br>
-        
-            <!-- 右栏第二栏内容区 -->
-            <!-- 按点击量查询政策法规 -->
-            <div class="right2word">
-              <ul style="list-style-type: disc">
-                <li
-                  v-for="item in clicklist1"
-                  :key="item.id"
-                  class="rightwordhead"
-                >
-                  <template>
-              <router-link :to="{path:'policiesListArticle',query:{id:item.id}}">{{ item.title }}</router-link>
-              </template>
-                </li>
-              </ul>
+          <!-- 右侧栏第一栏标题区 -->
+          <div class="right1head">
+            <div class="right1headleft">官方</div>
+          </div>
+          <!-- 右侧栏第一栏内容区 -->
+          <!-- 专家列表 -->
+          <div class="right1rword">
+            <ul>
+              <li v-for="(item, i) in expertlist" :key="i">
+                <template>
+                  <router-link
+                    :to="{
+                      path: 'policiesListArticle',
+                      query: { id: item.id },
+                    }"
+                    >{{ item.title }}</router-link
+                  >
+                </template>
+              </li>
+            </ul>
+          </div>
+          <br />
 
-              <ul style="list-style-type: disc">
-                <li
-                  v-for="item in clicklist2"
-                  :key="item.id"
-                  class="rightwordhead"
-                >
-                  <template>
-              <router-link :to="{path:'policiesListArticle',query:{id:item.id}}">{{ item.title }}</router-link>
-              </template>
-                </li>
-              </ul>
-    
+          <!-- 右栏第二栏内容区 -->
+          <!-- 按点击量查询政策法规 -->
+          <div class="right2word">
+            <ul style="list-style-type: disc">
+              <li
+                v-for="item in clicklist1"
+                :key="item.id"
+                class="rightwordhead"
+              >
+                <template>
+                  <router-link
+                    :to="{
+                      path: 'policiesListArticle',
+                      query: { id: item.id },
+                    }"
+                    >{{ item.title }}</router-link
+                  >
+                </template>
+              </li>
+            </ul>
+
+            <ul style="list-style-type: disc">
+              <li
+                v-for="item in clicklist2"
+                :key="item.id"
+                class="rightwordhead"
+              >
+                <template>
+                  <router-link
+                    :to="{
+                      path: 'policiesListArticle',
+                      query: { id: item.id },
+                    }"
+                    >{{ item.title }}</router-link
+                  >
+                </template>
+              </li>
+            </ul>
+
             <!-- 查看更多 -->
             <div class="right23more">
               <router-link to="/policiesExpertMoreArticle"
-                  >更多 <i class="el-icon-d-arrow-right"></i>
-                </router-link>
+                >更多 <i class="el-icon-d-arrow-right"></i>
+              </router-link>
             </div>
-              <!-- 推荐政策法规 -->
-              <ul>
-                <li
-                  v-for="item in recommendlist"
-                  :key="item.id"
-                  class="rightwordhead"
-                >
-                  <template>
-              <router-link :to="{path:'policiesListArticle',query:{id:item.id}}">{{ item.title }}</router-link>
-              </template>
-                </li>
-              </ul>
+            <!-- 推荐政策法规 -->
+            <ul>
+              <li
+                v-for="item in recommendlist"
+                :key="item.id"
+                class="rightwordhead"
+              >
+                <template>
+                  <router-link
+                    :to="{
+                      path: 'policiesListArticle',
+                      query: { id: item.id },
+                    }"
+                    >{{ item.title }}</router-link
+                  >
+                </template>
+              </li>
+            </ul>
 
-              <!-- 右栏第三栏 -->
-              <!-- 按时间查询政策法规 -->
-              <ul style="list-style-type: disc">
-                <li
-                  v-for="item in timelist"
-                  :key="item.id"
-                  class="rightwordhead"
-                >
-                  <template>
-              <router-link :to="{path:'policiesListArticle',query:{id:item.id}}">{{ item.title }}</router-link>
-              </template>
-                </li>
-              </ul>
-              <!-- 查看更多 -->
-              <div class="right23more">
-                <router-link to="/policiesMediaMoreArticle"
-                    >更多 <i class="el-icon-d-arrow-right"></i>
-                  </router-link>
-              </div>
-           </div>
-
-         
-            <!-- 右下按钮区 -->
-            <div class="tage">
-              <el-tag round>专家</el-tag>
-              <el-tag round>火参果资源</el-tag>
-              <el-tag round>橄榄</el-tag>
-              <el-tag round>红豆杉货源</el-tag>
-              <el-tag round>火鸡蛋</el-tag>
-              <el-tag round>豆芽货源</el-tag>
-              <el-tag round>洋葱货源</el-tag>
-              <el-tag round>红薯批发</el-tag>
-              <el-tag round>黄瓜货源</el-tag>
-              <el-tag round>猪货源</el-tag>
+            <!-- 右栏第三栏 -->
+            <!-- 按时间查询政策法规 -->
+            <ul style="list-style-type: disc">
+              <li v-for="item in timelist" :key="item.id" class="rightwordhead">
+                <template>
+                  <router-link
+                    :to="{
+                      path: 'policiesListArticle',
+                      query: { id: item.id },
+                    }"
+                    >{{ item.title }}</router-link
+                  >
+                </template>
+              </li>
+            </ul>
+            <!-- 查看更多 -->
+            <div class="right23more">
+              <router-link to="/policiesMediaMoreArticle"
+                >更多 <i class="el-icon-d-arrow-right"></i>
+              </router-link>
             </div>
-          
+          </div>
+
+          <!-- 右下按钮区 -->
+          <div class="tage">
+            <el-tag round>专家</el-tag>
+            <el-tag round>火参果资源</el-tag>
+            <el-tag round>橄榄</el-tag>
+            <el-tag round>红豆杉货源</el-tag>
+            <el-tag round>火鸡蛋</el-tag>
+            <el-tag round>豆芽货源</el-tag>
+            <el-tag round>洋葱货源</el-tag>
+            <el-tag round>红薯批发</el-tag>
+            <el-tag round>黄瓜货源</el-tag>
+            <el-tag round>猪货源</el-tag>
+          </div>
         </div>
       </div>
     </div>
@@ -217,7 +262,7 @@ export default {
       expertlist: [],
       // 左栏第三栏媒体列表
       medialist: [],
-      // 按点击量查询政策法规第一页     
+      // 按点击量查询政策法规第一页
       clicklist1: [],
       // 按点击量查询政策法规第二页
       clicklist2: [],
@@ -229,15 +274,13 @@ export default {
       imgList: [
         {
           url:
-            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1603359265154&di=19774a64799e2d332a8eb44544657d20&imgtype=0&src=http%3A%2F%2Fimg0.imgtn.bdimg.com%2Fit%2Fu%3D3312660160%2C2721714514%26fm%3D214%26gp%3D0.jpg",
+            "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2478752248,2957639169&fm=26&gp=0.jpg",
         },
         {
-          url:
-            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1603375961126&di=9dcbdebf13ca2470160f25b587bfb0cc&imgtype=0&src=http%3A%2F%2Fwww.nanhuwang.com%2Fuploads%2Fallimg%2Fc160716%2F14DD000CY30-235223.jpg",
+          url:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2311173763,1422260715&fm=26&gp=0.jpg"
         },
         {
-          url:
-            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1603359349325&di=26e989dcc305c640f8048bc9dea5be1c&imgtype=0&src=http%3A%2F%2Fimg4.99114.com%2Fgroup1%2FM00%2F9C%2FB7%2FwKgGTFmSrReASFg7AADvpocFa3c547.jpg",
+          url:"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3141246852,1030229522&fm=26&gp=0.jpg"
         },
       ],
       times: "",
@@ -278,7 +321,7 @@ export default {
     // 获取专家列表数据
     async getExpertList() {
       const { data: res } = await this.reqM2Service(
-        `/info/policies/search/searchByTypeId/1316746002186768384/1/8`,
+        `/info/policies/search/searchByTypeId/1316746002186768384/1/12`,
         "",
         "post"
       );
@@ -293,7 +336,7 @@ export default {
     // 获取媒体列表数据
     async getMediaList() {
       const { data: res } = await this.reqM2Service(
-        `/info/policies/search/searchByTypeId/1316746032893267968/1/8`,
+        `/info/policies/search/searchByTypeId/1316746032893267968/1/12`,
         "",
         "post"
       );
@@ -385,7 +428,9 @@ export default {
         min +
         ":" +
         sec;
-      return times;
+      // 截取年月日
+      let shortTimes = times.substring(0, 10);
+      return shortTimes;
     },
   },
 };
@@ -475,26 +520,25 @@ a {
 
 // 左栏第二三栏标题
 .left23head {
+  height: 40px;
   display: flex;
   background-color: #f7f7f7;
-  border-bottom: 2px solid #004787;
+  border-bottom: 1px solid #004787;
   justify-content: space-between;
-  align-items: center;
   .left23headleft {
-    height: 34px;
-    width: 48px;
-    background-color: #004787;
-    text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.4);
-    color: #f7f7f7;
-    font-size: 16px;
-    padding-top: 12px;
-    padding-left: 12px;
-    border-bottom: none;
+    width: 60px;
+    padding-top: 8px;
+    color: #004787;
+    font-size: 17px;
+    font-weight: 600;
+    text-align: center;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
+    text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
   }
   .left23headright {
-    padding-right: 30px;
+    padding-top: 11px;
+    padding-right: 12px;
     font-size: 13px;
     a {
       color: #7a776e;
@@ -518,68 +562,65 @@ a {
   }
 }
 
-
 // 右栏上标题
 .right1head {
   height: 38px;
   display: flex;
   background-color: #f7f7f7;
-  border-bottom: 2px solid #004787;
+  border-bottom: 1px solid #004787;
   .right1headleft {
-    height: 32px;
-    width: 80px;
+    height: 30px;
+    width: 60px;
     padding-top: 8px;
-    background-color: #004787;
-    color: #f7f7f7;
+    color: #004787;
     font-size: 16px;
+    font-weight: 600;
     text-align: center;
     border-bottom: none;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
-    text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.4);
+    text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.3);
   }
 }
 // 右栏第一栏内容
-  .right1rword {
-    font-size: 13px;
-    line-height: 2em;
-    padding-left: 10px;
-    a {
-      color: #403a3e;
-    }
-    li {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    a:hover {
-      color: #39b8ed;
-    }
+.right1rword {
+  font-size: 13px;
+  line-height: 2em;
+  padding-left: 10px;
+  a {
+    color: #403a3e;
   }
-
+  li {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  a:hover {
+    color: #39b8ed;
+  }
+}
 
 // 右栏第二栏内容
-  .right2word {
-    width: 100%;
-    font-size: 13px;
-    line-height: 2em;
-    padding-left: 10px;
-    a {
-      color: #403a3e;
-    }
-    a:hover {
-      color: #39b8ed;
-    }
-    ul {
-      list-style-position: inside;
-    }
-    li {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+.right2word {
+  width: 100%;
+  font-size: 13px;
+  line-height: 2em;
+  padding-left: 10px;
+  a {
+    color: #403a3e;
   }
-
+  a:hover {
+    color: #39b8ed;
+  }
+  ul {
+    list-style-position: inside;
+  }
+  li {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
 
 .right23more {
   width: 100%;
@@ -603,7 +644,6 @@ a {
 // 右栏下tag区
 .tage {
   padding-top: 20px;
-  
 }
 .el-tag {
   background-color: #f0f9eb;
@@ -615,5 +655,4 @@ a {
   height: 40px;
   cursor: pointer;
 }
-
 </style>

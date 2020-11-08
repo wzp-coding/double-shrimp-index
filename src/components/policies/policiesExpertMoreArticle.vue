@@ -7,6 +7,7 @@
       >
         <el-breadcrumb-item>当前位置</el-breadcrumb-item>
         <el-breadcrumb-item to="/policies"><span style="cursor:pointer">政策法规</span></el-breadcrumb-item>
+        <el-breadcrumb-item>专家频道</el-breadcrumb-item>
       </el-breadcrumb>
       <el-divider></el-divider>
 
@@ -21,19 +22,20 @@
             <div class="leftlist" v-for="item in tableexpertlist" :key="item.id">
                   
                 <!-- 标题 -->
-                <h3 class="leftlist_title">
+                <h2 class="leftlist_title">
                 <router-link :to="{path:'policiesListArticle',query:{id:item.id}}">{{ item.title }}
                 </router-link>
-                </h3>
-                <!-- 时间 -->
-                <p class="leftlist__time_editor_clickNum">
-                发布时间：{{ formatTime(item.creationTime) }}
-                <!-- 发布者 -->
-                发布者：{{item.editor}}
-                <!-- 点击量 -->
-                点击量：{{item.clickNum}} </p>
+                </h2>
                 <!-- 概要 -->
                 <div class="leftlist_summary"><span style="color: #3591b8;">[概要]</span>{{item.summary}}</div>
+                <!-- 时间 -->
+                <p class="leftlist__time_editor_clickNum">
+                {{ formatTime(item.creationTime) }}
+                <!-- 发布者 -->
+                <span style="padding-left: 4px">来源：</span>{{item.editor}}
+                <!-- 点击量 -->
+                <span style="padding-left: 4px">点击量：</span>{{item.clickNum}} </p>
+                
             </div>
             <!-- 分页区域 -->
             <el-pagination
@@ -44,14 +46,14 @@
               layout="prev, pager,next, total, jumper"
               :total="total"
               style="padding-left:160px;
-              padding-top: 20px;"
+              padding-top: 10px;
+              padding-bottom: 3px"
               >
             </el-pagination>
-          </div>
-      
+          </div>     
       
           <!-- 右侧栏 -->
-        <div class="lsx-right">
+          <div class="lsx-right">
             <!-- 右侧栏第一栏标题区 -->
             <div class="right1head">
               <div class="right1headleft">官方</div>
@@ -66,8 +68,7 @@
               </template>
                   </li>
                 </ul>
-            </div>
-            <br>
+            </div>           
         
             <!-- 右栏第二栏内容区 -->
             <!-- 按点击量查询政策法规 -->
@@ -384,7 +385,7 @@ a {
   .lsx-right {
     width: 28%;
   }
-
+}
 // 左栏标题
 .left23head {
     display: flex;
@@ -405,32 +406,33 @@ a {
 }
 // 左栏列表内容
 .leftlist{
-    padding-left: 5px; 
-    height: 100px;
+    padding: 8px;
     border-bottom: 1px solid #8d8d8c;
     a {
     color: #403a3e;
     }
     a:hover {
         color: #39b8ed;
+    } 
+    .leftlist_title {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
-    .leftlist_title{
-        padding-top: 10px;
-    }
-    .leftlist__time_editor_clickNum{
+    .leftlist__time_editor_clickNum {
         text-align: right;
-        padding-top: 5px;
+        padding-top: 7px;
         font-size: 12px;
         color: #b7b7b5;
     }
-    .leftlist_summary{
-        text-indent:1.8em;
-        font-size: 14px;
-         white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+    .leftlist_summary {
+      padding-top: 10px;
+      text-indent:1em;
+      font-size: 14px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
-    
 }
 
   // 右栏上标题
@@ -471,7 +473,6 @@ a {
     }
   }
 
-
 // 右栏第二栏
   .right2word {
     width: 100%;
@@ -494,39 +495,37 @@ a {
     }
   }
 
-
-.right23more {
-  width: 100%;
-  height: 20px;
-  line-height: 2em;
-  font-size: 13px;
-  border-top: 1px solid #b7b7b5;
-  a {
-    float: right;
-    color: #b7b7b5;
+  .right23more {
+    width: 100%;
+    height: 20px;
+    line-height: 2em;
+    font-size: 13px;
+    border-top: 1px solid #b7b7b5;
+    a {
+      float: right;
+      color: #b7b7b5;
+    }
+    a:hover {
+      color: black;
+    }
   }
-  a:hover {
-    color: black;
+  .rightwordhead:nth-child(1) {
+    font-size: 15px;
+    font-weight: 800;
   }
-}
-.rightwordhead:nth-child(1) {
-  font-size: 15px;
-  font-weight: 800;
-}
 
+  .tage {
+    padding-top: 20px;
+  }
+  .el-tag {
+    background-color: #f0f9eb;
+    border-color: #e1f3d8;
+    color: #67c23a;
+    margin: 0 5px 10px 10px;
+    font-size: 14px;
+    padding-top: 5px;
+    height: 40px;
+    cursor: pointer;
+  }
 
-.tage {
-  padding-top: 20px;
-}
-.el-tag {
-  background-color: #f0f9eb;
-  border-color: #e1f3d8;
-  color: #67c23a;
-  margin: 0 5px 10px 10px;
-  font-size: 14px;
-  padding-top: 5px;
-  height: 40px;
-  cursor: pointer;
-}
-}
 </style>

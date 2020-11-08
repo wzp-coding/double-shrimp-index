@@ -61,11 +61,12 @@ export default {
   data() {
     return {
       activeName: "homePage",
-      shopId: "bdfba4564sdfb",
+      shopId: this.$route.query.merchantId,
       shopInfo: { shopAddress: "" },
     };
   },
   methods: {
+    
     // 获取店铺信息函数
     async getShopInfo() {
       const { data: res } = await this.reqM4Service(

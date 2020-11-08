@@ -27,7 +27,7 @@
             :key="item.productId"
           >
             <el-row class="goods-img">
-              <img :src="item.productImages" alt="" />
+              <img :src="item.productImages" alt="" @click="goToGoodsDetail(item)"/>
             </el-row>
             <el-row class="goods-price" type="flex" align="middle" justify="space-between">
               <el-col
@@ -39,7 +39,7 @@
               </el-col>
             </el-row>
             <el-row class="goods-desc">
-              {{ item.productTitle }}
+              <span @click="goToGoodsDetail(item)">{{ item.productTitle }}</span>
             </el-row>
             <el-row class="goods-address"> {{ item.productArea }} </el-row>
           </el-col>
@@ -87,6 +87,14 @@ export default {
       this.pageInfo.pageNum = newPage;
       // 刷新列表
       this.getShopGoods();
+    },
+    // 跳转到商品详情页面
+    goToGoodsDetail(item) {
+      this.$router.push({
+        path: "/emallDetail",
+        name: "emallDetail",
+        query: item,
+      });
     },
     // 获取商品列表函数
     async getShopGoods() {
@@ -214,6 +222,7 @@ export default {
               width: 100%;
               height: 100%;
               border-bottom: 1px solid #eee;
+              cursor: pointer;
             }
           }
           .goods-price {
@@ -231,6 +240,7 @@ export default {
           .goods-desc {
             padding: 0 10px;
             font-size: 14px;
+            cursor: pointer;
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;

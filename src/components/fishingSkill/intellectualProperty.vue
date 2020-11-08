@@ -30,7 +30,6 @@
                   </li>
                 </ul>
             </div>
-            <br>
         
             <!-- 左栏第二栏内容区 -->
             <!-- 按点击量查询政策法规 -->
@@ -114,7 +113,7 @@
               placeholder="请输入内容"
               v-model="queryInfo.query"
               clearable
-              @click="getTableList">
+              @clear="getTableList">
               
             <el-button
               slot="append"
@@ -175,7 +174,13 @@
               prop="file"
               align="center"
               header-align="center">
-              <a href="http://134.175.208.235/group1/M00/00/20/rBAAD1-JnKKACJO3AAA81Oz8uUg43.docx" download="http://134.175.208.235/group1/M00/00/20/rBAAD1-JnKKACJO3AAA81Oz8uUg43.docx"><el-button icon="el-icon-download" size="mini"></el-button></a>
+              <template slot-scope="scope">
+              <a :href="scope.row.file" :download="scope.row.file">
+              <el-button icon="el-icon-download" size="mini" @click="getTableList"></el-button>
+              </a>
+
+              </template>
+              
             </el-table-column>
             </el-table>
 
@@ -194,7 +199,6 @@
         
             </div>  
         </div>
-
       </div>
     </div>
     </div>
@@ -245,7 +249,7 @@
       // 按时间查询政策法规
       this.getTimeList();
     },
-  // +  +  
+
     methods: {
       // 右侧表格数据
       async getTableList() {
@@ -385,7 +389,10 @@
         min +
         ":" +
         sec;
-      return times;}
+
+        // 截取年月日
+        let shortTimes = times.substring(0,10);
+      return shortTimes;}
   }
 }
 </script>
@@ -443,6 +450,7 @@ a {
       text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.3);
     }
   }
+  // 左栏第一栏内容
   .left1rword {
     font-size: 13px;
     line-height: 2em;
@@ -480,7 +488,7 @@ a {
       text-overflow: ellipsis;
     }
   }
-
+  // 左栏第二栏更多
   .left23more {
     width: 100%;
     height: 20px;
@@ -500,9 +508,6 @@ a {
     font-weight: 800;
   }
 }
-
-
-
 
 // 右栏
 .lsx-right {
@@ -524,9 +529,7 @@ a {
     opacity: 0.5;
     font-weight: 600;
   }
-  
 }
-
 </style>
 
 
