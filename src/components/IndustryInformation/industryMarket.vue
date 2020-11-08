@@ -9,6 +9,7 @@
           >
             <el-breadcrumb-item>当前位置</el-breadcrumb-item>
             <el-breadcrumb-item>产业咨询</el-breadcrumb-item>
+            <el-breadcrumb-item>产业行情</el-breadcrumb-item>
           </el-breadcrumb>
         </div>
         <div class="tr">
@@ -1037,7 +1038,7 @@ export default {
       display: flex;
       justify-content: space-between;
       > * {
-        width: 225px;
+        width: 210px;
       }
     }
   }

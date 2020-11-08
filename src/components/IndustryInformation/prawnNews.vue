@@ -1,17 +1,20 @@
 <template>
   <div class="lxl-body">
     <div class="lxl-box">
-      <div class="top">
-        <div class="tl">
+      <!-- 导航与搜索 -->
+      <div class="navigationSearch">
+        <div>
           <el-breadcrumb
             separator-class="el-icon-arrow-right"
             class="lxl-breadcrumb"
           >
             <el-breadcrumb-item>当前位置</el-breadcrumb-item>
             <el-breadcrumb-item>产业咨询</el-breadcrumb-item>
+            <el-breadcrumb-item>虾业专题</el-breadcrumb-item>
           </el-breadcrumb>
         </div>
-        <div class="tr">
+        <!-- 搜索 -->
+        <div class="search">
           <el-input
             type="text"
             v-model="SearchKey"
@@ -22,299 +25,260 @@
       </div>
       <el-divider></el-divider>
       <el-container>
-        <div class="zhuti">
-          <div class="left">
-            <div class="block" style="margin-bottom: 8px">
-              <div
-                class="blockson"
-                v-for="(item, index) in pagelist.slice(0, 3)"
+        <el-aside style="width: 70%">
+          <!-- 顶部三张图片 -->
+          <div
+            class="topPicture"
+            style="margin-bottom: 8px"
+            v-loading="loading"
+          >
+            <div
+              class="topPictureson"
+              v-for="(item, index) in pagelist.slice(0, 3)"
+              :key="index"
+              @click="TonewPath(item.id)"
+            >
+              <el-image :src="item.picture"></el-image>
+              <span>{{ item.title }}</span>
+            </div>
+          </div>
+          <!-- 专题分类  -->
+          <div>
+            <span style="font-size: 15px">分类：</span>
+            <el-button
+              type="success"
+              size="mini"
+              plain
+              v-for="(item, index) in TypeDataList.slice(0, 6)"
+              :key="index"
+              @click="TypeChange(item.id, item.name)"
+              >{{ item.name }}</el-button
+            >
+          </div>
+          <!-- 专题分页起始 -->
+          <div
+            class="tail"
+            style="
+              display: flex;
+              justify-content: space-between;
+              width: 100%;
+              margin-bottom: -20px;
+              margin-top: 15px;
+            "
+          >
+            <div>
+              <span
+                style="
+                  margin-right: 5px;
+                  border-left: 6px solid rgb(93, 183, 60);
+                "
+              ></span>
+              {{ this.queryInfo.TypeName }}
+            </div>
+            <div
+              style="
+                font-size: 0.8rem;
+                margin-top: 6px;
+                color: rgb(93, 183, 60);
+              "
+            >
+              <span
+                style="color: #9e9e9e; cursor: pointer"
+                @click="ToMorePage(queryInfo.TypeID)"
+              >
+                更多
+              </span>
+
+              <i class="el-icon-caret-right"></i>
+            </div>
+          </div>
+          <!-- 分割线 -->
+          <el-divider></el-divider>
+          <!-- 虾行产业开始   分页-->
+          <div
+            class="asidePaging"
+            v-for="(item, index) in pagelist"
+            :key="index"
+            v-loading="loading"
+          >
+            <div
+              class="asidePaggingSon"
+              v-if="pagelist.length != 0"
+              style="border-bottom: 1px solid rgb(230, 230, 230)"
+            >
+              <!-- 分页图片信息 -->
+              <div class="paggingPicture" @click="TonewPath(item.id)">
+                <el-image :src="item.picture" lazy></el-image>
+              </div>
+              <!-- 分页文字信息 -->
+              <div class="paggingArticle">
+                <div
+                  class="paggingTitle"
+                  @click="TonewPath(item.id)"
+                  style="width: 100%; margin-top: 18px"
+                >
+                  <h2>{{ item.title }}</h2>
+                </div>
+                <div class="paggingContent">
+                  <span style="width: 100%">
+                    {{ item.summary | limitword }}
+                  </span>
+                  <span class="paggingDetail" @click="TonewPath(item.id)"
+                    >[详情]</span
+                  >
+                </div>
+                <div class="paggingBottom" style="width: 100%">
+                  <p style="font-size: 13px; float: left">
+                    {{ item.creationTime | timefilters
+                    }}<span style="margin-left: 15px">
+                      阅读： {{ item.clickNum }}</span
+                    >
+                  </p>
+                  <p style="font-size: 13px; right: 10px">
+                    分类：<span style="color: green">{{
+                      queryInfo.TypeName
+                    }}</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 分页按钮 -->
+          <el-pagination
+            background
+            layout="prev, pager, next"
+            :total="queryInfo.total"
+            :page-size="queryInfo.pagesize"
+            :current-page="queryInfo.Currentpage"
+            @current-change="handleCurrentChange"
+            style="
+              display: flex;
+              justify-content: center;
+              margin: 20px 0 20px 0;
+            "
+          >
+          </el-pagination>
+        </el-aside>
+        <el-main style="width: 30%">
+          <div>
+            <!-- 财富手册开始 -->
+            <h3>
+              <div>
+                <span
+                  style="
+                    margin-right: 5px;
+                    border-left: 6px solid rgb(93, 183, 60);
+                  "
+                ></span>
+                财富手册<el-tag
+                  type="danger"
+                  style="margin-left: 5px"
+                  size="small"
+                  >New</el-tag
+                >
+              </div>
+              <div class="toMore">
+                <span @click="ToMorePage(queryInfo.TypeID)"> 更多 </span>
+                <i class="el-icon-caret-right"></i>
+              </div>
+            </h3>
+            <el-divider></el-divider>
+            <ul class="ccy-css" >
+              <li
+                v-for="(item, index) in caifuList"
                 :key="index"
                 @click="TonewPath(item.id)"
               >
-                <el-image :src="item.picture"></el-image>
-                <span>{{ item.title }}</span>
-              </div>
-            </div>
-            <div class="sort">
-              <el-row>
-                <span style="font-size: 15px">分类：</span>
-
-                <el-button
-                  type="success"
-                  size="mini"
-                  plain
-                  v-for="(item, index) in TypeDataList.slice(0, 6)"
-                  :key="index"
-                  @click="TypeChange(item.id, item.name)"
-                  >{{ item.name }}</el-button
-                >
-              </el-row>
-            </div>
-            <div class="tail" style="width: 100%; margin-top: 15px">
-              <h3
-                style="
-                  margin-bottom: -20px;
-                  display: flex;
-                  justify-content: space-between;
-                "
-              >
-                <div>
-                  <span
-                    style="
-                      margin-right: 5px;
-                      border-left: 6px solid rgb(93, 183, 60);
-                    "
-                  ></span>
-                  {{ this.queryInfo.TypeName }}
-                </div>
-                <div
+                {{ item.title }}
+              </li>
+            </ul>
+            <!-- 财富手册结束与对虾行情开始 -->
+            <h3>
+              <div>
+                <span
                   style="
-                    font-size: 0.8rem;
-                    margin-top: 6px;
-                    color: rgb(93, 183, 60);
+                    margin-right: 5px;
+                    border-left: 6px solid rgb(93, 183, 60);
                   "
+                ></span>
+                对虾行情<el-tag
+                  style="margin-left: 5px"
+                  type="danger"
+                  size="small"
+                  >热卖</el-tag
                 >
-                  <span
-                    style="color: #9e9e9e; cursor: pointer"
-                    @click="ToMorePage(queryInfo.TypeID)"
-                  >
-                    更多
-                  </span>
-
-                  <i class="el-icon-caret-right"></i>
-                </div>
-              </h3>
-              <el-divider class="ccy-drvider"></el-divider>
-            </div>
-            <div class="main" v-for="(item, index) in pagelist" :key="index">
-              <div
-                class="mainson"
-                v-if="pagelist.length !=0"
-                style="border-bottom: 1px solid rgb(230, 230, 230)"
-              >
-                <div class="pic" @click="TonewPath(item.id)">
-                  <el-image :src="item.picture"></el-image>
-                </div>
-                <div class="sonr">
-                  <div
-                    class="h2"
-                    @click="TonewPath(item.id)"
-                    style="width: 100%; margin-top: 18px"
-                  >
-                    <h2>{{ item.title }}</h2>
-                  </div>
-                  <div class="pm" style="width: 100%; margin: 10px 0">
-                    <span style="width: 100%">
-                      {{ item.summary | limitword }}
-                    </span>
-                    <span class="spanpm" @click="TonewPath(item.id)"
-                      >[详情]</span
-                    >
-                  </div>
-                  <div class="lbtm" style="width: 100%">
-                    <p style="font-size: 13px; float: left">
-                      {{ item.creationTime | timefilters
-                      }}<span style="margin-left: 15px">
-                        阅读： {{ item.clickNum }}</span
-                      >
-                    </p>
-                    <p style="font-size: 13px; right: 40px">
-                      分类：<span style="color: green">{{
-                        queryInfo.TypeName
-                      }}</span>
-                    </p>
-                  </div>
-                </div>
               </div>
-            </div>
-            <!-- 分页 -->
-            <el-pagination
-              background
-              layout="prev, pager, next"
-              :total="queryInfo.total"
-              :page-size="queryInfo.pagesize"
-              :current-page="queryInfo.Currentpage"
-              @current-change="handleCurrentChange"
-              style="
-                display: flex;
-                justify-content: center;
-                margin: 20px 0 20px 0;
-              "
-            >
-            </el-pagination>
+              <div class="toMore">
+                <span @click="ToMorePage(queryInfo.TypeID)"> 更多 </span>
+                <i class="el-icon-caret-right"></i>
+              </div>
+            </h3>
+            <el-divider></el-divider>
+            <ul class="ccy-css" >
+              <li
+                v-for="(item, index) in hangqingList"
+                :key="index"
+                @click="TonewPath(item.id)"
+              >
+                {{ item.title }}
+              </li>
+            </ul>
+            <!-- 对虾行情结束与产链前沿开始 -->
+            <h3>
+              <div>
+                <span
+                  style="
+                    margin-right: 5px;
+                    border-left: 6px solid rgb(93, 183, 60);
+                  "
+                ></span>
+                产链前沿<el-tag
+                  type="danger"
+                  size="small"
+                  style="margin-left: 5px"
+                  >Hot</el-tag
+                >
+              </div>
+              <div class="toMore">
+                <span @click="ToMorePage(queryInfo.TypeID)"> 更多 </span>
+                <i class="el-icon-caret-right"></i>
+              </div>
+            </h3>
+            <el-divider></el-divider>
+            <ul class="ccy-css" >
+              <li
+                v-for="(item, index) in chanlianList"
+                :key="index"
+                @click="TonewPath(item.id)"
+              >
+                {{ item.title }}
+              </li>
+            </ul>
+            <!-- 产链前沿结束 -->
+            <el-divider class="ccy-drvider"></el-divider>
+            <!--分割线-->
+            <div class="drive" style="width: 100%"></div>
           </div>
-          <el-aside>
-            <div class="right">
-              <div class="rtop">
-                <h3
-                  style="
-                    margin-bottom: -20px;
-                    display: flex;
-                    justify-content: space-between;
-                  "
-                >
-                  <div style="margin-right: -120px">
-                    <span
-                      style="
-                        margin-right: 5px;
-                        border-left: 6px solid rgb(93, 183, 60);
-                      "
-                    ></span>
-                    财富手册
-                  </div>
-                  <el-tag type="danger" size="small" style="margin-top: 3px"
-                    >New</el-tag
-                  >
-                  <div
-                    style="
-                      font-size: 0.8rem;
-                      margin-top: 6px;
-                      color: rgb(93, 183, 60);
-                    "
-                  >
-                    <span
-                      @click="ToMorePage(queryInfo.TypeID)"
-                      style="cursor: pointer; color: #9e9e9e"
-                    >
-                      更多
-                    </span>
-                    <i class="el-icon-caret-right"></i>
-                  </div>
-                </h3>
-                <el-divider class="ccy-drvider"></el-divider>
-
-                <ul class="ccy-css" style="margin-bottom: 6px">
-                  <li
-                    v-for="(item, index) in caifuList"
-                    :key="index"
-                    @click="TonewPath(item.id)"
-                  >
-                    {{ item.title }}
-                  </li>
-                </ul>
-
-                <h3
-                  style="
-                    margin-bottom: -22px;
-                    display: flex;
-                    justify-content: space-between;
-                  "
-                >
-                  <div style="margin-right: -120px">
-                    <span
-                      style="
-                        margin-right: 5px;
-                        border-left: 6px solid rgb(93, 183, 60);
-                      "
-                    ></span>
-                    对虾行情
-                  </div>
-
-                  <el-tag type="danger" size="small" style="margin-top: 3px"
-                    >热卖</el-tag
-                  >
-                  <div
-                    style="
-                      font-size: 0.8rem;
-                      margin-top: 6px;
-                      color: rgb(93, 183, 60);
-                    "
-                  >
-                    <span
-                      style="cursor: pointer; color: #9e9e9e"
-                      @click="ToMorePage(queryInfo.TypeID)"
-                    >
-                      更多
-                    </span>
-                    <i class="el-icon-caret-right"></i>
-                  </div>
-                </h3>
-                <el-divider
-                  class="ccy-drvider"
-                  style="display: inline-block; margin-top: -30px"
-                ></el-divider>
-                <ul class="ccy-css">
-                  <li
-                    v-for="(item, index) in hangqingList"
-                    :key="index"
-                    @click="TonewPath(item.id)"
-                  >
-                    {{ item.title }}
-                  </li>
-                </ul>
-                <br />
-                <h3
-                  style="
-                    margin-bottom: -20px;
-                    display: flex;
-                    justify-content: space-between;
-                  "
-                >
-                  <div style="margin-right: -120px">
-                    <span
-                      style="
-                        margin-right: 5px;
-                        border-left: 6px solid rgb(93, 183, 60);
-                      "
-                    ></span>
-                    产链前沿
-                  </div>
-                  <el-tag type="danger" size="small" style="margin-top: 3px"
-                    >Hot</el-tag
-                  >
-                  <div
-                    style="
-                      font-size: 0.8rem;
-                      margin-top: 6px;
-                      color: rgb(93, 183, 60);
-                    "
-                  >
-                    <span
-                      style="cursor: pointer; color: #9e9e9e"
-                      @click="ToMorePage(queryInfo.TypeID)"
-                    >
-                      更多
-                    </span>
-                    <i class="el-icon-caret-right"></i>
-                  </div>
-                </h3>
-                <el-divider class="ccy-drvider"></el-divider>
-
-                <ul class="ccy-css">
-                  <li
-                    v-for="(item, index) in chanlianList"
-                    :key="index"
-                    @click="TonewPath(item.id)"
-                  >
-                    {{ item.title }}
-                  </li>
-                </ul>
-                <el-divider class="ccy-drvider"></el-divider>
-                <!--分割线-->
-                <div class="drive" style="width: 100%"></div>
-              </div>
-              <div class="rbtm">
-                <div class="tageson">
-                  <el-button size="medium" round>专家</el-button>
-                  <el-button size="medium" round>火参果资源</el-button>
-                  <el-button size="medium" round>橄榄</el-button>
-                </div>
-                <div class="tageson">
-                  <el-button size="medium" round>红豆杉资源</el-button>
-                  <el-button size="medium" round>火鸡蛋</el-button>
-                </div>
-                <div class="tageson">
-                  <el-button size="medium" round>豆芽货源</el-button>
-                  <el-button size="medium" round>洋葱资源</el-button>
-                </div>
-                <div class="tageson">
-                  <el-button size="medium" round>红薯批发</el-button>
-                  <el-button size="medium" round>黄瓜资源</el-button>
-                </div>
-              </div>
+          <div class="asideBottom">
+            <div class="tageson">
+              <el-button size="medium" round>专家</el-button>
+              <el-button size="medium" round>火参果资源</el-button>
+              <el-button size="medium" round>橄榄</el-button>
             </div>
-          </el-aside>
-        </div>
+            <div class="tageson">
+              <el-button size="medium" round>红豆杉资源</el-button>
+              <el-button size="medium" round>火鸡蛋</el-button>
+            </div>
+            <div class="tageson">
+              <el-button size="medium" round>豆芽货源</el-button>
+              <el-button size="medium" round>洋葱资源</el-button>
+            </div>
+            <div class="tageson">
+              <el-button size="medium" round>红薯批发</el-button>
+              <el-button size="medium" round>黄瓜资源</el-button>
+            </div>
+          </div>
+        </el-main>
       </el-container>
     </div>
   </div>
@@ -375,47 +339,32 @@ export default {
         TypeID: "1321798002377101312",
         TypeName: "虾行产业",
       },
-
-      // waybytime: "info/shrimpIndustry/findByTime",
-      // waybyclick:"info/shrimpIndustry/findByClickNum",
-      // waybyrecommed:"info/shrimpIndustry/findByRecommend",
       // 类型分页
       pagelist: [],
-
       //虾行产业  1321798002377101312  类型ID
       xiahang: "1321798002377101312",
-
       duixiaId: "1320625468222869504",
-
       //财富手册
       caifuList: [],
-      caifuID: "1316745747953225728",
-      size1: 9,
+      caifuID: "1316743601669148672",
       //对虾行情
       hangqingList: [],
-      hangqingId: "1323970833487630336",
-      size2: 7,
+      hangqingId: "1316745747953225728",
       //产链前沿
       chanlianList: [],
-      chanlianId: "1321798043531612160",
-      size3: 6,
-
+      chanlianId: "1320546102558199808",
       //分类信息查询
       TypeDataList: [],
-
       SearchKey: "",
-
-      src:
-        "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+      loading: true,
     };
   },
   created() {
-    //  分页 虾行产业
-    this.getPageList();
-    this.getTypeData();
-    this.getTypeInfo(this.caifuID, this.size1);
-    this.getTypeInfo(this.hangqingId, this.size2);
-    this.getTypeInfo(this.chanlianId, this.size3);
+    this.getPageList(this.queryInfo.TypeID);  //  分页 虾行产业
+    this.getTypeData(); //获取分类信息
+    this.caifuList = this.getTypeInfo(this.caifuID, 9); //财富手册专题
+    this.getTypeInfo(this.hangqingId, 7); //对虾行情专题
+    this.getTypeInfo(this.chanlianId, 6); //产链前沿专题
   },
   methods: {
     //前往详情页
@@ -432,15 +381,13 @@ export default {
         query: { path: path },
       });
     },
-    ///info/shrimpIndustry/findByTime
-
+    // 搜索进入更多页面
     ToSearch(SearchKey) {
       this.$router.push({
         path: "/instructpagedetail",
         query: { SearchKey: SearchKey },
       });
     },
-
     //根据类型ID查询  非分页
     async getTypeInfo(TypeNum, size) {
       try {
@@ -449,57 +396,61 @@ export default {
           "",
           "post"
         );
-        if (res.data.rows.length == 0) {
-          console.log("所请求的接口无数据");
+        if (res.code === 20000) {
+          if (res.data.rows.length == 0) {
+            console.log("所请求的接口无数据");
+          } else {
+            if (size == 9) {
+              //财富手册
+              this.caifuList = res.data.rows.sort((a, b) => {
+                return a.clickNum - b.clickNum;
+              });
+            } else if (size == 7) {
+              //对虾行情
+              this.hangqingList = res.data.rows.sort((a, b) => {
+                return a.clickNum - b.clickNum;
+              });
+            } else if (size == 6) {
+              //产链前沿
+              console.log("产链前沿");
+              console.log(res);
+              this.chanlianList = res.data.rows.sort((a, b) => {
+                return a.clickNum - b.clickNum;
+              });
+            }
+          }
         } else {
-          if (size == 9) {
-            this.caifuLis = res.data.rows.sort((a, b) => {
-              return a.clickNum - b.clickNum;
-            });
-            console.log("财富");
-            console.log(res.data);
-          } else if (size == 7) {
-            this.hangqingList = res.data.rows.sort((a, b) => {
-              return a.clickNum - b.clickNum;
-            });
-            console.log(res.data);
-          } else fi(size == 6);
-          this.caifuList = res.data.rows.sort((a, b) => {
-            return a.clickNum - b.clickNum;
-          });
-          console.log(res.data);
+          console.log("请求接口失败");
         }
       } catch (error) {
         console.log("请求接口失败");
       }
     },
-
-    //分页 根据类型ID查询
-    //虾行产业 1316745747953225728
-    async getPageList() {
+    //分页 根据类型ID查询  默认 虾行产业
+    async getPageList(TypeID) {
       try {
         const { data: res } = await this.reqM2Service(
-          `/info/shrimpIndustry/search/searchByTypeId/${this.queryInfo.TypeID}/${this.queryInfo.Currentpage}/${this.queryInfo.pagesize}`,
+          `/info/shrimpIndustry/search/searchByTypeId/${TypeID}/${this.queryInfo.Currentpage}/${this.queryInfo.pagesize}`,
           "",
           "post"
         );
-        console.log(this.queryInfo.TypeID);
-        console.log(res);
-        this.pagelist = res.data.rows;
-        this.queryInfo.total = res.data.total;
-        console.log(res.data.rows);
+        if (res.code === 20000) {
+          console.log(res);
+          this.pagelist = res.data.rows;
+          this.queryInfo.total = res.data.total;
+          this.loading = false;
+        } else {
+          console.log("请求分页专题接口失败");
+        }
       } catch (error2) {
         console.log("请求类型分页接口失败");
       }
     },
-
-    handleCurrentChange(newpage) {
-      //改变页码
-      //console.log(newpage)
+    //改变分页页码
+    handleCurrentChange(newpage) {   
       this.queryInfo.Currentpage = newpage;
-      this.getPageList();
+      this.getPageList(this.queryInfo.TypeID);
     },
-
     //获取所有分类信息
     async getTypeData() {
       try {
@@ -508,19 +459,21 @@ export default {
           "",
           "get"
         );
-        this.TypeDataList = res.data;
+        if(res.code === 20000){
+          this.TypeDataList = res.data;
+        }else{
+          console.log("请求分类信息接口失败");
+        }    
       } catch (error3) {
         console.log("请求分类信息接口失败");
       }
     },
-
     TypeChange(ChangeID, ChangeName) {
-      //console.log(ChangeID)
-      this.queryInfo.Currentpage = 1 ;
+      this.queryInfo.Currentpage = 1;
       this.queryInfo.TypeID = ChangeID;
       this.queryInfo.TypeName = ChangeName;
-      //console.log(this.queryInfo.TypeID)
-      this.getPageList();
+      this.loading = true;
+      this.getPageList(ChangeID);
     },
   },
 };
@@ -530,21 +483,14 @@ export default {
   display: flex;
   justify-content: center; //对齐方式-
   min-width: 1150px;
-  .lxl-breadcrumb {
-    margin-top: 15px;
-    margin-left: 18px;
-    margin-bottom: -15px;
-  }
 }
-.lxl-box {
-  width: 1150px;
-}
-.top {
+.navigationSearch {
   padding-top: 10px;
-  margin-bottom: -19px;
+  margin-bottom: -17px;
+  height: 40px;
   display: flex;
   justify-content: space-between;
-  .tr {
+  .search {
     position: relative;
     i {
       top: 13px;
@@ -560,6 +506,8 @@ export default {
   overflow: hidden;
   white-space: nowrap;
   font-size: 13px;
+  margin-top: -15px;
+  margin-bottom:6px;
 }
 .ccy-css > li:hover {
   color: black;
@@ -573,21 +521,12 @@ export default {
   font-weight: 700;
 }
 .el-image {
+  cursor: pointer !important;
+}
+span {
   cursor: pointer;
 }
-.ccy-drvider {
-  margin-top: 30px;
-}
 .top {
-  display: flex;
-  justify-content: space-between;
-  height: 44px;
-  flex-wrap: wrap;
-  .nav {
-    .el-breadcrumb {
-      padding-top: 14px;
-    }
-  }
   .search {
     height: 45px;
     width: 17%;
@@ -608,19 +547,17 @@ export default {
     }
   }
 }
-.zhuti {
+.el-container {
   display: flex;
   justify-content: space-between;
-  width: 100%;
-  .left {
-    width: 70%;
+  .el-aside {
     flex-direction: column;
-    .block {
+    .topPicture {
       width: 100%;
       display: flex;
       height: 170px;
       justify-content: space-between;
-      .blockson {
+      .topPictureson {
         height: 100%;
         width: 33%;
         position: relative;
@@ -628,7 +565,6 @@ export default {
         .el-image {
           width: 98%;
           height: 90%;
-          cursor: pointer !important;
         }
         span {
           text-align: center;
@@ -644,18 +580,15 @@ export default {
         }
       }
     }
-    .main {
-      width: 100%;
+    .asidePaging {      //分页样式
       display: flex;
-      flex-direction: column;
       margin-top: -22px;
-      .mainson {
+      .asidePaggingSon {
         width: 100%;
         display: flex;
-
         height: 190px;
         position: relative;
-        .pic {
+        .paggingPicture {
           height: 90%;
           width: 29%;
           .el-image {
@@ -664,27 +597,10 @@ export default {
             height: 90%;
           }
         }
-        .sonr {
+        // 分页文字信息
+        .paggingArticle {
           width: 60%;
-          .pm {
-            width: 100%;
-            a {
-              color: green;
-              list-style: none;
-              text-decoration: none;
-            }
-            .spanpm {
-              color: green;
-            }
-            .spanpm:hover {
-              color: orange;
-            }
-          }
-          display: flex;
-          flex-direction: column;
-          align-content: center;
-          width: 65%;
-          margin: 10px 0 0 19px;
+          margin: 10px 0 0 10px;
           h2 {
             cursor: pointer;
             text-overflow: ellipsis;
@@ -692,11 +608,20 @@ export default {
             font-size: 15px;
             white-space: nowrap;
           }
-          span {
-            padding-top: 10px;
-            cursor: pointer;
+          .paggingContent {
+            a {
+              color: green;
+              list-style: none;
+              text-decoration: none;
+            }
+            .paggingDetail {
+              color: green;
+            }
+            .paggingDetail:hover {
+              color: orange;
+            }
           }
-          .lbtm {
+          .paggingBottom {
             p {
               position: absolute;
               bottom: 3px;
@@ -706,28 +631,36 @@ export default {
       }
     }
   }
-  .el-aside {
-    width: 30%;
-    .right {
-      li {
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-        list-style-position: inside;
-        width: 250px;
-        cursor: pointer;
-        margin-bottom: 3px;
-      }
+  .el-main {
+    h3 {
+      margin-bottom: -20px;
       display: flex;
-      flex-direction: column;
-      flex-wrap: wrap;
-      .rbtm {
-        margin-bottom: 15px;
-        .el-button {
-          margin-bottom: 8px;
-          background-color: rgb(240, 249, 235);
-          color: green;
+      justify-content: space-between;
+      .toMore {
+        //更多
+        font-size: 0.8rem;
+        margin-top: 6px;
+        color: rgb(93, 183, 60);
+        span {
+          color: #9e9e9e;
         }
+      }
+    }
+    li {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      list-style-position: inside;
+      width: 250px;
+      cursor: pointer;
+      margin-bottom: 3px;
+    }
+    .asideBottom {
+      margin-bottom: 15px;
+      .el-button {
+        margin-bottom: 8px;
+        background-color: rgb(240, 249, 235);
+        color: green;
       }
     }
   }
