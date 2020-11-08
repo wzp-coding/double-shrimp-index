@@ -235,7 +235,7 @@
           </div>
 
           <!-- 右下按钮区 -->
-          <div class="tage">
+          <!-- <div class="tage">
             <el-tag round>专家</el-tag>
             <el-tag round>火参果资源</el-tag>
             <el-tag round>橄榄</el-tag>
@@ -246,7 +246,7 @@
             <el-tag round>红薯批发</el-tag>
             <el-tag round>黄瓜货源</el-tag>
             <el-tag round>猪货源</el-tag>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>

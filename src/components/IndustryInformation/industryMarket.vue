@@ -480,7 +480,6 @@
                   v-for="(item, index) in RecommList"
                   :key="index"
                   @click="TonewPath(item.id)"
-                  style="width: 180px"
                 >
                   {{ item.title }}
                 </li>
@@ -530,57 +529,10 @@
                 </li>
               </ul>
               <br />
-              <h3 style="display: flex; justify-content: space-between">
-                <div>
-                  <span
-                    style="
-                      margin-right: 5px;
-                      border-left: 6px solid rgb(93, 183, 60);
-                    "
-                  ></span>
-                  热门产品
-                  <el-tag type="danger" size="small" style="margin-bottom: -5px"
-                    >热卖</el-tag
-                  >
-                </div>
-                <div
-                  style="
-                    font-size: 0.8rem;
-                    margin-top: 6px;
-                    color: rgb(93, 183, 60);
-                  "
-                >
-                  <span
-                    @click="ToMorePage(queryInfo1.TypeID1)"
-                    style="cursor: pointer; color: #9e9e9e"
-                  >
-                    更多
-                  </span>
-
-                  <i class="el-icon-caret-right"></i>
-                </div>
-              </h3>
+             
               <el-divider class="ccy-drvider"></el-divider>
             </div>
-            <!-- 标签 -->
-            <div class="tage">
-              <div class="tageson">
-                <el-button size="medium" round>专家</el-button>
-                <el-button size="medium" round>火参果资源</el-button>
-              </div>
-              <div class="tageson">
-                <el-button size="medium" round>红豆杉资源</el-button>
-                <el-button size="medium" round>火鸡蛋</el-button>
-              </div>
-              <div class="tageson">
-                <el-button size="medium" round>豆芽货源</el-button>
-                <el-button size="medium" round>洋葱资源</el-button>
-              </div>
-              <div class="tageson">
-                <el-button size="medium" round>红薯批发</el-button>
-                <el-button size="medium" round>黄瓜资源</el-button>
-              </div>
-            </div>
+           
           </div>
         </el-main>
       </el-container>

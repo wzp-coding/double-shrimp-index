@@ -238,6 +238,27 @@
               </el-col>
             </el-row>
 
+            <!-- <div class="s-imgs">
+              <el-row :gutter="0">
+                <el-col :span="10" class="s-c-img">
+                  <el-image
+                    class="s-img"
+                    :src="url"
+                    :preview-src-list="srcList"
+                  >
+                  </el-image>
+                </el-col>
+                <el-col :span="10" class="s-c-img">
+                  <el-image
+                    class="s-img"
+                    :src="url"
+                    :preview-src-list="srcList"
+                  >
+                  </el-image>
+                </el-col>
+              </el-row>
+            </div> -->
+<!-- 
             <div class="s-imgs">
               <el-row :gutter="0">
                 <el-col :span="10" class="s-c-img">
@@ -257,28 +278,7 @@
                   </el-image>
                 </el-col>
               </el-row>
-            </div>
-
-            <div class="s-imgs">
-              <el-row :gutter="0">
-                <el-col :span="10" class="s-c-img">
-                  <el-image
-                    class="s-img"
-                    :src="url"
-                    :preview-src-list="srcList"
-                  >
-                  </el-image>
-                </el-col>
-                <el-col :span="10" class="s-c-img">
-                  <el-image
-                    class="s-img"
-                    :src="url"
-                    :preview-src-list="srcList"
-                  >
-                  </el-image>
-                </el-col>
-              </el-row>
-            </div>
+            </div> -->
           </div>
         </div>
         <!-- 分割线 -->
@@ -683,7 +683,7 @@
               </el-col>
             </el-row>
 
-            <el-row class="l-imgs" :gutter="30">
+            <!-- <el-row class="l-imgs" :gutter="30">
               <el-col :span="2"></el-col>
               <el-col :span="7">
                 <el-image class="l-img" :src="url" :preview-src-list="srcList">
@@ -693,7 +693,7 @@
                 <el-image class="l-img" :src="url" :preview-src-list="srcList">
                 </el-image>
               </el-col>
-            </el-row>
+            </el-row> -->
           </div>
         </div>
         <!-- 分割线 -->
@@ -959,8 +959,10 @@ export default {
         },
         "post"
       );
-      this.total =this.adultShrimp.total;
-      this.shrimpFarmings =this.adultShrimp.rows;
+      console.log(11111111111111)
+      console.log(res)
+      this.total =res.data.total;
+      this.shrimpFarmings =res.data.rows;
     },
     /* 展示农资信息对话框 */
     async getSup(id) {

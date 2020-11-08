@@ -65,7 +65,9 @@
                 :disabled="regForm.show"
                 type="primary"
                 @click="emailCode()"
-                ><span v-show="regForm.show">{{ count }} s</span>
+                ><span v-show="regForm.show"
+                  >{{ count }}s</span
+                >
                 发送验证码</el-button
               >
             </el-form-item>
@@ -196,7 +198,7 @@ export default {
       }
     },
     // 注册
-    register() {
+    async register() {
       this.$refs.regForm.validate(async (valid) => {
         if (!valid) return;
         const { data: res } = await this.reqM1Service(
@@ -213,6 +215,7 @@ export default {
           }
         );
         // 过滤
+        console.log(res);
         if (res.code === 20000) {
           // 提示登录词语
           this.$message.success(res.message);
@@ -252,22 +255,28 @@ export default {
     },
     // 验证莫延时**
     getCode() {
-      const TIME_COUNT = 60;
-      if (!this.timer) {
-        this.count = TIME_COUNT;
-        this.timer = setInterval(() => {
-          if (this.count > 0 && this.count <= TIME_COUNT) {
-            this.count -= 1;
-          } else {
-            clearInterval(this.timer);
-            // 重新开启
-            this.regForm.show = false;
-            this.timer = null;
+      const TIME_COUNT = 25;
+      this.count = TIME_COUNT;
+      let timer = setInterval(() => {
+        if (this.count > 0 && this.count <= TIME_COUNT) {
+          this.count -= 1;
+          if (this.count == 0) {
+            this.regForm.show = !this.regForm.show;
           }
-        }, 1000);
-      }
+        } else {
+          // 重新开启
+          clearInterval(timer);
+        }
+      }, 1000);
     },
     //
+  },
+  computed: {
+    changed() {
+      console.log(1);
+
+      this.regForm.show = !this.regForm.show;
+    },
   },
 };
 </script>

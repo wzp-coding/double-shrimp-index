@@ -230,7 +230,7 @@
                 </h3>
                 <el-divider
                   class="ccy-drvider"
-                  style="display: inline-block; margin-top: -30px"
+                  style="display: inline-block; margin-top: 0px"
                 ></el-divider>
                 <ul class="ccy-css">
                   <li
@@ -290,27 +290,9 @@
                 </ul>
                 <el-divider class="ccy-drvider"></el-divider>
                 <!--分割线-->
-                <div class="drive" style="width: 100%"></div>
+              
               </div>
-              <div class="rbtm">
-                <div class="tageson">
-                  <el-button size="medium" round>专家</el-button>
-                  <el-button size="medium" round>火参果资源</el-button>
-                  <el-button size="medium" round>橄榄</el-button>
-                </div>
-                <div class="tageson">
-                  <el-button size="medium" round>红豆杉资源</el-button>
-                  <el-button size="medium" round>火鸡蛋</el-button>
-                </div>
-                <div class="tageson">
-                  <el-button size="medium" round>豆芽货源</el-button>
-                  <el-button size="medium" round>洋葱资源</el-button>
-                </div>
-                <div class="tageson">
-                  <el-button size="medium" round>红薯批发</el-button>
-                  <el-button size="medium" round>黄瓜资源</el-button>
-                </div>
-              </div>
+             
             </div>
           </el-aside>
         </div>
@@ -557,7 +539,7 @@ export default {
   cursor: pointer;
 }
 .ccy-drvider {
-  margin-top: 30px;
+  margin-top: 30px ! important;
 }
 .top {
   display: flex;
