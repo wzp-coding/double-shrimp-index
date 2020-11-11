@@ -69,16 +69,12 @@
             >
             </el-tree>
             <el-tree
+              :data="monitorInfo"
               :props="defaultProps"
-              :load="loadNode2"
-              accordion
-              lazy
+              default-expand-all
+              highlight-current
               @node-click="handleNodeClick2"
-              :highlight-current="true"
-              empty-text="暂无数据"
-              node-key="id"
-            >
-            </el-tree>
+            ></el-tree>
           </div>
         </div>
       </div>
@@ -92,7 +88,7 @@ export default {
       // 控制配置选项
       defaultProps: {
         label: "name",
-        children: "zones",
+        children: "children",
         isLeaf: "leaf",
       },
 
@@ -323,9 +319,18 @@ export default {
       monitor: {
         name: "",
         id: "",
-        vedioUrl:
-          "https://open.ys7.com/ezopen/h5/iframe_se?url=ezopen://kuvijh@open.ys7.com/C83568071/1.live&autoplay=0&audio=1&accessToken=at.0gtr0xdf7370qj6t1mdw36ruc82ru8e5-6t5ik3tant-07ogvjp-gsg2ay97y&templete=2",
+        vedioUrl: "",
       },
+
+      // 监控数据
+      monitorInfo: [
+        {
+          name: "监控位置",
+          children: [],
+        },
+      ],
+      // 存储监控视频的默认值
+      monitorDefault: [],
     };
   },
   computed: {
@@ -337,11 +342,15 @@ export default {
     },
   },
   created() {
+    this.isExit();
     this.getForecastData();
     // 获取表格数据
     this.getTableInfo();
     // 查询监控设备
-    this.getMonitor();
+    this.getMonitorInfo().then(() => {
+      // 点击监控设备
+      this.handleNodeClick2(this.monitorDefault);
+    });
   },
   methods: {
     // 点击获取预测节点信息
@@ -407,16 +416,6 @@ export default {
             ? this.pondCheckItemName
             : this.weatherCheckItemName
         );
-      }
-    },
-
-    // 懒加载节点
-    async loadNode2(node, resolve) {
-      if (node.level === 0) {
-        return resolve([{ name: "监控位置" }]);
-      }
-      if (node.level === 1) {
-        await this.getMonitor(node, resolve);
       }
     },
 
@@ -495,7 +494,6 @@ export default {
       if (res.data.orgindata.length === 0) {
         return this.$message.error("查无数据");
       }
-      this.$message.success("预测成功!!");
       this.isShowWarn = res.data.warn;
       // 获取画图的周期长度
       const length = this.getTimeLength(this.form.startTime, this.form.endTime);
@@ -641,30 +639,35 @@ export default {
         "post"
       );
       this.checkItemDataList = res.data.rows;
-      console.log(this.checkItemDataList);
+
     },
 
-    /* 获取监控视频 节点 */
-    async getMonitor(node, resolve) {
+    /* 获取监控视频节点 */
+    async getMonitorInfo() {
       const { data: res } = await this.reqM31Service(
         `/monitor/${this.baseId}`,
         {},
         "post"
       );
-      this.monitoringLocationList = res.data;
-      this.monitoringLocationList.forEach(
-        (item, index, monitoringLocationList) => {
-          monitoringLocationList[index] = {
-            name: item.monitoringLocation,
-            id: item.id,
-            vedioUrl: item.vedioUrl,
-            leaf: true,
-          };
-        }
-      );
-      if(!resolve) { return }
-      return resolve(this.monitoringLocationList);
+      this.monitorInfo[0].children = res.data;
+      this.monitorInfo[0].children.forEach((item, index, monitorInfo) => {
+        monitorInfo[index] = {
+          name: item.monitoringLocation,
+          id: item.id,
+          vedioUrl: item.vedioUrl,
+          leaf: true,
+        };
+      });
+      this.monitorDefault = this.monitorInfo[0].children[0];
     },
+
+    /* 判断是否登录 */
+    isExit() {
+      if(!this.$store.state.isLogin) {
+        this.$message.error("请先登录！！")
+        this.$router.push('/login')
+      }
+    }
   },
 };
 </script>
