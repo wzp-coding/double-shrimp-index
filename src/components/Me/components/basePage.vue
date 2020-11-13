@@ -164,7 +164,6 @@ export default {
           token: This.token,
           baseId: This.userData.baseId
         }
-        console.log(loginInfo)
         if (e.source != window.parent) return;
         window.parent.postMessage(loginInfo, "*");
       },
