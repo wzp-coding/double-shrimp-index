@@ -1,6 +1,5 @@
 <template>
   <div class="base-info">
-    <!-- <iframe src="http://localhost:8081/#/login" frameborder="1"></iframe> -->
     <div v-if="isShowApply">
       <el-row class="baseinfoheader"> 申请基地 </el-row>
       <el-form
@@ -205,7 +204,6 @@ export default {
         width: 100px;
       }
     }
-    // padding-bottom: 1px;
   }
 }
 </style>
