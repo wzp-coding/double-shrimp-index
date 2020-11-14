@@ -92,8 +92,11 @@ export default {
         isLeaf: "leaf",
       },
 
+      // token值
+      token: "Bearer " + window.sessionStorage.getItem("token"),
+
       // 基地id
-      baseId: "1248910886228332544",
+      baseId: "",
 
       // 存储设备信息
       equipmentList: [],
@@ -342,15 +345,8 @@ export default {
     },
   },
   created() {
+    // 判断是否登录，或者是否创建基地
     this.isExit();
-    this.getForecastData();
-    // 获取表格数据
-    this.getTableInfo();
-    // 查询监控设备
-    this.getMonitorInfo().then(() => {
-      // 点击监控设备
-      this.handleNodeClick2(this.monitorDefault);
-    });
   },
   methods: {
     // 点击获取预测节点信息
@@ -639,7 +635,6 @@ export default {
         "post"
       );
       this.checkItemDataList = res.data.rows;
-
     },
 
     /* 获取监控视频节点 */
@@ -662,12 +657,35 @@ export default {
     },
 
     /* 判断是否登录 */
-    isExit() {
-      if(!this.$store.state.isLogin) {
-        this.$message.error("请先登录！！")
-        this.$router.push('/login')
+    async isExit() {
+      if (!this.$store.state.isLogin) {
+        this.$message.error("请先登录！！");
+        this.$router.push("/login");
       }
-    }
+      // 判断是否绑定基地
+      const { data: res } = await this.reqM1Service(
+        "/authority/user/applyFor/addBase/status",
+        {
+          headers: {
+            Authorization: this.token,
+          },
+        },
+        "get"
+      );
+      if (res.data.id == null) {
+        this.$message.error("请先绑定基地！！");
+        this.$router.push("/basePage");
+      }
+      this.baseId = res.data.id;
+      this.getForecastData();
+      // 获取表格数据
+      this.getTableInfo();
+      // 查询监控设备
+      this.getMonitorInfo().then(() => {
+        // 点击监控设备
+        this.handleNodeClick2(this.monitorDefault);
+      });
+    },
   },
 };
 </script>

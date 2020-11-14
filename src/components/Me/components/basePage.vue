@@ -76,6 +76,7 @@
 </template>
 
 <script>
+import { domain } from '../../../router/url'
 export default {
   data() {
     return {
@@ -118,7 +119,7 @@ export default {
       this.$refs.baseRule.validate(async (valid) => {
         if (valid) {
           const { data: res } = await this.$http.put(
-            "http://106.75.154.40:9012/authority/user/applyFor/addBase",
+            `${domain.Base_M1_URL}/authority/user/applyFor/addBase`,
             {
               baseName: this.baseInfo.baseName,
               registNumber: this.baseInfo.registNumber,
@@ -136,14 +137,15 @@ export default {
     // 判断是否绑定基地，是的话进入基地展示页面，否的话进入基地申请页面
     async isPassSuccess() {
       const { data: res } = await this.$http.get(
-        "http://106.75.154.40:9012/authority/user/applyFor/addBase/status",
+        `${domain.Base_M1_URL}/authority/user/applyFor/addBase/status`,
         {
           headers: {
             Authorization: this.token,
           },
         }
       );
-      if (res.data === null) {
+      console.log(res);
+      if (res.data == null) {
         this.isShowApply = true;
       } else {
         this.isShowEnter = true;
