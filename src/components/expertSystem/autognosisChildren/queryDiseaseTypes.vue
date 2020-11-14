@@ -97,8 +97,8 @@ export default {
     // 点击提交症状
     getAllDisease(page=1,size=8,keys) {
       // 等分页查询接口完成加上去
-      let httpUrl = `http://106.75.154.40:9010/diagnose/search/${page}/${size}?key=${keys}`;
-      this.$http.get(httpUrl).then((res) => {
+      let httpUrl = `/diagnose/search/${page}/${size}?key=${keys}`;
+      this.reqM13Service(httpUrl,{},'get').then((res) => {
         console.log(res.data);
         res = res.data;
         if (res.code === 20000) {

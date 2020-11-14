@@ -18,7 +18,9 @@
           <div class="info">
             <span class="editor">{{ articleInfo.editor }}</span>
             <el-divider direction="vertical"></el-divider>
-            <span class="creationTime">{{ this.formatTime(articleInfo.creationTime) }}</span>
+            <span class="creationTime">{{
+              this.formatTime(articleInfo.creationTime)
+            }}</span>
             <el-divider direction="vertical"></el-divider>
             <span class="clickNum">点击量：{{ articleInfo.clickNum }} </span>
           </div>
@@ -50,14 +52,16 @@ export default {
   },
   methods: {
     async getArticleDeatailById(id) {
-      await this.reqM2Service(`/info/information/${id}`, {}, "get").then((res) => {
-        res = res.data;
-        if (res.code === 20000) {
+      await this.reqM2Service(`/info/information/${id}`, {}, "get").then(
+        (res) => {
           res = res.data;
-          this.articleInfo = res;
-          console.log("res: ", res);
+          if (res.code === 20000) {
+            res = res.data;
+            this.articleInfo = res;
+            // console.log("res: ", res);
+          }
         }
-      });
+      );
     },
     formatTime(date) {
       //date是传入的时间
@@ -82,11 +86,37 @@ export default {
         sec;
       return times;
     },
+    // 第一次点击增加点击量
+    addFirstClickNum(params) {
+      // console.log('params: ', params);
+      this.reqM2Service(`/info/information/click`, params, "put")
+      .then(
+        (res) => {
+          res = res.data;
+          console.log("res: ", res);
+          if (res.code == 20000) {
+            // this.$message({
+            //   message: res.message,
+            // });
+          } else {
+            // this.$message({
+            //   message: res.message,
+            // });
+          }
+        }
+      );
+    },
   },
   created() {
     let id = this.$route.params.id;
     this.id = id;
     console.log("id: ", id);
+    this.addFirstClickNum({
+      readId: id,
+      userId: this.$store.state.userData.userId,
+      ip: localStorage.getItem("Ip"),
+    });
+    // console.log("localStorage.getItem('ip'): ", localStorage.getItem("Ip"));
   },
   async mounted() {
     await this.getArticleDeatailById(this.id);

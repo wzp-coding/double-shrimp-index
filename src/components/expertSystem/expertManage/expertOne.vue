@@ -198,11 +198,12 @@ export default {
     },
     // 修改专家信息
     updateExpertInfo(expertInfo) {
-      this.$http
-        .put(
-          `http://106.75.154.40:9005/experts/updateExperts/${expertInfo.id}`,
-          expertInfo
-        )
+      // this.$http
+      //   .put(
+      //     `http://106.75.154.40:9005/experts/updateExperts/${expertInfo.id}`,
+      //     expertInfo
+      //   )
+      this.reqM8Service(`/experts/updateExperts/${expertInfo.id}`,expertInfo,'put')
         .then((res) => {
           res = res.data;
           if (res.code == 20000) {
@@ -275,13 +276,14 @@ export default {
   },
     // 根据用户id获取专家信息
     getExpertInfoByUserId(id) {
-      this.$http
-        .get(`http://106.75.154.40:9012/info/experts/findByUser/${id}`)
+      this.reqM2Service
+        (`/info/experts/findByUser/${id}`,{},'get')
         .then((res) => {
           res = res.data;
           if (res.code === 20000) {
             res = res.data;
             this.expertInfo = res;
+            this.fileList.push({url:this.expertInfo.picture})
             console.log('res: ', res);
           } else {
             this.$message({

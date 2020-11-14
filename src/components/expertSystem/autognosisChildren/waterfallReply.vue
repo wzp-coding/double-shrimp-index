@@ -22,8 +22,6 @@
         "
         @click="toExpertList()"
       >
-        <span style="color: #9e9e9e"> 更多 </span>
-        <i class="el-icon-caret-right"></i>
       </div>
     </h3>
     <el-divider class="ccy-drvider"></el-divider>
@@ -96,8 +94,10 @@ export default {
       let httpTasks = [];
       ids.forEach((id) => {
         httpTasks.push(
-          this.$http.get(
-            `http://106.75.154.40:9012/info/details/findByPost/${id}/1/1`
+          // this.$http.get
+          this.reqM2Service
+          (
+            `/info/details/findByPost/${id}/1/1`,{},'get'
           )
         );
       });
@@ -107,8 +107,8 @@ export default {
     async getRepliesList(page = 1, size = 3) {
       this.page = page;
       this.size = size;
-      await this.$http
-        .get(`http://106.75.154.40:9012/info/post/findAll/${page}/${size}`)
+      await this.reqM2Service
+        (`/info/post/findAll/${page}/${size}`,{},'get')
         .then((res) => {
           res = res.data;
           if (res.code === 20000) {
@@ -156,7 +156,7 @@ export default {
     },
     // 选择高度比较小的列
     selectCol() {
-      let getHeight = (col) => this.$refs[col].offsetHeight;
+      let getHeight = (col) => this.$refs[col]?.offsetHeight;
       let height1 = getHeight("col1"),
         height2 = getHeight("col2"),
         height3 = getHeight("col3");

@@ -48,14 +48,11 @@ import partTwo from "./expertInterrogationChildren/partTwo.vue";
 import partThree from "./expertInterrogationChildren/partThree.vue";
 export default {
   data() {
-    return {
-     
-    };
+    return {};
   },
   methods: {
   },
   created() {
-    
   },
   components: {
     partOne,

@@ -19,8 +19,8 @@
             <!-- active-text-color高亮颜色 -->
             <!-- router:是否使用 vue-router 的模式，启用该模式会在激活导航时以 index 作为 path 进行路由跳转 -->
             <el-menu-item index="/meHomePage">首页</el-menu-item>
-            <el-menu-item index="/message">我的消息</el-menu-item>
-            <el-menu-item index="/favorite">收藏夹</el-menu-item>
+            <!-- <el-menu-item index="/message">我的消息</el-menu-item> -->
+            <el-menu-item index="/favorite">购物车</el-menu-item>
             <el-menu-item index="/addressMan">收货地址管理</el-menu-item>
             <el-menu-item index="/changePassword">修改密码</el-menu-item>
             <el-menu-item index="/shopManage">店铺管理</el-menu-item>
@@ -89,10 +89,18 @@ export default {
       shopList: [],
     };
   },
+  methods:{
+    
+  },
   created() {
+    if(!window.sessionStorage.getItem('token')){
+      this.$message({
+        message:'请先登录！'
+      })
+      this.$router.push('/login');
+    }
     // 用户数据渲染
     this.userData = this.$store.state.userData;
-  
   },
   methods: {
 

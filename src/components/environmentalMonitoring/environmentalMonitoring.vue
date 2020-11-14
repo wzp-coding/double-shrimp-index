@@ -677,6 +677,7 @@ export default {
   //   flex-direction: column;
   justify-content: center;
   .lxl-breadcrumb {
+    display: flex;
     margin-top: 25px;
     margin-left: 18px;
     margin-bottom: -10px;
@@ -684,6 +685,7 @@ export default {
 }
 .lxl-box {
   width: 1250px;
+  margin-bottom: 30px;
 }
 .lxl-container {
   display: flex;

@@ -7,6 +7,7 @@
       >
         <el-breadcrumb-item>当前位置</el-breadcrumb-item>
         <el-breadcrumb-item to="/policies"><span style="cursor:pointer;">政策法规</span></el-breadcrumb-item>
+        <el-breadcrumb-item>政策详读</el-breadcrumb-item>
       </el-breadcrumb>
       <el-divider></el-divider>
 
@@ -14,16 +15,18 @@
         <!-- 左侧栏列表 -->
       <div class="lsx-left">
           <div class="passage" :data="passage">
+          <!-- 标题 -->
           <h3 class="passage_title">{{passage.title}}</h3>
              <p class="passage_notes">
-                作者：{{passage.editor}} 
-                      <br>
-                时间：{{formatTime(passage.creationTime)}}</p> 
-              <p class="passage_summary">{{passage.summary}} </p>
-              <p class="passage_content">{{delHtmlTag(passage.content)}} </p>
-              <div align="center">
-              <img :src="passage.picture" ></div>
-      </div>
+                来源：{{passage.editor}}
+                <span style="padding-left:15px">时间：</span>{{formatTime(passage.creationTime)}}</p> 
+              <p class="passage_summary">
+                <!-- <span style="color: #3591b8;">【概要】</span> -->
+                {{passage.summary}} </p>
+              <p class="passage_content" v-html="passage.content">{{passage.content}} </p>
+              <!-- <div align="center">
+              <img :src="passage.picture"></div>-->
+      </div> 
       </div>
       
       
@@ -44,7 +47,6 @@
                   </li>
                 </ul>
             </div>
-            <br>
         
             <!-- 右栏第二栏内容区 -->
             <!-- 按点击量查询政策法规 -->
@@ -114,18 +116,6 @@
            </div>
 
            <!-- 右下按钮区 -->
-            <div class="tage">
-              <el-tag round>专家</el-tag>
-              <el-tag round>火参果资源</el-tag>
-              <el-tag round>橄榄</el-tag>
-              <el-tag round>红豆杉货源</el-tag>
-              <el-tag round>火鸡蛋</el-tag>
-              <el-tag round>豆芽货源</el-tag>
-              <el-tag round>洋葱货源</el-tag>
-              <el-tag round>红薯批发</el-tag>
-              <el-tag round>黄瓜货源</el-tag>
-              <el-tag round>猪货源</el-tag>
-            </div>
           
         </div>
       </div>
@@ -297,11 +287,10 @@ export default {
     },
 
     // 文本格式化
-    delHtmlTag(str){
-    str=str.replace(/<\/?.+?>/g,"");
-     str=str.replace(/&nbsp;/g,"");
-    return str;
-    },
+    // delHtmlTag(str){
+    //   str=str.replace(/<\/?.+?>/g,"");
+    // return str;
+    // },
     // 刷新页面（）
     flushCom:function(){
     //router是路由实例,例如:var router = new Router({})
@@ -350,29 +339,36 @@ a {
   .passage_title{
     font-size: 24px;
     font-weight: 800;
+    line-height: 2.2em;
     text-align: center;
   }
   .passage_notes{
-    font-size: 12px;
+    font-size: 14px;
     color: #686667;
     text-align: right;
+    line-height: 2em;
+    border-bottom: 1px solid #9e9c9d;
+    padding-top: 10px;
   }
   .passage_summary{
     text-align: justify;
     text-indent:2em;
+    line-height: 1.8em;
     padding-left: 2%;
     padding-right: 2%;
-    margin-top: 10px;
-    font-size: 14px;
-    color: black;
-    background-color: #a1e5ee;
-    opacity:0.7
+    padding-top: 15px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #464344;
+
   }
   .passage_content{
     padding-top: 10px;
     text-align: justify;
     text-indent:2em;
     font-size: 16px;
+    line-height: 2em;
+    padding-bottom: 10px;
   }
 }
 
@@ -382,19 +378,20 @@ a {
   height: 38px;
   display: flex;
   background-color: #f7f7f7;
-  border-bottom: 2px solid #004787;
+  border-bottom: 1px solid #004787;
   .right1headleft {
-    height: 32px;
-    width: 80px;
+    height: 30px;
+    width: 60px;
     padding-top: 8px;
-    background-color: #004787;
-    color: #f7f7f7;
+    // background-color: #004787;
+    color: #004787;
     font-size: 16px;
+    font-weight: 600;
     text-align: center;
     border-bottom: none;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
-    text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.4);
+    text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.3);
   }
 }
   .right1rword {

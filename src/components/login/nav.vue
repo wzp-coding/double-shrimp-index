@@ -70,7 +70,7 @@
             <el-menu-item index="/expertInterrogation">专家问诊</el-menu-item>
             <el-menu-item index="/autognosis">疾病自诊</el-menu-item>
           </el-submenu>
-          <el-submenu index="/breedingPlan">
+          <!-- <el-submenu index="/breedingPlan">
             <template slot="title">智能决策</template>
             <el-menu-item index="/breedingPlan">养殖规划</el-menu-item>
             <el-menu-item index="/waterQualityForecastAndWarning"
@@ -80,7 +80,7 @@
               >信息推荐</el-menu-item
             >
             <el-menu-item index="/precisionFeeding">精准投喂</el-menu-item>
-          </el-submenu>
+          </el-submenu> -->
           <el-menu-item index="/visualizationPlatform">可视化平台</el-menu-item>
           <el-menu-item index="/emall">电子商城</el-menu-item>
           <el-menu-item index="/me">个人中心</el-menu-item>
@@ -177,5 +177,8 @@ export default {
 }
 a {
   text-decoration: none;
+}
+.el-menu-demo{
+  width: 1150px;
 }
 </style>
