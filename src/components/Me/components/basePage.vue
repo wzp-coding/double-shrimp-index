@@ -41,7 +41,7 @@
       <el-row class="baseinfoheader">查看基地</el-row>
       <div class="baseenterform">
         <div class="en-row">
-          <label>基地编号：</label>
+          <label>注册编号：</label>
           <span>{{ baseEnterInfo.registNumber }}</span>
         </div>
         <div class="en-row">
@@ -111,7 +111,7 @@ export default {
   methods: {
     // 进入溯源
     toOrigin() {
-      window.location.href = "http://106.75.132.85:9002";
+      window.location.href = "http://106.75.132.85:9002/#/DigitalBase";
     },
     // 申请基地
     onSubmit() {
@@ -160,12 +160,8 @@ export default {
     window.addEventListener(
       "message",
       function (e) {
-        let loginInfo = {
-          token: This.token,
-          baseId: This.userData.baseId
-        }
         if (e.source != window.parent) return;
-        window.parent.postMessage(loginInfo, "*");
+        window.parent.postMessage(This.token, "*");
       },
       false
     );
@@ -203,6 +199,7 @@ export default {
         width: 100px;
       }
     }
+    // padding-bottom: 1px;
   }
 }
 </style>
