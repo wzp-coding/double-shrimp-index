@@ -74,6 +74,7 @@ import changePassword from '../components/Me/components/changePassword.vue'
 import shopManage from '../components/Me/components/shopManage.vue'
 import expertPage from '../components/Me/components/expertPage.vue'
 import message from '../components/Me/components/message.vue'
+import basePage from '../components/Me/components/basePage.vue'
 
 // 登录页面
 import login from '../components/login/login.vue'
@@ -398,6 +399,11 @@ const routes = [
       {
         path: '/expertPage',
         component: expertPage
+      },
+      // 基地信息页面
+      {
+        path: '/basePage',
+        component: basePage
       }
     ]
 

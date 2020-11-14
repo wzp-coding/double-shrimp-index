@@ -13,34 +13,21 @@
         <el-breadcrumb-item>全文下载</el-breadcrumb-item>
       </el-breadcrumb>
       <el-divider></el-divider>
-      <div class="article">
+      <div class="article" :data="passage">
         <div>
-          <el-button class="download"><a href="http://134.175.208.235/group1/M00/00/20/rBAAD1-JnKKACJO3AAA81Oz8uUg43.docx" download="http://134.175.208.235/group1/M00/00/20/rBAAD1-JnKKACJO3AAA81Oz8uUg43.docx">全文下载
-          <i class="el-icon-download"></i></a></el-button>
+          <el-button class="download"><a :href="passage.file" :download="passage.file"><i class="el-icon-download"></i>全文下载
+          </a></el-button>
         </div>
-        <div class="passage" :data="passage">
+        <div class="passage">
           <h2 style="text-align:center;">{{passage.title}}</h2><br>
-          <h3>成果完成人：</h3>
+          <h3>作者：</h3>
              <p>{{passage.editor}}</p>
-          <h3>第一完成单位：</h3>
+          <h3>机构：</h3>
              <p>{{passage.source}}</p>
-          <h3>关键词：</h3>
-             <p>{{passage.title}}</p>
-          <h3>中国分类号：</h3>
-             <p>S964</p>
-          <h3>成果简介：</h3>
-             <p>{{passage.title}}</p>
-          <h3>成果类别：</h3>
-             <p>应用技术</p>
-          <h3>成果水平：</h3>
-             <p>未评价</p>
-          <h3>研究起止时间：</h3>
-             <p>2017-04——2019-02</p> 
-          <h3>评价形式：</h3>
-             <p>验收</p>
-          <h3>成果入库时间：</h3>
-             <p>2019</p>
-          
+          <h3>简介：</h3>
+             <p>{{passage.title}}</p>        
+          <h3>发布时间：</h3>
+             <p>{{formatTime(passage.createDate)}}</p> 
         </div>       
         
       </div>
@@ -85,14 +72,39 @@ export default {
       // }
       async getPassage() {
         const { data: res } = await this.reqM2Service("/education/intellectualPropertyRights/"+this.$route.query.id,'','get')
-        console.log(res)
         if (res.code !== 20000) {
         return this.$message.error('获取列表失败！')
       }
         this.passage = res.data
         console.log(this.passage)
-      }
-    }
+      },
+      // 时间格式化
+    formatTime(date) {
+      //date是传入的时间
+      const d = new Date(date);
+      const month =
+        d.getMonth() + 1 < 10 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
+      const day = d.getDate() < 10 ? "0" + d.getDate() : d.getDate();
+      const hours = d.getHours() < 10 ? "0" + d.getHours() : d.getHours();
+      const min = d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes();
+      const sec = d.getSeconds() < 10 ? "0" + d.getSeconds() : d.getSeconds();
+      const times =
+        d.getFullYear() +
+        "-" +
+        month +
+        "-" +
+        day +
+        " " +
+        hours +
+        ":" +
+        min +
+        ":" +
+        sec;
+      // 截取年月日
+      let shortTimes = times.substring(0, 10);
+      return shortTimes;
+    },
+    }   
 }
 </script>
 
@@ -147,7 +159,9 @@ li a:hover {
   }
 }
   .property {
-    margin: 20px 10px 10px 10px;
     height: 100px;
+    font-size: 13px;
+    color: #6f7072;
+    padding-left: 10px;
 }
 </style>

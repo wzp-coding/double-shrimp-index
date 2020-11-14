@@ -25,6 +25,7 @@
             <el-menu-item index="/changePassword">修改密码</el-menu-item>
             <el-menu-item index="/shopManage">店铺管理</el-menu-item>
             <el-menu-item index="/expertPage">专家页面</el-menu-item>
+            <el-menu-item index="/basePage">我的基地</el-menu-item>
           </el-menu>
         </el-aside>
 
@@ -101,6 +102,7 @@ export default {
     }
     // 用户数据渲染
     this.userData = this.$store.state.userData;
+    console.log(this.userData)
   },
   methods: {
 

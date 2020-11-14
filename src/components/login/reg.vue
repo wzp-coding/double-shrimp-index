@@ -113,9 +113,7 @@ export default {
     return {
       // 第1，2个为计时器
       count: "",
-      timer: null,
       url: "",
-      cToken: "",
       regForm: {
         captcha: "",
         emailCode: "",
@@ -192,7 +190,6 @@ export default {
           "post"
         );
         this.url = "data:image/png;base64," + res.data.img;
-        this.cToken = res.data.cToken;
       } catch (error) {
         this.$message.error("验证码出错");
       }
@@ -205,9 +202,8 @@ export default {
           "/user/register/" +
             this.regForm.emailCode +
             "?captcha=" +
-            this.regForm.captcha +
-            "&cToken=" +
-            this.cToken,
+            this.regForm.captcha 
+            ,
           {
             email: this.regForm.email,
             loginId: this.regForm.userName,
