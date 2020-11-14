@@ -21,6 +21,7 @@
             </el-form-item>
             <el-form-item label="新密码" prop="password">
               <el-input
+                type="password"
                 v-model="regForm.password"
                 placeholder="设置新密码"
                 prefix-icon="el-icon-lock"
@@ -35,7 +36,11 @@
               ></el-input>
             </el-form-item>
             <el-form-item label="验证码" prop="captcha">
-              <el-input placeholder="输入验证码" style="width: 110px" v-model="regForm.captcha">
+              <el-input
+                placeholder="输入验证码"
+                style="width: 110px"
+                v-model="regForm.captcha"
+              >
               </el-input>
               <el-image
                 style="width: 100px; position: absolute; height: 42px"
@@ -51,7 +56,11 @@
               ></el-input>
             </el-form-item>
             <el-form-item label="邮箱验证" prop="emailCode">
-              <el-input style="width: 110px" v-model="regForm.emailCode" placeholder="邮箱验证码">
+              <el-input
+                style="width: 110px"
+                v-model="regForm.emailCode"
+                placeholder="邮箱验证码"
+              >
               </el-input>
               <el-button
                 :disabled="regForm.show"
@@ -106,7 +115,6 @@ export default {
       timer: null,
       // 验证码地址
       url: "",
-      cToken: "",
       // 表单数据
       regForm: {
         captcha: "",
@@ -185,7 +193,6 @@ export default {
           "post"
         );
         this.url = "data:image/png;base64," + res.data.img;
-        this.cToken = res.data.cToken;
       } catch (error) {
         this.$message.error("验证码出错");
       }
@@ -199,9 +206,7 @@ export default {
             "/authority/user/retrievePassword/" +
               this.regForm.emailCode +
               "?captcha=" +
-              this.regForm.captcha +
-              "&cToken=" +
-              this.cToken,
+              this.regForm.captcha,
             {
               email: this.regForm.email,
               loginId: this.regForm.userName,
@@ -252,20 +257,19 @@ export default {
     },
     // 验证莫延时**
     getCode() {
-      const TIME_COUNT = 60;
-      if (!this.timer) {
-        this.count = TIME_COUNT;
-        this.timer = setInterval(() => {
-          if (this.count > 0 && this.count <= TIME_COUNT) {
-            this.count -= 1;
-          } else {
-            clearInterval(this.timer);
-            // 重新开启
-            this.regForm.show = false;
-            this.timer = null;
+      const TIME_COUNT = 25;
+      this.count = TIME_COUNT;
+      let timer = setInterval(() => {
+        if (this.count > 0 && this.count <= TIME_COUNT) {
+          this.count -= 1;
+          if (this.count == 0) {
+            this.regForm.show = !this.regForm.show;
           }
-        }, 1000);
-      }
+        } else {
+          // 重新开启
+          clearInterval(timer);
+        }
+      }, 1000);
     },
     //
   },
