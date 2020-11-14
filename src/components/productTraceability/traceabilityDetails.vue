@@ -258,7 +258,7 @@
                 </el-col>
               </el-row>
             </div> -->
-<!-- 
+            <!-- 
             <div class="s-imgs">
               <el-row :gutter="0">
                 <el-col :span="10" class="s-c-img">
@@ -746,7 +746,7 @@
                     icon="el-icon-location-information"
                     size="mini"
                     @click="
-                      getLogisticsById(scope.row.adultShrimpId).then(() =>
+                      getLogisticsById(scope.row).then(() =>
                         init()
                       )
                     "
@@ -922,19 +922,19 @@ export default {
       // // 投料信息
       // this.shrimpFarmings =this.adultShrimp.shrimpFarmings;
       // 养殖现场
-      this.monitorResult =this.adultShrimp.monitorResult.data;
-      // console.log("====================================");
-      // console.log(this.monitorResult);
-      // console.log("====================================");
+      this.monitorResult = this.adultShrimp.monitorResult.data;
       // 物流信息
-      this.logistics =this.adultShrimp.others.logistics;
+      this.logistics = this.adultShrimp.others.logistics;
+      console.log('====================================');
+      console.log(this.logistics);
+      console.log('====================================');
       // 加工信息
-      this.plant =this.adultShrimp.others.plant;
+      this.plant = this.adultShrimp.others.plant;
       this.getQualificationList(this.plant.qualificationId);
       // 冷库信息
-      this.storage =this.adultShrimp.others.storage;
+      this.storage = this.adultShrimp.others.storage;
       // 基地图片
-      this.basePicture =this.adultShrimp.base.basePic.split(";");
+      this.basePicture = this.adultShrimp.base.basePic.split(";");
       this.getProcess(this.adultShrimp.adultShrimp.plantId);
     },
 
@@ -959,10 +959,8 @@ export default {
         },
         "post"
       );
-      console.log(11111111111111)
-      console.log(res)
-      this.total =res.data.total;
-      this.shrimpFarmings =res.data.rows;
+      this.total = res.data.total;
+      this.shrimpFarmings = res.data.rows;
     },
     /* 展示农资信息对话框 */
     async getSup(id) {
@@ -993,8 +991,6 @@ export default {
     ///* 加工厂信息开始 */
     /* 获取加工信息 */
     async getQualificationList(id) {
-      // 测试
-      id = "1295330198388084736";
       const { data: res } = await this.reqM1Service(
         "/traceability/qualification/" + id,
         "",
@@ -1012,9 +1008,6 @@ export default {
     },
     /* 获取加工步骤 */
     async getProcess(id) {
-      // 测试用加工厂id
-      id = "1295330481365192704";
-      console.log(id);
       const { data: res } = await this.reqM1Service(
         "/traceability/processing/search",
         {
@@ -1031,23 +1024,10 @@ export default {
       });
     },
     ///* 加工厂信息结束 */
-
     ///* 物流信息开始 */
     // 定位的对话框
-    async getLogisticsById(id) {
-      // console.log(id)
-      // 调用根据ID查询
-      // 测试
-      id = "1316956329251835904";
-      const { data: res } = await this.reqM1Service(
-        "/traceability/logistics/findForQR/" + id,
-        "",
-        "get"
-      );
-      if (res.code !== 20000) {
-        return this.$message.error("查询该物流信息失败！！");
-      }
-      this.logisticsForm = res.data;
+    async getLogisticsById(data) {
+      this.logisticsForm = data;
       this.logisticsDialogVisible = true;
     },
     // 地图
