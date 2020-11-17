@@ -85,7 +85,7 @@
           <div class="panel-footer"></div>
         </div>
         <div class="panel pie2">
-          <h3>全国养殖面积</h3>
+          <h3>全国对虾产量与养殖面积</h3>
           <div class="chart chart6"></div>
           <div class="panel-footer"></div>
         </div>
@@ -100,6 +100,7 @@
 </template>
 <script>
 import "./china";
+import "./guangdong";
 export default {
   data() {
     return {
@@ -116,6 +117,8 @@ export default {
       ],
       orgindata: [],
       predictdata: [],
+      // 下标0位开始 1位结束
+      predictTime: [],
     };
   },
   mounted() {
@@ -147,7 +150,7 @@ export default {
           this.requestPrice();
           this.chart5(this.industry[1]);
           this.chart6(this.industry[1]);
-          this.china(this.industry[3]);
+          this.china(this.industry[3], this.industry[0]);
           console.log("chart1");
           console.log(this.industry);
         } else {
@@ -168,8 +171,16 @@ export default {
         console.log(res);
         if (res.code === 20000) {
           // 实际值，预测值
-          this.orgindata = res.data.orgindata.reverse();
-          this.predictdata = res.data.predictdata.reverse();
+          const len = res.data.orgindata.length - res.data.predictdata.length;
+          let arr = new Array(len).fill(0);
+
+          this.orgindata = res.data.orgindata;
+          this.predictdata = [...arr, ...res.data.predictdata];
+          console.log(arr, this.predictdata);
+
+          this.predictTime.push(res.data.early);
+          this.predictTime.push(res.data.last);
+
           this.chart4();
           console.log("chart4");
         } else {
@@ -240,7 +251,6 @@ export default {
         times.push(e.time);
         outPuts.push(e.outPut);
       });
-
       let myChart = this.$echarts.init(document.querySelector(".chart2"));
       let option = {
         color: ["#a3fea7"],
@@ -261,7 +271,7 @@ export default {
         xAxis: [
           {
             type: "category",
-            data: times,
+            data: times.reverse(),
             axisLabel: {
               color: "white",
             },
@@ -295,7 +305,7 @@ export default {
             name: "直接访问",
             type: "bar",
             barWidth: "40%",
-            data: outPuts,
+            data: outPuts.reverse(),
             itemStyle: {
               barBorderRadius: 5,
             },
@@ -333,7 +343,7 @@ export default {
         xAxis: {
           type: "category",
           boundaryGap: false,
-          data: times,
+          data: times.reverse(),
           axisLabel: {
             color: "white",
           },
@@ -364,7 +374,7 @@ export default {
           {
             name: "消费额",
             type: "line",
-            data: measureOfConsumption,
+            data: measureOfConsumption.reverse(),
             smooth: true,
           },
         ],
@@ -384,7 +394,18 @@ export default {
     },
     chart4() {
       let myChart = this.$echarts.init(document.querySelector(".chart4"));
-      //由于两组数据可能不等长，因此取最短的作为对比
+      // 时间切分处理
+      const etime = new Date(this.predictTime[0]).getTime();
+      const ltime = new Date(this.predictTime[1]).getTime();
+      let eltime = (ltime - etime) / (this.orgindata.length - 1);
+      let arr = new Array(this.orgindata.length).fill(20);
+      let arr2 = Array.from(arr, (x, i) => {
+        let time = new Date(etime + i * eltime).toLocaleDateString();
+        return time;
+      });
+
+      console.log(arr2);
+      // 时间切分处理结束 arr2生成的值
 
       let option = {
         color: ["#a3fea7", "grey"],
@@ -418,24 +439,7 @@ export default {
           {
             type: "category",
             boundaryGap: false,
-            data: [
-              "16",
-              "15",
-              "14",
-              "13",
-              "12",
-              "11",
-              "10",
-              "9",
-              "8",
-              "7",
-              "6",
-              "5",
-              "4",
-              "3",
-              "2",
-              "1",
-            ],
+            data: arr2,
             axisLabel: {
               color: "white",
             },
@@ -473,7 +477,7 @@ export default {
             type: "line",
             smooth: true,
             areaStyle: {},
-            data: this.orgindata,
+            data: this.orgindata.reverse(),
             showSymbol: false,
             itemStyle: {
               borderColor: "#728eab",
@@ -549,7 +553,7 @@ export default {
         xAxis: [
           {
             type: "category",
-            data: times,
+            data: times.reverse(),
             axisLabel: {
               color: "white",
             },
@@ -583,7 +587,7 @@ export default {
             name: "直接访问",
             type: "bar",
             barWidth: "40%",
-            data: areas,
+            data: areas.reverse(),
             itemStyle: {
               barBorderRadius: 5,
             },
@@ -600,32 +604,48 @@ export default {
       // 横坐标和纵坐标
       let times = [];
       let areas = [];
+      let outPuts = [];
       lineThree.forEach((e) => {
         times.push(e.time);
         areas.push(e.area);
+        outPuts.push(e.outPut);
       });
 
       let myChart = this.$echarts.init(document.querySelector(".chart6"));
+
       let option = {
-        color: ["white"],
+        color: ["#a3fea7", "grey"],
         tooltip: {
           trigger: "axis",
           axisPointer: {
-            // 坐标轴指示器，坐标轴触发有效
-            type: "shadow", // 默认为直线，可选为：'line' | 'shadow'
+            type: "cross",
+            label: {
+              backgroundColor: "#6a7985",
+            },
           },
+        },
+        legend: {
+          orient: "vertical",
+          textStyle: {
+            color: "white",
+          },
+          right: "10%",
         },
         grid: {
           left: "1%",
-          top: "10px",
-          right: "0%",
+          top: "10%",
+          right: "4%",
           bottom: "4%",
+
+          show: true,
+          borderColor: "white",
           containLabel: true,
         },
         xAxis: [
           {
             type: "category",
-            data: times,
+            boundaryGap: false,
+            data: times.reverse(),
             axisLabel: {
               color: "white",
             },
@@ -646,8 +666,11 @@ export default {
             axisLabel: {
               color: "white",
             },
+            axisTick: {
+              alignWithLabel: false,
+            },
             axisLine: {
-              show: true,
+              show: false,
               lineStyle: {
                 color: "#b7b7b7",
               },
@@ -656,23 +679,58 @@ export default {
         ],
         series: [
           {
-            name: "直接访问",
-            type: "bar",
-            barWidth: "40%",
-            data: areas,
+            name: "对虾产量",
+            type: "line",
+            smooth: true,
+            areaStyle: {},
+            data: outPuts.reverse(),
+            showSymbol: false,
             itemStyle: {
-              barBorderRadius: 5,
+              borderColor: "#728eab",
+              borderWidth: 5,
+            },
+          },
+          {
+            name: "养殖面积",
+            type: "line",
+            smooth: true,
+            areaStyle: {
+              color: new this.$echarts.graphic.LinearGradient(
+                0,
+                0,
+                0,
+                1,
+                [
+                  {
+                    offset: 0,
+                    color: "#ebf196",
+                  },
+                  {
+                    offset: 0.8,
+                    color: "#dee0ba",
+                  },
+                ],
+                false
+              ),
+              shadowColor: "rgba(0,0,0,1)",
+            },
+            data: areas.reverse(),
+            showSymbol: false,
+            itemStyle: {
+              borderColor: "#dad9b2",
+              borderWidth: 5,
             },
           },
         ],
       };
+
       myChart.setOption(option);
       // 自适应盒子大小,以及屏幕大小
       window.addEventListener("resize", function () {
         myChart.resize();
       });
     },
-    china(chinaChart) {
+    china(chinaChart, chinaChartTip) {
       let mapName = "china";
       let data = [];
       chinaChart.forEach((e) => {
@@ -714,77 +772,92 @@ export default {
       let maxSize4Pin = 100,
         minSize4Pin = 20;
 
-      let convertData = function (data) {
+      let convertData = function (chinaChartTip) {
         let res = [];
-        for (let i = 0; i < data.length; i++) {
-          let geoCoord = geoCoordMap[data[i].name];
-          if (geoCoord) {
-            res.push({
-              name: data[i].name,
-              value: geoCoord.concat(data[i].value),
-            });
-          }
-        }
+        chinaChartTip.forEach((item) => {
+          res.push({
+            value: [item.baseIntroduction, item.createBy, item.id],
+            coord: [item.basePositionLatitude, item.basePositionLongitude],
+            name: item.baseName,
+          });
+        });
         return res;
       };
+      var markPointData = [
+        {
+          name: "齐齐哈尔",
+          coord: [123.97, 47.33],
+          runConut: "537",
+          num: "234",
+        },
+        {
+          name: "青岛",
+          coord: [120.33, 36.07],
+          runConut: "120",
+          num: "196",
+        },
+        {
+          name: "温州",
+          coord: [120.65, 28.01],
+          runConut: "50",
+          num: "120",
+        },
+      ];
       let option = {
         tooltip: {
           trigger: "item",
           formatter: function (params) {
             if (typeof params.value[2] == "undefined") {
-              let toolTiphtml = "";
-              for (let i = 0; i < toolTipData.length; i++) {
-                if (params.name == toolTipData[i].name) {
-                  toolTiphtml += toolTipData[i].name + ":<br>";
-                  for (let j = 0; j < toolTipData[i].value.length; j++) {
-                    toolTiphtml +=
-                      toolTipData[i].value[j].name +
-                      ":" +
-                      toolTipData[i].value[j].value +
-                      "<br>";
-                  }
-                }
+              if (!params.name || params.name == "") return "暂无数据";
+              else {
+                return (
+                  params.name + " : <br/> " + params.value + "个对虾养殖基地"
+                );
               }
-              return toolTiphtml;
             } else {
-              let toolTiphtml = "";
-              for (let i = 0; i < toolTipData.length; i++) {
-                if (params.name == toolTipData[i].name) {
-                  toolTiphtml += toolTipData[i].name + ":<br>";
-                  for (let j = 0; j < toolTipData[i].value.length; j++) {
-                    toolTiphtml +=
-                      toolTipData[i].value[j].name +
-                      ":" +
-                      toolTipData[i].value[j].value +
-                      "<br>";
-                  }
-                }
-              }
-              return toolTiphtml;
+              let str = `${params.name} :<br/> 经度为${params.value[0]}，纬度为${params.value[1]}`;
+              return str;
             }
           },
         },
 
         visualMap: {
-          show: true,
+          show: false,
           min: 0,
           max: 200,
-          left: "left",
-          top: "bottom",
-          text: ["高", "低"], // 文本，默认为数值文本
+          left: "30%",
+          top: "80%",
           calculable: true,
           seriesIndex: [1],
           inRange: {
             color: ["#fff", "#A5CC82"], // 白绿
           },
         },
-
+        markPoint: {
+          //图表标注。
+          symbolSize: 55, //图形大小
+          label: {
+            normal: {
+              show: true,
+            },
+            emphasis: {
+              show: true,
+            },
+          },
+          itemStyle: {
+            normal: {
+              color: "rgba(72,150,128,1)",
+            },
+          },
+          data: markPointData,
+        },
         series: [
           {
-            name: "散点",
+            name: "基地散点图",
             type: "scatter",
             coordinateSystem: "geo",
             data: convertData(data),
+            //小圆点的大小
             symbolSize: function (val) {
               return val[2] / 10;
             },
@@ -798,9 +871,10 @@ export default {
                 show: true,
               },
             },
+            //小圆点的样式
             itemStyle: {
               normal: {
-                color: "#05C3F9",
+                color: "#ffeb7b",
               },
             },
           },
@@ -834,76 +908,16 @@ export default {
             animation: false,
             data: data,
           },
-          {
-            name: "点",
-            type: "scatter",
-            coordinateSystem: "geo",
-            symbol: "pin", //气泡
-            symbolSize: function (val) {
-              let a = (maxSize4Pin - minSize4Pin) / (max - min);
-              let b = minSize4Pin - a * min;
-              b = maxSize4Pin - a * max;
-              return a * val[2] + b;
-            },
-            label: {
-              normal: {
-                show: true,
-                textStyle: {
-                  color: "#fff",
-                  fontSize: 9,
-                },
-              },
-            },
-            itemStyle: {
-              normal: {
-                color: "#F62157", //标志颜色
-              },
-            },
-            zlevel: 6,
-            data: convertData(data),
-          },
-          {
-            name: "Top 5",
-            type: "effectScatter",
-            coordinateSystem: "geo",
-            data: convertData(
-              data
-                .sort(function (a, b) {
-                  return b.value - a.value;
-                })
-                .slice(0, 5)
-            ),
-            symbolSize: function (val) {
-              return val[2] / 10;
-            },
-            showEffectOn: "render",
-            rippleEffect: {
-              brushType: "stroke",
-            },
-            hoverAnimation: true,
-            label: {
-              normal: {
-                formatter: "{b}",
-                position: "right",
-                show: true,
-              },
-            },
-            itemStyle: {
-              normal: {
-                color: "yellow",
-                shadowBlur: 10,
-                shadowColor: "yellow",
-              },
-            },
-            zlevel: 1,
-          },
         ],
       };
       myChart.setOption(option);
 
       myChart.on("click", function (params) {
         // 由于作用域的问题只能通过这个方式实现跳转
-        window.location.href = "#/guangdong";
+        console.log(params, params.event.name);
+        if (params.data.name === "广东") {
+          window.location.href = "#/guangdong";
+        }
       });
     },
   },

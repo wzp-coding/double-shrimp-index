@@ -92,7 +92,7 @@
           <div class="panel-footer"></div>
         </div>
         <div class="panel pie2">
-          <h3>广东对虾量</h3>
+          <h3>广东对虾产量与养殖面积</h3>
           <div class="chart chart6"></div>
           <div class="panel-footer"></div>
         </div>
@@ -123,6 +123,8 @@ export default {
       ],
       orgindata: [],
       predictdata: [],
+      // 下标0位开始 1位结束
+      predictTime: [],
     };
   },
   mounted() {
@@ -154,7 +156,7 @@ export default {
           this.requestPrice();
           this.chart5(this.industry[1]);
           this.chart6(this.industry[1]);
-        //   this.guangdong(this.industry[3]);
+          //   this.guangdong(this.industry[3]);
           this.guangdong();
           //   console.log("chart1");
           //   console.log(this.industry);
@@ -176,8 +178,16 @@ export default {
         console.log(res);
         if (res.code === 20000) {
           // 实际值，预测值
-          this.orgindata = res.data.orgindata.reverse();
-          this.predictdata = res.data.predictdata.reverse();
+          const len = res.data.orgindata.length - res.data.predictdata.length;
+          let arr = new Array(len).fill(0);
+
+          this.orgindata = res.data.orgindata;
+          this.predictdata = [...arr, ...res.data.predictdata];
+          console.log(arr, this.predictdata);
+
+          this.predictTime.push(res.data.early);
+          this.predictTime.push(res.data.last);
+
           this.chart4();
           console.log("chart4");
         } else {
@@ -272,7 +282,7 @@ export default {
         xAxis: [
           {
             type: "category",
-            data: times,
+            data: times.reverse(),
             axisLabel: {
               color: "white",
             },
@@ -306,7 +316,7 @@ export default {
             name: "直接访问",
             type: "bar",
             barWidth: "40%",
-            data: outPuts,
+            data: outPuts.reverse(),
             itemStyle: {
               barBorderRadius: 5,
             },
@@ -395,7 +405,18 @@ export default {
     },
     chart4() {
       let myChart = this.$echarts.init(document.querySelector(".chart4"));
-      //由于两组数据可能不等长，因此取最短的作为对比
+      // 时间切分处理
+      const etime = new Date(this.predictTime[0]).getTime();
+      const ltime = new Date(this.predictTime[1]).getTime();
+      let eltime = (ltime - etime) / (this.orgindata.length - 1);
+      let arr = new Array(this.orgindata.length).fill(20);
+      let arr2 = Array.from(arr, (x, i) => {
+        let time = new Date(etime + i * eltime).toLocaleDateString();
+        return time;
+      });
+
+      console.log(arr2);
+      // 时间切分处理结束 arr2生成的值
 
       let option = {
         color: ["#a3fea7", "grey"],
@@ -429,24 +450,7 @@ export default {
           {
             type: "category",
             boundaryGap: false,
-            data: [
-              "16",
-              "15",
-              "14",
-              "13",
-              "12",
-              "11",
-              "10",
-              "9",
-              "8",
-              "7",
-              "6",
-              "5",
-              "4",
-              "3",
-              "2",
-              "1",
-            ],
+            data: arr2,
             axisLabel: {
               color: "white",
             },
@@ -484,7 +488,7 @@ export default {
             type: "line",
             smooth: true,
             areaStyle: {},
-            data: this.orgindata,
+            data: this.orgindata.reverse(),
             showSymbol: false,
             itemStyle: {
               borderColor: "#728eab",
@@ -524,7 +528,6 @@ export default {
           },
         ],
       };
-
       myChart.setOption(option);
       // 自适应盒子大小,以及屏幕大小
       window.addEventListener("resize", function () {
@@ -560,7 +563,7 @@ export default {
         xAxis: [
           {
             type: "category",
-            data: times,
+            data: times.reverse(),
             axisLabel: {
               color: "white",
             },
@@ -594,7 +597,7 @@ export default {
             name: "直接访问",
             type: "bar",
             barWidth: "40%",
-            data: areas,
+            data: areas.reverse(),
             itemStyle: {
               barBorderRadius: 5,
             },
@@ -611,32 +614,48 @@ export default {
       // 横坐标和纵坐标
       let times = [];
       let areas = [];
+      let outPuts = [];
       lineThree.forEach((e) => {
         times.push(e.time);
         areas.push(e.area);
+        outPuts.push(e.outPut);
       });
 
       let myChart = this.$echarts.init(document.querySelector(".chart6"));
+
       let option = {
-        color: ["white"],
+        color: ["#a3fea7", "grey"],
         tooltip: {
           trigger: "axis",
           axisPointer: {
-            // 坐标轴指示器，坐标轴触发有效
-            type: "shadow", // 默认为直线，可选为：'line' | 'shadow'
+            type: "cross",
+            label: {
+              backgroundColor: "#6a7985",
+            },
           },
+        },
+        legend: {
+          orient: "vertical",
+          textStyle: {
+            color: "white",
+          },
+          right: "10%",
         },
         grid: {
           left: "1%",
-          top: "10px",
-          right: "0%",
+          top: "10%",
+          right: "4%",
           bottom: "4%",
+
+          show: true,
+          borderColor: "white",
           containLabel: true,
         },
         xAxis: [
           {
             type: "category",
-            data: times,
+            boundaryGap: false,
+            data: times.reverse(),
             axisLabel: {
               color: "white",
             },
@@ -657,8 +676,11 @@ export default {
             axisLabel: {
               color: "white",
             },
+            axisTick: {
+              alignWithLabel: false,
+            },
             axisLine: {
-              show: true,
+              show: false,
               lineStyle: {
                 color: "#b7b7b7",
               },
@@ -667,16 +689,51 @@ export default {
         ],
         series: [
           {
-            name: "直接访问",
-            type: "bar",
-            barWidth: "40%",
-            data: areas,
+            name: "对虾产量",
+            type: "line",
+            smooth: true,
+            areaStyle: {},
+            data: outPuts.reverse(),
+            showSymbol: false,
             itemStyle: {
-              barBorderRadius: 5,
+              borderColor: "#728eab",
+              borderWidth: 5,
+            },
+          },
+          {
+            name: "养殖面积",
+            type: "line",
+            smooth: true,
+            areaStyle: {
+              color: new this.$echarts.graphic.LinearGradient(
+                0,
+                0,
+                0,
+                1,
+                [
+                  {
+                    offset: 0,
+                    color: "#ebf196",
+                  },
+                  {
+                    offset: 0.8,
+                    color: "#dee0ba",
+                  },
+                ],
+                false
+              ),
+              shadowColor: "rgba(0,0,0,1)",
+            },
+            data: areas.reverse(),
+            showSymbol: false,
+            itemStyle: {
+              borderColor: "#dad9b2",
+              borderWidth: 5,
             },
           },
         ],
       };
+
       myChart.setOption(option);
       // 自适应盒子大小,以及屏幕大小
       window.addEventListener("resize", function () {
@@ -686,27 +743,27 @@ export default {
     guangdong(guangdongChart) {
       let mapName = "广东";
       let data = [];
-    //   guangdongChart.forEach((e) => {
-    //     let obj = {
-    //       value: e.value,
-    //       name: e.name,
-    //     };
-    //     data.push(obj);
-    //   });
+      //   guangdongChart.forEach((e) => {
+      //     let obj = {
+      //       value: e.value,
+      //       name: e.name,
+      //     };
+      //     data.push(obj);
+      //   });
 
       let geoCoordMap = {};
       // 悬浮介绍
       let toolTipData = [];
-    //   guangdongChart.forEach((e) => {
-    //     let obj = {
-    //       name: e.name,
-    //       value: [
-    //         { name: "基地个数", value: e.value },
-    //         { name: "介绍", value: e.introduction },
-    //       ],
-    //     };
-    //     toolTipData.push(obj);
-    //   });
+      //   guangdongChart.forEach((e) => {
+      //     let obj = {
+      //       name: e.name,
+      //       value: [
+      //         { name: "基地个数", value: e.value },
+      //         { name: "介绍", value: e.introduction },
+      //       ],
+      //     };
+      //     toolTipData.push(obj);
+      //   });
 
       let myChart = this.$echarts.init(document.querySelector(".chartMap"));
 
@@ -836,10 +893,10 @@ export default {
             itemStyle: {
               normal: {
                 areaColor: "#fff",
-                borderColor:  "#A5CC82",
+                borderColor: "#A5CC82",
               },
               emphasis: {
-                areaColor:  "#A5CC82",
+                areaColor: "#A5CC82",
               },
             },
             animation: false,

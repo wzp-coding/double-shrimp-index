@@ -11,7 +11,8 @@ export default new Vuex.Store({
       photo:"https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
     },
     token: '',
-    isLogin: false
+    isLogin: false,
+    ip:''
   },
   mutations: {
     changeUserData(state, step) {
@@ -47,6 +48,7 @@ export default new Vuex.Store({
       content.commit("changeIsLogin", true);
     }
   },
+
   getters: {
     getIsLogin: state => {
       return state.isLogin
