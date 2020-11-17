@@ -917,6 +917,8 @@ export default {
         console.log(params, params.event.name);
         if (params.data.name === "广东") {
           window.location.href = "#/guangdong";
+        } else {
+           alert("敬请期待")
         }
       });
     },
