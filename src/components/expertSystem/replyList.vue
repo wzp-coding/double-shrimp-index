@@ -296,10 +296,11 @@ export default {
     }
     .replyList-container {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-start;
       flex-wrap: wrap;
       .reply-item {
         width: 32%;
+        margin: 7px;
       }
     }
     .pagination {

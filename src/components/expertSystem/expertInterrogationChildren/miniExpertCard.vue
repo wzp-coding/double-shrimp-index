@@ -203,7 +203,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .mini_expert_card {
-  margin: 10px 0;
+  // margin: 10px 0;
   .experts_item {
     display: flex;
     flex-direction: column;

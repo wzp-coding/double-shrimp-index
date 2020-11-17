@@ -617,9 +617,11 @@ export default {
         if (res.code == 20000) {
           this.dialogFormVisibleAdd = false;
           this.$message({
+            type:"success",
             message: res.message,
           });
-          this.resetForm("ruleForm");
+          // this.resetForm("ruleForm");
+          // this.fileList=[];
         } else {
           this.$message({
             message: "提交失败!",

@@ -69,7 +69,6 @@
             <el-form-item
               :label="label.onlineTime"
               prop="onlineTime"
-              style="display: none"
             >
               <el-input
                 v-model="ruleForm.onlineTime"
@@ -131,7 +130,7 @@
 export default {
   data() {
     return {
-      userId: "1264238099769200640",
+      userId: "",
       loading: true,
       expertInfo: {},
       label: {
@@ -151,7 +150,7 @@ export default {
       options: [],
       // 控制显示修改页面
       dialogFormVisibleUpdate: false,
-      // 绑定修改或者添加页面的内容
+      // 绑定修改页面的内容
       ruleForm: {},
       // 校验规则
       rules: {
@@ -296,6 +295,8 @@ export default {
   },
   
   mounted() {
+    this.userId = this.$store.state.userData.userId;
+    // console.log('this.userId: ', this.userId);
     this.getExpertInfoByUserId(this.userId);
   },
 };

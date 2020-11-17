@@ -230,6 +230,11 @@ export default {
   box-shadow: none;
 }
 .articleList {
+  /deep/.mini_reply_card {
+    &:nth-child(1) {
+      margin: 10px 0 4px 0;
+    }
+  }
   .container {
     width: 1150px;
     margin: auto;
@@ -244,10 +249,11 @@ export default {
     }
     .articleList-container {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-start;
       flex-wrap: wrap;
       .reply-item {
         width: 32%;
+        margin: 7px;
       }
     }
     .pagination {

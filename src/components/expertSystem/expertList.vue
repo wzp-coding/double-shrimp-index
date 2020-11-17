@@ -268,10 +268,11 @@ export default {
     }
     .expertList-container {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-start;
       flex-wrap: wrap;
       .expert-item {
         width: 32%;
+        margin: 7px;
       }
     }
     .pagination {
