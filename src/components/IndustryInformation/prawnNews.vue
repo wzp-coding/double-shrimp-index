@@ -57,7 +57,6 @@
           </div>
           <!-- 专题分页起始 -->
           <div
-            class="tail"
             style="
               display: flex;
               justify-content: space-between;
@@ -66,7 +65,7 @@
               margin-top: 15px;
             "
           >
-            <div>
+            <div style="font-weight: 800; font-size: 18.72px">
               <span
                 style="
                   margin-right: 5px;
@@ -83,12 +82,11 @@
               "
             >
               <span
-                style="color: #9e9e9e; cursor: pointer"
+                style="color: #9e9e9e; font-weight: 800"
                 @click="ToMorePage(queryInfo.TypeID)"
               >
                 更多
               </span>
-
               <i class="el-icon-caret-right"></i>
             </div>
           </div>
@@ -121,12 +119,12 @@
                 </div>
                 <div class="paggingContent">
                   <span style="width: 100%">
-                    {{ item.summary | limitword }}
+                    {{ item.summary }}
                   </span>
-                  <span class="paggingDetail" @click="TonewPath(item.id)"
-                    >[详情]</span
-                  >
                 </div>
+                <span class="paggingDetail" @click="TonewPath(item.id)"
+                  >[详情]</span
+                >
                 <div class="paggingBottom" style="width: 100%">
                   <p style="font-size: 13px; float: left">
                     {{ item.creationTime | timefilters
@@ -183,7 +181,7 @@
               </div>
             </h3>
             <el-divider></el-divider>
-            <ul class="ccy-css" >
+            <ul class="ccy-css">
               <li
                 v-for="(item, index) in caifuList"
                 :key="index"
@@ -214,7 +212,7 @@
               </div>
             </h3>
             <el-divider></el-divider>
-            <ul class="ccy-css" >
+            <ul class="ccy-css">
               <li
                 v-for="(item, index) in hangqingList"
                 :key="index"
@@ -245,7 +243,7 @@
               </div>
             </h3>
             <el-divider></el-divider>
-            <ul class="ccy-css" >
+            <ul class="ccy-css">
               <li
                 v-for="(item, index) in chanlianList"
                 :key="index"
@@ -255,11 +253,32 @@
               </li>
             </ul>
             <!-- 产链前沿结束 -->
-            <el-divider class="ccy-drvider"></el-divider>
+            
             <!--分割线-->
-            <div class="drive" style="width: 100%"></div>
+            <div class="drive" style="width: 100%"></div>         
           </div>
           <div class="asideBottom">
+            <h3>
+              <div>
+                <span
+                  style="
+                    margin-right: 5px;
+                    border-left: 6px solid rgb(93, 183, 60);
+                  "
+                ></span>
+                热门产品<el-tag
+                  type="danger"
+                  size="small"
+                  style="margin-left: 5px"
+                  >hot</el-tag
+                >
+              </div>
+              <div class="toMore">
+                <span @click="ToMorePage(queryInfo.TypeID)"> 更多 </span>
+                <i class="el-icon-caret-right"></i>
+              </div>
+            </h3>
+            <el-divider class="ccy-drvider"></el-divider>
             <div class="tageson">
               <el-button size="medium" round>专家</el-button>
               <el-button size="medium" round>火参果资源</el-button>
@@ -360,7 +379,7 @@ export default {
     };
   },
   created() {
-    this.getPageList(this.queryInfo.TypeID);  //  分页 虾行产业
+    this.getPageList(this.queryInfo.TypeID); //  分页 虾行产业
     this.getTypeData(); //获取分类信息
     this.caifuList = this.getTypeInfo(this.caifuID, 9); //财富手册专题
     this.getTypeInfo(this.hangqingId, 7); //对虾行情专题
@@ -447,7 +466,8 @@ export default {
       }
     },
     //改变分页页码
-    handleCurrentChange(newpage) {   
+    handleCurrentChange(newpage) {
+      this.loading = true;
       this.queryInfo.Currentpage = newpage;
       this.getPageList(this.queryInfo.TypeID);
     },
@@ -459,11 +479,11 @@ export default {
           "",
           "get"
         );
-        if(res.code === 20000){
+        if (res.code === 20000) {
           this.TypeDataList = res.data;
-        }else{
+        } else {
           console.log("请求分类信息接口失败");
-        }    
+        }
       } catch (error3) {
         console.log("请求分类信息接口失败");
       }
@@ -485,8 +505,6 @@ export default {
   min-width: 1150px;
 }
 .navigationSearch {
-  padding-top: 10px;
-  margin-bottom: -17px;
   height: 40px;
   display: flex;
   justify-content: space-between;
@@ -507,7 +525,7 @@ export default {
   white-space: nowrap;
   font-size: 13px;
   margin-top: -15px;
-  margin-bottom:6px;
+  margin-bottom: 6px;
 }
 .ccy-css > li:hover {
   color: black;
@@ -525,27 +543,6 @@ export default {
 }
 span {
   cursor: pointer;
-}
-.top {
-  .search {
-    height: 45px;
-    width: 17%;
-    .tubiao {
-      background-image: url(../../../src/assets/fandajing.png);
-      background-repeat: no-repeat;
-      background-position-x: 145px;
-      background-position-y: 3px;
-    }
-    input {
-      margin-top: 5px;
-      height: 32px;
-      width: 180px;
-      opacity: 0.8;
-      outline: none;
-      border-radius: 20px;
-      font-size-adjust: inherit;
-    }
-  }
 }
 .el-container {
   display: flex;
@@ -580,7 +577,8 @@ span {
         }
       }
     }
-    .asidePaging {      //分页样式
+    .asidePaging {
+      //分页样式
       display: flex;
       margin-top: -22px;
       .asidePaggingSon {
@@ -605,21 +603,23 @@ span {
             cursor: pointer;
             text-overflow: ellipsis;
             overflow: hidden;
-            font-size: 15px;
+            font-size: 18.72px;
+            margin-bottom: 5px;
             white-space: nowrap;
           }
           .paggingContent {
-            a {
-              color: green;
-              list-style: none;
-              text-decoration: none;
-            }
-            .paggingDetail {
-              color: green;
-            }
-            .paggingDetail:hover {
-              color: orange;
-            }
+            font-size: 13px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 4;
+          }
+          .paggingDetail {
+            color: green;
+          }
+          .paggingDetail:hover {
+            color: orange;
           }
           .paggingBottom {
             p {
@@ -632,8 +632,9 @@ span {
     }
   }
   .el-main {
+    margin-top: -20px;
     h3 {
-      margin-bottom: -20px;
+      margin-bottom: -25px;
       display: flex;
       justify-content: space-between;
       .toMore {
@@ -650,6 +651,7 @@ span {
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
+      padding-bottom: 2px;
       list-style-position: inside;
       width: 250px;
       cursor: pointer;
