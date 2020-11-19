@@ -127,7 +127,7 @@ export default {
         res = res.data;
         if (res.code === 20000) {
           res = res.data;
-          console.log("res: ", res);
+          // console.log("res: ", res);
           this.types = res;
         } else {
           this.$message({
@@ -140,7 +140,7 @@ export default {
     async addNewQues(params) {
       await this.reqM2Service(`/info/post/add`, params, "post").then((res) => {
         res = res.data;
-        console.log("res: ", res);
+        // console.log("res: ", res);
         if (res.code == 20000) {
           this.$message({
             type: "success",

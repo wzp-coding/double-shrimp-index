@@ -103,7 +103,7 @@ export default {
       // 重置换页
       this.resetPage = true;
     },
-    // 根据排序方式获取(全部)类型的文章
+    // 根据排序方式分页获取(全部)类型的文章
     getArticleListBySortWay(id = "0", page = 1, size = 9) {
       let httpUrl = "";
       switch (id) {

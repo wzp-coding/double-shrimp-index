@@ -72,7 +72,7 @@ export default {
       ],
       expertList: [],
       total: 50,
-      size:9,
+      size: 9,
       loading: true,
       expertTypeId: "0",
       sortTypeId: "0",
@@ -87,12 +87,11 @@ export default {
   methods: {
     // 获取专家类型
     getExpertCategoryList() {
-      this.reqM2Service(`/info/expertsType`,{},'get')
-      .then((res) => {
+      this.reqM2Service(`/info/expertsType`, {}, "get").then((res) => {
         res = res.data;
         if (res.code === 20000) {
           res = res.data;
-          console.log(res);
+          // console.log(res);
           res.forEach((item) => {
             this.expertCategoryList.push({ id: item.id, data: item.name });
           });
@@ -106,9 +105,9 @@ export default {
     // 改变专家类型
     changeExpertSort({ id }) {
       this.expertTypeId = id;
-      console.log('this.expertTypeId: ', this.expertTypeId);
-      console.log('this.sortTypeId: ', this.sortTypeId);
-      this.getExpertListBySortAndType(this.sortTypeId,this.expertTypeId)
+      console.log("this.expertTypeId: ", this.expertTypeId);
+      console.log("this.sortTypeId: ", this.sortTypeId);
+      this.getExpertListBySortAndType(this.sortTypeId, this.expertTypeId);
       // 重置换页
       this.resetPage = true;
     },
@@ -136,11 +135,11 @@ export default {
         default:
           httpUrl = `/info/experts/findByConsultingNum/${page}/${size}`;
       }
-      this.reqM2Service(httpUrl,{},'post').then((res) => {
+      this.reqM2Service(httpUrl, {}, "post").then((res) => {
         res = res.data;
         if (res.code === 20000) {
           res = res.data;
-          console.log('res: ', res);
+          console.log("res: ", res);
           this.total = res.total;
           this.expertList = [];
           res.rows.forEach((item) => this.expertList.push(item));
@@ -157,7 +156,7 @@ export default {
       this.sortTypeId = id;
       // console.log('this.expertTypeId: ', this.expertTypeId);
       // console.log('this.sortTypeId: ', this.sortTypeId);
-      this.getExpertListBySortAndType(this.sortTypeId,this.expertTypeId);
+      this.getExpertListBySortAndType(this.sortTypeId, this.expertTypeId);
       // 重置换页
       this.resetPage = true;
     },
@@ -199,8 +198,7 @@ export default {
             httpUrl = `/info/experts/findByTypeAndConsultingNum/${expertTypeId}/${page}/${size}`;
         }
         // this.$http.post(httpUrl)
-        this.reqM2Service(httpUrl,{},'post')
-        .then(res=>{
+        this.reqM2Service(httpUrl, {}, "post").then((res) => {
           res = res.data;
           // console.log('res: ', res);
           if (res.code === 20000) {
@@ -214,7 +212,7 @@ export default {
             });
           }
           this.loading = false;
-        })
+        });
       }
     },
     // 处理换页请求
@@ -223,16 +221,22 @@ export default {
       // console.log('page: ', page);
       // console.log('this.expertTypeId: ', this.expertTypeId);
       // console.log('this.sortTypeId: ', this.sortTypeId);
-      this.getExpertListBySortAndType(this.sortTypeId,this.expertTypeId,page,size);
+      this.getExpertListBySortAndType(
+        this.sortTypeId,
+        this.expertTypeId,
+        page,
+        size
+      );
       // 取消重置换页
       this.resetPage = false;
     },
   },
-  mounted() {
+  created() {
     // 请求专家分类类型
     this.getExpertCategoryList();
+
     // 默认请求咨询量从高到低的全部专家
-    this.getExpertListBySortAndType(this.sortTypeId,this.expertTypeId)
+    this.getExpertListBySortAndType(this.sortTypeId, this.expertTypeId);
   },
 };
 </script>
