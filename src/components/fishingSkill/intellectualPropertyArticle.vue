@@ -10,13 +10,13 @@
         <el-breadcrumb-item><template>
               <router-link to="/intellectualProperty"><span style="cursor:pointer">知识产权</span></router-link>
               </template></el-breadcrumb-item>
-        <el-breadcrumb-item>全文下载</el-breadcrumb-item>
+        <el-breadcrumb-item>阅读原文</el-breadcrumb-item>
       </el-breadcrumb>
       <el-divider></el-divider>
+      <!-- 内容区 -->
       <div class="article" :data="passage">
         <div>
-          <el-button class="download"><a :href="passage.file" :download="passage.file"><i class="el-icon-download"></i>全文下载
-          </a></el-button>
+          <el-button class="read"><a :href="passage.file">原文链接<i class="el-icon-share el-icon--right"></i></a></el-button>
         </div>
         <div class="passage">
           <h2 style="text-align:center;">{{passage.title}}</h2><br>
@@ -29,10 +29,8 @@
           <h3>发布时间：</h3>
              <p>{{formatTime(passage.createDate)}}</p> 
         </div>       
-        
       </div>
-      
-
+      <!-- 相关专利、标准 -->
       <div class="property" :data="passage">
         <template>
           <el-tabs v-model="activeName" @tab-click="handleClick">
@@ -41,8 +39,6 @@
           </el-tabs>
         </template>
       </div>
-
-
     </div>
     </div>
 </template>
@@ -59,9 +55,6 @@ export default {
     created() {
       this.getPassage()
     },
-  //   mounted() {
-  //   console.log(this.$route.query.id);
-  // },
     methods: {
       handleClick(tab, event) {
         console.log(tab, event)
@@ -115,7 +108,6 @@ body {
 }
 a {
   text-decoration: none;
-  
 }
 div a:hover {
   color: black;
@@ -138,30 +130,27 @@ li a:hover {
   height: 100%;
 }
 
-
 // 内容区
 .article {
   .passage {
-    margin-left: 10px;
+    padding-left: 10px;
     line-height: 2.2em;
   }
-  .download {
+  .read {
     width: 150px;
     height: 50px;
     float: right;
     background-color: #39b8ed;
     a{
       color: #fff;
-      font-size: 16px;
+      font-size: 17px;
       padding-bottom: 5px;
     }
-    
   }
 }
   .property {
-    height: 100px;
     font-size: 13px;
+    padding-bottom: 20px;
     color: #6f7072;
-    padding-left: 10px;
 }
 </style>
