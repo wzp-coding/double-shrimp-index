@@ -463,7 +463,8 @@ export default {
         }
       } catch (error2) {
         console.log("请求类型分页接口失败");
-      }
+      } 
+
     },
     //改变分页页码
     handleCurrentChange(newpage) {

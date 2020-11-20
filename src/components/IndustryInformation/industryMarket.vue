@@ -47,9 +47,11 @@
                     <i class="el-icon-caret-right"></i>
                   </div>
                 </h3>
-                <el-divider class="ccy-drvider"></el-divider>
-                <ul v-for="(item, index) in ClickDataList" :key="index">
-                  <li>{{ item.title }}</li>
+                <ul class="ccy-css"
+                  
+                >
+                  <li v-for="(item, index) in ClickDataList"
+                  :key="index">{{ item.title }}</li>
                 </ul>
               </div>
             </div>
@@ -75,12 +77,11 @@
                     <i class="el-icon-caret-right"></i>
                   </div>
                 </h3>
-                <el-divider class="ccy-drvider"></el-divider>
                 <ul
-                  v-for="(item, index) in weekliList.slice(0, 7)"
-                  :key="index"
+                  class="ccy-css"      
                 >
-                  <li>{{ item.title }}</li>
+                  <li v-for="(item, index) in weekliList.slice(0, 7)"
+                  :key="index">{{ item.title }}</li>
                 </ul>
               </div>
             </div>
@@ -95,7 +96,7 @@
                   <span @click="ToMorePage(queryInfo2.TypeID2)"> 更多 </span>
                   <i class="el-icon-caret-right"></i>
                 </div>
-              </h3>           
+              </h3>
               <div class="shrimpMarketLft">
                 <div class="shrimpMarketPic" v-if="jingcai1List.length">
                   <div
@@ -114,7 +115,7 @@
                   </div>
                 </div>
                 <!-- 对虾行情左下文字 -->
-                <ul class="ccy-css" style="margin-left:5px">
+                <ul class="ccy-css" style="margin-left: 5px">
                   <li
                     @click="TonewPath(item.id)"
                     v-for="(item, index) in jingcai1List.slice(0, 4)"
@@ -281,7 +282,6 @@
                 @click="TonewPath(NewDataList[7].id)"
               ></el-image>
             </div>
-
             <h3>
               <div>
                 <span
@@ -343,7 +343,7 @@
                 "
               >
                 <span
-                  style="cursor: pointer; color: #9e9e9e"
+                  style="color: #9e9e9e"
                   @click="ToMorePage(queryInfo1.TypeID1)"
                 >
                   更多
@@ -385,7 +385,7 @@
               >
                 <span
                   @click="ToMorePage(queryInfo1.TypeID1)"
-                  style="cursor: pointer; color: #9e9e9e"
+                  style="color: #9e9e9e"
                 >
                   更多
                 </span>
@@ -515,26 +515,26 @@ export default {
     };
   },
   created() {
-    // //点击量 热度
-    // this.getClickData();
+    //点击量 热度
+    this.getClickData();
     // // //每周精品
-    // // this.getWeekData();
+    // this.getWeekData();
     //精彩专题 1 按类型查询 对虾养殖
     // this.getjingcai1();
 
     // //精彩专题2
     // this.getjingcai2();
-    // 精彩专题3
-    this.getjingcai3();
+    // // 精彩专题3
+    // this.getjingcai3();
 
-    // //最新资讯
-    // this.getNewData();
+    //最新资讯
+    this.getNewData();
 
-    // //每月
-    // this.getMonthData();
+    //每月
+    this.getMonthData();
 
     //推荐
-    // this.getRecommData();
+    this.getRecommData();
   },
   methods: {
     //前往详情页
@@ -722,7 +722,7 @@ export default {
   },
 };
 </script>
-<style lang="less" scoped>
+<style lang="less" >
 .lxl-body {
   display: flex;
   justify-content: center; //对齐方式
@@ -730,28 +730,26 @@ export default {
   .lxl-breadcrumb {
     margin-left: 18px;
   }
+  .ccy-css li {
+    color: #858585;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 13px;
+  }
+  .ccy-css > *:hover {
+    color: black;
+    font-weight: 800px;
+  }
 }
 .lxl-box {
   width: 1150px;
 }
-.ccy-css {
-  color: #858585;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-  font-size: 13px;
-  margin-top: 10px;
-}
-.ccy-css > li:hover {
-  color: black;
-  font-weight: 800px;
-}
-.ccy-css:first-line {
-  color: black;
-  text-decoration: none;
-  text-overflow: ellipsis;
-  font-size: 15px;
-  font-weight: 700;
+
+.hotAndWeek {
+  ul{
+    margin-top: 7px;
+  }
 }
 .el-image {
   cursor: pointer;
@@ -793,21 +791,8 @@ h3 {
     }
   }
 }
-
-.ccy-drvider {
-  margin: 0;
-}
 span {
   cursor: pointer;
-}
-.hotAndWeek {
-  li {
-    color: #858585;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    font-size: 13px;
-  }
 }
 .el-aside {
   margin-top: -10px;
@@ -832,7 +817,6 @@ span {
       width: 55%;
       display: flex;
       justify-content: space-between;
-      flex-wrap: wrap;
       .el-image {
         width: 49.5%;
         height: 150px;
@@ -893,7 +877,7 @@ span {
         }
       }
       .shrimpMarketRight {
-        width:43.7%;
+        width: 43.7%;
         li {
           text-overflow: ellipsis;
           overflow: hidden;
@@ -905,7 +889,7 @@ span {
     .productionChain {
       display: flex;
       flex-wrap: wrap;
-      justify-content: space-between; 
+      justify-content: space-between;
       .productionChainSon {
         margin-top: 3px;
         width: 24%;
@@ -931,7 +915,6 @@ span {
       }
     }
     .wealthHandbook {
-      flex-direction: column;
       .wealthHandbookSon {
         display: flex;
         height: 180px;
@@ -984,19 +967,14 @@ span {
   }
 }
 li {
-  padding-top:6px;
+  padding-top: 3px;
   cursor: pointer;
   list-style: none;
 }
 .el-main {
   ul {
-    margin-bottom: 16px;
-  }
-  li {
-    display: block;
-    overflow: hidden; // 超出文本的部分不显示
-    text-overflow: ellipsis;
-    white-space: nowrap; // 强制文本在一行显示
+    margin-top: 25px;
+    margin-bottom: 12px;
   }
   .midpic {
     width: 100%;
@@ -1007,23 +985,9 @@ li {
     }
   }
 }
-.bot {
-  margin-top: 12px;
-  width: 100%;
-  height: 85px;
-  position: absolute;
-  bottom: 0;
-  background-color: black;
-}
-.el-row {
-  margin-top: 20px;
-}
-.el-col {
-  margin-right: 55px;
-}
 .tage {
-  padding: 10px 0 0 8px;
-  margin-top: 4px;
+  padding: 10px 0 0 3px;
+  margin-top: 20px;
   .tageson {
     margin-bottom: 12px;
     .el-button {

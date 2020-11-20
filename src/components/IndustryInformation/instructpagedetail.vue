@@ -207,7 +207,7 @@ export default {
       //每周
       WeekDatatabList: [],
       //分类信息查询
-      //  TypeDatatabList: [],
+       TypeDatatabList: [],
       //得到分类名称
       TypeName: "",
       //搜索信息
@@ -222,14 +222,14 @@ export default {
   },
   created() {
     //点击量 热度
-    // this.getclickData();
+    this.getclickData();
     // //时间 最新
-    // this.getnewData();
+    this.getnewData();
 
     // //每周
-    // this.getWeekData();
+    this.getWeekData();
     // //每月
-    // this.getMonthData();
+    this.getMonthData();
   },
   mounted() {
     console.log("钩子函数");
@@ -249,63 +249,62 @@ export default {
         query: { id: id },
       });
     },
-    // async getnewData() {
-    //   try {
-    //     const { data: res } = await this.reqM2Service(
-    //       "/info/shrimpIndustry/findByTime",
-    //       "",
-    //       "get"
-    //     );
-    //     if (res.code === 20000) {
-    //       this.newDatatabList = res.data.rows;
-    //     } else {
-    //       console.log("获取最新数据出错");
-    //     }
-    //   } catch (error) {
-    //     console.log("获取最新数据出错");
-    //   }
-    // },
-    // async getclickData() {
-    //   try {
-    //     const { data: res } = await this.reqM2Service(
-    //       "/info/shrimpIndustry/findByClickNum/1/5",
-    //       "",
-    //       "get"
-    //     );
-    //     this.numclicktabList = res.data.rows;
-    //   } catch (error) {
-    //     console.log("网络错误");
-    //   }
-    // },
-    // async getWeekData() {
-    //   const { data: res } = await this.reqM2Service(
-    //     "/info/shrimpIndustry/findByClickWeekly/1/5",
-    //     "",
-    //     "get"
-    //   );
-    //   if (res.code === 20000) {
-    //     console.log(res);
-    //     this.WeekDatatabList = res.data.rows;
-    //   } else {
-    //     console.log("获取每周信息失败");
-    //   }
-    // },   
-    // async getMonthData() {
-    //   try {
-    //     const { data: res } = await this.reqM2Service(
-    //       "/info/shrimpIndustry/findByClickMonthly/1/5",
-    //       "",
-    //       "get"
-    //     );
-    //     if (res.code === 20000) {
-    //       this.MonthData = res.data.rows;
-    //     } else {
-    //       console.log("获取每月数据出错");
-    //     }
-    //   } catch (error) {
-    //     console.log("获取每月数据出错");
-    //   }
-    // },
+    async getnewData() {
+      try {
+        const { data: res } = await this.reqM2Service(
+          "/info/shrimpIndustry/findByTime/1/5",
+          "",
+          "get"
+        );
+        if (res.code === 20000) {
+          this.newDatatabList = res.data.rows;
+        } else {
+          console.log("获取最新数据出错");
+        }
+      } catch (error) {
+        console.log("获取最新数据出错");
+      }
+    },
+    async getclickData() {
+      try {
+        const { data: res } = await this.reqM2Service(
+          "/info/shrimpIndustry/findByClickNum/1/5",
+          "",
+          "get"
+        );
+        this.numclicktabList = res.data.rows;
+      } catch (error) {
+        console.log("网络错误");
+      }
+    },
+    async getWeekData() {
+      const { data: res } = await this.reqM2Service(
+        "/info/shrimpIndustry/findByClickWeekly",
+        "",
+        "get"
+      );
+      if (res.code === 20000) {
+        this.WeekDatatabList = res.data.rows.slice(0,5);
+      } else {
+        console.log("获取每周信息失败");
+      }
+    },   
+    async getMonthData() {
+      try {
+        const { data: res } = await this.reqM2Service(
+          "/info/shrimpIndustry/findByClickMonthly",
+          "",
+          "get"
+        );
+        if (res.code === 20000) {
+          this.MonthData = res.data.rows.slice(0,5);
+        } else {
+          console.log("获取每月数据出错");
+        }
+      } catch (error) {
+        console.log("获取每月数据出错");
+      }
+    },
 
     //分页查询全部数据
     getTypePageData() {
