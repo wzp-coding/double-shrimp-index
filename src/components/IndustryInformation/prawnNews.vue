@@ -115,10 +115,10 @@
                   @click="TonewPath(item.id)"
                   style="width: 100%; margin-top: 18px"
                 >
-                  <h2>{{ item.title }}</h2>
+                  <h2 @click="TonewPath(item.id)">{{ item.title }}</h2>
                 </div>
                 <div class="paggingContent">
-                  <span style="width: 100%">
+                  <span style="width: 100%" @click="TonewPath(item.id)">
                     {{ item.summary }}
                   </span>
                 </div>
@@ -325,21 +325,6 @@ export default {
           ":" +
           sec;
         return times;
-      }
-    },
-    //限制文字个数
-    limitword(val) {
-      if (val == null || val == "") {
-        return "暂无数据";
-      } else {
-        var len = val.length;
-        if (len > 80) {
-          var str = "";
-          str = val.substring(0, 80) + "......";
-          return str;
-        } else {
-          return val;
-        }
       }
     },
   },
@@ -661,5 +646,12 @@ span {
       }
     }
   }
+}
+.contentShow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
 </style>

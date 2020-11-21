@@ -1,40 +1,44 @@
 <template>
   <div class="lxl-body">
     <div class="lxl-box">
-      <el-breadcrumb
-        separator-class="el-icon-arrow-right"
-        class="lxl-breadcrumb"
-      >
-        <el-breadcrumb-item>当前位置</el-breadcrumb-item>
-        <el-breadcrumb-item>产业咨询</el-breadcrumb-item>
-      </el-breadcrumb>
+      <div class="top">
+        <div class="tl">
+          <el-breadcrumb
+            separator-class="el-icon-arrow-right"
+            class="lxl-breadcrumb"
+          >
+            <el-breadcrumb-item>当前位置</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/industryMarket' }"
+              >产业资讯</el-breadcrumb-item
+            >
+            <el-breadcrumb-item>详情</el-breadcrumb-item>
+          </el-breadcrumb>
+        </div>
+      </div>
       <el-divider></el-divider>
       <div class="main">
-        <div class="left" v-loading="loading">
-          <div class="articleInfo">
-            <!--文章相关信息-->
-            <span style="font-size: 36px">{{ IdData.title }}"</span>
-            <el-divider></el-divider>
-            <div class="articleMain">
-              <div>
+        <div class="left" style="margin-top:17px">
+          <div class="LeftTop">
+            <span style="font-size:37px;font-family:Microsoft Yahei;font-weight:700">{{ IdData.title }}</span>
+            <div class="articleMain" style="margin-top:17px">
+              <div >
                 <el-avatar
                   style="border: 3px solid white"
                   :size="70"
                   src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
                 ></el-avatar>
               </div>
-              <div class="lxl-title">
-                <h3>{{ IdData.summary }}</h3>
+              <div class="lxl-title">     
+                <span>{{ IdData.editor }}报告</span>
                 <p style="display: flex">
                   发布时间 {{ IdData.creationTime | timefilters
-                  }}<span style="margin-left: 15px" v-if="IdData.editor">
-                    {{ IdData.editor }}报告</span
-                  >
-                </p>
+                  }}            
+                </p>        
               </div>
             </div>
           </div>
           <div class="article">
+            <h3 style="margin-bottom:10px;font-weight:510">{{ IdData.summary }}</h3>
             <div v-html="IdData.content" id="articleHtml"></div>
           </div>
         </div>
@@ -74,7 +78,7 @@
                 </div>
               </div>
             </el-tab-pane>
-          </el-tabs>
+          </el-tabs> 
           <el-tabs v-model="activeName1" @tab-click="showMonth">
             <el-tab-pane label="本周热门" name="first1">
               <div
@@ -115,7 +119,7 @@
                 </div>
               </div>
             </el-tab-pane>
-          </el-tabs>
+          </el-tabs> 
         </div>
       </div>
     </div>
@@ -315,32 +319,28 @@ export default {
   .left {
     width: 69%;
     margin-bottom: 10px;
-    .articleInfo {
-      padding: 20px;
-      margin: 13px 0 0 3px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
-      background-color: rgb(255, 250, 228);
-      .articleMain {
-        display: flex;
-        .lxl-title {
-          margin-top: 17px;
-          margin-left: 5px;
-        }
-        p {
-          padding-top: 6px;
-          font-size: 13px;
-          opacity: 0.9;
-        }
+    .articleMain {
+      display: flex;
+      flex-wrap: nowrap;      
+      .lxl-title {
+        margin-top: 17px;
+        margin-left: 5px;
       }
-    }
+      p {
+        padding-top: 6px;
+        font-size: 13px;
+        opacity: 0.9;
+      }
+    }   
     .article {
       width: 100%;
-      font-size: 20.5px;
+      font-size: 19px;
       padding: 17px 0 0 5px;
       #articleHtml {
         /deep/img {
           width: 98%;
-          height: 310px;
+          margin:8px 0;
+          height: 370px;
         }
       }
     }

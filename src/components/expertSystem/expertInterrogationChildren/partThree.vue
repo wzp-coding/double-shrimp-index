@@ -59,33 +59,42 @@ export default {
     },
     // 获取8篇文章进行展示
     async getArticleList() {
-      await this.$http
-        .get(`http://106.75.154.40:9012/info/diseaseArticles/findByRecommend/1/8`)
-        .then((res) => {
+      await this.reqM2Service(
+        `/info/diseaseArticles/findByRecommend/1/8`,
+        {},
+        "get"
+      ).then((res) => {
+        res = res.data;
+        if (res.code === 20000) {
           res = res.data;
-          if (res.code === 20000) {
-            res = res.data;
-            console.log('res: ', res);
-            res.rows.forEach((item) => {
-              if (this.articleList[0].length < 4) {
-                this.articleList[0].push(item);
-              } else {
-                this.articleList[1].push(item);
-              }
-            });
-          } else {
-            this.$message({
-              message: "获取文章信息失败",
-            });
-          }
-          this.loading = false;
-        });
+          console.log("res: ", res);
+          res.rows.forEach((item) => {
+            if (this.articleList[0].length < 4) {
+              this.articleList[0].push(item);
+            } else {
+              this.articleList[1].push(item);
+            }
+          });
+        } else {
+          this.$message({
+            message: "获取文章信息失败",
+          });
+        }
+        this.loading = false;
+      });
     },
   },
- async mounted() {
-   await this.getArticleList()
+  async mounted() {
+    await this.getArticleList();
   },
 };
 </script>
 <style lang="less" scoped>
+.partThree {
+  /deep/.mini_article_card {
+    &:nth-child(1) {
+      margin: 10px 0 4px 0;
+    }
+  }
+}
 </style>

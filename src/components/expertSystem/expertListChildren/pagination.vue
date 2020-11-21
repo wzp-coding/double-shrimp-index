@@ -15,30 +15,29 @@
 export default {
   data() {
     return {
-      size:2,
-      page:1
+      page: 1,
+      flag: this.resetPage,
     };
   },
-  props:["total","resetPage"],
+  props: ["total", "resetPage", "size"],
   methods: {
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
-      
-      this.$emit("pageChange", { page:val,size:this.size });
+      this.$emit("pageChange", { page: val, size: this.size });
     },
   },
-  watch:{
-    resetPage(){
-      if(this.resetPage){
-        this.page = 1
-        this.resetPage = !this.resetPage
+  watch: {
+    resetPage() {
+      this.flag = this.resetPage;
+      if (this.flag) {
+        this.page = 1;
+        this.flag = !this.flag;
       }
-    }
-  }
-  
+    },
+  },
 };
 </script>
 <style lang="less" scoped>

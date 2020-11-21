@@ -61,11 +61,12 @@ export default {
   data() {
     return {
       activeName: "homePage",
-      shopId: "bdfba4564sdfb",
+      shopId: this.$route.query.merchantId,
       shopInfo: { shopAddress: "" },
     };
   },
   methods: {
+    
     // 获取店铺信息函数
     async getShopInfo() {
       const { data: res } = await this.reqM4Service(
@@ -90,6 +91,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@font-face {
+  font-family: btt;
+  src: url("../../fonts/btt.ttf");
+}
 .lxl-body {
   display: flex;
   justify-content: center;
@@ -111,6 +116,7 @@ export default {
     padding: 30px;
     width: 100%;
     background-color: rgb(0, 201, 253);
+    font-family: btt;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
     border-radius: 2px;
     .shop-avator {

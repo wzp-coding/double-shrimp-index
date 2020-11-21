@@ -25,6 +25,7 @@
       <pagination
         :total="queryTotal"
         :resetPage="false"
+        :size="size"
         @pageChange="handlePageChange"
         v-if="this.queryResList.length != 0"
       ></pagination>
@@ -40,6 +41,7 @@ export default {
       queryResList: [],
       queryTotal: 10,
       srcList: [],
+      size:8,
     };
   },
   components: {
@@ -48,23 +50,23 @@ export default {
   methods:{
     // 当子组件换页时
     handlePageChange({ page, size }) {
-      console.log("父组件:");
-      console.log("size: ", size);
-      console.log("page: ", page);
+      // console.log("父组件:");
+      // console.log("size: ", size);
+      // console.log("page: ", page);
       this.getAllDisease(page, size);
     },
     // 获取数据
     getAllDisease(page=1,size=8) {
       // 等分页查询接口完成加上去
-      let httpUrl = `http://120.78.14.141:9007/diagnose/search/all`;
-      this.$http.get(httpUrl).then((res) => {
-        console.log(res.data);
+      let httpUrl = `/diagnose/search/all/${page}/${size}`;
+      this.reqM13Service(httpUrl,{},'get').then((res) => {
         res = res.data;
+        // console.log(res);
         if (res.code === 20000) {
-          res = res.data[0].content;
-          this.queryResList = res.slice(0, 8);
-          this.queryTotal = res.length
-          res.forEach((item) => this.srcList.push(item.pic));
+          res = res.data;
+          this.queryResList = res.rows;
+          this.queryTotal = res.total
+          this.queryResList.forEach((item) => this.srcList.push(item.pic));
         }
       });
     },
@@ -77,6 +79,9 @@ export default {
 </script>
 <style lang="less" scoped>
 .diseaseKnowledges {
+  .content{
+    width: 100%;
+  }
   .lxl-content {
     .pagination {
       width: 100%;

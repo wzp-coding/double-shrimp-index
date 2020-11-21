@@ -42,10 +42,10 @@
         </div>
         <!-- 点赞按钮 -->
         <div class="div_btn">
-          <el-button type="success" class="btn" @click="changeParise">
+          <el-button type="success" class="btn" @click="handleParise">
             <i class="el-icon-medal">有用</i>
             <el-divider direction="vertical"></el-divider>
-            <span id="pariseNum">{{ replyInfo.pariseNum }}</span>
+            <span id="pariseNum">{{ myPraiseNum }}</span>
           </el-button>
         </div>
       </div>
@@ -56,13 +56,38 @@
 export default {
   data() {
     return {
-      parise: false,
+      IsPraise: false,
+      myPraiseNum:this.replyInfo.praiseNum
     };
   },
   props: ["replyInfo"],
   methods: {
-    changeParise() {
-      if (!this.parise) this.parise = !this.parise;
+    async handleParise() {
+     let flag = await this.putReplyParise(this.replyInfo.id);
+      if(flag && !this.IsPraise){
+        this.$message({
+          message:'点赞成功',
+          type:'success'
+        })
+        this.myPraiseNum++;
+        this.IsPraise = true;
+      }else{
+        this.$message({
+          message:'点赞失败'
+        })
+      }
+    },
+    // 根据回帖id发送请求点赞
+    async putReplyParise(id){
+      let flag = false;
+      await this.reqM2Service(`/info/details/parise/${id}`,{},'put').then(res=>{
+        res = res.data;
+        if(res.code === 20000){
+          console.log('res: ', res);
+          flag = true;
+        }
+      })
+      return flag;
     },
     formatTime(date) {
       //date是传入的时间
@@ -88,6 +113,9 @@ export default {
       return times;
     },
   },
+  created(){
+    // console.log('this.replyInfo: ', this.replyInfo);
+  }
 };
 </script>
 <style lang="less" scoped>

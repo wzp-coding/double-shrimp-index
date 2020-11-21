@@ -22,8 +22,8 @@
         "
         @click="toDiseaseDateil"
       >
-        <span style="color: #9e9e9e"> 更多 </span>
-        <i class="el-icon-caret-right"></i>
+        <!-- <span style="color: #9e9e9e"> 更多 </span>
+        <i class="el-icon-caret-right"></i> -->
       </div>
     </h3>
     <el-divider class="ccy-drvider"></el-divider>
@@ -51,13 +51,13 @@ export default {
     // 获取4条数据
     getFourDisease(page = 1, size = 4) {
       // 等分页查询接口完成加上去
-      let httpUrl = `http://120.78.14.141:9007/diagnose/search/all`;
-      this.$http.get(httpUrl).then((res) => {
-        console.log(res.data);
+      let httpUrl = `/diagnose/search/all/${page}/${size}`;
+      this.reqM13Service(httpUrl,{},'get').then((res) => {
         res = res.data;
+        console.log(res); 
         if (res.code === 20000) {
-          res = res.data[0].content;
-          this.queryResList = res.slice(0, 4);
+          res = res.data;
+          this.queryResList = res.rows;
           console.log(this.queryResList);
         }
       });

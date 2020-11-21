@@ -24,17 +24,29 @@ function requireData(url, params, type, item) {
         case 'M1':
             url = axios.defaults.baseM1URL + url
             break;
+        case 'M12':
+            url = axios.defaults.baseM12URL + url
+            break;
         case 'M13':
             url = axios.defaults.baseM13URL + url
             break;
         case 'M2':
             url = axios.defaults.baseM2URL + url
             break;
+        case 'M22':
+            url = axios.defaults.baseM22URL + url
+            break;
         case 'M3':
             url = axios.defaults.baseM3URL + url
             break;
+        case 'M31':
+            url = axios.defaults.baseM31URL + url
+            break;
         case 'M4':
             url = axios.defaults.baseM4URL + url
+            break;
+        case 'M41':
+            url = axios.defaults.baseM41URL + url
             break;
         case 'M5':
             url = axios.defaults.baseM5URL + url
@@ -102,17 +114,30 @@ export default {
         Vue.prototype.reqM13Service = function (url, params, type) {
             return requireData.call(this, url, params, type, 'M13')
         }
+        Vue.prototype.reqM12Service = function (url, params, type) {
+            return requireData.call(this, url, params, type, 'M12')
+        }
         //->接口2的请求数据方法
         Vue.prototype.reqM2Service = function (url, params, type) {
             return requireData.call(this, url, params, type, 'M2')
+        }
+        Vue.prototype.reqM22Service = function (url, params, type) {
+            return requireData.call(this, url, params, type, 'M22')
         }
         //->接口3的请求数据方法
         Vue.prototype.reqM3Service = function (url, params, type) {
             return requireData.call(this, url, params, type, 'M3')
         }
+        //->接口31的请求数据方法
+        Vue.prototype.reqM31Service = function (url, params, type) {
+            return requireData.call(this, url, params, type, 'M31')
+        }
         //->接口4的请求数据方法
         Vue.prototype.reqM4Service = function (url, params, type) {
             return requireData.call(this, url, params, type, 'M4')
+        }
+        Vue.prototype.reqM41Service = function (url, params, type) {
+            return requireData.call(this, url, params, type, 'M41')
         }
         //->接口4的请求数据方法
         Vue.prototype.reqM5Service = function (url, params, type) {

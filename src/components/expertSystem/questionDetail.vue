@@ -6,10 +6,10 @@
         class="lxl-breadcrumb"
       >
         <el-breadcrumb-item>当前位置</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ name: 'expertInterrogation' }"
+        <el-breadcrumb-item :to="{ name: 'wzp_expertInterrogation' }"
           >专家问诊</el-breadcrumb-item
         >
-        <el-breadcrumb-item>专家详情</el-breadcrumb-item>
+        <el-breadcrumb-item>问答详情</el-breadcrumb-item>
       </el-breadcrumb>
       <el-divider></el-divider>
       <div class="content">
@@ -30,10 +30,16 @@
           </div>
           <div class="questionDetail-container">
             <!-- 帖子问题组件 -->
-            <miniQuestionDetailCard :quesInfo="quesInfo"></miniQuestionDetailCard>
+            <miniQuestionDetailCard
+              :quesInfo="quesInfo"
+            ></miniQuestionDetailCard>
             <el-divider class="ccy-drvider"></el-divider>
             <!-- 帖子回复组件 -->
-            <miniReplyDetailCard v-for="(item,index) in replyInfo" :key="index" :replyInfo="item"></miniReplyDetailCard>
+            <miniReplyDetailCard
+              v-for="(item, index) in replyInfo"
+              :key="index"
+              :replyInfo="item"
+            ></miniReplyDetailCard>
           </div>
           <div class="recommendQues-container">
             <!-- 推荐帖子组件 -->
@@ -56,11 +62,11 @@ import partOne from "./expertInterrogationChildren/partOne";
 export default {
   data() {
     return {
-      quesId:'',
-      expertId:'',
-      quesInfo:{},
-      replyInfo:[],
-      expertInfo:{}
+      quesId: "",
+      expertId: "",
+      quesInfo: {},
+      replyInfo: [],
+      expertInfo: {},
     };
   },
   components: {
@@ -70,62 +76,68 @@ export default {
     recommendReply,
     partOne,
   },
-  methods:{
+  methods: {
     // 获取专家信息expertInfo
-    getExpertInfo(id){
-      this.$http.get(`http://106.75.154.40:9012/info/experts/findById/${id}`).then(res=>{
-        res = res.data
-        if(res.code === 20000){
-          res = res.data
-          this.expertInfo = res
-        }
-      })
+    getExpertInfo(id) {
+      this.reqM2Service
+        (`/info/experts/findById/${id}`,{},'get')
+        .then((res) => {
+          res = res.data;
+          if (res.code === 20000) {
+            res = res.data;
+            this.expertInfo = res;
+          }
+        });
     },
     // 获取帖子问题信息quesInfo
-    getQuesInfo(id){
-      this.$http.get(`http://106.75.154.40:9012/info/post/findById/${id}`).then(res=>{
-        res = res.data
-        if(res.code === 20000){
-          res = res.data
-          this.quesInfo = res
-          this.expertId = res.expertsId
-          // 获取专家信息
-          this.getExpertInfo(this.expertId)
-          // 将quesInfo中的图片字符串转为数组
-          if(!!this.quesInfo.images){
-            this.$set(this.quesInfo,"images",this.quesInfo.images.split(',')) 
-          }else{
-            this.$set(this.quesInfo,"images",[])
+    getQuesInfo(id) {
+      this.reqM2Service(`/info/post/findById/${id}`,{},'get')
+        .then((res) => {
+          res = res.data;
+          if (res.code === 20000) {
+            res = res.data;
+            this.quesInfo = res;
+            this.expertId = res.expertsId;
+            // 获取专家信息
+            this.getExpertInfo(this.expertId);
+            // 将quesInfo中的图片字符串转为数组
+            if (!!this.quesInfo.images) {
+              this.$set(
+                this.quesInfo,
+                "images",
+                this.quesInfo.images.split(",")
+              );
+            } else {
+              this.$set(this.quesInfo, "images", []);
+            }
           }
-        }
-      })
+        });
     },
     // 获取帖子所有回复replyInfo
-    getReplyInfo(id){
-      this.$http.get(`http://106.75.154.40:9012/info/details/findByPost/${id}/1/100`).then(res=>{
-        res = res.data
-        if(res.code === 20000){
-          res = res.data
-          res.rows.forEach(item=>{
-            if(!!item.images){
-              this.$set(item,"images",item.images.split(',')) 
-            }else{
-              this.$set(item,"images",[])
-            }
-            this.replyInfo.push(item)
-          })
-          
-        }
-      })
+    getReplyInfo(id) {
+      this.reqM2Service(`/info/details/findByPost/${id}/1/100`,{},'get')
+        .then((res) => {
+          res = res.data;
+          if (res.code === 20000) {
+            res = res.data;
+            res.rows.forEach((item) => {
+              if (!!item.images) {
+                this.$set(item, "images", item.images.split(","));
+              } else {
+                this.$set(item, "images", []);
+              }
+              this.replyInfo.push(item);
+            });
+          }
+        });
     },
-    
   },
-  mounted(){
-    this.quesId = this.$route.params.id
-    console.log(this.quesId)
-    this.getQuesInfo(this.quesId)
-    this.getReplyInfo(this.quesId)
-  }
+  mounted() {
+    this.quesId = this.$route.params.id;
+    console.log(this.quesId);
+    this.getQuesInfo(this.quesId);
+    this.getReplyInfo(this.quesId);
+  },
 };
 </script>
 <style lang="less" scoped>

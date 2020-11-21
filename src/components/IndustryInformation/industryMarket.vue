@@ -158,6 +158,7 @@
                 class="productionChainSon"
                 v-for="(item, i) in jingcai2List"
                 :key="i"
+                v-loading="loading3"
                 @click="TonewPath(item.id)"
               >
                 <el-image :src="item.picture"></el-image>
@@ -181,6 +182,7 @@
                 class="wealthHandbookSon"
                 v-for="(item, index) in pagelist"
                 :key="index"
+                v-loading="loading"
               >
                 <!-- 分页图片信息 -->
                 <div class="paggingPicture" @click="TonewPath(item.id)">
@@ -451,22 +453,16 @@ export default {
       //查询全部产业资讯
       // datalist: [],
       searchInput: "",
-
       //每周精品
       weekliList: [],
-
-      //精彩专题1
-      jingcai1List: [],
-
       queryInfo1: {
         Infopage1: 1,
         Infosize1: 16,
         TypeID1: "1316745747953225728",
       },
-
-      //精彩专题 2
-      jingcai2List: [],
-
+      jingcai1List:[],
+      jingcai2List:[],
+      jingcai3List:[],
       queryInfo2: {
         Infopage2: 1,
         Infosize2: 4,
@@ -499,7 +495,7 @@ export default {
 
       //推荐 ，分页
       RecommList: [],
-
+      // 点击量
       ClickDataList: [],
 
       SearchKey: "",
@@ -507,6 +503,7 @@ export default {
       loading: true,
       loading1:true,
       loading2:true,
+      loading3:true,
       src:
         "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
     };
@@ -521,13 +518,7 @@ export default {
     this.getClickData();
     // //每周精品
     // this.getWeekData();
-    // 精彩专题 1 按类型查询 对虾养殖
-    
-    //精彩专题2
-    // this.getjingcai2();
     // // 精彩专题3
-    // this.getjingcai3();
-
     //最新资讯
     this.getNewData();
   },
@@ -551,6 +542,7 @@ export default {
       if(a>235&&this.MonthDataList.length===0){
         this.getMonthData()
         this.getjingcai1();
+        this.getjingcai2();
         window.removeEventListener('scroll',this.handleScroll2)
       }
     },
@@ -568,6 +560,7 @@ export default {
         query: { id: id },
       });
     },
+    // 前往搜索页面
     ToSearch(SearchKey) {
       this.$router.push({
         path: "/instructpagedetail",
@@ -636,6 +629,7 @@ export default {
         if (res.code === 20000) {
           console.log("获取精彩专题2数据成功");
           this.jingcai2List = res.data.rows;
+          this.loading3=false
         } else {
           console.log("网络错误20001");
         }
@@ -667,9 +661,9 @@ export default {
       //改变页码
       this.loading = true;
       this.queryInfo3.Currentpage = newpage;
-      this.getjingcai3();
+      this.wealth();
     },
-    //最新  分页
+    //最新资讯  分页
     async getNewData() {
       try {
         const { data: res } = await this.reqM2Service(
@@ -677,9 +671,10 @@ export default {
           "",
           "get"
         );
-        this.NewDataList = res.data.rows;
         if (res.code === 20000) {
           console.log("获取最新数据成功");
+          console.log(res)
+          this.NewDataList=res.data.rows
         } else {
           console.log("网络错误 20001");
         }
@@ -700,10 +695,10 @@ export default {
           this.RecommList = res.data.rows;
           this.loading1=false
         } else {
-          console.log("网络错误 20001");
+          console.log(res.message);
         }
       } catch (error) {
-        console.log("网络错误 19999");
+        console.log(error);
       }
     },
     //每月

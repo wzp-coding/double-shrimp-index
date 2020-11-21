@@ -8,6 +8,12 @@
   <link rel="icon" href="<%= BASE_URL %>favicon.ico">
   <script type="text/javascript" src="http://map.qq.com/api/js?v=2.exp&key=MFKBZ-LITCX-GTW42-7YTSW-MU2NF-OJFWY">
   </script>
+  <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+  <script type="text/javascript">
+    var Ip = returnCitySN['cip']
+    var cityname = returnCitySN['cname']
+    localStorage.setItem('Ip', Ip)
+  </script>
   <title>对虾大数据云平台</title>
 </head>
 <style>

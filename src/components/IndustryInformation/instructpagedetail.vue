@@ -94,8 +94,8 @@
                   <span @click="TonewPath(item.id)">{{ item.title }}</span>
                 </div>
               </div>
-            </el-tab-pane>
-            <el-tab-pane label="热门资讯" name="second">
+            </el-tab-pane> -->
+            <el-tab-pane label="热门资讯" name="first" >
               <div
                 class="tabList"
                 v-for="(item, index) in numclicktabList"
@@ -150,7 +150,7 @@
                 </div>
               </div>
             </el-tab-pane>
-          </el-tabs>
+          </el-tabs> -->
         </el-main>
       </el-container>
     </div>

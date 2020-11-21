@@ -1,7 +1,6 @@
 <template>
   <div class="lxl-footer">
     <el-footer>
-      <p>联系我们：15904960695 kabit@sina.com</p>
       <p>
         Copyright@2020.
         <span> 对虾大数据云平台 </span>All rights reserved

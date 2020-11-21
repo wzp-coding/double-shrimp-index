@@ -18,32 +18,20 @@
         <el-row :gutter="20">
           <!-- 左侧图片 -->
           <el-col :span="7" class="navPic">
-            <el-image src=""></el-image>
+            <el-image style="height:50px;width:200px" src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1377955304,2628213089&fm=26&gp=0.jpg"></el-image>
           </el-col>
           <!-- 搜索框 -->
-          <el-col :span="15" class="search">
+          <el-col :span="15" style="margin: 15px 0">
             <el-input
               placeholder="搜索您要的货品"
               v-model="inputRuleForm.productTitle"
               prefix-icon="el-icon-search"
             >
-              <div slot="prepend">
-                <div>
-                  <el-select
-                    v-model="select"
-                    placeholder="供应"
-                    style="width: 90px"
-                  >
-                    <el-option label="餐厅" value="1"></el-option>
-                    <el-option label="订单" value="2"></el-option>
-                    <el-option label="用户" value="3"></el-option>
-                  </el-select>
-                </div>
-              </div>
               <div slot="append">
                 <el-button
                   @click="goTo(inputRuleForm.productTitle)"
                   icon="el-icon-search"
+                  style="width: 100px"
                   >搜索</el-button
                 >
               </div>
@@ -52,7 +40,7 @@
         </el-row>
       </div>
 
-      <div class="mainNav">
+      <div class="mainNav" v-loading="loading">
         <!-- 主页菜单 -->
         <el-row :gutter="20">
           <el-col :span="5">
@@ -116,13 +104,13 @@
           <el-col :span="19">
             <div class="mainPic">
               <el-image
-                src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=701767331,2238872537&fm=26&gp=0.jpg"
+                src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=4099914066,55174512&fm=26&gp=0.jpg"
               ></el-image>
             </div>
             <div class="fourPic">
               <el-row :gutter="10">
                 <el-col :span="6" v-for="(item, i) in fourPicture" :key="i">
-                  <el-image :src="item.src" class="pic-head"></el-image>
+                  <el-image style="height:205px" :src="item.src"></el-image>
                 </el-col>
               </el-row>
             </div>
@@ -171,32 +159,57 @@
             <el-col :span="4" class="classOneLeft">
               <div class="classOneLeftBaseInfo">
                 <h1 class="classOneLeftTitle">综合排序</h1>
-                <!-- <span class="classOneLeftInfo">基地直供</span>
-                <span>运输包活</span> -->
               </div>
               <!-- 排行榜区域 -->
               <div class="leaderboard">
                 <ol>
-                  <li @click="goToGoodsDetail(allOrder[0])">
-                    <span> {{ allOrder[0].productTitle | ell8 }}</span>
-                  </li>
-                  <li @click="goToGoodsDetail(allOrder[1])">
-                    <span> {{ allOrder[1].productTitle | ell8 }}</span>
-                  </li>
-                  <li @click="goToGoodsDetail(allOrder[2])">
-                    <span> {{ allOrder[2].productTitle | ell8 }}</span>
-                  </li>
-                  <li @click="goToGoodsDetail(allOrder[3])">
-                    <span> {{ allOrder[3].productTitle | ell8 }}</span>
-                  </li>
-                  <li @click="goToGoodsDetail(allOrder[4])">
-                    <span> {{ allOrder[4].productTitle | ell8 }}</span>
-                  </li>
+                  <el-tooltip effect="light" placement="right">
+                    <div slot="content" class="wrap_one">
+                      {{ allOrder[0].productTitle }}
+                    </div>
+                    <li @click="goToGoodsDetail(allOrder[0])">
+                      <span> {{ allOrder[0].productTitle | ell8 }}</span>
+                    </li>
+                  </el-tooltip>
+                  <el-tooltip effect="light" placement="right">
+                    <div slot="content" class="wrap_one">
+                      {{ allOrder[1].productTitle }}
+                    </div>
+                    <li @click="goToGoodsDetail(allOrder[1])">
+                      <span> {{ allOrder[1].productTitle | ell8 }}</span>
+                    </li>
+                  </el-tooltip>
+                  <el-tooltip effect="light" placement="right">
+                    <div slot="content" class="wrap_one">
+                      {{ allOrder[2].productTitle }}
+                    </div>
+                    <li @click="goToGoodsDetail(allOrder[2])">
+                      <span> {{ allOrder[2].productTitle | ell8 }}</span>
+                    </li>
+                  </el-tooltip>
+                  <el-tooltip effect="light" placement="right">
+                    <div slot="content" class="wrap_one">
+                      {{ allOrder[3].productTitle }}
+                    </div>
+                    <li @click="goToGoodsDetail(allOrder[3])">
+                      <span> {{ allOrder[3].productTitle | ell8 }}</span>
+                    </li>
+                  </el-tooltip>
+                  <el-tooltip effect="light" placement="right">
+                    <div slot="content" class="wrap_one">
+                      {{ allOrder[4].productTitle }}
+                    </div>
+                    <li @click="goToGoodsDetail(allOrder[4])">
+                      <span> {{ allOrder[4].productTitle | ell8 }}</span>
+                    </li>
+                  </el-tooltip>
                 </ol>
               </div>
-              <el-button type="warning" round @click="goToSearch(allOrder)"
+              <div class="moreButton">
+                <el-button type="warning" round @click="goToSearch(allOrder)"
                 >查看更多<i class="el-icon-arrow-right"></i
               ></el-button>
+              </div>
               <!-- 分类区域 -->
               <div class="classButton">
                 <el-button
@@ -221,13 +234,14 @@
                     v-if="item.productImages"
                     :src="item.productImages[0]"
                     @click="goToGoodsDetail(item)"
+                    lazy
                   ></el-image>
                   <div class="price">
                     <span class="sellPrice"
                       >{{ item.productPrice }}元{{ item.productUnit }}</span
                     >
                     <span class="totalCount"
-                      >成交{{ item.productNum }}万元</span
+                      >库存：{{ item.productNum }}</span
                     >
                   </div>
                   <div class="titleArea" @click="goToGoodsDetail(item)">
@@ -260,33 +274,58 @@
           <el-col :span="4" class="classFruitLeft">
             <div class="classOneLeftBaseInfo">
               <h1 class="classOneLeftTitle">点赞最多</h1>
-              <!-- <span class="classOneLeftInfo">产货地源</span>
-              <span>一手价格</span> -->
             </div>
 
             <!-- 排行榜区域 -->
             <div class="leaderboard">
               <ol>
-                <li @click="goToGoodsDetail(likeGoodsOrder[0])">
-                  <span> {{ likeGoodsOrder[0].productTitle | ell8 }}</span>
-                </li>
-                <li @click="goToGoodsDetail(likeGoodsOrder[1])">
-                  <span> {{ likeGoodsOrder[1].productTitle | ell8 }}</span>
-                </li>
-                <li @click="goToGoodsDetail(likeGoodsOrder[2])">
-                  <span> {{ likeGoodsOrder[2].productTitle | ell8 }}</span>
-                </li>
-                <li @click="goToGoodsDetail(likeGoodsOrder[3])">
-                  <span> {{ likeGoodsOrder[3].productTitle | ell8 }}</span>
-                </li>
-                <li @click="goToGoodsDetail(likeGoodsOrder[4])">
-                  <span> {{ likeGoodsOrder[4].productTitle | ell8 }}</span>
-                </li>
+                <el-tooltip effect="light" placement="right">
+                  <div slot="content" class="wrap_one">
+                    {{ likeGoodsOrder[0].productTitle }}
+                  </div>
+                  <li @click="goToGoodsDetail(likeGoodsOrder[0])">
+                    <span> {{ likeGoodsOrder[0].productTitle | ell8 }}</span>
+                  </li>
+                </el-tooltip>
+                <el-tooltip effect="light" placement="right">
+                  <div slot="content" class="wrap_one">
+                    {{ likeGoodsOrder[1].productTitle }}
+                  </div>
+                  <li @click="goToGoodsDetail(likeGoodsOrder[1])">
+                    <span> {{ likeGoodsOrder[1].productTitle | ell8 }}</span>
+                  </li>
+                </el-tooltip>
+                <el-tooltip effect="light" placement="right">
+                  <div slot="content" class="wrap_one">
+                    {{ likeGoodsOrder[2].productTitle }}
+                  </div>
+                  <li @click="goToGoodsDetail(likeGoodsOrder[2])">
+                    <span> {{ likeGoodsOrder[2].productTitle | ell8 }}</span>
+                  </li>
+                </el-tooltip>
+                <el-tooltip effect="light" placement="right">
+                  <div slot="content" class="wrap_one">
+                    {{ likeGoodsOrder[3].productTitle }}
+                  </div>
+                  <li @click="goToGoodsDetail(likeGoodsOrder[3])">
+                    <span> {{ likeGoodsOrder[3].productTitle | ell8 }}</span>
+                  </li>
+                </el-tooltip>
+                <el-tooltip effect="light" placement="right">
+                  <div slot="content" class="wrap_one">
+                    {{ likeGoodsOrder[4].productTitle }}
+                  </div>
+                  <li @click="goToGoodsDetail(likeGoodsOrder[4])">
+                    <span> {{ likeGoodsOrder[4].productTitle | ell8 }}</span>
+                  </li>
+                </el-tooltip>
               </ol>
             </div>
-            <el-button type="warning" round @click="goToSearch(likeGoodsOrder)"
+            <div class="moreButton">
+              <el-button type="warning" round @click="goToSearch(likeGoodsOrder)"
               >查看更多<i class="el-icon-arrow-right"></i
             ></el-button>
+            </div>
             <!-- 分类区域 -->
             <div class="classButton">
               <el-button
@@ -311,12 +350,13 @@
                   v-if="item.productImages"
                   :src="item.productImages[0]"
                   @click="goToGoodsDetail(item)"
+                  lazy
                 ></el-image>
                 <div class="price">
                   <span class="sellPrice"
                     >{{ item.productPrice }}元{{ item.productUnit }}</span
                   >
-                  <span class="totalCount">成交{{ item.productNum }}万元</span>
+                  <span class="totalCount">库存：{{ item.productNum }}</span>
                 </div>
                 <div class="titleArea" @click="goToGoodsDetail(item)">
                   <el-tag
@@ -337,7 +377,7 @@
           </el-col>
         </el-row>
       </div>
-      <!-- 水产区域 -->
+      <!-- 价格升序区域 -->
       <div class="Area">
         <el-row class="classOne" :gutter="20">
           <el-col :span="4" class="classSeaLeft">
@@ -347,26 +387,53 @@
             <!-- 排行榜区域 -->
             <div class="leaderboard">
               <ol>
-                <li @click="goToGoodsDetail(priceUpOrder[0])">
-                  <span> {{ priceUpOrder[0].productTitle | ell8 }}</span>
-                </li>
-                <li @click="goToGoodsDetail(priceUpOrder[1])">
-                  <span> {{ priceUpOrder[1].productTitle | ell8 }}</span>
-                </li>
-                <li @click="goToGoodsDetail(priceUpOrder[2])">
-                  <span> {{ priceUpOrder[2].productTitle | ell8 }}</span>
-                </li>
-                <li @click="goToGoodsDetail(priceUpOrder[3])">
-                  <span> {{ priceUpOrder[3].productTitle | ell8 }}</span>
-                </li>
-                <li @click="goToGoodsDetail(priceUpOrder[4])">
-                  <span> {{ priceUpOrder[4].productTitle | ell8 }}</span>
-                </li>
+                <el-tooltip effect="light" placement="right">
+                  <div slot="content" class="wrap_one">
+                    {{ priceUpOrder[0].productTitle }}
+                  </div>
+                  <li @click="goToGoodsDetail(priceUpOrder[0])">
+                    <span> {{ priceUpOrder[0].productTitle | ell8 }}</span>
+                  </li>
+                </el-tooltip>
+                <el-tooltip effect="light" placement="right">
+                  <div slot="content" class="wrap_one">
+                    {{ priceUpOrder[1].productTitle }}
+                  </div>
+                  <li @click="goToGoodsDetail(priceUpOrder[1])">
+                    <span> {{ priceUpOrder[1].productTitle | ell8 }}</span>
+                  </li>
+                </el-tooltip>
+                <el-tooltip effect="light" placement="right">
+                  <div slot="content" class="wrap_one">
+                    {{ priceUpOrder[2].productTitle }}
+                  </div>
+                  <li @click="goToGoodsDetail(priceUpOrder[2])">
+                    <span> {{ priceUpOrder[2].productTitle | ell8 }}</span>
+                  </li>
+                </el-tooltip>
+                <el-tooltip effect="light" placement="right">
+                  <div slot="content" class="wrap_one">
+                    {{ priceUpOrder[3].productTitle }}
+                  </div>
+                  <li @click="goToGoodsDetail(priceUpOrder[3])">
+                    <span> {{ priceUpOrder[3].productTitle | ell8 }}</span>
+                  </li>
+                </el-tooltip>
+                <el-tooltip effect="light" placement="right">
+                  <div slot="content" class="wrap_one">
+                    {{ priceUpOrder[4].productTitle }}
+                  </div>
+                  <li @click="goToGoodsDetail(priceUpOrder[4])">
+                    <span> {{ priceUpOrder[4].productTitle | ell8 }}</span>
+                  </li>
+                </el-tooltip>
               </ol>
             </div>
-            <el-button type="warning" round @click="goToSearch(priceUpOrder)"
+            <div class="moreButton">
+              <el-button type="warning" round @click="goToSearch(priceUpOrder)"
               >查看更多<i class="el-icon-arrow-right"></i
             ></el-button>
+            </div>
             <!-- 分类区域 -->
             <div class="classButton">
               <el-button
@@ -390,13 +457,14 @@
                 <el-image
                   v-if="item.productImages"
                   :src="item.productImages[0]"
-                  @click="item;"
+                  @click="goToGoodsDetail(item)"
+                  lazy
                 ></el-image>
                 <div class="price">
                   <span class="sellPrice"
                     >{{ item.productPrice }}元{{ item.productUnit }}</span
                   >
-                  <span class="totalCount">成交{{ item.productNum }}万元</span>
+                  <span class="totalCount">库存：{{ item.productNum }}</span>
                 </div>
                 <div class="titleArea" @click="goToGoodsDetail(item)">
                   <el-tag
@@ -417,38 +485,63 @@
           </el-col>
         </el-row>
       </div>
-      <!-- 农副加工区域 -->
+      <!-- 价格降序区域 -->
       <div class="Area">
         <el-row class="classOne" :gutter="20">
           <el-col :span="4" class="classFarmLeft">
             <div class="classOneLeftBaseInfo">
               <h1 class="classOneLeftTitle">价格降序</h1>
-              <!-- <span class="classOneLeftInfo">货源稳定</span>
-              <span>量大优惠</span> -->
             </div>
 
             <div class="leaderboard">
               <ol>
-                <li @click="goToGoodsDetail(priceDownOrder[0])">
-                  <span> {{ priceDownOrder[0].productTitle | ell8 }}</span>
-                </li>
-                <li @click="goToGoodsDetail(priceDownOrder[1])">
-                  <span> {{ priceDownOrder[1].productTitle | ell8 }}</span>
-                </li>
-                <li @click="goToGoodsDetail(priceDownOrder[2])">
-                  <span> {{ priceDownOrder[2].productTitle | ell8 }}</span>
-                </li>
-                <li @click="goToGoodsDetail(priceDownOrder[3])">
-                  <span> {{ priceDownOrder[3].productTitle | ell8 }}</span>
-                </li>
-                <li @click="goToGoodsDetail(priceDownOrder[4])">
-                  <span> {{ priceDownOrder[4].productTitle | ell8 }}</span>
-                </li>
+                <el-tooltip effect="light" placement="right">
+                  <div slot="content" class="wrap_one">
+                    {{ priceDownOrder[0].productTitle }}
+                  </div>
+                  <li @click="goToGoodsDetail(priceDownOrder[0])">
+                    <span> {{ priceDownOrder[0].productTitle | ell8 }}</span>
+                  </li>
+                </el-tooltip>
+                <el-tooltip effect="light" placement="right">
+                  <div slot="content" class="wrap_one">
+                    {{ priceDownOrder[1].productTitle }}
+                  </div>
+                  <li @click="goToGoodsDetail(priceDownOrder[1])">
+                    <span> {{ priceDownOrder[1].productTitle | ell8 }}</span>
+                  </li>
+                </el-tooltip>
+                <el-tooltip effect="light" placement="right">
+                  <div slot="content" class="wrap_one">
+                    {{ priceDownOrder[2].productTitle }}
+                  </div>
+                  <li @click="goToGoodsDetail(priceDownOrder[2])">
+                    <span> {{ priceDownOrder[2].productTitle | ell8 }}</span>
+                  </li>
+                </el-tooltip>
+                <el-tooltip effect="light" placement="right">
+                  <div slot="content" class="wrap_one">
+                    {{ priceDownOrder[3].productTitle }}
+                  </div>
+                  <li @click="goToGoodsDetail(priceDownOrder[3])">
+                    <span> {{ priceDownOrder[3].productTitle | ell8 }}</span>
+                  </li>
+                </el-tooltip>
+                <el-tooltip effect="light" placement="right">
+                  <div slot="content" class="wrap_one">
+                    {{ priceDownOrder[4].productTitle }}
+                  </div>
+                  <li @click="goToGoodsDetail(priceDownOrder[4])">
+                    <span> {{ priceDownOrder[4].productTitle | ell8 }}</span>
+                  </li>
+                </el-tooltip>
               </ol>
             </div>
-            <el-button type="warning" round @click="goToSearch(priceDownOrder)"
+            <div class="moreButton">
+              <el-button type="warning" round @click="goToSearch(priceDownOrder)"
               >查看更多<i class="el-icon-arrow-right"></i
             ></el-button>
+            </div>
             <!-- 分类区域 -->
             <div class="classButton">
               <el-button
@@ -473,12 +566,13 @@
                   v-if="item.productImages"
                   :src="item.productImages[0]"
                   @click="goToGoodsDetail(item)"
+                  lazy
                 ></el-image>
                 <div class="price">
                   <span class="sellPrice"
                     >{{ item.productPrice }}元{{ item.productUnit }}</span
                   >
-                  <span class="totalCount">成交{{ item.productNum }}万元</span>
+                  <span class="totalCount">库存：{{ item.productNum }}</span>
                 </div>
                 <div class="titleArea" @click="goToGoodsDetail(item)">
                   <el-tag
@@ -518,6 +612,7 @@
                 v-if="item.productImages"
                 :src="item.productImages[0]"
                 @click="goToGoodsDetail(item)"
+                lazy
               >
                 <div slot="error" class="image-slot">
                   <el-image
@@ -568,9 +663,9 @@ export default {
       cateGory: [
         {
           categoryId: 1,
-          isActive: false,
-          categoryName: "禽畜肉蛋",
-          spanTitle: ["肉类", "活禽"],
+          isParent: true,
+          categoryName: "鲜虾",
+          spanTitle: ["对虾", "龙虾"],
           children: [
             {
               categoryId: "aaa",
@@ -585,66 +680,74 @@ export default {
           ],
         },
         {
-          id: 2,
-          isActive: false,
-          title: "水果",
-          spanTitle: ["核果仁果类", "浆果类"],
-          navTitle: [
+          categoryId: 2,
+          isParent: true,
+          categoryName: "虾苗",
+          spanTitle: ["对虾苗", "龙虾苗"],
+          children: [
             {
-              title: "标题1",
-              secondTitle: ["沙巴", "新加坡", "菲律宾", "沙巴", "文莱"],
+              categoryId: "aaa",
+              categoryName: "标题1",
+              children: ["沙巴", "新加坡", "菲律宾", "沙巴", "文莱"],
             },
             {
-              title: "标题2",
-              secondTitle: ["沙巴", "新加坡", "菲律宾", "沙巴"],
-            },
-          ],
-        },
-        {
-          id: 3,
-          isActive: false,
-          title: "蔬菜",
-          spanTitle: ["葱姜蒜类", "根茎菜类"],
-          navTitle: [
-            {
-              title: "标题1",
-              secondTitle: ["沙巴", "新加坡", "菲律宾", "沙巴", "文莱"],
-            },
-            {
-              title: "标题2",
-              secondTitle: ["沙巴", "新加坡", "菲律宾", "沙巴"],
+              categoryId: "bbb",
+              categoryName: "标题2",
+              children: ["沙巴", "新加坡", "菲律宾", "沙巴"],
             },
           ],
         },
         {
-          id: 4,
-          isActive: false,
-          title: "农资农机",
-          spanTitle: ["农用机械设备", "农药"],
-          navTitle: [
+          categoryId: 3,
+          isParent: true,
+          categoryName: "饲料",
+          spanTitle: ["成品饲料", "开口饲料"],
+          children: [
             {
-              title: "标题1",
-              secondTitle: ["沙巴", "新加坡", "菲律宾", "沙巴", "文莱"],
+              categoryId: "aaa",
+              categoryName: "标题1",
+              children: ["沙巴", "新加坡", "菲律宾", "沙巴", "文莱"],
             },
             {
-              title: "标题2",
-              secondTitle: ["沙巴", "新加坡", "菲律宾", "沙巴"],
+              categoryId: "bbb",
+              categoryName: "标题2",
+              children: ["沙巴", "新加坡", "菲律宾", "沙巴"],
             },
           ],
         },
         {
-          id: 5,
-          isActive: false,
-          title: "水产",
-          spanTitle: ["淡水鱼类", "蟹类"],
-          navTitle: [
+          categoryId: 4,
+          isParent: true,
+          categoryName: "渔药",
+          spanTitle: ["消毒剂类", "生物制品"],
+          children: [
             {
-              title: "标题1",
-              secondTitle: ["沙巴", "新加坡", "菲律宾", "沙巴", "文莱"],
+              categoryId: "aaa",
+              categoryName: "标题1",
+              children: ["沙巴", "新加坡", "菲律宾", "沙巴", "文莱"],
             },
             {
-              title: "标题2",
-              secondTitle: ["沙巴", "新加坡", "菲律宾", "沙巴"],
+              categoryId: "bbb",
+              categoryName: "标题2",
+              children: ["沙巴", "新加坡", "菲律宾", "沙巴"],
+            },
+          ],
+        },
+        {
+          categoryId: 5,
+          isParent: true,
+          categoryName: "鱼用设备",
+          spanTitle: ["捕捞", "辅助机械"],
+          children: [
+            {
+              categoryId: "aaa",
+              categoryName: "标题1",
+              children: ["沙巴", "新加坡", "菲律宾", "沙巴", "文莱"],
+            },
+            {
+              categoryId: "bbb",
+              categoryName: "标题2",
+              children: ["沙巴", "新加坡", "菲律宾", "沙巴"],
             },
           ],
         },
@@ -1148,26 +1251,27 @@ export default {
       tit1: "tit1",
       firstButton: "firstButton",
       activeName: "",
+      loading: true,
       fourPicture: [
         {
           id: 1,
           src:
-            "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1353291390,705190916&fm=15&gp=0.jpg",
+            "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1858510871,3796732153&fm=15&gp=0.jpg",
         },
         {
           id: 2,
           src:
-            "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3864243818,1044960970&fm=15&gp=0.jpg",
+            "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1715821268,753973572&fm=15&gp=0.jpg",
         },
         {
           id: 3,
           src:
-            "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=551329194,4246634910&fm=26&gp=0.jpg",
+            "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=407280600,2321204096&fm=15&gp=0.jpg",
         },
         {
           id: 4,
           src:
-            "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1691171080,1028146513&fm=15&gp=0.jpg",
+            "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=256868016,1558383594&fm=26&gp=0.jpg",
         },
       ],
     };
@@ -1194,6 +1298,7 @@ export default {
         name: "emallSearch",
         query: item,
       });
+      console.log(item)
     },
     goToGoodsDetail(item) {
       this.$router.push({
@@ -1202,17 +1307,13 @@ export default {
         query: item,
       });
     },
-
-    
-    goTo(title) {
-      if (title === "") {
-        return this.$message.error("请输入搜索内容");
-      }
+    async goTo(title) {
       this.searchInfo.productTitle = this.inputRuleForm.productTitle;
       this.goToSearch(this.searchInfo);
     },
     // 获取前台树形结构
     async getQuery() {
+      document.documentElement.scrollTop = document.body.scrollTop = 0;
       const { data: res } = await this.reqM4Service(
         "/category/queryAll",
         "",
@@ -1225,6 +1326,7 @@ export default {
       this.cateGory = res.data;
       console.log(this.cateGory);
       this.activeName = this.cateGory[0].categoryName;
+      this.loading = false;
     },
     // 获取最新推荐
     async getHotRecommend() {
@@ -1357,7 +1459,7 @@ export default {
   },
 };
 </script>
-<style  scoped>
+<style lang="less" scoped>
 *::before,
 *::after {
   box-sizing: border-box;
@@ -1381,12 +1483,11 @@ export default {
   width: 1150px;
   margin: 0 auto;
 }
-.navPic >>> .el-image {
-  width: 150px;
-  margin-left: 20px;
-}
-.search {
-  margin: 15px 0;
+.navPic {
+  .el-image {
+    width: 150px;
+    margin-left: 20px;
+  }
 }
 .mainNav {
   margin-top: 20px;
@@ -1407,155 +1508,158 @@ export default {
 .el-icon-s-order {
   padding: 0 8px 0 15px;
 }
-
-.search >>> .el-button {
-  width: 100px;
-}
 .product_sort {
   width: 100%;
   background: #fff;
   position: relative;
   z-index: 90;
-}
-.product_sort a {
-  outline: none;
-  text-decoration: none;
-  -webkit-transition: 0.2s;
-  transition: 0.2s;
-}
-.product_sort .bd {
-  padding-bottom: 10px;
-}
-.product_sort .bd .item {
-  border-bottom: solid 1px #eee;
-  height: 60px;
-  position: relative;
-  margin: 4px 0;
-}
-.product_sort .bd .item .title {
-  width: 226px;
-  text-indent: 15px;
-  height: 30px;
-  overflow: hidden;
-  line-height: 42px;
-  font-size: 16px;
-  color: #292929;
-}
-.product_sort .bd .item .title a {
-  color: #000;
-  position: relative;
-}
-.product_sort .bd .item .one a i {
-  width: 19px;
-  height: 19px;
-  background-position: 0 0;
-  left: -25px;
-  top: -3px;
-}
-.product_sort .bd .item .title a i {
-  position: absolute;
-}
-.product_sort .bd .item .list {
-  width: 210px;
-  padding-left: 15px;
-  height: 30px;
-  line-height: 30px;
-  overflow: hidden;
-}
-.product_sort .bd .item .list a {
-  margin-right: 10px;
-  font-size: 14px;
-  color: #aaa;
-}
-.product_sort .bd .item .list a:hover,
-a:focus {
-  color: #39bf3e;
-}
-.product_sort .bd .item .list a:hover {
-  text-decoration: underline;
-}
-.product_sort .bd .item .arrow {
-  font-size: 20px;
-  color: #aaa;
-  position: absolute;
-  right: 10px;
-  top: 14px;
-}
-.product_sort .bd .item .line {
-  position: absolute;
-  right: -2px;
-  top: 0px;
-  width: 2px;
-  height: 60px;
-  background-color: #fff;
-  z-index: 95;
-  display: none;
-}
-.product_sort .bd .item .subitem {
-  display: none;
-}
-.product_sort .bd .layer .line {
-  display: block;
-}
-.product_sort .bd .layer .arrow {
-  display: none;
-}
-.product_sort .bd .layer .subitem {
-  width: 731px;
-  background: #fff;
-  border: solid 1px #39bf3e;
-  border-left: none;
-  position: absolute;
-  left: 212px;
-  _left: 228px;
-  top: -15px;
-  z-index: 95;
-  min-height: 60px;
-  height: auto !important;
-  height: 60px;
-  padding: 5px 10px 15px 10px;
-  display: block;
-}
-.product_sort .bd .layer .subitem .inner .tit {
-  font-size: 12px;
-  text-align: left;
-  border-top: 1px dashed #d7d7d7;
-  padding: 5px 0;
-  line-height: 25px;
-}
-.product_sort .bd .layer .subitem .inner .tit1 {
-  border-top: none;
-}
-.product_sort .bd .layer .subitem .inner .tit .name {
-  display: block;
-  width: 90px;
-  color: #39bf3e;
-  cursor: pointer;
-  float: left;
-  padding-top: 3px;
-}
-.product_sort .bd .layer .subitem .inner ul {
-  overflow: hidden;
-  zoom: 1;
-  display: block;
-  margin-left: 90px;
-  width: 630px;
-  height: 30px;
-  line-height: 30px;
-}
-.product_sort .bd .layer .subitem .inner ul li {
-  float: left;
-  padding: 0 8px;
-  height: 25px;
-  list-style: none;
-}
-.product_sort .bd .layer .subitem .inner ul li a {
-  color: #222;
-  display: block;
-}
-.product_sort .bd .layer .subitem .inner ul li a:hover {
-  color: #39bf3e;
-  text-decoration: underline;
+  a {
+    outline: none;
+    text-decoration: none;
+    -webkit-transition: 0.2s;
+    transition: 0.2s;
+  }
+  .bd {
+    padding-bottom: 10px;
+    .item {
+      border-bottom: solid 1px #eee;
+      height: 60px;
+      position: relative;
+      margin: 4px 0;
+      .title {
+        width: 226px;
+        text-indent: 15px;
+        height: 30px;
+        overflow: hidden;
+        line-height: 42px;
+        font-size: 16px;
+        color: #292929;
+        a {
+          color: #000;
+          position: relative;
+          i {
+            position: absolute;
+          }
+        }
+      }
+      .one a i {
+        width: 19px;
+        height: 19px;
+        background-position: 0 0;
+        left: -25px;
+        top: -3px;
+      }
+      .list {
+        width: 210px;
+        padding-left: 15px;
+        height: 30px;
+        line-height: 30px;
+        overflow: hidden;
+        a {
+          font-family: "Microsoft YaHei", Arial, sans-serif;
+          margin-right: 10px;
+          font-size: 14px;
+          color: #aaa;
+        }
+        a:hover {
+          text-decoration: underline;
+          color: #39bf3e;
+        }
+        a:focus {
+          color: #39bf3e;
+        }
+      }
+      .arrow {
+        font-family: "Microsoft YaHei", Arial, sans-serif;
+        font-size: 20px;
+        color: #aaa;
+        position: absolute;
+        right: 10px;
+        top: 14px;
+      }
+      .line {
+        position: absolute;
+        right: -2px;
+        top: 0px;
+        width: 2px;
+        height: 60px;
+        background-color: #fff;
+        z-index: 95;
+        display: none;
+      }
+      .subitem {
+        display: none;
+      }
+    }
+    .layer {
+      .line {
+        display: block;
+      }
+      .arrow {
+        display: none;
+      }
+      .subitem {
+        width: 731px;
+        background: #fff;
+        border: solid 1px #39bf3e;
+        border-left: none;
+        font-family: "Microsoft YaHei", Arial, sans-serif;
+        position: absolute;
+        left: 212px;
+        _left: 228px;
+        top: -15px;
+        z-index: 95;
+        min-height: 60px;
+        height: auto !important;
+        height: 60px;
+        padding: 5px 10px 15px 10px;
+        display: block;
+        .inner {
+          .tit {
+            font-size: 12px;
+            text-align: left;
+            border-top: 1px dashed #d7d7d7;
+            padding: 5px 0;
+            line-height: 25px;
+            .name {
+              display: block;
+              width: 90px;
+              color: #39bf3e;
+              cursor: pointer;
+              float: left;
+              padding-top: 3px;
+            }
+          }
+          .tit1 {
+            border-top: none;
+          }
+          ul {
+            overflow: hidden;
+            zoom: 1;
+            display: block;
+            margin-left: 90px;
+            width: 630px;
+            height: 30px;
+            line-height: 30px;
+            li {
+              float: left;
+              padding: 0 8px;
+              height: 25px;
+              list-style: none;
+              a {
+                color: #222;
+                display: block;
+              }
+              a:hover {
+                color: #39bf3e;
+                text-decoration: underline;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
 .paramsTitle {
   color: #000;
@@ -1569,10 +1673,10 @@ a:focus {
 }
 .optionCard {
   margin-top: 20px;
-}
-.optionCard >>> .el-tabs__item {
-  width: 127px;
-  text-align: center;
+  .el-tabs__item {
+    width: 127px;
+    text-align: center;
+  }
 }
 .cateRow {
   margin-top: 20px;
@@ -1596,6 +1700,10 @@ a:focus {
   background-color: orange;
   color: #fff;
   height: 100%;
+  .el-button {
+    background: #fff;
+    color: #ff9755;
+  }
 }
 .classOneLeftBaseInfo {
   padding-left: 20px;
@@ -1604,13 +1712,6 @@ a:focus {
   margin-top: 40px;
   margin-bottom: 10px;
   font-size: 25px;
-}
-.classOneLeftInfo {
-  margin-right: 10px;
-}
-.classOneLeft >>> .el-button {
-  background: #fff;
-  color: #ff9755;
 }
 .el-button.is-round {
   padding: 7px 15px;
@@ -1623,143 +1724,83 @@ ol,
 ul {
   list-style: none;
 }
+.wrap_one {
+  display: inline-block;
+  max-width: 500px; // 最大的宽度，必写属性
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: normal;
+  line-height: 18px;
+  cursor: pointer;
+}
 .leaderboard {
   width: 100%;
   height: auto;
   margin-top: 10px;
   border-radius: 10px;
-}
-.leaderboard ol {
-  counter-reset: leaderboard;
-}
-.leaderboard ol li {
-  position: relative;
-  z-index: 1;
-  font-size: 14px;
-  counter-increment: leaderboard;
-  padding: 18px 10px 18px 50px;
-  cursor: pointer;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  -webkit-transform: translateZ(0) scale(1, 1);
-  transform: translateZ(0) scale(1, 1);
-}
-.leaderboard ol li::before {
-  content: counter(leaderboard);
-  position: absolute;
-  z-index: 2;
-  top: 15px;
-  left: 15px;
-  width: 20px;
-  height: 20px;
-  line-height: 20px;
-  color: #c24448;
-  background: #fff;
-  border-radius: 20px;
-  text-align: center;
-}
-.leaderboard ol li span {
-  z-index: 2;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  background: none;
-  color: #fff;
-}
-.leaderboard ol li small {
-  position: relative;
-  z-index: 2;
-  display: block;
-  text-align: right;
-}
-.leaderboard ol li::after {
-  content: "";
-  position: absolute;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #fa6855;
-  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.08);
-  -webkit-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
-  opacity: 0;
+  ol {
+    counter-reset: leaderboard;
+    li {
+      position: relative;
+      z-index: 1;
+      font-size: 14px;
+      counter-increment: leaderboard;
+      padding: 18px 10px 18px 50px;
+      cursor: pointer;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      -webkit-transform: translateZ(0) scale(1, 1);
+      transform: translateZ(0) scale(1, 1);
+      ::before {
+        content: counter(leaderboard);
+        position: absolute;
+        z-index: 2;
+        top: 15px;
+        left: 15px;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        color: #c24448;
+        background: #fff;
+        border-radius: 20px;
+        text-align: center;
+      }
+      li:hover {
+        z-index: 2;
+        overflow: visible;
+      }
+      span {
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        background: none;
+        color: #fff;
+      }
+      small {
+        position: relative;
+        z-index: 2;
+        display: block;
+        text-align: right;
+      }
+    }
+  }
 }
 .leaderboard ol li:nth-child(1) {
-  background: #fa6855;
-}
-.leaderboard ol li:nth-child(1)::after {
   background: #fa6855;
 }
 .leaderboard ol li:nth-child(2) {
   background: #e0574f;
 }
-.leaderboard ol li:nth-child(2)::after {
-  background: #e0574f;
-  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.08);
-}
-.leaderboard ol li:nth-child(2) span::before,
-.leaderboard ol li:nth-child(2) span::after {
-  border-top: 6px solid #ba4741;
-  bottom: -7px;
-}
 .leaderboard ol li:nth-child(3) {
   background: #d7514d;
-}
-.leaderboard ol li:nth-child(3)::after {
-  background: #d7514d;
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.11);
-}
-.leaderboard ol li:nth-child(3) span::before,
-.leaderboard ol li:nth-child(3) span::after {
-  border-top: 2px solid #b0433f;
-  bottom: -3px;
 }
 .leaderboard ol li:nth-child(4) {
   background: #cd4b4b;
 }
-.leaderboard ol li:nth-child(4)::after {
-  background: #cd4b4b;
-  box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.15);
-}
-.leaderboard ol li:nth-child(4) span::before,
-.leaderboard ol li:nth-child(4) span::after {
-  top: -7px;
-  bottom: auto;
-  border-top: none;
-  border-bottom: 6px solid #a63d3d;
-}
 .leaderboard ol li:nth-child(5) {
   background: #c24448;
   border-radius: 0 0 10px 10px;
-}
-.leaderboard ol li:nth-child(5)::after {
-  background: #c24448;
-  box-shadow: 0 -2.5px 0 rgba(0, 0, 0, 0.12);
-  border-radius: 0 0 10px 10px;
-}
-.leaderboard ol li:nth-child(5) span::before,
-.leaderboard ol li:nth-child(5) span::after {
-  top: -9px;
-  bottom: auto;
-  border-top: none;
-  border-bottom: 8px solid #993639;
-}
-.leaderboard ol li:hover {
-  z-index: 2;
-  overflow: visible;
-}
-.leaderboard ol li:hover::after {
-  opacity: 1;
-  -webkit-transform: scaleX(1.06) scaleY(1.03);
-  transform: scaleX(1.06) scaleY(1.03);
-}
-.leaderboard ol li:hover span::before,
-.leaderboard ol li:hover span::after {
-  opacity: 1;
-  -webkit-transition: all 0.35s ease-in-out;
-  transition: all 0.35s ease-in-out;
 }
 .classButton .el-button.is-round {
   padding: 7px 0px;
@@ -1776,11 +1817,11 @@ ul {
 }
 .goods {
   margin: 15px 0;
-}
-.goods >>> .el-image {
-  cursor: pointer;
-  width: 175px;
-  height: 175px;
+  .el-image {
+    cursor: pointer;
+    width: 175px;
+    height: 175px;
+  }
 }
 .sellPrice {
   color: red;
@@ -1796,10 +1837,10 @@ ul {
 .titleArea {
   height: 42px;
   margin-bottom: 10px;
-}
-.titleArea >>> .el-tag {
-  padding: 0;
-  margin-right: 5px;
+  .el-tag {
+    padding: 0;
+    margin-right: 5px;
+  }
 }
 .title {
   font-size: 14px;
@@ -1817,52 +1858,48 @@ ul {
   background: #39bf3e;
   color: #fff;
   height: 100%;
-}
-.classFruitLeft >>> .el-button {
-  background: #fff;
-  color: #39bf3e;
-  border: none;
+  .el-button {
+    background: #fff;
+    color: #39bf3e;
+    border: none;
+  }
 }
 .classSeaLeft {
   background: #3fbbe7;
   color: #fff;
   height: 100%;
-}
-.classSeaLeft >>> .el-button {
-  background: #fff;
-  color: #3fbbe7;
-  border: none;
+  .el-button {
+    background: #fff;
+    color: #3fbbe7;
+    border: none;
+  }
 }
 .classFarmLeft {
   background: #6e92ff;
   color: #fff;
   height: 100%;
-}
-.classFarmLeft >>> .el-button {
-  background: #fff;
-  color: #6e92ff;
-  border: none;
+  .el-button {
+    background: #fff;
+    color: #6e92ff;
+    border: none;
+  }
 }
 .lateAdvice {
   margin-top: 40px;
+  .el-divider {
+    margin: 12px 0;
+  }
 }
 .mainPic {
   width: 100%;
   height: 400px;
   background-color: blue;
-}
-.mainPic >>> .el-image {
-  width: 100%;
-  height: 400px;
+  .el-image {
+    width: 100%;
+    height: 400px;
+  }
 }
 .fourPic {
   margin-top: 10px;
-  height: 150px;
-
- 
 }
- .pic-head {
-   height: 150px;
-   width: 220px;
-  }
 </style>

@@ -14,7 +14,9 @@
           <div class="que_text reply_text">
             <span class="queicon replyicon">答</span>
             <span class="quetext replytext">
-              {{ oneReply ? oneReply.reply : "暂无" }}
+              {{
+                oneReply ? (oneReply.reply ? oneReply.reply : "暂无") : "暂无"
+              }}
             </span>
           </div>
         </div>
@@ -24,18 +26,66 @@
               oneReply ? this.formatTime(oneReply.creationTime) : "暂无更新"
             }}</span
           >
+          <div class="reply_btn" v-if="showReplyBtn">
+            <el-button type="primary" plain @click="handleReply"
+              >我要回复</el-button
+            >
+          </div>
         </div>
       </div>
     </el-card>
+    <!-- 回复对话框 -->
+    <publicReply
+      :info="dialogInfo"
+      :title="dialogTitle"
+      :type="dialogType"
+      :show="show"
+      @changeShow="changeShow"
+    ></publicReply>
   </div>
 </template>
 <script>
+import publicReply from "../expertManage/expertManageChildren/publicReply";
 export default {
-  props: ["oneReply"],
+  props: ["oneReply", "showReplyBtn"],
+  data() {
+    return {
+      // 传递给对话框组件的属性
+      dialogTitle: "",
+      dialogType: "",
+      show: false,
+      dialogInfo: {
+        replyId: "",
+        quesId: "",
+        replierId: "",
+        replierName: "",
+        reply: "",
+        images: "",
+        experts:true
+      },
+    };
+  },
+  components: {
+    publicReply,
+  },
   methods: {
+    // 控制显示修改或者添加界面
+    changeShow() {
+      this.show = !this.show;
+    },
+    // 点击回复按钮
+    handleReply() {
+      // console.log('this.oneReply: ', this.oneReply);
+      this.changeShow();
+      this.dialogType = "add";
+      this.dialogTitle = "添加回复";
+      this.dialogInfo.quesId = this.oneReply.id;
+      this.dialogInfo.replierId = this.oneReply.replierId;
+      this.dialogInfo.replierName = this.oneReply.replierName;
+    },
     toQuestionDetail() {
       this.$router.push({
-        name: "questionDetail",
+        name: "wzp_questionDetail",
         params: { id: this.oneReply.id },
       });
       location.reload();
@@ -69,9 +119,9 @@ export default {
 </script>
 <style lang="less" scoped>
 .mini_reply_card {
-  &:nth-child(1) {
-    margin: 10px 0 4px 0;
-  }
+  // &:nth-child(1) {
+  //   margin: 10px 0 4px 0;
+  // }
   margin-bottom: 4px;
   .ques_item {
     display: flex;

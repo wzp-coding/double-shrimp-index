@@ -20,7 +20,7 @@
           color: rgb(93, 183, 60);
           cursor: pointer;
         "
-        @click="toExpertList()"
+        @click="toReplyList()"
       >
         <span style="color: #9e9e9e"> 更多 </span>
         <i class="el-icon-caret-right"></i>
@@ -45,13 +45,16 @@ export default {
     miniReplyCard,
   },
   methods: {
+    toReplyList(){
+      this.$router.push({name:'wzp_replyList'})
+    },
     // 传入帖子id数组，并发请求回复内容
     async getOneReplyById(ids) {
       let httpTasks = [];
       ids.forEach((id) => {
         httpTasks.push(
-          this.$http.get(
-            `http://106.75.154.40:9012/info/details/findByPost/${id}/1/1`
+          this.reqM2Service(
+            `/info/details/findByPost/${id}/1/1`,{},'get'
           )
         );
       });
@@ -59,8 +62,7 @@ export default {
     },
     // 获取4个帖子问题进行展示
     async getRepliesList() {
-      await this.$http
-        .get(`http://106.75.154.40:9012/info/post/findAll/1/4`)
+      await this.reqM2Service(`/info/post/findAll/1/4`,{},"get")
         .then((res) => {
           res = res.data;
           console.log(res)
@@ -90,9 +92,10 @@ export default {
           }
         });
     },
+    
   },
   mounted(){
-    this.getRepliesList()
+      this.getRepliesList()
   }
 };
 </script>

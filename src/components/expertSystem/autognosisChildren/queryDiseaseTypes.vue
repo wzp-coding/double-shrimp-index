@@ -62,6 +62,7 @@
       <pagination
         :total="queryTotal"
         :resetPage="false"
+        :size="size"
         @pageChange="handlePageChange"
         v-if="this.queryResList.length != 0"
       ></pagination>
@@ -81,6 +82,7 @@ export default {
       queryResList: [],
       queryTotal: 10,
       srcList: [],
+      size:8,
     };
   },
   props: ["title", "labelList"],
@@ -89,27 +91,30 @@ export default {
     resetChoice() {
       this.radio = "";
     },
+    submitDisease(){
+      this.getAllDisease(1,8,this.radio);
+    },
     // 点击提交症状
-    submitDisease() {
+    getAllDisease(page=1,size=8,keys) {
       // 等分页查询接口完成加上去
-      let httpUrl = `http://120.78.14.141:9007/diagnose/search?key=${this.radio}`;
-      this.$http.get(httpUrl).then((res) => {
+      let httpUrl = `/diagnose/search/${page}/${size}?key=${keys}`;
+      this.reqM13Service(httpUrl,{},'get').then((res) => {
         console.log(res.data);
         res = res.data;
         if (res.code === 20000) {
           res = res.data;
-          this.queryResList = res.slice(0, 8);
-          // this.queryTotal = res.length
-          res.forEach((item) => this.srcList.push(item.pic));
+          this.queryResList = res.rows;
+          this.queryTotal = res.total
+          this.queryResList.forEach((item) => this.srcList.push(item.pic));
         }
       });
     },
      // 当子组件换页时
     handlePageChange({ page, size }) {
-      console.log("父组件:");
-      console.log("size: ", size);
-      console.log("page: ", page);
-      this.getAllDisease(page, size);
+    //   console.log("父组件:");
+    //   console.log("size: ", size);
+    //   console.log("page: ", page);
+      this.getAllDisease(page, size,this.radio);
     },
   },
 };
@@ -144,6 +149,7 @@ export default {
   .content {
     .choices {
       margin: 20px 0 20px 10px;
+      widows: 100%;
       .el-radio {
         margin: 10px;
       }
