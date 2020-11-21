@@ -73,7 +73,6 @@ import addressMan from '../components/Me/components/addressMan.vue'
 import changePassword from '../components/Me/components/changePassword.vue'
 import shopManage from '../components/Me/components/shopManage.vue'
 import expertPage from '../components/Me/components/expertPage.vue'
-import message from '../components/Me/components/message.vue'
 import basePage from '../components/Me/components/basePage.vue'
 
 // 登录页面
@@ -83,7 +82,8 @@ import forgetPass from '../components/login/forgetPass.vue'
 import nav from '../components/login/nav.vue'
 import footer from '../components/login/footer.vue'
 
-
+// 领导仓
+import leaderPlace from '../components/leadePlace/leaderPlace.vue'
 
 
 
@@ -154,7 +154,11 @@ const routes = [
     component: policies
 
   },
-
+  // 领导仓
+  {
+    path: '/leaderPlace',
+    component: leaderPlace
+  },
   // 知识产权详情页
   {
     path: '/intellectualPropertyArticle',
@@ -365,15 +369,11 @@ const routes = [
       // 个人中心首页
       {
         path: '/',
-        redirect: '/message'
+        redirect: '/meHomePage'
       },
       {
         path: '/meHomePage',
         component: meHomePage
-      },
-      {
-        path: '/message',
-        component: message
       },
       // 个人中心收藏夹
       {

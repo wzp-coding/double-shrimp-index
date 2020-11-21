@@ -22,7 +22,7 @@
             <!-- <el-menu-item index="/message">我的消息</el-menu-item> -->
             <el-menu-item index="/favorite">购物车</el-menu-item>
             <el-menu-item index="/addressMan">收货地址管理</el-menu-item>
-            <el-menu-item index="/changePassword">修改密码</el-menu-item>
+            <!-- <el-menu-item index="/changePassword">修改密码</el-menu-item> -->
             <el-menu-item index="/shopManage">店铺管理</el-menu-item>
             <el-menu-item index="/expertPage">专家页面</el-menu-item>
             <el-menu-item index="/basePage">我的基地</el-menu-item>
