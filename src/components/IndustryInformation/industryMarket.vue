@@ -517,15 +517,15 @@ export default {
   created() {
     //点击量 热度
     this.getClickData();
-    // // //每周精品
-    // this.getWeekData();
-    //精彩专题 1 按类型查询 对虾养殖
-    // this.getjingcai1();
+    // //每周精品
+    this.getWeekData();
+    // 精彩专题 1 按类型查询 对虾养殖
+    this.getjingcai1();
 
-    // //精彩专题2
-    // this.getjingcai2();
-    // // 精彩专题3
-    // this.getjingcai3();
+    //精彩专题2
+    this.getjingcai2();
+    // 精彩专题3
+    this.getjingcai3();
 
     //最新资讯
     this.getNewData();
@@ -730,8 +730,12 @@ export default {
   .lxl-breadcrumb {
     margin-left: 18px;
   }
+  .ccy-css{
+    margin-top: 10px;
+  }
   .ccy-css li {
     color: #858585;
+    margin-top: 3px;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
@@ -746,11 +750,6 @@ export default {
   width: 1150px;
 }
 
-.hotAndWeek {
-  ul{
-    margin-top: 7px;
-  }
-}
 .el-image {
   cursor: pointer;
 }
@@ -973,8 +972,8 @@ li {
 }
 .el-main {
   ul {
-    margin-top: 25px;
-    margin-bottom: 12px;
+    margin-top: 30px;
+    margin-bottom: 10px;
   }
   .midpic {
     width: 100%;
