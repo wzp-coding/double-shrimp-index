@@ -47,10 +47,14 @@
                     <i class="el-icon-caret-right"></i>
                   </div>
                 </h3>
-                <ul class="ccy-css"             
-                >
-                  <li v-for="(item, index) in ClickDataList" @click="TonewPath(item.id)"
-                  :key="index">{{ item.title }}</li>
+                <ul class="ccy-css">
+                  <li
+                    v-for="(item, index) in ClickDataList"
+                    @click="TonewPath(item.id)"
+                    :key="index"
+                  >
+                    {{ item.title }}
+                  </li>
                 </ul>
               </div>
             </div>
@@ -76,11 +80,14 @@
                     <i class="el-icon-caret-right"></i>
                   </div>
                 </h3>
-                <ul
-                  class="ccy-css"      
-                >
-                  <li v-for="(item, index) in weekliList" @click="TonewPath(item.id)"
-                  :key="index">{{ item.title }}</li>
+                <ul class="ccy-css">
+                  <li
+                    v-for="(item, index) in weekliList"
+                    @click="TonewPath(item.id)"
+                    :key="index"
+                  >
+                    {{ item.title }}
+                  </li>
                 </ul>
               </div>
             </div>
@@ -239,9 +246,7 @@
                 "
               ></span>
               最新资讯
-              <el-tag type="danger" size="small" 
-                >New</el-tag
-              >
+              <el-tag type="danger" size="small">New</el-tag>
             </div>
             <div
               style="
@@ -289,9 +294,7 @@
                   "
                 ></span>
                 推荐资讯
-                <el-tag type="danger" size="small" 
-                  >Hot</el-tag
-                >
+                <el-tag type="danger" size="small">Hot</el-tag>
               </div>
               <div
                 style="
@@ -309,8 +312,7 @@
                 <i class="el-icon-caret-right"></i>
               </div>
             </h3>
-
-            <ul class="ccy-css">
+            <ul class="ccy-css" v-loading="loading1">
               <li
                 v-for="(item, index) in RecommList"
                 :key="index"
@@ -329,9 +331,7 @@
                   "
                 ></span>
                 每月精彩
-                <el-tag type="danger" size="small" 
-                  >Hot</el-tag
-                >
+                <el-tag type="danger" size="small">Hot</el-tag>
               </div>
               <div
                 style="
@@ -351,7 +351,7 @@
             </h3>
           </div>
           <div>
-            <ul class="ccy-css">
+            <ul class="ccy-css" v-loading="loading2">
               <li
                 style="width: 200px"
                 v-for="(item, index) in MonthDataList"
@@ -370,9 +370,7 @@
                   "
                 ></span>
                 热门产品
-                <el-tag type="danger" size="small" 
-                  >热卖</el-tag
-                >
+                <el-tag type="danger" size="small">热卖</el-tag>
               </div>
               <div
                 style="
@@ -507,32 +505,31 @@ export default {
       SearchKey: "",
 
       loading: true,
-
+      loading1:true,
+      loading2:true,
       src:
         "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
     };
+  },
+  mounted(){
+    window.addEventListener('scroll',this.handleScroll1) //监控滑动，运行handleScroll 函数
+    window.addEventListener('scroll',this.handleScroll2)
+    window.addEventListener('scroll',this.handleScroll3)
   },
   created() {
     //点击量 热度
     this.getClickData();
     // //每周精品
     // this.getWeekData();
-    // // 精彩专题 1 按类型查询 对虾养殖
-    // this.getjingcai1();
-
-    // //精彩专题2
+    // 精彩专题 1 按类型查询 对虾养殖
+    
+    //精彩专题2
     // this.getjingcai2();
     // // 精彩专题3
     // this.getjingcai3();
 
     //最新资讯
     this.getNewData();
-    //推荐
-    // this.getRecommData();
-    // //每月
-    // this.getMonthData();
-
-    
   },
   methods: {
     //前往详情页
@@ -541,6 +538,28 @@ export default {
         path: "/instructdetail",
         query: { id: id },
       });
+    },
+    handleScroll1(){
+      let a = document.body.scrollTop+document.documentElement.scrollTop;
+      if(a>22&&this.RecommList.length===0){
+        this.getRecommData();
+        window.removeEventListener('scroll',this.handleScroll1)
+      }
+    },
+    handleScroll2(){ 
+      let a = document.body.scrollTop+document.documentElement.scrollTop;
+      if(a>235&&this.MonthDataList.length===0){
+        this.getMonthData()
+        this.getjingcai1();
+        window.removeEventListener('scroll',this.handleScroll2)
+      }
+    },
+    handleScroll3(){ 
+      let a = document.body.scrollTop+document.documentElement.scrollTop;
+      if(a>400&&this.pagelist.length===0){
+        this.getjingcai3();
+        window.removeEventListener('scroll',this.handleScroll3)
+      }
     },
     //前往更多页面
     ToMorePage(id) {
@@ -566,7 +585,7 @@ export default {
         console.log("获取点击量数据成功");
         if (res.code === 20000) {
           this.ClickDataList = res.data.rows;
-          console.log(Object.keys(ClickDataList));
+          //console.log(Object.keys(ClickDataList));
         } else {
           console.log("网络错误 20001");
         }
@@ -679,6 +698,7 @@ export default {
         console.log("获取推荐数据成功");
         if (res.code === 20000) {
           this.RecommList = res.data.rows;
+          this.loading1=false
         } else {
           console.log("网络错误 20001");
         }
@@ -694,10 +714,10 @@ export default {
           "",
           "get"
         );
-
         if (res.code === 20000) {
           console.log("获取每月数据成功");
           this.MonthDataList = res.data.slice(0, 7);
+          this.loading2=false;
         } else {
           console.log("网络错误 20001");
         }
@@ -716,7 +736,7 @@ export default {
   .lxl-breadcrumb {
     margin-left: 18px;
   }
-  .ccy-css{
+  .ccy-css {
     margin-top: 10px;
   }
   .ccy-css li {
@@ -735,8 +755,8 @@ export default {
 .lxl-box {
   width: 1150px;
 }
-.hotAndWeek{
-  h3{
+.hotAndWeek {
+  h3 {
     margin-bottom: -10px;
   }
 }
@@ -961,7 +981,7 @@ li {
   list-style: none;
 }
 .el-main {
-  h3{
+  h3 {
     margin-bottom: -7px;
   }
   .midpic {
