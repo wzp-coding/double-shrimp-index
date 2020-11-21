@@ -115,10 +115,6 @@ export default {
   justify-content: center;
   margin-bottom: 25px;
 }
-@font-face {
-  font-family: btt;
-  src: url("../../../fonts/btt.ttf");
-}
 .shop-homepage {
   .shop-homepage-container {
     // background-color: #eee;
@@ -148,7 +144,6 @@ export default {
         .introduce-desc {
           font-size: 18px;
           color: #383838;
-          font-family: btt;
         }
       }
       .businessLicence {

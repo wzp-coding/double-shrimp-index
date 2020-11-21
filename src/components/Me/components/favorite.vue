@@ -182,10 +182,6 @@ export default {
 .lxl-p {
   font-size: 12px;
 }
-@font-face {
-  font-family: electronicFont;
-  src: url("../../../fonts/KaneDemo-OVMZO.otf");
-}
 .lxl-goods {
   width: 100%;
   display: flex;
@@ -197,7 +193,6 @@ export default {
     > * {
       display: flex;
       align-items: center;
-      font-family: electronicFont;
       color: rgb(170, 171, 172);
     }
   }

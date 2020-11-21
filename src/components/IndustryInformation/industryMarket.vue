@@ -567,7 +567,6 @@ export default {
           "",
           "get"
         );
-        console.log(res);
         if (res.code === 20000) {
           console.log("获取每周精品数据成功");
           this.weekliList = res.data.slice(0, 20);
@@ -587,7 +586,6 @@ export default {
           "post"
         );
         if (res.code === 20000) {
-          console.log(res);
           console.log("获取对虾行情数据成功");
           this.jingcai1List = res.data.rows;
         }
@@ -605,7 +603,6 @@ export default {
           "post"
         );
         if (res.code === 20000) {
-          console.log(res);
           console.log("获取精彩专题2数据成功");
           this.jingcai2List = res.data.rows;
         } else {
@@ -627,7 +624,6 @@ export default {
         if (res.code === 20000) {
           console.log("获取精彩专题3数据成功");
           this.pagelist = res.data.rows;
-          console.log(this.pagelist);
           this.queryInfo3.total = res.data.total;
           this.loading = false;
         } else {
@@ -671,7 +667,6 @@ export default {
         );
 
         if (res.code === 20000) {
-          console.log(res.data.length);
           console.log("获取每月数据成功");
           this.MonthDataList = res.data.rows.slice(0, 9);
         } else {
@@ -708,7 +703,6 @@ export default {
           "",
           "get"
         );
-        console.log(res);
         console.log("获取推荐数据成功");
         if (res.code === 20000) {
           this.RecommList = res.data.rows;

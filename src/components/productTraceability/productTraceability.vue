@@ -149,10 +149,6 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@font-face {
-  font-family: bt;
-  src: url("../../fonts/bt.ttf");
-}
 .s-foot {
   display: flex;
   justify-content: center;
@@ -172,7 +168,6 @@ export default {
     font-size: 4rem;
     margin-top: -800px;
     margin-left: 540px;
-    font-family: "bt";
   }
   .ljc-imgs {
     display: flex;
@@ -217,7 +212,6 @@ export default {
     font-size: 25px;
     font-weight: 600;
     margin-bottom: 15px;
-    font-family: "Roboto Slab", serif;
   }
 
   p {
@@ -225,7 +219,6 @@ export default {
     line-height: 1.5;
     margin-bottom: 20px;
     max-width: 335px;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #333;
   }
 }
@@ -254,7 +247,6 @@ export default {
   box-sizing: border-box;
   border: none;
   outline: none;
-  font-family: "Open Sans", Arial, Verdana;
   font-size: 16px;
   font-weight: 400;
   line-height: 20px;

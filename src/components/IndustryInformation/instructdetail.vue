@@ -289,10 +289,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@font-face {
-  font-family: btt;
-  src: url("../../fonts/btt.ttf");
-}
 .lxl-body {
   display: flex;
   justify-content: center; //对齐方式
@@ -306,7 +302,6 @@ export default {
 .lxl-box {
   width: 1150px;
 }
-
 .main {
   margin-top: -25px;
   display: flex;
@@ -319,7 +314,6 @@ export default {
       margin: 13px 0 0 3px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
       background-color: rgb(255, 250, 228);
-      font-family: "btt";
       .articleMain {
         display: flex;
         .lxl-title {

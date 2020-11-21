@@ -123,10 +123,6 @@ export default {
 .lxl-box {
   width: 1150px;
 }
-@font-face {
-  font-family: electronicFont;
-  src: url("../../fonts/KaneDemo-OVMZO.otf");
-}
 .user-view {
   .user-container {
     .user-right {
@@ -135,7 +131,6 @@ export default {
         display: flex;
         justify-content: space-between;
         background-color: #f7f7f7;
-        font-family: "electronicFont";
         .user-avator {
           min-height: 230px;
           background-color: #2696ff;

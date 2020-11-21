@@ -922,14 +922,14 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@font-face {
-  font-family: electronicFont;
-  src: url("../../fonts/KaneDemo-OVMZO.otf");
-}
-@font-face {
-  font-family: btt;
-  src: url("../../fonts/bt.ttf");
-}
+// @font-face {
+//   font-family: electronicFont;
+//   src: url("../../fonts/KaneDemo-OVMZO.otf");
+// }
+// @font-face {
+//   font-family: btt;
+//   src: url("../../fonts/bt.ttf");
+// }
 
 .someThing {
   padding: 20px;
