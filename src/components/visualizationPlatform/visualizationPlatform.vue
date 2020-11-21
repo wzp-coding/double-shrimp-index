@@ -48,7 +48,7 @@
           <div class="map3"></div>
           <div class="chartMap"></div>
         </div>
-        <div class="lxl-detail">
+        <!-- <div class="lxl-detail">
           <div class="someThing">
             <div class="lxl-1">
               <div>
@@ -71,7 +71,7 @@
             </div>
             <div></div>
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="col">
         <div class="panel bar2">
@@ -922,15 +922,6 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-// @font-face {
-//   font-family: electronicFont;
-//   src: url("../../fonts/KaneDemo-OVMZO.otf");
-// }
-// @font-face {
-//   font-family: btt;
-//   src: url("../../fonts/bt.ttf");
-// }
-
 .someThing {
   padding: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);

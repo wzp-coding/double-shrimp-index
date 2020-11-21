@@ -180,7 +180,6 @@
                 <i class="el-icon-caret-right"></i>
               </div>
             </h3>
-            <el-divider></el-divider>
             <ul class="ccy-css">
               <li
                 v-for="(item, index) in caifuList"
@@ -211,7 +210,6 @@
                 <i class="el-icon-caret-right"></i>
               </div>
             </h3>
-            <el-divider></el-divider>
             <ul class="ccy-css">
               <li
                 v-for="(item, index) in hangqingList"
@@ -242,7 +240,6 @@
                 <i class="el-icon-caret-right"></i>
               </div>
             </h3>
-            <el-divider></el-divider>
             <ul class="ccy-css">
               <li
                 v-for="(item, index) in chanlianList"
@@ -252,13 +249,12 @@
                 {{ item.title }}
               </li>
             </ul>
-            <!-- 产链前沿结束 -->
-            
+            <!--产链前沿结束-->   
             <!--分割线-->
             <div class="drive" style="width: 100%"></div>         
           </div>
           <div class="asideBottom">
-            <h3>
+            <h3 style="margin-bottom:5px">
               <div>
                 <span
                   style="
@@ -278,7 +274,6 @@
                 <i class="el-icon-caret-right"></i>
               </div>
             </h3>
-            <el-divider class="ccy-drvider"></el-divider>
             <div class="tageson">
               <el-button size="medium" round>专家</el-button>
               <el-button size="medium" round>火参果资源</el-button>
@@ -634,8 +629,7 @@ span {
   }
   .el-main {
     margin-top: -20px;
-    h3 {
-      margin-bottom: -25px;
+    h3 {   
       display: flex;
       justify-content: space-between;
       .toMore {

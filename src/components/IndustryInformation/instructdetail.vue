@@ -39,8 +39,8 @@
           </div>
         </div>
         <div class="right">
-          <el-tabs v-model="activeName">
-            <el-tab-pane label="最新资讯" name="first" v-loading="loading1">
+          <el-tabs v-model="activeName" @tab-click="showHot">
+            <el-tab-pane label="最新资讯" name="first">
               <div
                 class="tabList"
                 v-for="(item, index) in newDatatabList"
@@ -57,7 +57,7 @@
                 </div>
               </div>
             </el-tab-pane>
-            <el-tab-pane label="热门资讯" name="second" v-loading="loading2">
+            <el-tab-pane label="热门资讯" name="second" v-loading="loading1">
               <div
                 class="tabList"
                 v-for="(item, index) in numclicktabList"
@@ -75,8 +75,8 @@
               </div>
             </el-tab-pane>
           </el-tabs>
-          <el-tabs v-model="activeName1">
-            <el-tab-pane label="本周热门" name="first1" v-loading="loading3">
+          <el-tabs v-model="activeName1" @tab-click="showMonth">
+            <el-tab-pane label="本周热门" name="first1">
               <div
                 class="tabList"
                 v-for="(item, index) in WeekDatatabList"
@@ -93,7 +93,12 @@
                 </div>
               </div>
             </el-tab-pane>
-            <el-tab-pane label="本月热门" name="second1" v-loading="" loading4>
+            <el-tab-pane
+              label="本月热门"
+              @click="showMonth"
+              name="second1"
+              v-loading="loading2"
+            >
               <div
                 class="tabList"
                 v-for="(item, index) in MonthData"
@@ -172,24 +177,17 @@ export default {
       loading: true,
       loading1: true,
       loading2: true,
-      loading3: true,
-      loading4: true,
     };
   },
   created() {
     // 找到相应ID文章
     this.getshrimpIndustryData();
 
-    //点击量 热度
-    this.getclickData();
     //时间 最新
     this.getnewData();
 
     //每周
     this.getWeekData();
-
-    //每月
-    this.getMonthData();
   },
   mounted() {
     console.log(this.$route.query.id);
@@ -209,7 +207,7 @@ export default {
     async getshrimpIndustryData() {
       try {
         const { data: res } = await this.reqM2Service(
-          `/info/information/${this.$route.query.id}`,
+          `/info/information/${this.$route.query.id}/${this.$store.state.userData.userId}`,
           "",
           "get"
         );
@@ -249,20 +247,27 @@ export default {
       }
     },
 
+    showHot() {
+      this.numclicktabList.length === 0
+        ? this.getclickData()
+        : (this.loading2 = false);
+    },
+    showMonth() {
+      this.MonthData.length === 0 ? this.getMonthData() : "";
+    },
     async getWeekData() {
       try {
         const { data: res } = await this.reqM2Service(
-          "/info/shrimpIndustry/findByClickWeekly/1/6",
+          "/info/shrimpIndustry/findByClickWeekly",
           "",
           "get"
         );
-        if(res.code === 20000){
-          this.WeekDatatabList = res.data.rows;
+        if (res.code === 20000) {
+          this.WeekDatatabList = res.data.slice(0, 6);
           this.loading3 = false;
-        }else{
+        } else {
           console.log("获取每周数据失败");
         }
-        
       } catch (error) {
         console.log("获取每周数据失败");
       }
@@ -270,18 +275,18 @@ export default {
     async getMonthData() {
       try {
         const { data: res } = await this.reqM2Service(
-          "/info/shrimpIndustry/findByClickMonthly/1/5",
+          "/info/shrimpIndustry/findByClickMonthly",
           "",
           "get"
         );
         if (res.code === 20000) {
-          this.MonthData = res.data.rows;
-          this.loading4 = false;
+          this.MonthData = res.data.slice(0, 6);
+          this.loading2 = false;
         } else {
-          console.log("获取每月数据失败");
+          console.log("获取每月数据失败1");
         }
       } catch (error) {
-        console.log("获取每月数据失败");
+        console.log("获取每月数据失败2");
       }
     },
   },
@@ -309,6 +314,7 @@ export default {
   justify-content: space-between;
   .left {
     width: 69%;
+    margin-bottom: 10px;
     .articleInfo {
       padding: 20px;
       margin: 13px 0 0 3px;

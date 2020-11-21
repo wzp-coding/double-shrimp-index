@@ -77,7 +77,7 @@
           </el-pagination>
         </el-aside>
         <el-main width="30%">
-          <el-tabs v-model="activeName">
+          <el-tabs v-model="activeName" @tab-click="showHot">
             <el-tab-pane label="最新资讯" name="first">
               <div
                 class="tabList"
@@ -100,6 +100,7 @@
                 class="tabList"
                 v-for="(item, index) in numclicktabList"
                 :key="index"
+                v-loading="loading1"
               >
                 <div class="tabListPicture">
                   <el-image
@@ -113,7 +114,7 @@
               </div>
             </el-tab-pane>
           </el-tabs>
-          <el-tabs v-model="activeName1">
+          <el-tabs v-model="activeName1" @tab-click="showMonth">
             <el-tab-pane label="本周热门" name="first1">
               <div
                 class="tabList"
@@ -136,6 +137,7 @@
                 class="tabList"
                 v-for="(item, index) in MonthData"
                 :key="index"
+                v-loading="loading2"
               >
                 <div class="tabListPicture">
                   <el-image
@@ -197,15 +199,14 @@ export default {
       },
       //按点击量查询
       numclicktabList: [],
-
       //分页查询全部数据
       TypePagetabList: [],
-
-      //每月
-      MonthData: [], //按最新  时间
+      //最新
       newDatatabList: [],
       //每周
       WeekDatatabList: [],
+      //每月
+      MonthData:[],
       //分类信息查询
        TypeDatatabList: [],
       //得到分类名称
@@ -213,28 +214,23 @@ export default {
       //搜索信息
 
       pageshow: true,
-
       SearchKey: "",
 
       isSearch: null,
       loading: true,
+      loading1:true,
+      loading2:true
     };
   },
   created() {
-    //点击量 热度
-    this.getclickData();
     // //时间 最新
     this.getnewData();
-
     // //每周
     this.getWeekData();
-    // //每月
-    this.getMonthData();
   },
   mounted() {
-    console.log("钩子函数");
-    console.log(this.$route.query.id);
-    console.log(this.$route.query.SearchKey);
+    // console.log(this.$route.query.id);
+    // console.log(this.$route.query.SearchKey);
     if (this.$route.query.SearchKey) {
       this.SearchKey = this.$route.query.SearchKey;
       this.searchData(this.SearchKey);
@@ -265,6 +261,14 @@ export default {
         console.log("获取最新数据出错");
       }
     },
+    showHot() {
+      this.numclicktabList.length === 0
+        ? this.getclickData()
+        : '';
+    },
+    showMonth() {
+      this.MonthData.length === 0 ? this.getMonthData() : "";
+    },
     async getclickData() {
       try {
         const { data: res } = await this.reqM2Service(
@@ -273,6 +277,7 @@ export default {
           "get"
         );
         this.numclicktabList = res.data.rows;
+        this.loading1=false;
       } catch (error) {
         console.log("网络错误");
       }
@@ -284,7 +289,7 @@ export default {
         "get"
       );
       if (res.code === 20000) {
-        this.WeekDatatabList = res.data.rows.slice(0,5);
+        this.WeekDatatabList = res.data.slice(0,5);
       } else {
         console.log("获取每周信息失败");
       }
@@ -297,7 +302,8 @@ export default {
           "get"
         );
         if (res.code === 20000) {
-          this.MonthData = res.data.rows.slice(0,5);
+          this.MonthData = res.data.slice(0,5);
+          this.loading2=false;
         } else {
           console.log("获取每月数据出错");
         }
@@ -350,9 +356,7 @@ export default {
       let httpUrl = `http://106.75.154.40:9010/industry/search/time/${this.queryinfo.page}/${this.queryinfo.size}/1?key=${SearchKey}`;
       try {
         this.$http.get(httpUrl).then((res) => {
-          console.log(res.data);
           if (res.data.code === 20000) {
-            console.log("成功返回 搜索数据");
             res = res.data;
             //判断返回的数组是否有数据
             if (res.data.rows.length !== 0) {

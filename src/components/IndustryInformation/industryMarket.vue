@@ -47,10 +47,9 @@
                     <i class="el-icon-caret-right"></i>
                   </div>
                 </h3>
-                <ul class="ccy-css"
-                  
+                <ul class="ccy-css"             
                 >
-                  <li v-for="(item, index) in ClickDataList"
+                  <li v-for="(item, index) in ClickDataList" @click="TonewPath(item.id)"
                   :key="index">{{ item.title }}</li>
                 </ul>
               </div>
@@ -80,7 +79,7 @@
                 <ul
                   class="ccy-css"      
                 >
-                  <li v-for="(item, index) in weekliList.slice(0, 7)"
+                  <li v-for="(item, index) in weekliList" @click="TonewPath(item.id)"
                   :key="index">{{ item.title }}</li>
                 </ul>
               </div>
@@ -231,16 +230,16 @@
         </el-aside>
         <el-main width="28%" style="padding-left: 25px">
           <!--右半部分--->
-          <h3 style="margin-bottom: -20px">
+          <h3>
             <div>
               <span
                 style="
-                  margin-right: 5px;
+                  margin-right: 2px;
                   border-left: 6px solid rgb(93, 183, 60);
                 "
               ></span>
               最新资讯
-              <el-tag type="danger" size="small" style="margin-bottom: -5px"
+              <el-tag type="danger" size="small" 
                 >New</el-tag
               >
             </div>
@@ -260,7 +259,6 @@
               <i class="el-icon-caret-right"></i>
             </div>
           </h3>
-
           <div>
             <ul class="ccy-css">
               <li
@@ -286,12 +284,12 @@
               <div>
                 <span
                   style="
-                    margin-right: 5px;
+                    margin-right: 2px;
                     border-left: 6px solid rgb(93, 183, 60);
                   "
                 ></span>
                 推荐资讯
-                <el-tag type="danger" size="small" style="margin-bottom: -5px"
+                <el-tag type="danger" size="small" 
                   >Hot</el-tag
                 >
               </div>
@@ -326,12 +324,12 @@
               <div>
                 <span
                   style="
-                    margin-right: 5px;
+                    margin-right: 2px;
                     border-left: 6px solid rgb(93, 183, 60);
                   "
                 ></span>
                 每月精彩
-                <el-tag type="danger" size="small" style="margin-bottom: -5px"
+                <el-tag type="danger" size="small" 
                   >Hot</el-tag
                 >
               </div>
@@ -367,12 +365,12 @@
               <div>
                 <span
                   style="
-                    margin-right: 5px;
+                    margin-right: 2px;
                     border-left: 6px solid rgb(93, 183, 60);
                   "
                 ></span>
                 热门产品
-                <el-tag type="danger" size="small" style="margin-bottom: -5px"
+                <el-tag type="danger" size="small" 
                   >热卖</el-tag
                 >
               </div>
@@ -518,23 +516,23 @@ export default {
     //点击量 热度
     this.getClickData();
     // //每周精品
-    this.getWeekData();
-    // 精彩专题 1 按类型查询 对虾养殖
-    this.getjingcai1();
+    // this.getWeekData();
+    // // 精彩专题 1 按类型查询 对虾养殖
+    // this.getjingcai1();
 
-    //精彩专题2
-    this.getjingcai2();
-    // 精彩专题3
-    this.getjingcai3();
+    // //精彩专题2
+    // this.getjingcai2();
+    // // 精彩专题3
+    // this.getjingcai3();
 
     //最新资讯
     this.getNewData();
-
-    //每月
-    this.getMonthData();
-
     //推荐
-    this.getRecommData();
+    // this.getRecommData();
+    // //每月
+    // this.getMonthData();
+
+    
   },
   methods: {
     //前往详情页
@@ -544,7 +542,6 @@ export default {
         query: { id: id },
       });
     },
-
     //前往更多页面
     ToMorePage(id) {
       this.$router.push({
@@ -558,7 +555,25 @@ export default {
         query: { SearchKey: SearchKey },
       });
     },
-
+    //热门点击量
+    async getClickData() {
+      try {
+        const { data: res } = await this.reqM2Service(
+          "/info/shrimpIndustry/findByClickNum/1/10",
+          "",
+          "get"
+        );
+        console.log("获取点击量数据成功");
+        if (res.code === 20000) {
+          this.ClickDataList = res.data.rows;
+          console.log(Object.keys(ClickDataList));
+        } else {
+          console.log("网络错误 20001");
+        }
+      } catch (error) {
+        console.log("网络错误 19999");
+      }
+    },
     //每周精品
     async getWeekData() {
       try {
@@ -569,14 +584,12 @@ export default {
         );
         if (res.code === 20000) {
           console.log("获取每周精品数据成功");
-          this.weekliList = res.data.slice(0, 20);
-          console.log(this.weekliList);
+          this.weekliList = res.data.slice(0, 7);
         }
       } catch (error) {
         console.log(error);
       }
     },
-
     //精彩专题 1 对虾行情       1320546102558199808
     async getjingcai1() {
       try {
@@ -593,7 +606,6 @@ export default {
         console.log("网络错误1999");
       }
     },
-
     //精彩专题2 1320648223462920192
     async getjingcai2() {
       try {
@@ -612,7 +624,6 @@ export default {
         console.log("网络错误19999");
       }
     },
-
     // 根据类型ID查询 精彩专题3  财富手册
     async getjingcai3() {
       try {
@@ -657,44 +668,6 @@ export default {
         console.log("网络错误 19999");
       }
     },
-    //每月
-    async getMonthData() {
-      try {
-        const { data: res } = await this.reqM2Service(
-          "/info/shrimpIndustry/findByClickMonthly",
-          "",
-          "get"
-        );
-
-        if (res.code === 20000) {
-          console.log("获取每月数据成功");
-          this.MonthDataList = res.data.rows.slice(0, 9);
-        } else {
-          console.log("网络错误 20001");
-        }
-      } catch (error) {
-        console.log("网络错误 19999");
-      }
-    },
-    //热门点击量
-    async getClickData() {
-      try {
-        const { data: res } = await this.reqM2Service(
-          "/info/shrimpIndustry/findByClickNum/1/10",
-          "",
-          "get"
-        );
-        console.log("获取点击量数据成功");
-        if (res.code === 20000) {
-          this.ClickDataList = res.data.rows;
-          console.log(Object.keys(ClickDataList));
-        } else {
-          console.log("网络错误 20001");
-        }
-      } catch (error) {
-        console.log("网络错误 19999");
-      }
-    },
     // 推荐，分页
     async getRecommData() {
       try {
@@ -713,6 +686,25 @@ export default {
         console.log("网络错误 19999");
       }
     },
+    //每月
+    async getMonthData() {
+      try {
+        const { data: res } = await this.reqM2Service(
+          "/info/shrimpIndustry/findByClickMonthly",
+          "",
+          "get"
+        );
+
+        if (res.code === 20000) {
+          console.log("获取每月数据成功");
+          this.MonthDataList = res.data.slice(0, 7);
+        } else {
+          console.log("网络错误 20001");
+        }
+      } catch (error) {
+        console.log("网络错误 19999");
+      }
+    },   
   },
 };
 </script>
@@ -743,7 +735,11 @@ export default {
 .lxl-box {
   width: 1150px;
 }
-
+.hotAndWeek{
+  h3{
+    margin-bottom: -10px;
+  }
+}
 .el-image {
   cursor: pointer;
 }
@@ -965,9 +961,8 @@ li {
   list-style: none;
 }
 .el-main {
-  ul {
-    margin-top: 30px;
-    margin-bottom: 10px;
+  h3{
+    margin-bottom: -7px;
   }
   .midpic {
     width: 100%;
@@ -980,7 +975,7 @@ li {
 }
 .tage {
   padding: 10px 0 0 3px;
-  margin-top: 20px;
+  margin-top: 5px;
   .tageson {
     margin-bottom: 12px;
     .el-button {

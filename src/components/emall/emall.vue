@@ -1463,7 +1463,6 @@ export default {
   overflow: hidden;
 }
 .product_sort .bd .item .list a {
-  font-family: "Microsoft YaHei", Arial, sans-serif;
   margin-right: 10px;
   font-size: 14px;
   color: #aaa;
@@ -1476,7 +1475,6 @@ a:focus {
   text-decoration: underline;
 }
 .product_sort .bd .item .arrow {
-  font-family: "Microsoft YaHei", Arial, sans-serif;
   font-size: 20px;
   color: #aaa;
   position: absolute;
@@ -1507,7 +1505,6 @@ a:focus {
   background: #fff;
   border: solid 1px #39bf3e;
   border-left: none;
-  font-family: "Microsoft YaHei", Arial, sans-serif;
   position: absolute;
   left: 212px;
   _left: 228px;
