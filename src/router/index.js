@@ -15,7 +15,6 @@ import policiesMediaMoreArticle from '../components/policies/policiesMediaMoreAr
 // 渔技
 import edu from '../components/fishingSkill/edu.vue'
 import fishingSkillArticles from '../components/fishingSkill/fishingSkillArticles.vue'
-import fishingSkillArticlesDetail from '../components/fishingSkill/fishingSkillArticlesDetail.vue'
 import powerPoint from '../components/fishingSkill/powerPoint.vue'
 import intellectualProperty from '../components/fishingSkill/intellectualProperty.vue'
 import videoPlay from '../components/fishingSkill/videoPlay.vue'
@@ -83,7 +82,7 @@ import nav from '../components/login/nav.vue'
 import footer from '../components/login/footer.vue'
 
 // 领导仓
-import leaderPlace from '../components/leadePlace/leaderPlace.vue'
+import leaderPlace from '../components/leaderPlace/leaderPlace.vue'
 
 
 
@@ -190,12 +189,6 @@ const routes = [
   {
     path: '/fishingSkillArticles',
     component: fishingSkillArticles
-
-  },
-  {
-    path: '/fishingSkillArticlesDetail',
-    component: fishingSkillArticlesDetail,
-    name: "fishingSkillArticlesDetail"
 
   },
   {

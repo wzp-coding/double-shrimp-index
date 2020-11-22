@@ -23,6 +23,9 @@ export default new Vuex.Store({
     },
     changeIsLogin(state, step) {
       state.isLogin = step
+    },
+    saveIp(state, step) {
+      state.ip = step
     }
   },
   actions: {
@@ -36,6 +39,7 @@ export default new Vuex.Store({
         window.sessionStorage.getItem("token")
       );
       content.commit("changeIsLogin", true);
+      content.commit("saveIp", window.localStorage.getItem("Ip"))
     },
     loginAsycn(content, step) {
       window.sessionStorage.setItem("token", step.headers.token);
