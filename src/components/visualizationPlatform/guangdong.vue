@@ -3,7 +3,7 @@
     <el-header class="lxl-header">
       <el-button
         @click="toVisualizationPlatform"
-        style="position: absolute; right: 80px; line-height: 35px"
+        style="position: absolute; right: 10px; line-height: 35px"
         type="success"
       >
         返回
@@ -28,11 +28,6 @@
           <div class="chart chart5"></div>
           <div class="panel-footer"></div>
         </div>
-        <!-- <div class="panel pie">
-          <h3>广东养殖面积</h3>
-          <div class="chart chart7"></div>
-          <div class="panel-footer"></div>
-        </div> -->
       </div>
       <div class="col">
         <!-- <div class="no">
@@ -112,15 +107,6 @@ export default {
     return {
       date: new Date(),
       industry: [],
-      infoData: [
-        {
-          name: "对虾大数据平台",
-          baseInfo:
-            "仲恺基地，创办于1927年，是一所以伟大的爱国主义者、近代民主革命家廖仲恺先生名字命名，以现代农业科学为特色，农学、工学为优势，农、工、理、经、管、文、艺、法八大学科协调发展的广东省省属高水平应用型大学，是教育部本科教学评估优秀学校及广东首批卓越农林人才教育培养计划高校。学校办学历史悠久，文脉深厚，坐落在历史文化名城——广州。现有海珠校区、白云校区、番禺教学科研基地，占地面积2000余亩。校园集云山之神秀，汇珠水之灵气，是读书治学的理想地。",
-          imgUrl:
-            "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
-        },
-      ],
       orgindata: [],
       predictdata: [],
       // 下标0位开始 1位结束

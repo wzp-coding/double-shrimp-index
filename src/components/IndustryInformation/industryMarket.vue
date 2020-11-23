@@ -550,7 +550,7 @@ export default {
       let a = document.body.scrollTop+document.documentElement.scrollTop;
       if(a>400&&this.pagelist.length===0){
         this.getjingcai3();
-        window.removeEventListener('scroll',this.handleScroll3)
+        
       }
     },
     //前往更多页面
@@ -650,6 +650,7 @@ export default {
           this.pagelist = res.data.rows;
           this.queryInfo3.total = res.data.total;
           this.loading = false;
+          window.removeEventListener('scroll',this.handleScroll3)
         } else {
           console.log("获取精彩专题3数据失败");
         }
@@ -661,7 +662,7 @@ export default {
       //改变页码
       this.loading = true;
       this.queryInfo3.Currentpage = newpage;
-      this.wealth();
+      this.getjingcai3();
     },
     //最新资讯  分页
     async getNewData() {
