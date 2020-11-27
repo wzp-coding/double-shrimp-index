@@ -95,8 +95,8 @@
           <span class="middle-thread"></span>
           <el-menu-item index="/emall">电子商城</el-menu-item>
           <span class="middle-thread"></span>
-          <el-menu-item index="/leaderPlace">领导仓</el-menu-item>
-          <span class="middle-thread"></span>
+          <el-menu-item index="/leaderPlace" v-if="baseId">领导仓</el-menu-item>
+          <span class="middle-thread" v-if="baseId"></span>
           <el-menu-item index="/me">个人中心</el-menu-item>
         </el-menu>
       </div>
@@ -117,10 +117,15 @@ export default {
         photo:
           "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
       },
+      baseId: ''
     };
+  },
+  updated() {
+    this.baseId = this.$store.state.userData.baseId;
   },
   methods: {
     outUser() {
+      this.baseId = ''
       // 调用vuex使用默认的值的覆盖原有的用户
       window.sessionStorage.setItem("token", "");
       window.sessionStorage.setItem("userData", null);

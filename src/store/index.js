@@ -12,7 +12,8 @@ export default new Vuex.Store({
     },
     token: '',
     isLogin: false,
-    ip:''
+    ip:'',
+    baseId: ''
   },
   mutations: {
     changeUserData(state, step) {
@@ -39,7 +40,7 @@ export default new Vuex.Store({
         window.sessionStorage.getItem("token")
       );
       content.commit("changeIsLogin", true);
-      content.commit("saveIp", window.localStorage.getItem("Ip"))
+      content.commit("saveIp", window.localStorage.getItem("Ip"));
     },
     loginAsycn(content, step) {
       window.sessionStorage.setItem("token", step.headers.token);
