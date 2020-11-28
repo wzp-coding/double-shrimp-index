@@ -81,30 +81,19 @@
                   <el-image
                     :src="item.pic"
                     class="illimage"
-                    @click="
-                      $router.push('/fishingSkillArticlesDetail?id=' + item.id)
-                    "
+                    @click="goToDetail(item.contentUrl)"
                   >
                     <div slot="error" class="image-slot">
                       <el-image
                         src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=386535230,3956809074&fm=26&gp=0.jpg"
-                        @click="
-                          $router.push(
-                            '/fishingSkillArticlesDetail?id=' + item.id
-                          )
-                        "
+                        @click="goToDetail(item.contentUrl)"
                       ></el-image>
                     </div>
                   </el-image>
                   <div style="padding: 14px" class="illPicName">
-                    <span
-                      @click="
-                        $router.push(
-                          '/fishingSkillArticlesDetail?id=' + item.id
-                        )
-                      "
-                      >{{ item.title | ellipsis }}</span
-                    >
+                    <span @click="goToDetail(item.contentUrl)">{{
+                      item.title | ellipsis
+                    }}</span>
                   </div>
                 </el-card>
               </div>
@@ -144,34 +133,26 @@
           <el-row :gutter="20" class="articleRow">
             <el-col :span="4.8" v-for="(item, i) in adviseArticle" :key="i">
               <div class="adviseArticleCard">
-                <el-card :body-style="{ padding: '0px', height: '300px' }" class="adviseCard">
+                <el-card
+                  :body-style="{ padding: '0px', height: '300px' }"
+                  class="adviseCard"
+                >
                   <el-image
                     :src="item.pic"
                     class="advisedImage"
-                    @click="
-                      $router.push('/fishingSkillArticlesDetail?id=' + item.id)
-                    "
+                    @click="goToDetail(item.contentUrl)"
                   >
                     <div slot="error" class="image-slot">
                       <el-image
                         src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=386535230,3956809074&fm=26&gp=0.jpg"
-                        @click="
-                          $router.push(
-                            '/fishingSkillArticlesDetail?id=' + item.id
-                          )
-                        "
+                        @click="goToDetail(item.contentUrl)"
                       ></el-image>
                     </div>
                   </el-image>
                   <div style="padding: 14px">
-                    <span
-                      @click="
-                        $router.push(
-                          '/fishingSkillArticlesDetail?id=' + item.id
-                        )
-                      "
-                      >{{ item.title }}</span
-                    >
+                    <span @click="goToDetail(item.contentUrl)">{{
+                      item.title
+                    }}</span>
                     <div class="bottom clearfix">
                       <span class="title">渔技学堂</span>
                       <span class="title right">{{ item.clickNum }}人阅读</span>
@@ -393,6 +374,14 @@ export default {
     },
     async moreArticle(typeId) {
       console.log("onId:" + typeId);
+    },
+    goToDetail(url) {
+      if (/(doc)|(ppt)|(pptx)/.test(url)) {
+        url =
+          "http://view.officeapps.live.com/op/view.aspx?src=" +
+          encodeURIComponent(url);
+      }
+      window.open(url);
     },
     handleSelect(index) {
       this.onId = index;

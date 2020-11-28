@@ -158,6 +158,7 @@ export default {
         }
       } catch (error) {
         this.$message.error("网络开小差了，请稍后重试 19999");
+        this.$router.go(0);
         console.log(error);
       }
     },
