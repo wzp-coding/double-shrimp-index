@@ -104,7 +104,7 @@
                 </div>
               </h3>
               <div class="shrimpMarketLft">
-                <div class="shrimpMarketPic" v-if="jingcai1List.length">
+                <div class="shrimpMarketPic" style="margin-top:5px" v-if="jingcai1List.length">
                   <div
                     class="shrimpMarketPicSon"
                     @click="TonewPath(jingcai1List[0].id)"
@@ -158,7 +158,7 @@
                 class="productionChainSon"
                 v-for="(item, i) in jingcai2List"
                 :key="i"
-                v-loading="loading3"
+                v-loading="loading2"
                 @click="TonewPath(item.id)"
               >
                 <el-image :src="item.picture"></el-image>
@@ -182,7 +182,7 @@
                 class="wealthHandbookSon"
                 v-for="(item, index) in pagelist"
                 :key="index"
-                v-loading="loading"
+                v-loading="loading3"
               >
                 <!-- 分页图片信息 -->
                 <div class="paggingPicture" @click="TonewPath(item.id)">
@@ -510,17 +510,12 @@ export default {
   },
   mounted(){
     window.addEventListener('scroll',this.handleScroll1) //监控滑动，运行handleScroll 函数
-    window.addEventListener('scroll',this.handleScroll2)
-    window.addEventListener('scroll',this.handleScroll3)
+    window.addEventListener('scroll',this.test)
+    
   },
   created() {
     //点击量 热度
-    this.getClickData();
-    // //每周精品
-    // this.getWeekData();
-    // // 精彩专题3
-    //最新资讯
-    this.getNewData();
+    this.getLoadData();
   },
   methods: {
     //前往详情页
@@ -530,28 +525,38 @@ export default {
         query: { id: id },
       });
     },
+    test(){
+      console.log(document.body.scrollTop+document.documentElement.scrollTop)
+    },
     handleScroll1(){
       let a = document.body.scrollTop+document.documentElement.scrollTop;
-      if(a>22&&this.RecommList.length===0){
+      if(a>24&&this.RecommList.length===0){
         this.getRecommData();
+        this.getjingcai1();
         window.removeEventListener('scroll',this.handleScroll1)
+        window.addEventListener('scroll',this.handleScroll2)  //执行监听2
       }
     },
     handleScroll2(){ 
       let a = document.body.scrollTop+document.documentElement.scrollTop;
-      if(a>235&&this.MonthDataList.length===0){
-        this.getMonthData()
-        this.getjingcai1();
+      if(a>266&&this.MonthDataList.length===0){ 
         this.getjingcai2();
+        this.getMonthData();
         window.removeEventListener('scroll',this.handleScroll2)
+        window.addEventListener('scroll',this.handleScroll3) 
       }
     },
     handleScroll3(){ 
       let a = document.body.scrollTop+document.documentElement.scrollTop;
-      if(a>400&&this.pagelist.length===0){
-        this.getjingcai3();
-        
+      if(a>570&&this.pagelist.length===0){
+        this.getjingcai3();      
+        window.removeEventListener('scroll',this.handleScroll3)
       }
+    },
+    getLoadData(){
+      this.getClickData();
+      this.getNewData();
+      this.getWeekData();
     },
     //前往更多页面
     ToMorePage(id) {
@@ -590,13 +595,13 @@ export default {
     async getWeekData() {
       try {
         const { data: res } = await this.reqM2Service(
-          "/info/shrimpIndustry/findByClickWeekly",
+          "/info/shrimpIndustry/findByClickWeekly/1/7",
           "",
           "get"
         );
         if (res.code === 20000) {
           console.log("获取每周精品数据成功");
-          this.weekliList = res.data.slice(0, 7);
+          this.weekliList = res.data.rows;
         }
       } catch (error) {
         console.log(error);
@@ -622,14 +627,14 @@ export default {
     async getjingcai2() {
       try {
         const { data: res } = await this.reqM2Service(
-          `/info/shrimpIndustry/search/searchByTypeId/${this.queryInfo2.TypeID2}/${this.queryInfo2.Infopage2}/${this.queryInfo2.Infosize2}`,
+          `/info/shrimpIndustry/findByClickAndType/${this.queryInfo2.TypeID2}/${this.queryInfo2.Infopage2}/${this.queryInfo2.Infosize2}`,
           "",
-          "post"
+          "get"
         );
         if (res.code === 20000) {
           console.log("获取精彩专题2数据成功");
           this.jingcai2List = res.data.rows;
-          this.loading3=false
+          this.loading2=false
         } else {
           console.log("网络错误20001");
         }
@@ -641,17 +646,18 @@ export default {
     async getjingcai3() {
       try {
         const { data: res } = await this.reqM2Service(
-          `/info/shrimpIndustry/search/searchByTypeId/${this.queryInfo3.TypeID3}/${this.queryInfo3.Currentpage}/${this.queryInfo3.pagesize}`,
+          `/info/shrimpIndustry/findByClickAndType/${this.queryInfo3.TypeID3}/${this.queryInfo3.Currentpage}/${this.queryInfo3.pagesize}`,
           "",
-          "post"
+          "get"
         );
         if (res.code === 20000) {
           console.log("获取精彩专题3数据成功");
           this.pagelist = res.data.rows;
           this.queryInfo3.total = res.data.total;
-          this.loading = false;
+          this.loading3 = false;
           window.removeEventListener('scroll',this.handleScroll3)
         } else {
+          this.loading3 = false;
           console.log("获取精彩专题3数据失败");
         }
       } catch (error) {
@@ -660,7 +666,7 @@ export default {
     },
     handleCurrentChange(newpage) {
       //改变页码
-      this.loading = true;
+      this.loading3 = true;
       this.queryInfo3.Currentpage = newpage;
       this.getjingcai3();
     },
@@ -706,13 +712,13 @@ export default {
     async getMonthData() {
       try {
         const { data: res } = await this.reqM2Service(
-          "/info/shrimpIndustry/findByClickMonthly",
+          "/info/shrimpIndustry/findByClickMonthly/1/7",
           "",
           "get"
         );
         if (res.code === 20000) {
           console.log("获取每月数据成功");
-          this.MonthDataList = res.data.slice(0, 7);
+          this.MonthDataList = res.data.rows;
           this.loading2=false;
         } else {
           console.log("网络错误 20001");
