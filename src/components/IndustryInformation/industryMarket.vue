@@ -510,7 +510,7 @@ export default {
   },
   mounted(){
     window.addEventListener('scroll',this.handleScroll1) //监控滑动，运行handleScroll 函数
-    window.addEventListener('scroll',this.test)
+    // window.addEventListener('scroll',this.test)
     
   },
   created() {
@@ -525,9 +525,9 @@ export default {
         query: { id: id },
       });
     },
-    test(){
-      console.log(document.body.scrollTop+document.documentElement.scrollTop)
-    },
+    // test(){
+    //   console.log(document.body.scrollTop+document.documentElement.scrollTop)
+    // },
     handleScroll1(){
       let a = document.body.scrollTop+document.documentElement.scrollTop;
       if(a>24&&this.RecommList.length===0){

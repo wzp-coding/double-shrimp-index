@@ -80,17 +80,6 @@
             <el-menu-item index="/autognosis">疾病自诊</el-menu-item>
           </el-submenu>
           <span class="middle-thread"></span>
-          <!-- <el-submenu index="/breedingPlan">
-            <template slot="title">智能决策</template>
-            <el-menu-item index="/breedingPlan">养殖规划</el-menu-item>
-            <el-menu-item index="/waterQualityForecastAndWarning"
-              >水质预测预警</el-menu-item
-            >
-            <el-menu-item index="/informationRecommendation"
-              >信息推荐</el-menu-item
-            >
-            <el-menu-item index="/precisionFeeding">精准投喂</el-menu-item>
-          </el-submenu> -->
           <el-menu-item index="/visualizationPlatform">可视化平台</el-menu-item>
           <span class="middle-thread"></span>
           <el-menu-item index="/emall">电子商城</el-menu-item>
@@ -120,8 +109,11 @@ export default {
       baseId: ''
     };
   },
-  updated() {
-    this.baseId = this.$store.state.userData.baseId;
+  created() {
+    let data = JSON.parse(window.sessionStorage.getItem("userData"));
+    if (data) {
+      this.baseId = data.baseId;
+    }
   },
   methods: {
     outUser() {
@@ -180,7 +172,6 @@ export default {
   height: 5rem;
   display: flex;
   align-items: center;
-  margin-right: 5%;
   > * {
     margin-right: 20px;
     font-weight: 600;

@@ -103,9 +103,12 @@ export default {
     }
     // 用户数据渲染
     this.userData = this.$store.state.userData;
-    
-    this.baseId = JSON.parse(window.sessionStorage.getItem('userData')).baseId
-},
+
+    let data = JSON.parse(window.sessionStorage.getItem("userData"));
+    if (data) {
+      this.baseId = data.baseId;
+    }
+  },
   methods: {},
 };
 </script>
