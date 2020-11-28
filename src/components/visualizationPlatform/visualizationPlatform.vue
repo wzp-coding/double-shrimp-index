@@ -1,120 +1,65 @@
 <template>
   <div class="lxl-vp">
-    <el-header class="lxl-header">
-      <h1>对虾大数据可视化平台</h1>
-    </el-header>
-    <!-- 主内容区 -->
-    <section class="mainBox">
-      <div class="col">
-        <div class="panel bar">
-          <h3>全国不同种类对虾产量的占比</h3>
-          <div class="chart chart1"></div>
-          <div class="panel-footer"></div>
-        </div>
-        <div class="panel line">
-          <h3>全国交易量</h3>
-          <div class="chart chart3"></div>
-          <div class="panel-footer"></div>
-        </div>
-        <div class="panel pie">
-          <h3>全国养殖面积</h3>
-          <div class="chart chart5"></div>
-          <div class="panel-footer"></div>
-        </div>
-        <!-- <div class="panel pie">
-          <h3>全国养殖面积</h3>
-          <div class="chart chart7"></div>
-          <div class="panel-footer"></div>
-        </div> -->
-      </div>
-      <div class="col">
-        <!-- <div class="no">
-          <div class="no-hd">
-            <ul>
-              <li>123115</li>
-              <li>96756</li>
-            </ul>
+    <div class="content">
+      <el-header class="header">
+        <h1>对虾大数据可视化平台</h1>
+        <div class="showTime">当前时间：{{ date }}</div>
+      </el-header>
+      <!-- 主内容区 -->
+      <section class="mainbox">
+        <div class="col">
+          <div class="panel bar">
+            <h2>全国不同种类对虾产量的占比</h2>
+            <div class="chart chart1"></div>
+            <div class="panel-footer"></div>
           </div>
-          <div class="no-bd">
-            <ul>
-              <li>xxx</li>
-              <li>yyy</li>
-            </ul>
+          <div class="panel line">
+            <h2>全国交易量</h2>
+            <div class="chart chart3"></div>
+            <div class="panel-footer"></div>
           </div>
-        </div> -->
-        <div class="map">
-          <div class="map1"></div>
-          <div class="map2"></div>
-          <div class="map3"></div>
-          <div class="chartMap"></div>
-        </div>
-        <!-- <div class="lxl-detail">
-          <div class="someThing">
-            <div class="lxl-1">
-              <div>
-                <h2><i class="el-icon-info"></i> {{ infoData[0].name }}</h2>
-                <p style="margin-top: 3px">{{ infoData[0].baseInfo }}</p>
-              </div>
-              <div>
-                <div class="block">
-                  <el-carousel>
-                    <el-carousel-item
-                      indicator-position="outside"
-                      v-for="(item, i) in infoData"
-                      :key="i"
-                    >
-                      <el-image :src="item.imgUrl"></el-image>
-                    </el-carousel-item>
-                  </el-carousel>
-                </div>
-              </div>
-            </div>
-            <div></div>
+          <div class="panel pie">
+            <h2>全国养殖面积</h2>
+            <div class="chart chart5"></div>
+            <div class="panel-footer"></div>
           </div>
-        </div> -->
-      </div>
-      <div class="col">
-        <div class="panel bar2">
-          <h3>全国对虾产量</h3>
-          <div class="chart chart2"></div>
-          <div class="panel-footer"></div>
         </div>
-        <div class="panel line2">
-          <h3>全国对虾价格趋势</h3>
-          <div class="chart chart4"></div>
-          <div class="panel-footer"></div>
+        <!-- 中国地图 -->
+        <div class="col">
+          <div class="map">
+            <div class="chartMap"></div>
+          </div>
         </div>
-        <div class="panel pie2">
-          <h3>全国对虾产量与养殖面积</h3>
-          <div class="chart chart6"></div>
-          <div class="panel-footer"></div>
+        <div class="col">
+          <div class="panel bar2">
+            <h2>全国对虾产量</h2>
+            <div class="chart chart2"></div>
+            <div class="panel-footer"></div>
+          </div>
+          <div class="panel line2">
+            <h2>全国对虾价格趋势</h2>
+            <div class="chart chart4"></div>
+            <div class="panel-footer"></div>
+          </div>
+          <div class="panel pie2">
+            <h2>全国对虾产量与养殖面积</h2>
+            <div class="chart chart6"></div>
+            <div class="panel-footer"></div>
+          </div>
         </div>
-        <!-- <div class="panel pie2">
-          <h3>饼状图</h3>
-          <div class="chart chart8"></div>
-          <div class="panel-footer"></div>
-        </div> -->
-      </div>
-    </section>
+      </section>
+    </div>
   </div>
 </template>
 <script>
-import "./china";
-import "./guangdong";
+import "./china"; //地图信息
+import "./guangdong"; //广东详情页
+import "./jquery";
 export default {
   data() {
     return {
       date: new Date(),
       industry: [],
-      infoData: [
-        {
-          name: "对虾大数据平台",
-          baseInfo:
-            "仲恺基地，创办于1927年，是一所以伟大的爱国主义者、近代民主革命家廖仲恺先生名字命名，以现代农业科学为特色，农学、工学为优势，农、工、理、经、管、文、艺、法八大学科协调发展的广东省省属高水平应用型大学，是教育部本科教学评估优秀学校及全国首批卓越农林人才教育培养计划高校。学校办学历史悠久，文脉深厚，坐落在历史文化名城——广州。现有海珠校区、白云校区、番禺教学科研基地，占地面积2000余亩。校园集云山之神秀，汇珠水之灵气，是读书治学的理想地。",
-          imgUrl:
-            "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
-        },
-      ],
       orgindata: [],
       predictdata: [],
       // 下标0位开始 1位结束
@@ -151,14 +96,11 @@ export default {
           this.chart5(this.industry[1]);
           this.chart6(this.industry[1]);
           this.china(this.industry[3], this.industry[0]);
-          console.log("chart1");
-          console.log(this.industry);
         } else {
-          this.$message.error("网络开小差了，请稍后重试 20001");
+          this.$message.error("网络开小差了，请稍后重试 ALL 20001");
         }
       } catch (error) {
-        this.$message.error("网络开小差了，请稍后重试 19999");
-        this.$router.go(0);
+        this.$message.error("网络开小差了，请稍后重试 ALL 19999");
         console.log(error);
       }
     },
@@ -178,23 +120,23 @@ export default {
           this.orgindata = res.data.orgindata;
           this.predictdata = [...arr, ...res.data.predictdata];
           console.log(arr, this.predictdata);
-
           this.predictTime.push(res.data.early);
           this.predictTime.push(res.data.last);
 
           this.chart4();
           console.log("chart4");
         } else {
-          this.$message.error("网络开小差了，请稍后重试 20001");
+          this.$message.error("网络开小差了，请稍后重试price 20001");
         }
       } catch (error) {
-        this.$message.error("网络开小差了，请稍后重试 19999");
+        this.$message.error("网络开小差了，请稍后重试  price19999");
         console.log(error);
       }
     },
 
     //   左边第一个扇形图
     chart1(pieOne) {
+      console.log(pieOne);
       // 数据格式处理
       let dataArray = [];
       pieOne.forEach((e) => {
@@ -204,7 +146,6 @@ export default {
         };
         dataArray.push(obj);
       });
-
       let myChart = this.$echarts.init(document.querySelector(".chart1"));
       let option = {
         color: ["orange", "white", "#a3fea7", "rgba(162, 245, 252, 1)"],
@@ -230,13 +171,12 @@ export default {
             roseType: "area",
             labelLine: {
               length: 6,
-              lentth3: 8,
+              lentth2: 8,
             },
             data: dataArray,
           },
         ],
       };
-
       myChart.setOption(option);
       // 自适应盒子大小,以及屏幕大小
       window.addEventListener("resize", function () {
@@ -254,6 +194,12 @@ export default {
       });
       let myChart = this.$echarts.init(document.querySelector(".chart2"));
       let option = {
+        title: {
+          text: "单位(万吨)",
+          textStyle: {
+            color: "#c1c2c5",
+          },
+        },
         color: ["#a3fea7"],
         tooltip: {
           trigger: "axis",
@@ -264,7 +210,7 @@ export default {
         },
         grid: {
           left: "1%",
-          top: "10px",
+          top: "35px",
           right: "0%",
           bottom: "4%",
           containLabel: true,
@@ -303,7 +249,7 @@ export default {
         ],
         series: [
           {
-            name: "直接访问",
+            name: "年产量",
             type: "bar",
             barWidth: "40%",
             data: outPuts.reverse(),
@@ -328,13 +274,19 @@ export default {
       });
       let myChart = this.$echarts.init(document.querySelector(".chart3"));
       let option = {
+        title: {
+          text: "单位(万吨)",
+          textStyle: {
+            color: "#c1c2c5",
+          },
+        },
         color: ["#728eab", "#dad9b2"],
         tooltip: {
           trigger: "axis",
         },
         grid: {
           left: "1%",
-          top: "10px",
+          top: "35px",
           right: "4%",
           bottom: "4%",
           show: true,
@@ -382,13 +334,6 @@ export default {
       };
 
       myChart.setOption(option);
-      // 自适应盒子大小,以及屏幕大小
-      //   $(".line h3").on("click", "a", function () {
-      //     // option.series[0].data = yData[$(this).index()].data[0];
-      //     // option.series[1].data = yData[$(this).index()].data[1];
-      //     myChart.setOption(option);
-      //   });
-
       window.addEventListener("resize", function () {
         myChart.resize();
       });
@@ -404,11 +349,14 @@ export default {
         let time = new Date(etime + i * eltime).toLocaleDateString();
         return time;
       });
-
-      console.log(arr2);
       // 时间切分处理结束 arr2生成的值
-
       let option = {
+        title: {
+          text: "价格(元/kg)",
+          textStyle: {
+            color: "#c1c2c5",
+          },
+        },
         color: ["#a3fea7", "grey"],
         tooltip: {
           trigger: "axis",
@@ -428,7 +376,7 @@ export default {
         },
         grid: {
           left: "1%",
-          top: "10%",
+          top: "45px",
           right: "4%",
           bottom: "4%",
 
@@ -536,6 +484,12 @@ export default {
 
       let myChart = this.$echarts.init(document.querySelector(".chart5"));
       let option = {
+        title: {
+          text: "单位(公顷)",
+          textStyle: {
+            color: "#c1c2c5",
+          },
+        },
         color: ["white"],
         tooltip: {
           trigger: "axis",
@@ -546,7 +500,7 @@ export default {
         },
         grid: {
           left: "1%",
-          top: "10px",
+          top: "35px",
           right: "0%",
           bottom: "4%",
           containLabel: true,
@@ -615,6 +569,12 @@ export default {
       let myChart = this.$echarts.init(document.querySelector(".chart6"));
 
       let option = {
+        title: {
+          text: "单位(kg/亩)",
+          textStyle: {
+            color: "#c1c2c5",
+          },
+        },
         color: ["#a3fea7", "grey"],
         tooltip: {
           trigger: "axis",
@@ -634,7 +594,7 @@ export default {
         },
         grid: {
           left: "1%",
-          top: "10%",
+          top: "45px",
           right: "4%",
           bottom: "4%",
 
@@ -724,144 +684,282 @@ export default {
           },
         ],
       };
-
       myChart.setOption(option);
       // 自适应盒子大小,以及屏幕大小
       window.addEventListener("resize", function () {
         myChart.resize();
       });
     },
+    tooltipCharts() {
+      console.log(arguments[0]);
+      var myChart = echarts.init(document.getElementById("tooltipBarId"));
+      var option = {
+        tooltip: {},
+        dataset: {
+          source: [
+            [
+              "xAxis",
+              "201701",
+              "201702",
+              "201703",
+              "201704",
+              "201705",
+              "201706",
+              "201707",
+              "201708",
+              "201709",
+              "20170",
+              "201710",
+              "20170",
+              "201801",
+            ],
+            [
+              "amount",
+              41.1,
+              30.4,
+              65.1,
+              53.3,
+              83.8,
+              98.7,
+              65.1,
+              53.3,
+              41.1,
+              30.4,
+              53.3,
+              41.1,
+              53.3,
+              83.8,
+            ],
+          ],
+        },
+        xAxis: {
+          type: "category",
+          interval: true,
+          axisLabel: {
+            rotate: 45,
+          },
+          axisTick: {
+            show: false,
+          },
+        },
+        yAxis: {},
+        color: ["#4FA8F9", "#F5A623"],
+        grid: {
+          show: true,
+          backgroundColor: "#FAFAFA",
+          left: 30,
+          right: 20,
+          top: 20,
+        },
+        series: [
+          {
+            type: "bar",
+            smooth: true,
+            seriesLayoutBy: "row",
+            barWidth: 10,
+          },
+        ],
+      };
+      myChart.setOption(option);
+    },
     china(chinaChart, chinaChartTip) {
-      let mapName = "china";
+      let myChart = this.$echarts.init(document.querySelector(".chartMap"));
+      myChart.hideLoading();
+      let max = 480,
+        min = 9; // todo
+      let maxSize4Pin = 100,
+        minSize4Pin = 20;
+      var geoCoordMap = {
+        台湾: [121.5135, 25.0308],
+        黑龙江: [127.9688, 45.368],
+        内蒙古: [110.3467, 41.4899],
+        吉林: [125.8154, 44.2584],
+        北京市: [116.4551, 40.2539],
+        辽宁: [123.1238, 42.1216],
+        河北: [114.4995, 38.1006],
+        天津: [117.4219, 39.4189],
+        山西: [112.3352, 37.9413],
+        陕西: [109.1162, 34.2004],
+        甘肃: [103.5901, 36.3043],
+        宁夏: [106.3586, 38.1775],
+        青海: [101.4038, 36.8207],
+        新疆: [87.9236, 43.5883],
+        西藏: [91.11, 29.97],
+        四川: [103.9526, 30.7617],
+        重庆: [108.384366, 30.439702],
+        山东: [117.1582, 36.8701],
+        河南: [113.4668, 34.6234],
+        江苏: [118.8062, 31.9208],
+        安徽: [117.29, 32.0581],
+        湖北: [114.3896, 30.6628],
+        浙江: [119.5313, 29.8773],
+        福建: [119.4543, 25.9222],
+        江西: [116.0046, 28.6633],
+        湖南: [113.0823, 28.2568],
+        贵州: [106.6992, 26.7682],
+        云南: [102.9199, 25.4663],
+        广东: [113.12244, 23.009505],
+        广西: [108.479, 23.1152],
+        海南: [110.3893, 19.8516],
+        上海: [121.4648, 31.2891],
+      };
       let data = [];
       chinaChart.forEach((e) => {
         let obj = {
           value: e.value,
           name: e.name,
+          introduction: e.introduction,
         };
         data.push(obj);
       });
-
-      let geoCoordMap = {};
-      // 悬浮介绍
-      let toolTipData = [];
-      chinaChart.forEach((e) => {
-        let obj = {
-          name: e.name,
-          value: [
-            { name: "基地个数", value: e.value },
-            { name: "介绍", value: e.introduction },
-          ],
-        };
-        toolTipData.push(obj);
-      });
-
-      let myChart = this.$echarts.init(document.querySelector(".chartMap"));
-
-      /*获取地图数据*/
-      myChart.showLoading();
-      let mapFeatures = this.$echarts.getMap(mapName).geoJson.features;
-      myChart.hideLoading();
-      mapFeatures.forEach(function (v) {
-        // 地区名称
-        let name = v.properties.name;
-        // 地区经纬度
-        geoCoordMap[name] = v.properties.cp;
-      });
-      let max = 480,
-        min = 9; // todo
-      let maxSize4Pin = 100,
-        minSize4Pin = 20;
-
-      let convertData = function (chinaChartTip) {
-        let res = [];
-        chinaChartTip.forEach((item) => {
-          res.push({
-            value: [item.baseIntroduction, item.createBy, item.id],
-            coord: [item.basePositionLatitude, item.basePositionLongitude],
-            name: item.baseName,
-          });
-        });
+      console.log(geoCoordMap[data[0].name]);
+      console.log("嘤嘤嘤");
+      console.log(data);
+      console.log(chinaChartTip);
+      var convertData = function (data) {
+        var res = [];
+        for (var i = 0; i < data.length; i++) {
+          var geoCoord = geoCoordMap[data[i].name];
+          if (geoCoord) {
+            res.push({
+              name: data[i].name,
+              introduction: data[i].introduction,
+              value: geoCoord.concat(data[i].value),
+            });
+          }
+        }
         return res;
       };
-      var markPointData = [
-        {
-          name: "齐齐哈尔",
-          coord: [123.97, 47.33],
-          runConut: "537",
-          num: "234",
-        },
-        {
-          name: "青岛",
-          coord: [120.33, 36.07],
-          runConut: "120",
-          num: "196",
-        },
-        {
-          name: "温州",
-          coord: [120.65, 28.01],
-          runConut: "50",
-          num: "120",
-        },
-      ];
+      console.log("1346511");
+      var xx = convertData(data);
+      console.log("啊哈");
+      console.log(xx);
+      console.log(data);
       let option = {
+        title: {
+          top: 30,
+          text: "全国对虾养殖分布图",
+          subtext: "",
+          x: "center",
+          textStyle: {
+            fontSize: 20,
+            color: "#ccc",
+          },
+        },
+        //鼠标覆盖省份事件
         tooltip: {
           trigger: "item",
           formatter: function (params) {
+            var tipHtml = "";
             if (typeof params.value[2] == "undefined") {
-              if (!params.name || params.name == "") return "暂无数据";
-              else {
-                return (
-                  params.name + " : <br/> " + params.value + "个对虾养殖基地"
-                );
-              }
+              // tipHtml =
+              //   '<div style="height:220px;width:100px;border-radius:5px;background:#fff;box-shadow:0 0 10px 5px #aaa">' +
+              //   '    <div style="height:50px;width:100%;border-radius:5px;background:#F8F9F9;border-bottom:1px solid #F0F0F0">' +
+              //   '        <span style="line-height:50px;margin-left:18px">' +
+              //   params.name +
+              //   "</span>" +
+              //   '        <span style="float:right;line-height:50px;margin-right:18px;color:#5396E3;cursor:pointer" onclick="mapTooltipClick(this);">点击查看详情</span>' +
+              //   "    </div>" +
+              //   '    <div style="height:110px;width:100%;background:#fff">' +
+              //   '        <div style="padding-left:18px;padding-top:22px">' +
+              //   '            <span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:rgba(92,169,235,1)"></span> ' +
+              //   "            <span>上传表格数量</span>" +
+              //   '            <span style="float:right;margin-right:18px">' +
+              //   params.value +
+              //   "万</span>" +
+              //   "        </div>" +
+              //   '        <div style="padding-left:18px;padding-top:14px">' +
+              //   '            <span style="display:inline-block;margin-right:5px;width:10px;height:10px;background-color:rgba(92,169,235,1)"></span> ' +
+              //   "            <span>上传数据条数</span>" +
+              //   '            <span style="float:right;margin-right:18px">' +
+              //   100 +
+              //   "条</span>" +
+              //   "        </div>" +
+              //   "    </div>" +
+              //   '    <div id="tooltipBarId" style="height:200px;width:100%;border-radius:0 0 5px 0;background:#fff"></div>' +
+              //   "</div>";
+              // // tooltipCharts(params.name)
+              return params.name + " : " + params.value + "个对虾养殖基地";
+              setTimeout(function () {
+                tooltipCharts(params.name);
+              }, 10);
+              return tipHtml;
             } else {
-              let str = `${params.name} :<br/> 经度为${params.value[0]}，纬度为${params.value[1]}`;
-              return str;
+              return params.name + " : " + params.value[2] + "个对虾养殖基地";
             }
           },
+          // position: ["40%", "40%"],
         },
-
-        visualMap: {
-          show: false,
-          min: 0,
-          max: 200,
-          left: "30%",
-          top: "80%",
-          calculable: true,
-          seriesIndex: [1],
-          inRange: {
-            color: ["#fff", "#A5CC82"], // 白绿
+        legend: {
+          orient: "vertical",
+          y: "bottom",
+          x: "right",
+          data: ["pm2.5"],
+          textStyle: {
+            color: "#fff",
           },
         },
-        markPoint: {
-          //图表标注。
-          symbolSize: 55, //图形大小
-          label: {
+        // visualMap: {    //似乎没用
+        //   show: false,
+        //   min: 0,
+        //   max: 500,
+        //   left: "left",
+        //   top: "bottom",
+        //   text: ["高", "低"], // 文本，默认为数值文本
+        //   calculable: true,
+        //   seriesIndex: [1],
+        //   inRange: {},
+        // },
+        geo: {
+          map: "china",
+          show: true,
+          roam: true,
+          zoom: 1.1,
+          // label: {
+          //   normal: {
+          //     show: false,
+          //   },
+          //   emphasis: {
+          //     show: false,
+          //   },
+          // },
+          itemStyle: {         //地图样式
             normal: {
-              show: true,
+              borderColor: "rgba(147, 235, 248, 1)",
+              borderWidth: 1, //地图边线
+              areaColor: {
+                type: "radial",
+                x: 0.5,
+                y: 0.5,
+                r: 0.8,
+                colorStops: [
+                  {
+                    offset: 0,
+                    color: "rgba(147, 235, 248, 0)", // 0% 处的颜色
+                  },
+                  {
+                    offset: 1,
+                    color: "rgba(147, 235, 248, .2)", // 100% 处的颜色
+                  },
+                ],
+                globalCoord: false, // 缺省为 false
+              },
+              shadowColor: "rgba(128, 217, 248, 1)",
+              // shadowColor: 'rgba(255, 255, 255, 1)',
+              shadowOffsetX: -2,
+              shadowOffsetY: 2,
+              shadowBlur: 10,
             },
             emphasis: {
-              show: true,
+              areaColor: "#ffd181", //悬浮区背景 1
+              borderWidth: 0,
+              color: "green",
             },
           },
-          itemStyle: {
-            normal: {
-              color: "rgba(72,150,128,1)",
-            },
-          },
-          data: markPointData,
         },
         series: [
           {
-            name: "基地散点图",
-            type: "scatter",
-            coordinateSystem: "geo",
-            data: convertData(data),
-            //小圆点的大小
-            symbolSize: function (val) {
-              return val[2] / 10;
-            },
+            symbolSize: 6,
             label: {
               normal: {
                 formatter: "{b}",
@@ -872,22 +970,31 @@ export default {
                 show: true,
               },
             },
-            //小圆点的样式
             itemStyle: {
               normal: {
-                color: "#ffeb7b",
+                color: "#fff",
+              },
+              emphasis: {
+                areaColor: "#0a2dae",
+                borderWidth: 0,
+                color: "green",
+                show: true,
               },
             },
+            name: "light",
+            type: "scatter",
+            coordinateSystem: "geo",
+            data: convertData(data),
           },
           {
             type: "map",
-            map: mapName,
+            map: "china",
             geoIndex: 0,
             aspectScale: 0.75, //长宽比
             showLegendSymbol: false, // 存在legend时显示
             label: {
               normal: {
-                show: true,
+                show: false,
               },
               emphasis: {
                 show: false,
@@ -898,28 +1005,132 @@ export default {
             },
             roam: true,
             itemStyle: {
+              //气泡
               normal: {
                 areaColor: "#031525",
-                borderColor: "#3B5077",
+                borderColor: "#FFFFFF",
               },
               emphasis: {
-                areaColor: "#2B91B7",
+                show: true,
+                areaColor: "#0a2dae",
+                borderWidth: 0,
+                color: "green",
               },
             },
             animation: false,
             data: data,
           },
+          {
+            name: "Top 5",
+            type: "scatter",
+            coordinateSystem: "geo",
+            symbol: "pin",
+            symbolSize: [50, 50],
+            label: {
+              normal: {
+                show: true,
+                textStyle: {
+                  color: "#fff",
+                  fontSize: 9,
+                },
+                formatter(value) {
+                  return value.data.value[2];
+                },
+              },
+            },
+            itemStyle: {
+              //标记样式
+              normal: {
+                color: "#da3960", //标志颜色
+              },
+              emphasis: {
+                //鼠标移入样式
+                areaColor: "#0a2dae",
+                borderWidth: 0,
+                color: "green",
+              },
+            },
+            data: convertData(data),
+            showEffectOn: "render",
+            rippleEffect: {
+              brushType: "stroke",
+            },
+            hoverAnimation: true,
+            zlevel: 1,
+          },
         ],
       };
-      myChart.setOption(option);
 
+      //保留
+
+      var count = 0;
+      var timeTicket = null;
+      var dataLength = option.series[0].data.length;
+      timeTicket && clearInterval(timeTicket);
+      timeTicket = setInterval(function () {
+        myChart.dispatchAction({
+          type: "downplay",
+          seriesIndex: 0,
+        });
+        myChart.dispatchAction({
+          type: "highlight",
+          seriesIndex: 0,
+          dataIndex: count % dataLength,
+        });
+        myChart.dispatchAction({
+          type: "showTip",
+          seriesIndex: 0,
+          dataIndex: count % dataLength,
+        });
+        count++;
+      }, 2500);
+
+      myChart.on("mouseover", function (params) {
+        console.log(params);
+        clearInterval(timeTicket);
+        myChart.dispatchAction({
+          type: "downplay",
+          seriesIndex: 0,
+        });
+        myChart.dispatchAction({
+          type: "highlight",
+          seriesIndex: 0,
+          dataIndex: params.dataIndex,
+        });
+        myChart.dispatchAction({
+          type: "showTip",
+          seriesIndex: 0,
+          dataIndex: params.dataIndex,
+        });
+      });
+      myChart.on("mouseout", function (params) {
+        timeTicket && clearInterval(timeTicket);
+        timeTicket = setInterval(function () {
+          myChart.dispatchAction({
+            type: "downplay",
+            seriesIndex: 0,
+          });
+          myChart.dispatchAction({
+            type: "highlight",
+            seriesIndex: 0,
+            dataIndex: count % dataLength,
+          });
+          myChart.dispatchAction({
+            type: "showTip",
+            seriesIndex: 0,
+            dataIndex: count % dataLength,
+          });
+          count++;
+        }, 2500);
+      });
+      myChart.setOption(option);
       myChart.on("click", function (params) {
         // 由于作用域的问题只能通过这个方式实现跳转
-        console.log(params, params.event.name);
-        if (params.data.name === "广东") {
-          window.location.href = "#/guangdong";
+        console.log(params);
+        if (params.data.name === '广东') {
+          window.location.href = "#/guangdong?userId=" + params.data.name;
         } else {
-           alert("敬请期待")
+          alert("敬请期待");
         }
       });
     },
@@ -927,110 +1138,93 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@font-face {
-  font-family: electronicFont;
-  src: url("../../fonts/KaneDemo-OVMZO.otf");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-@font-face {
-  font-family: btt;
-  src: url("../../fonts/bt.ttf");
-}
-
-.someThing {
-  padding: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
-  background-color: rgba(245, 245, 245, 0.8);
-  display: flex;
-  .lxl-1 {
-    display: inherit;
-    flex: 1;
-    flex-direction: row;
-    font-size: 13px;
-    line-height: 30px;
-    > * {
-      flex: 1;
-      padding: 10px;
-    }
-  }
+li {
+  list-style: none;
 }
 .lxl-vp {
-  background-image: url("../../assets/145.jpg");
+  font-family: Arial, Helvetica, sans-serif;
+  background-image: url("../../assets/bg.jpg");
+  width: 1520px;
+  margin: 0 auto;
+}
+@font-face {
+  font-family: electronicFont;
+  src: url(../../fonts/DS-DIGIT.TTF);
+}
+.header {
+  position: relative;
+  height: 5rem;
+  background: url(../../assets/head_bg.png) no-repeat top center;
+  background-size: 100% 100%;
+}
+.content {
+  width: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  /*  背景图定位 / 背景图尺寸  cover 完全铺满容器  contain 完整显示在容器内 */
+  background: url(../../assets/bg.jpg) no-repeat #000;
   background-size: 100% 100%;
   background-repeat: no-repeat;
-  width: 100%;
+  /* 行高是字体1.15倍 */
+  line-height: 1.15;
   min-width: 1480px;
+  max-width: 100%;
 }
-.lxl-header {
-  display: flex;
-  justify-content: center;
-  color: #eafffa;
-  background-color: rgba(255, 255, 255, 0.3);
-  flex-direction: row;
-  position: relative;
-  font-family: "bt";
+header h1 {
+  font-size: 2rem;
+  color: #fff;
+  text-align: center;
+  line-height: 4rem;
+}
+header .showTime {
+  position: absolute;
+  top: 0;
+  right: 0.375rem;
+  line-height: 5rem;
   font-size: 1.5rem;
+  color: rgba(255, 255, 255, 0.7);
 }
-
-.mainBox {
+.mainbox {
   display: flex;
   padding: 0.125rem 0.125rem 0;
-
   .col {
-    flex: 3;
-    overflow: hidden;
-    .no {
-      background-color: rgba(233, 233, 233, 0.1);
-      .no-hd {
-        ul {
-          list-style: none;
-          display: flex;
-          flex-direction: row;
-          color: rgb(196, 241, 255);
-          margin-top: 3rem;
-          font-size: 3rem;
-          justify-content: space-around;
-          font-family: "electronicFont";
-        }
-      }
-      .no-bd {
-        ul {
-          list-style: none;
-          display: flex;
-          flex-direction: row;
-          color: rgb(160, 160, 116);
-          font-size: 2rem;
-          justify-content: space-around;
-          font-family: "electronicFont";
-        }
-      }
+    flex: 2.7;
+    &:nth-child(2) {
+      flex: 4;
+      margin: 0 0.125rem 0.1875rem;
+      overflow: hidden;
+    }
+    &:nth-child(3) {
+      margin: 0 0.125rem 0.1875rem;
+      overflow: hidden;
     }
     .map {
       position: relative;
-      // margin-top: 3rem;
       .chartMap {
         position: absolute;
-        top: 0;
+        top: -50;
         left: 0;
         z-index: 5;
-        height: 40rem;
+        height: 55rem;
         width: 100%;
       }
-    }
-    .lxl-detail {
-      position: relative;
-      margin-top: 43rem;
-      background-color: rgba(255, 255, 255, 0.3);
     }
   }
   .panel {
     position: relative;
-    height: 15rem;
-    border: 1px solid rgba(63, 29, 29, 0.3);
-    background-color: rgba(255, 255, 255, 0.3);
+    height: 18rem;
+    width: 100%;
+    border: 1px solid rgba(25, 186, 139, 0.17);
+    background: rgba(255, 255, 255, 0.04) url(../../assets/line\(1\).png);
     padding: 0 0.1875rem 0.5rem;
     margin-bottom: 0.1875rem;
-    margin-top: 1rem;
-    h3 {
+    h2 {
       color: rgb(229, 246, 250);
       height: 0.6rem;
       line-height: 0.6rem;
@@ -1038,20 +1232,67 @@ export default {
       font-size: 20px;
       text-align: center;
       margin-top: 1rem;
-      a {
-        color: white;
-        text-decoration: none;
-        margin: 0 0.125rem;
-      }
+      margin-bottom: 5px;
     }
   }
-  .col:nth-child(2) {
-    flex: 5;
-    margin: 0 0.125rem 0.1875rem;
-    overflow: hidden;
+  //通过伪类设置边角
+  .panel::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-top: 2px solid #02a6b5;
+    border-left: 2px solid #02a6b5;
+  }
+  .panel::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-top: 2px solid #02a6b5;
+    border-right: 2px solid #02a6b5;
+  }
+  .panel .panel-footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+  }
+  .panel .panel-footer::before {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-bottom: 2px solid #02a6b5;
+    border-left: 2px solid #02a6b5;
+  }
+  .panel .panel-footer::after {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-bottom: 2px solid #02a6b5;
+    border-right: 2px solid #02a6b5;
+  }
+  .panel h2 {
+    color: rgb(229, 246, 250);
+    height: 0.6rem;
+    line-height: 0.6rem;
+    font-weight: 400;
+    font-size: 20px;
+    text-align: center;
+    margin: 1rem 0;
   }
   .chart {
-    height: 14rem;
+    height: 14.5rem;
   }
 }
 </style>

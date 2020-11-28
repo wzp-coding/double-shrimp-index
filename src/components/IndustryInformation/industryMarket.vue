@@ -1,17 +1,20 @@
 <template>
   <div class="lxl-body">
     <div class="lxl-box">
-      <div class="top">
-        <div class="tl">
+      <!-- 导航与搜索 -->
+      <div class="navigationSearch">
+        <div>
           <el-breadcrumb
             separator-class="el-icon-arrow-right"
             class="lxl-breadcrumb"
           >
             <el-breadcrumb-item>当前位置</el-breadcrumb-item>
-            <el-breadcrumb-item>产业资讯</el-breadcrumb-item>
+            <el-breadcrumb-item>产业咨询</el-breadcrumb-item>
+            <el-breadcrumb-item>虾业专题</el-breadcrumb-item>
           </el-breadcrumb>
         </div>
-        <div class="tr">
+        <!-- 搜索 -->
+        <div class="search">
           <el-input
             type="text"
             v-model="SearchKey"
@@ -22,387 +25,278 @@
       </div>
       <el-divider></el-divider>
       <el-container>
-        <el-aside width="74%">
-          <div class="left">
-            <!--左大部分-->
-            <div class="header">
+        <el-aside width="68%">
+          <!-- 每周热门与热门资讯开始-->
+          <div class="hotAndWeek">
+            <div class="hotNews">
               <!-- 图片 -->
-              <div class="pictop">
-                <!-- 行情资讯 -->
-                <div class="block1" v-if="ClickDataList.length !== 0">
-                  <el-image
-                    style="height: 280px"
-                    @click="TonewPath(ClickDataList[0].id)"
-                    :src="ClickDataList[0].picture"
-                  ></el-image>
-                </div>
-                <!-- 每周精品 -->
-                <!-- <div class="block2"> -->
-                <!-- <div>
-                    <el-image
-                      @click="TonewPath(weekliList[0].id)"
-                      style="height: 165px"
-                      :src="weekliList[0].picture"
-                    ></el-image>
+              <div class="hotNewsPicture" v-if="ClickDataList.length !== 0">
+                <!--热门资讯大图-->
+                <el-image
+                  @click="TonewPath(ClickDataList[0].id)"
+                  :src="ClickDataList[0].picture"
+                ></el-image>
+              </div>
+              <div class="hotNewsInfo">
+                <h3>
+                  <div class="realtimeInfo">
+                    <span>热门资讯</span>
                   </div>
-                  <div>
-                    <el-image
-                      @click="TonewPath(weekliList[1].id)"
-                      style="height: 165px"
-                      :src="weekliList[1].picture"
-                    >
-                    </el-image>
-                  </div> -->
-                <!-- </div> -->
-              </div>
-              <!-- head start -->
-              <div class="ccy-info">
-                <div class="topright">
-                  <h3 style="display: flex; justify-content: space-between">
-                    <div>
-                      <span
-                        style="
-                          margin-right: 5px;
-                          border-left: 6px solid rgb(93, 183, 60);
-                        "
-                      ></span>
-                      热门资讯
-                    </div>
-                    <div
-                      style="
-                        font-size: 0.8rem;
-                        margin-top: 6px;
-                        color: rgb(93, 183, 60);
-                      "
-                    >
-                      <span
-                        style="cursor: pointer; color: #9e9e9e"
-                        @click="ToMorePage(queryInfo1.TypeID1)"
-                      >
-                        更多
-                      </span>
-                      <i class="el-icon-caret-right"></i>
-                    </div>
-                  </h3>
-                  <el-divider class="ccy-drvider"></el-divider>
-                  <ul class="ccy-css">
-                    <li
-                      v-for="(item, index) in ClickDataList"
-                      :key="index"
-                      @click="TonewPath(item.id)"
-                    >
-                      {{ item.title }}
-                    </li>
-                  </ul>
-                  <!-- 热门资讯结束 -->
-                  <!-- 每周精品 -->
-                  <!-- <h3
-                    style="
-                      display: flex;
-                      justify-content: space-between;
-                      margin-top: 8px;
-                    "
+                  <div class="more">
+                    <span @click="ToMorePage(queryInfo1.TypeID1)">更多</span>
+                    <i class="el-icon-caret-right"></i>
+                  </div>
+                </h3>
+                <ul class="ccy-css">
+                  <li
+                    v-for="(item, index) in ClickDataList"
+                    @click="TonewPath(item.id)"
+                    :key="index"
                   >
-                    <div>
-                      <span
-                        style="
-                          margin-right: 5px;
-                          border-left: 6px solid rgb(93, 183, 60);
-                        "
-                      ></span>
-                      每周精品
-                    </div>
-                    <div
-                      style="
-                        font-size: 0.8rem;
-                        margin-top: 6px;
-                        color: rgb(93, 183, 60);
-                      "
-                    >
-                      <span
-                        style="cursor: pointer; color: #9e9e9e"
-                        @click="ToMorePage(queryInfo1.TypeID1)"
-                      >
-                        更多
-                      </span>
-                      <i class="el-icon-caret-right"></i>
-                    </div>
-                  </h3>
-                  <el-divider class="ccy-drvider"></el-divider>
-                  <ul class="ccy-css">
-                    <li
-                      v-for="(item, i) in weekliList"
-                      @click="TonewPath(item.id)"
-                      :key="i"
-                    >
-                      {{ item.title }}
-                    </li>
-                  </ul> -->
-                  <!-- 每周精品结束 -->
-                </div>
+                    {{ item.title }}
+                  </li>
+                </ul>
               </div>
-              <!-- head end -->
             </div>
-            <!-- 对虾行情 start -->
-            <div class="tail" style="width: 100%; margin: 20px 0 10px 0">
-              <h3 style="display: flex; justify-content: space-between">
-                <div>
-                  <span
-                    style="
-                      margin-right: 5px;
-                      border-left: 6px solid rgb(93, 183, 60);
-                    "
-                  ></span>
-                  对虾行情
-                </div>
-                <div
-                  style="
-                    font-size: 0.8rem;
-                    margin-top: 6px;
-                    color: rgb(93, 183, 60);
-                  "
-                >
-                  <span
-                    style="cursor: pointer; color: #9e9e9e"
-                    @click="ToMorePage(queryInfo1.TypeID1)"
+            <div class="weeklyBoutique">
+              <!--每周精品-->
+              <div class="weeklyBoutiquePic" v-if="weekliList.length !== 0">
+                <el-image
+                  @click="TonewPath(weekliList[0].id)"
+                  :src="weekliList[0].picture"
+                ></el-image>
+                <el-image
+                  @click="TonewPath(weekliList[1].id)"
+                  :src="weekliList[1].picture"
+                ></el-image>
+              </div>
+              <div class="weeklyBoutiqueInfo">
+                <h3>
+                  <div class="realtimeInfo">
+                    <span>每周精品</span>
+                  </div>
+                  <div class="more">
+                    <span @click="ToMorePage(queryInfo1.TypeID1)">更多</span>
+                    <i class="el-icon-caret-right"></i>
+                  </div>
+                </h3>
+                <ul class="ccy-css">
+                  <li
+                    v-for="(item, index) in weekliList"
+                    @click="TonewPath(item.id)"
+                    :key="index"
                   >
-                    更多
-                  </span>
+                    {{ item.title }}
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!-- 每周热门与热门资讯结束 -->
+          <!-- 三个专题开始 -->
+          <div class="special">
+            <div class="shrimpMarket">
+              <h3>
+                <div class="realtimeInfo"><span></span> 对虾行情</div>
+                <div class="more">
+                  <span @click="ToMorePage(queryInfo2.TypeID2)"> 更多 </span>
                   <i class="el-icon-caret-right"></i>
                 </div>
               </h3>
-              <el-divider class="ccy-drvider"></el-divider>
+              <div class="shrimpMarketLft">
+                <div class="shrimpMarketPic" style="margin-top:5px" v-if="jingcai1List.length">
+                  <div
+                    class="shrimpMarketPicSon"
+                    @click="TonewPath(jingcai1List[0].id)"
+                  >
+                    <el-image :src="jingcai1List[0].picture"></el-image>
+                    <span>{{ jingcai1List[0].title }}</span>
+                  </div>
+                  <div
+                    class="shrimpMarketPicSon"
+                    @click="TonewPath(jingcai1List[1].id)"
+                  >
+                    <el-image :src="jingcai1List[1].picture"></el-image>
+                    <span>{{ jingcai1List[1].title }}</span>
+                  </div>
+                </div>
+                <!-- 对虾行情左下文字 -->
+                <ul class="ccy-css" style="margin-left: 5px">
+                  <li
+                    @click="TonewPath(item.id)"
+                    v-for="(item, index) in jingcai1List.slice(0, 4)"
+                    :key="index"
+                  >
+                    {{ item.title }}
+                  </li>
+                </ul>
+              </div>
+              <!-- 对虾行情右边 -->
+              <div class="shrimpMarketRight">
+                <ul class="ccy-css">
+                  <li
+                    @click="TonewPath(item.id)"
+                    v-for="(item, index) in jingcai1List.slice(4, 16)"
+                    :key="index"
+                  >
+                    {{ item.title }}
+                  </li>
+                </ul>
+              </div>
             </div>
-            <div class="one">
-              <div class="onetop">
-                <div class="onetopl">
-                  <div class="block" v-if="shrimpMarketList.length">
-                    <div
-                      class="blockson"
-                      @click="TonewPath(shrimpMarketList[0].id)"
-                    >
-                      <el-image
-                        style="height: 120px"
-                        :src="shrimpMarketList[0].picture"
-                      ></el-image>
-                      <span>{{ shrimpMarketList[0].title }}</span>
-                    </div>
-                    <div
-                      class="blockson"
-                      @click="TonewPath(shrimpMarketList[1].id)"
-                    >
-                      <el-image
-                        style="height: 120px"
-                        :src="shrimpMarketList[1].picture"
-                      ></el-image>
-                      <span>{{ shrimpMarketList[1].title }}</span>
-                    </div>
-                  </div>
-                  <div class="onetoplb">
-                    <!-- 对虾行情左下文字 -->
-                    <ul class="ccy-css">
-                      <li
-                        @click="TonewPath(item.id)"
-                        v-for="(item, index) in shrimpMarketList.slice(0, 4)"
-                        :key="index"
-                      >
-                        {{ item.title }}
-                      </li>
-                    </ul>
-                  </div>
+            <!-- 对虾行情 end -->
+            <!-- 产链前沿 -->
+            <div class="productionChain">
+              <h3>
+                <div class="realtimeInfo"><span></span> 产链前沿</div>
+                <div class="more">
+                  <span @click="ToMorePage(queryInfo2.TypeID2)"> 更多 </span>
+                  <i class="el-icon-caret-right"></i>
                 </div>
-                <!-- one 对虾行情右边 -->
-                <div class="onetopr">
-                  <div class="onetopr1">
-                    <ul class="ccy-css" style="margin-left: 15px">
-                      <li
-                        @click="TonewPath(item.id)"
-                        v-for="(item, index) in shrimpMarketList.slice(4, 14)"
-                        :key="index"
-                      >
-                        {{ item.title }}
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <!-- 对虾行情 end -->
-              <!-- 产链前沿 -->
-              <div class="tail" style="width: 100%; margin-top: 10px">
-                <h3 style="display: flex; justify-content: space-between">
-                  <div>
-                    <span
-                      style="
-                        margin-right: 5px;
-                        border-left: 6px solid rgb(93, 183, 60);
-                      "
-                    ></span>
-                    产链前沿
-                  </div>
-                  <div
-                    style="
-                      font-size: 0.8rem;
-                      margin-top: 6px;
-                      color: rgb(93, 183, 60);
-                    "
-                  >
-                    <span
-                      style="cursor: pointer; color: #9e9e9e"
-                      @click="ToMorePage(queryInfo2.TypeID2)"
-                    >
-                      更多
-                    </span>
-                    <i class="el-icon-caret-right"></i>
-                  </div>
-                </h3>
-                <el-divider class="ccy-drvider"></el-divider>
-              </div>
-              <div class="onemide" v-if="frontierProductionChainList.length">
-                <!-- frontierProductionChainList -->
-                <!-- v-if="item.picture" -->
-                <div
-                  class="zhuangti"
-                  v-for="(item, i) in frontierProductionChainList"
-                  :key="i"
-                  @click="TonewPath(item.id)"
-                >
-                  <el-image :src="item.picture"></el-image>
-                  <span>{{ item.title }}</span>
-                </div>
-              </div>
-              <!-- 产链前沿 end -->
-              <!-- 财富手册 -->
-              <div class="tail" style="width: 100%; margin-top: 15px">
-                <h3 style="display: flex; justify-content: space-between">
-                  <div>
-                    <span
-                      style="
-                        margin-right: 5px;
-                        border-left: 6px solid rgb(93, 183, 60);
-                      "
-                    ></span>
-                    财富手册
-                  </div>
-                  <div
-                    style="
-                      font-size: 0.8rem;
-                      margin-top: 6px;
-                      color: rgb(93, 183, 60);
-                    "
-                  >
-                    <span
-                      style="color: #9e9e9e; cursor: pointer"
-                      @click="ToMorePage(queryInfo3.TypeID3)"
-                    >
-                      更多
-                    </span>
-                    <i class="el-icon-caret-right"></i>
-                  </div>
-                </h3>
-                <el-divider class="ccy-drvider"></el-divider>
-              </div>
+              </h3>
               <div
-                class="onebottom"
+                class="productionChainSon"
+                v-for="(item, i) in jingcai2List"
+                :key="i"
+                v-loading="loading2"
+                @click="TonewPath(item.id)"
+              >
+                <el-image :src="item.picture"></el-image>
+                <span>{{ item.title }}</span>
+              </div>
+            </div>
+            <!-- 产链前沿 end -->
+            <!-- 财富手册 -->
+            <div class="wealthHandbook">
+              <h3>
+                <div class="realtimeInfo">
+                  <span></span>
+                  财富手册
+                </div>
+                <div class="more">
+                  <span @click="ToMorePage(queryInfo3.TypeID3)"> 更多 </span>
+                  <i class="el-icon-caret-right"></i>
+                </div>
+              </h3>
+              <div
+                class="wealthHandbookSon"
                 v-for="(item, index) in pagelist"
                 :key="index"
+                v-loading="loading3"
               >
-                <div
-                  class="four"
-                  style="cursor: pointer"
-                  v-if="pagelist.length"
-                >
-                  <div class="pic">
-                    <div>
-                      <el-image
-                        :src="item.picture"
-                        @click="TonewPath(item.id)"
-                      ></el-image>
-                    </div>
+                <!-- 分页图片信息 -->
+                <div class="paggingPicture" @click="TonewPath(item.id)">
+                  <el-image :src="item.picture" lazy></el-image>
+                </div>
+                <!-- 分页文字信息 -->
+                <div class="paggingArticle">
+                  <div
+                    class="paggingTitle"
+                    @click="TonewPath(item.id)"
+                    style="width: 100%; margin-top: 18px"
+                  >
+                    <h2>{{ item.title }}</h2>
                   </div>
-                  <div class="news">
-                    <h3 @click="TonewPath(item.id)">{{ item.title }}</h3>
-                    <p
-                      style="
-                        font-size: 15px;
-                        margin-bottom: 15px;
-                        margin-top: 10px;
-                      "
-                      class="pp"
-                      @click="TonewPath(item.id)"
-                    >
-                      {{ item.summary | limitword }}
-
-                      <span @click="TonewPath(item.id)">[详情]</span>
-                    </p>
-                    <!--底部区域--->
-                    <p style="font-size: 13px; position: absolute; bottom: 0">
-                      发布时间:{{ item.creationTime | timefilters
-                      }}<span style="margin-left: 15px"
-                        >阅读： {{ item.clickNum }}</span
+                  <div class="paggingContent">
+                    <span style="width: 100%">
+                      {{ item.summary }}
+                    </span>
+                  </div>
+                  <span class="paggingDetail" @click="TonewPath(item.id)"
+                    >[详情]</span
+                  >
+                  <div class="paggingBottom" style="width: 100%">
+                    <p style="font-size: 13px; float: left">
+                      {{ item.creationTime
+                      }}<span style="margin-left: 15px">
+                        阅读： {{ item.clickNum }}</span
                       >
                     </p>
-                    <p
-                      style="
-                        color: green;
-                        font-size: 13px;
-                        right: 0;
-                        padding-right: 3px;
-                        position: absolute;
-                        bottom: 0;
-                      "
-                    >
-                      财富手册
-                    </p>
-                    <p
-                      style="
-                        font-size: 13px;
-                        right: 50px;
-                        position: absolute;
-                        bottom: 0;
-                      "
-                    >
-                      分类：
+                    <p style="font-size: 13px; right: 10px">
+                      分类：<span style="color: green">财富手册</span>
                     </p>
                   </div>
                 </div>
-                <div style="margin-top: -15px; margin-bottom: -20px">
-                  <el-divider></el-divider>
-                </div>
               </div>
-              <el-pagination
-                background
-                layout="prev, pager, next"
-                :total="queryInfo3.total"
-                :page-size="queryInfo3.pagesize"
-                :current-page="queryInfo3.Currentpage"
-                style="
-                  display: flex;
-                  justify-content: center;
-                  margin-bottom: 30px;
-                  margin-top: 20px;
-                "
-                @current-change="handleCurrentChange"
-              >
-              </el-pagination>
-              <!-- 财富手册结束 -->
             </div>
+            <el-pagination
+              background
+              layout="prev, pager, next"
+              :total="queryInfo3.total"
+              :page-size="queryInfo3.pagesize"
+              :current-page="queryInfo3.Currentpage"
+              style="
+                display: flex;
+                justify-content: center;
+                margin-bottom: 30px;
+                margin-top: 20px;
+              "
+              @current-change="handleCurrentChange"
+            >
+            </el-pagination>
+            <!-- 财富手册结束 -->
           </div>
         </el-aside>
-        <el-main>
-          <div class="right">
-            <!--右半部分--->
-            <h3 style="display: flex; justify-content: space-between">
+        <el-main width="28%" style="padding-left: 25px">
+          <!--右半部分--->
+          <h3>
+            <div>
+              <span
+                style="
+                  margin-right: 2px;
+                  border-left: 6px solid rgb(93, 183, 60);
+                "
+              ></span>
+              最新资讯
+              <el-tag type="danger" size="small">New</el-tag>
+            </div>
+            <div
+              style="
+                font-size: 0.8rem;
+                margin-top: 6px;
+                color: rgb(93, 183, 60);
+              "
+            >
+              <span
+                style="color: #9e9e9e"
+                @click="ToMorePage(queryInfo1.TypeID1)"
+              >
+                更多
+              </span>
+              <i class="el-icon-caret-right"></i>
+            </div>
+          </h3>
+          <div>
+            <ul class="ccy-css">
+              <li
+                @click="TonewPath(item.id)"
+                v-for="(item, index) in NewDataList"
+                :key="index"
+              >
+                {{ item.title }}
+              </li>
+            </ul>
+
+            <div
+              class="midpic"
+              style="margin: 6px 0 10px 0"
+              v-if="NewDataList.length"
+            >
+              <el-image
+                :src="NewDataList[7].picture"
+                @click="TonewPath(NewDataList[7].id)"
+              ></el-image>
+            </div>
+            <h3>
               <div>
                 <span
                   style="
-                    margin-right: 5px;
+                    margin-right: 2px;
                     border-left: 6px solid rgb(93, 183, 60);
                   "
                 ></span>
-                最新资讯
-                <el-tag type="danger" size="small" style="margin-bottom: -5px"
-                  >New</el-tag
-                >
+                推荐资讯
+                <el-tag type="danger" size="small">Hot</el-tag>
               </div>
               <div
                 style="
@@ -412,8 +306,84 @@
                 "
               >
                 <span
-                  style="cursor: pointer; color: #9e9e9e"
+                  style="color: #9e9e9e"
                   @click="ToMorePage(queryInfo1.TypeID1)"
+                >
+                  更多
+                </span>
+                <i class="el-icon-caret-right"></i>
+              </div>
+            </h3>
+            <ul class="ccy-css" v-loading="loading1">
+              <li
+                v-for="(item, index) in RecommList"
+                :key="index"
+                @click="TonewPath(item.id)"
+                style="width: 180px"
+              >
+                {{ item.title }}
+              </li>
+            </ul>
+            <h3>
+              <div>
+                <span
+                  style="
+                    margin-right: 2px;
+                    border-left: 6px solid rgb(93, 183, 60);
+                  "
+                ></span>
+                每月精彩
+                <el-tag type="danger" size="small">Hot</el-tag>
+              </div>
+              <div
+                style="
+                  font-size: 0.8rem;
+                  margin-top: 6px;
+                  color: rgb(93, 183, 60);
+                "
+              >
+                <span
+                  style="color: #9e9e9e"
+                  @click="ToMorePage(queryInfo1.TypeID1)"
+                >
+                  更多
+                </span>
+                <i class="el-icon-caret-right"></i>
+              </div>
+            </h3>
+          </div>
+          <div>
+            <ul class="ccy-css" v-loading="loading2">
+              <li
+                style="width: 200px"
+                v-for="(item, index) in MonthDataList"
+                :key="index"
+                @click="TonewPath(item.id)"
+              >
+                {{ item.title }}
+              </li>
+            </ul>
+            <h3>
+              <div>
+                <span
+                  style="
+                    margin-right: 2px;
+                    border-left: 6px solid rgb(93, 183, 60);
+                  "
+                ></span>
+                热门产品
+                <el-tag type="danger" size="small">热卖</el-tag>
+              </div>
+              <div
+                style="
+                  font-size: 0.8rem;
+                  margin-top: 6px;
+                  color: rgb(93, 183, 60);
+                "
+              >
+                <span
+                  @click="ToMorePage(queryInfo1.TypeID1)"
+                  style="color: #9e9e9e"
                 >
                   更多
                 </span>
@@ -421,118 +391,25 @@
                 <i class="el-icon-caret-right"></i>
               </div>
             </h3>
-            <el-divider class="ccy-drvider"></el-divider>
-            <div style="width: 100%">
-              <ul class="ccy-css">
-                <li
-                  @click="TonewPath(item.id)"
-                  v-for="(item, index) in NewDataList"
-                  :key="index"
-                >
-                  {{ item.title }}
-                </li>
-              </ul>
-
-              <div
-                class="midpic"
-                style="margin: 6px 0 10px 0"
-                v-if="NewDataList.length"
-              >
-                <el-image
-                  :src="NewDataList[7].picture"
-                  @click="TonewPath(NewDataList[7].id)"
-                ></el-image>
-              </div>
-
-              <h3 style="display: flex; justify-content: space-between">
-                <div>
-                  <span
-                    style="
-                      margin-right: 5px;
-                      border-left: 6px solid rgb(93, 183, 60);
-                    "
-                  ></span>
-                  推荐资讯
-                  <el-tag type="danger" size="small" style="margin-bottom: -5px"
-                    >Hot</el-tag
-                  >
-                </div>
-                <div
-                  style="
-                    font-size: 0.8rem;
-                    margin-top: 6px;
-                    color: rgb(93, 183, 60);
-                  "
-                >
-                  <span
-                    style="cursor: pointer; color: #9e9e9e"
-                    @click="ToMorePage(queryInfo1.TypeID1)"
-                  >
-                    更多
-                  </span>
-
-                  <i class="el-icon-caret-right"></i>
-                </div>
-              </h3>
-              <el-divider class="ccy-drvider"></el-divider>
-              <ul class="ccy-css" style="margin-bottom: 30px">
-                <li
-                  v-for="(item, index) in RecommList"
-                  :key="index"
-                  @click="TonewPath(item.id)"
-                >
-                  {{ item.title }}
-                </li>
-              </ul>
-
-              <!-- <h3 style="display: flex; justify-content: space-between">
-                <div>
-                  <span
-                    style="
-                      margin-right: 5px;
-                      border-left: 6px solid rgb(93, 183, 60);
-                    "
-                  ></span>
-                  每月精彩
-                  <el-tag type="danger" size="small" style="margin-bottom: -5px"
-                    >Hot</el-tag
-                  >
-                </div>
-                <div
-                  style="
-                    font-size: 0.8rem;
-                    margin-top: 6px;
-                    color: rgb(93, 183, 60);
-                  "
-                >
-                  <span
-                    style="cursor: pointer; color: #9e9e9e"
-                    @click="ToMorePage(queryInfo1.TypeID1)"
-                  >
-                    更多
-                  </span>
-
-                  <i class="el-icon-caret-right"></i>
-                </div>
-              </h3> -->
-              <!-- <el-divider class="ccy-drvider"></el-divider> -->
+          </div>
+          <!-- 标签 -->
+          <div class="tage">
+            <div class="tageson">
+              <el-button size="medium" round>专家</el-button>
+              <el-button size="medium" round>火参果资源</el-button>
             </div>
-            <div class="rightmd">
-              <ul class="ccy-css">
-                <li
-                  style="width: 200px"
-                  v-for="(item, index) in MonthDataList"
-                  :key="index"
-                  @click="TonewPath(item.id)"
-                >
-                  {{ item.title }}
-                </li>
-              </ul>
-              <br />
-             
-              <el-divider class="ccy-drvider"></el-divider>
+            <div class="tageson">
+              <el-button size="medium" round>红豆杉资源</el-button>
+              <el-button size="medium" round>火鸡蛋</el-button>
             </div>
-           
+            <div class="tageson">
+              <el-button size="medium" round>豆芽货源</el-button>
+              <el-button size="medium" round>洋葱资源</el-button>
+            </div>
+            <div class="tageson">
+              <el-button size="medium" round>红薯批发</el-button>
+              <el-button size="medium" round>黄瓜资源</el-button>
+            </div>
           </div>
         </el-main>
       </el-container>
@@ -569,36 +446,6 @@ export default {
         return times;
       }
     },
-    //过滤器2
-    timefilter(val) {
-      if (val == null || val == "") {
-        return "暂无时间";
-      } else {
-        let d = new Date(val); //val 为表格内取到的后台时间
-        let month =
-          d.getMonth() + 1 < 10 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
-        let day = d.getDate() < 10 ? "0" + d.getDate() : d.getDate();
-        let hours = d.getHours() < 10 ? "0" + d.getHours() : d.getHours();
-        let min = d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes();
-        let sec = d.getSeconds() < 10 ? "0" + d.getSeconds() : d.getSeconds();
-        let times = d.getFullYear() + "-" + month + "-" + day;
-        return times;
-      }
-    },
-    //限制文字个数
-    limitword(val) {
-      if (val == null || val == "") {
-        return "暂无数据";
-      } else {
-        var len = val.length;
-        if (len > 80) {
-          var str = val.substring(0, 80) + "......";
-          return str;
-        } else {
-          return val;
-        }
-      }
-    },
   },
 
   data() {
@@ -606,24 +453,16 @@ export default {
       //查询全部产业资讯
       // datalist: [],
       searchInput: "",
-
       //每周精品
       weekliList: [],
-      weekliListPic: [],
-
-      //精彩专题1
-      shrimpMarketList: [],
-
       queryInfo1: {
         Infopage1: 1,
-        Infosize1: 14,
-        Infototal1: null,
+        Infosize1: 16,
         TypeID1: "1316745747953225728",
       },
-
-      // 产链前沿
-      frontierProductionChainList: [],
-
+      jingcai1List:[],
+      jingcai2List:[],
+      jingcai3List:[],
       queryInfo2: {
         Infopage2: 1,
         Infosize2: 4,
@@ -642,35 +481,11 @@ export default {
         TypeID3: "1316743601669148672",
       },
 
-      temp: [],
-      // 财富手册
+      //精彩专题3 数组
       pagelist: [],
 
       //根据类型ID查询
       TypeIdData: [],
-
-      TempList: [
-        {
-          picture:
-            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
-          title: "暂无数据",
-        },
-        {
-          picture:
-            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
-          title: "暂无数据",
-        },
-        {
-          picture:
-            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
-          title: "暂无数据",
-        },
-        {
-          picture:
-            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
-          title: "暂无数据",
-        },
-      ],
 
       //最新资讯
       NewDataList: [],
@@ -685,27 +500,22 @@ export default {
 
       SearchKey: "",
 
+      loading: true,
+      loading1:true,
+      loading2:true,
+      loading3:true,
       src:
         "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
     };
   },
+  mounted(){
+    window.addEventListener('scroll',this.handleScroll1) //监控滑动，运行handleScroll 函数
+    window.addEventListener('scroll',this.test)
+    
+  },
   created() {
     //点击量 热度
-    this.getClickData();
-    // 每周精品
-    // this.getWeekData();
-    // 对虾行情
-    this.shrimpMarket();
-    // 产链前沿
-    this.frontierProductionChain();
-    // 财富手册
-    this.wealth();
-    // 最新资讯
-    this.getNewData();
-    // 每月精品
-    // this.getMonthData();
-    // 推荐
-    this.getRecommData();
+    this.getLoadData();
   },
   methods: {
     //前往详情页
@@ -714,6 +524,39 @@ export default {
         path: "/instructdetail",
         query: { id: id },
       });
+    },
+    test(){
+      console.log(document.body.scrollTop+document.documentElement.scrollTop)
+    },
+    handleScroll1(){
+      let a = document.body.scrollTop+document.documentElement.scrollTop;
+      if(a>24&&this.RecommList.length===0){
+        this.getRecommData();
+        this.getjingcai1();
+        window.removeEventListener('scroll',this.handleScroll1)
+        window.addEventListener('scroll',this.handleScroll2)  //执行监听2
+      }
+    },
+    handleScroll2(){ 
+      let a = document.body.scrollTop+document.documentElement.scrollTop;
+      if(a>266&&this.MonthDataList.length===0){ 
+        this.getjingcai2();
+        this.getMonthData();
+        window.removeEventListener('scroll',this.handleScroll2)
+        window.addEventListener('scroll',this.handleScroll3) 
+      }
+    },
+    handleScroll3(){ 
+      let a = document.body.scrollTop+document.documentElement.scrollTop;
+      if(a>570&&this.pagelist.length===0){
+        this.getjingcai3();      
+        window.removeEventListener('scroll',this.handleScroll3)
+      }
+    },
+    getLoadData(){
+      this.getClickData();
+      this.getNewData();
+      this.getWeekData();
     },
     //前往更多页面
     ToMorePage(id) {
@@ -729,6 +572,25 @@ export default {
         query: { SearchKey: SearchKey },
       });
     },
+    //热门点击量
+    async getClickData() {
+      try {
+        const { data: res } = await this.reqM2Service(
+          "/info/shrimpIndustry/findByClickNum/1/10",
+          "",
+          "get"
+        );
+        console.log("获取点击量数据成功");
+        if (res.code === 20000) {
+          this.ClickDataList = res.data.rows;
+          //console.log(Object.keys(ClickDataList));
+        } else {
+          console.log("网络错误 20001");
+        }
+      } catch (error) {
+        console.log("网络错误 19999");
+      }
+    },
     //每周精品
     async getWeekData() {
       try {
@@ -737,18 +599,16 @@ export default {
           "",
           "get"
         );
-        console.log("111111");
-        console.log(res);
         if (res.code === 20000) {
-          // weekliListPic
+          console.log("获取每周精品数据成功");
           this.weekliList = res.data.rows;
         }
       } catch (error) {
-        console.log("网络错误19999");
+        console.log(error);
       }
     },
-    //对虾行情
-    async shrimpMarket() {
+    //精彩专题 1 对虾行情       1320546102558199808
+    async getjingcai1() {
       try {
         const { data: res } = await this.reqM2Service(
           `/info/shrimpIndustry/search/searchByTypeId/${this.queryInfo1.TypeID1}/${this.queryInfo1.Infopage1}/${this.queryInfo1.Infosize1}`,
@@ -756,33 +616,25 @@ export default {
           "post"
         );
         if (res.code === 20000) {
-          console.log("3" + res);
-          console.log(res);
-          console.log("获取精彩专题1数据成功");
+          console.log("获取对虾行情数据成功");
+          this.jingcai1List = res.data.rows;
         }
-
-        this.shrimpMarketList = res.data.rows;
-        this.queryInfo1.Infototal1 = res.data.rows.length;
       } catch (error) {
         console.log("网络错误1999");
       }
     },
-    // 产链前沿
-    async frontierProductionChain() {
+    //精彩专题2 1320648223462920192
+    async getjingcai2() {
       try {
         const { data: res } = await this.reqM2Service(
-          `/info/shrimpIndustry/search/searchByTypeId/${this.queryInfo2.TypeID2}/${this.queryInfo2.Infopage2}/${this.queryInfo2.Infosize2}`,
+          `/info/shrimpIndustry/findByClickAndType/${this.queryInfo2.TypeID2}/${this.queryInfo2.Infopage2}/${this.queryInfo2.Infosize2}`,
           "",
-          "post"
+          "get"
         );
         if (res.code === 20000) {
-          console.log("1123231")
-          console.log(res)
-          if (res.data.rows.length === 0) {
-            this.frontierProductionChainList = this.TempList;
-          } else {
-            this.frontierProductionChainList = res.data.rows;
-          }
+          console.log("获取精彩专题2数据成功");
+          this.jingcai2List = res.data.rows;
+          this.loading2=false
         } else {
           console.log("网络错误20001");
         }
@@ -790,19 +642,23 @@ export default {
         console.log("网络错误19999");
       }
     },
-    // 财富手册
-    async wealth() {
+    // 根据类型ID查询 精彩专题3  财富手册
+    async getjingcai3() {
       try {
         const { data: res } = await this.reqM2Service(
-          `/info/shrimpIndustry/search/searchByTypeId/${this.queryInfo3.TypeID3}/${this.queryInfo3.Currentpage}/${this.queryInfo3.pagesize}`,
+          `/info/shrimpIndustry/findByClickAndType/${this.queryInfo3.TypeID3}/${this.queryInfo3.Currentpage}/${this.queryInfo3.pagesize}`,
           "",
-          "post"
+          "get"
         );
         if (res.code === 20000) {
+          console.log("获取精彩专题3数据成功");
           this.pagelist = res.data.rows;
           this.queryInfo3.total = res.data.total;
+          this.loading3 = false;
+          window.removeEventListener('scroll',this.handleScroll3)
         } else {
-          console.log("网络错误 20001");
+          this.loading3 = false;
+          console.log("获取精彩专题3数据失败");
         }
       } catch (error) {
         console.log("网络错误 19999");
@@ -810,8 +666,9 @@ export default {
     },
     handleCurrentChange(newpage) {
       //改变页码
+      this.loading3 = true;
       this.queryInfo3.Currentpage = newpage;
-      this.wealth();
+      this.getjingcai3();
     },
     //最新资讯  分页
     async getNewData() {
@@ -822,46 +679,14 @@ export default {
           "get"
         );
         if (res.code === 20000) {
-          this.NewDataList = res.data.rows;
+          console.log("获取最新数据成功");
+          console.log(res)
+          this.NewDataList=res.data.rows
         } else {
           console.log("网络错误 20001");
         }
       } catch (error) {
         console.log("网络错误 19999");
-      }
-    },
-    //每月精品
-    async getMonthData() {
-      try {
-        const { data: res } = await this.reqM2Service(
-          "/info/shrimpIndustry/findByClickMonthly/1/9",
-          "",
-          "get"
-        );
-        if (res.code === 20000) {
-          this.MonthDataList = res.data.rows;
-        } else {
-          console.log("网络错误 20001");
-        }
-      } catch (error) {
-        console.log("网络错误 19999");
-      }
-    },
-    //热门点击量
-    async getClickData() {
-      try {
-        const { data: res } = await this.reqM2Service(
-          "/info/shrimpIndustry/findByClickNum/1/9",
-          "",
-          "get"
-        );
-        if (res.code === 20000) {
-          this.ClickDataList = res.data.rows;
-        } else {
-          console.log(res.message);
-        }
-      } catch (error) {
-        console.log(error);
       }
     },
     // 推荐，分页
@@ -872,21 +697,40 @@ export default {
           "",
           "get"
         );
+        console.log("获取推荐数据成功");
         if (res.code === 20000) {
-          console.log("res");
-          console.log(res);
           this.RecommList = res.data.rows;
+          this.loading1=false
+        } else {
+          console.log(res.message);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    //每月
+    async getMonthData() {
+      try {
+        const { data: res } = await this.reqM2Service(
+          "/info/shrimpIndustry/findByClickMonthly/1/7",
+          "",
+          "get"
+        );
+        if (res.code === 20000) {
+          console.log("获取每月数据成功");
+          this.MonthDataList = res.data.rows;
+          this.loading2=false;
         } else {
           console.log("网络错误 20001");
         }
       } catch (error) {
         console.log("网络错误 19999");
       }
-    },
+    },   
   },
 };
 </script>
-<style lang="less" scoped>
+<style lang="less" >
 .lxl-body {
   display: flex;
   justify-content: center; //对齐方式
@@ -894,34 +738,39 @@ export default {
   .lxl-breadcrumb {
     margin-left: 18px;
   }
+  .ccy-css {
+    margin-top: 10px;
+  }
+  .ccy-css li {
+    color: #858585;
+    margin-top: 3px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 13px;
+  }
+  .ccy-css > *:hover {
+    color: black;
+    font-weight: 800px;
+  }
 }
 .lxl-box {
   width: 1150px;
 }
-.ccy-css {
-  color: #858585;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-  font-size: 13px;
+.hotAndWeek {
+  h3 {
+    margin-bottom: -10px;
+  }
 }
-.ccy-css > li:hover {
-  color: black;
-  font-weight: 800px;
+.el-image {
+  cursor: pointer;
 }
-.ccy-css:first-line {
-  color: black;
-  text-decoration: none;
-  text-overflow: ellipsis;
-  font-size: 15px;
-  font-weight: 700;
-}
-.top {
-  padding-top: 10px;
-  margin-bottom: -19px;
+.navigationSearch {
+  margin-top: -10px;
+  height: 40px;
   display: flex;
   justify-content: space-between;
-  .tr {
+  .search {
     position: relative;
     i {
       top: 13px;
@@ -931,104 +780,100 @@ export default {
     }
   }
 }
-.el-image {
-  cursor: pointer;
-}
-.header {
+h3 {
   width: 100%;
   display: flex;
-  flex-wrap: wrap;
-  .pictop {
+  border-bottom: 1px solid rgb(226, 217, 206);
+  justify-content: space-between;
+  .realtimeInfo {
+    padding-top: 7px;
+    span {
+      padding-left: 5px;
+      border-left: 6px solid rgb(93, 183, 60);
+    }
+  }
+  .more {
+    color: rgb(93, 183, 60);
+    font-size: 12.8px;
+    padding-top: 17px;
+    span {
+      margin-top: 6px;
+      color: #9e9e9e;
+    }
+  }
+}
+span {
+  cursor: pointer;
+}
+.el-aside {
+  margin-top: -10px;
+  .hotNews {
+    justify-content: space-between;
     display: flex;
-    flex-direction: column;
-    width: 54%;
-    .block1 {
-      width: 100%;
-      margin-bottom: 5px;
+    .hotNewsPicture {
       .el-image {
-        width: 100%;
-        height: 200px;
+        width: 98%;
+        height: 280px;
       }
     }
-    .block2 {
-      width: 100%;
+    .hotNewsInfo {
+      width: 44%;
+    }
+  }
+  .weeklyBoutique {
+    display: flex;
+    margin-top: 35px;
+    justify-content: space-between;
+    .weeklyBoutiquePic {
+      width: 55%;
       display: flex;
       justify-content: space-between;
-      > * {
-        width: 225px;
+      .el-image {
+        width: 49.5%;
+        height: 150px;
       }
     }
-  }
-
-  .ccy-info {
-    margin-left: 10px;
-    width: 44%;
-    .topright {
-      padding-top: 10px;
-      ul {
-        // margin-left: 20px;
-        li {
-          cursor: pointer;
-          width: 100%;
-          text-overflow: ellipsis;
-          overflow: hidden;
-          list-style-position: inside;
-          white-space: nowrap;
-          font-size: 13px;
-        }
-      }
+    .weeklyBoutiqueInfo {
+      width: 44%;
     }
   }
-}
-
-.ccy-drvider {
-  margin: 3px 0 3px 0;
-}
-
-.left {
-  margin-top: -10px;
-  .one {
-    width: 99%;
+  .special {
+    //3个专题
     display: flex;
-    padding: 1px;
     flex-wrap: wrap;
     flex-direction: column;
-    .onetop {
+    .shrimpMarket {
       display: flex;
-      width: 100%;
+      flex-wrap: wrap;
+      justify-content: space-between;
       li {
         font-size: 13px;
-        cursor: pointer;
       }
-      .onetopl {
+      .shrimpMarketLft {
         width: 50%;
         display: flex;
         flex-wrap: wrap;
-        flex-direction: column;
         li {
           width: 320px;
           text-overflow: ellipsis;
           overflow: hidden;
           white-space: nowrap;
-          list-style-position: inside;
-          margin-left: -15px;
         }
-        .block {
+        .shrimpMarketPic {
           display: flex;
           justify-content: space-between;
           span {
             padding-left: 5px;
             display: block;
           }
-          .blockson {
+          .shrimpMarketPicSon {
             position: relative;
+            width: 205px;
             .el-image {
-              width: 208px;
+              width: 100% !important;
               height: 130px;
-              cursor: pointer !important;
             }
             span {
-              cursor: pointer;
               width: 204px;
               position: absolute;
               background-color: #333;
@@ -1042,31 +887,26 @@ export default {
           }
         }
       }
-      .onetopr {
-        padding-left: 26px;
+      .shrimpMarketRight {
+        width: 43.7%;
         li {
           text-overflow: ellipsis;
           overflow: hidden;
           white-space: nowrap;
-          list-style-position: inside;
-          margin-left: -15px;
           width: 310px;
-          font-size: 13px;
         }
       }
     }
-    .onemide {
+    .productionChain {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
-      width: 100%;
-      .zhuangti {
+      .productionChainSon {
+        margin-top: 3px;
         width: 24%;
-        display: block;
         height: 150px;
         position: relative;
         .el-image {
-          display: block;
           width: 100%;
           height: 150px;
         }
@@ -1080,66 +920,71 @@ export default {
           background-color: #333;
           opacity: 0.8;
           font-size: 14.5px;
-          bottom: 4px;
+          bottom: 0;
           color: black;
-          text-align: center;
         }
       }
     }
-    .onebottom {
-      flex-direction: column;
-      .four {
-        height: 150px;
-        position: relative;
-        width: 99%;
+    .wealthHandbook {
+      .wealthHandbookSon {
         display: flex;
-        align-content: space-between;
-        padding-left: 2px;
-        .pic {
-          width: 25%;
-          padding-right: 15px;
+        height: 180px;
+        position: relative;
+        border-bottom: 1px solid rgb(226, 217, 206);
+        .paggingPicture {
+          height: 97%;
+          width: 29%;
+          margin-top: 10px;
           .el-image {
             width: 100%;
-            height: 155px;
+            height: 90%;
           }
         }
-        .news {
-          width: 72%;
-          .pp {
-            span {
-              text-decoration: none;
-              color: green;
-            }
-            span:hover {
-              color: orange;
+        // 分页文字信息
+        .paggingArticle {
+          width: 60%;
+          margin: 10px 0 0 10px;
+          h2 {
+            cursor: pointer;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            font-size: 18.72px;
+            margin-bottom: 5px;
+            white-space: nowrap;
+          }
+          .paggingContent {
+            font-size: 13px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 4;
+          }
+          .paggingDetail {
+            color: green;
+          }
+          .paggingDetail:hover {
+            color: orange;
+          }
+          .paggingBottom {
+            p {
+              position: absolute;
+              bottom: 3px;
             }
           }
         }
-      }
-      span {
-        cursor: pointer;
       }
     }
   }
 }
-
-.el-main {
-  padding: 0;
-  .right {
-    margin-left: 30px;
-  }
-}
-
 li {
-  padding: 6px 0 3px 0;
+  padding-top: 3px;
   cursor: pointer;
+  list-style: none;
 }
-.right {
-  li {
-    display: block;
-    overflow: hidden; // 超出文本的部分不显示
-    text-overflow: ellipsis;
-    white-space: nowrap; // 强制文本在一行显示
+.el-main {
+  h3 {
+    margin-bottom: -7px;
   }
   .midpic {
     width: 100%;
@@ -1150,23 +995,9 @@ li {
     }
   }
 }
-.bot {
-  margin-top: 12px;
-  width: 100%;
-  height: 85px;
-  position: absolute;
-  bottom: 0;
-  background-color: black;
-}
-.el-row {
-  margin-top: 20px;
-}
-.el-col {
-  margin-right: 55px;
-}
 .tage {
-  padding: 10px 0 0 8px;
-  margin-top: 4px;
+  padding: 10px 0 0 3px;
+  margin-top: 5px;
   .tageson {
     margin-bottom: 12px;
     .el-button {

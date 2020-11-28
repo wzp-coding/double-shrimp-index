@@ -1133,7 +1133,6 @@ export default {
   font-size: 22px;
   border-left: solid 12px #4f9cee;
   display: block;
-  font-family: "Microsoft Yahei", SimHei, Verdana;
   font-weight: 500;
   line-height: 22px;
   display: flex;

@@ -54,10 +54,6 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@font-face {
-  font-family: electronicFont;
-  src: url("../../../fonts/KaneDemo-OVMZO.otf");
-}
 .expertInfoDetail {
   // color: #fff;
   /deep/.expert_info {
@@ -70,7 +66,6 @@ export default {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
     border-radius: 10px;
     color: rgb(36, 36, 36);
-    font-family: "electronicFont";
     .up {
       margin-top: 30px;
       width: 100%;
