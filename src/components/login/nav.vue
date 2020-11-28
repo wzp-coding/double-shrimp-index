@@ -196,7 +196,7 @@ a {
 .el-menu--collapse .el-menu .el-submenu,
 .el-menu--popup {
   min-width: 120px !important;
-  border: 1px solid #90d4eb !important;
+  border: 1px solid #74b1c5 !important;
   box-shadow: 2px 2px 3px rgba(0,0,0,0.5) !important;
 }
 .nav-menu {

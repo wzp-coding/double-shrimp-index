@@ -110,19 +110,16 @@ export default {
       // 表单预验证**
       this.$refs.loginForm.validate(async (valid) => {
         if (!valid) return;
-        try {
-          const data = await this.reqM1Service(
-            "/authority/user/login" +
-              "?captcha=" +
-              this.loginForm.captcha +
-              "&cToken=" +
-              this.cToken,
-            {
-              loginId: this.loginForm.userName,
-              password: this.loginForm.password,
-            },
-            "post"
-          );
+          const data = await this.$http.post(`http://106.75.154.40:9012/authority/user/login?captcha=${this.loginForm.captcha}`,{
+            loginId: this.loginForm.userName,
+            password: this.loginForm.password
+          },{
+            headers: {
+              xip: window.localStorage.getItem('Ip')
+            }
+          })
+          
+          console.log(data);
           // 过滤
           if (data.data.code === 20000) {
             // 提示登录词语
@@ -138,19 +135,24 @@ export default {
               type: "error",
             });
           }
-        } catch (error) {
-          this.$message.error("登录出错! 19999");
-          console.log(error)
-        }
       });
     },
     // 获取验证码**
     async getCaptcha() {
       try {
-        const { data: res } = await this.reqM1Service(
-          "/authority/captcha/getCaptcha",
-          "",
-          "post"
+        // const { data: res } = await this.reqM1Service(
+        //   "/authority/captcha/getCaptcha",
+        //   "",
+        //   "post"
+        // );
+        const { data: res } = await this.$http.post(
+          "http://106.75.154.40:9012/authority/captcha/getCaptcha",
+          {},
+          {
+            headers: {
+              xip: window.localStorage.getItem("Ip"),
+            },
+          }
         );
         this.url = "data:image/png;base64," + res.data.img;
         this.cToken = res.data.cToken;

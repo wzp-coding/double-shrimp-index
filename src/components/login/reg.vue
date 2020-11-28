@@ -65,9 +65,7 @@
                 :disabled="regForm.show"
                 type="primary"
                 @click="emailCode()"
-                ><span v-show="regForm.show"
-                  >{{ count }}s</span
-                >
+                ><span v-show="regForm.show">{{ count }}s</span>
                 发送验证码</el-button
               >
             </el-form-item>
@@ -184,10 +182,14 @@ export default {
     // 获取验证码**
     async getCaptcha() {
       try {
-        const { data: res } = await this.reqM1Service(
-          "/authority/captcha/getCaptcha",
-          "",
-          "post"
+        const { data: res } = await this.$http.post(
+          "http://106.75.154.40:9012/authority/captcha/getCaptcha",
+          {},
+          {
+            headers: {
+              xip: window.localStorage.getItem("Ip"),
+            },
+          }
         );
         this.url = "data:image/png;base64," + res.data.img;
       } catch (error) {
@@ -202,8 +204,7 @@ export default {
           "/user/register/" +
             this.regForm.emailCode +
             "?captcha=" +
-            this.regForm.captcha 
-            ,
+            this.regForm.captcha,
           {
             email: this.regForm.email,
             loginId: this.regForm.userName,
@@ -231,11 +232,11 @@ export default {
         return this.$message.error("未输入邮箱");
       } else {
         try {
-          const { data: res } = await this.reqM1Service(
-            "/authority/email/" + this.regForm.email,
-            "",
-            "get"
+          const { data: res } = await this.$http.get(
+            `http://106.75.154.40:9012/authority/email/${this.regForm.email}`,
+            { headers: { xip: window.localStorage.getItem("Ip") } }
           );
+          console.log(res);
           if (res.code === 20000) {
             // 开启验证码延时
             this.getCode();

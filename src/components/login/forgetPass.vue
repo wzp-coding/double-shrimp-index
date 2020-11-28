@@ -187,10 +187,14 @@ export default {
     // 获取验证码**
     async getCaptcha() {
       try {
-        const { data: res } = await this.reqM1Service(
-          "/authority/captcha/getCaptcha",
-          "",
-          "post"
+        const { data: res } = await this.$http.post(
+          "http://106.75.154.40:9012/authority/captcha/getCaptcha",
+          {},
+          {
+            headers: {
+              xip: window.localStorage.getItem("Ip"),
+            },
+          }
         );
         this.url = "data:image/png;base64," + res.data.img;
       } catch (error) {
@@ -202,18 +206,32 @@ export default {
       this.$refs.regForm.validate(async (valid) => {
         if (!valid) return;
         try {
-          const { data: res } = await this.reqM1Service(
-            "/authority/user/retrievePassword/" +
-              this.regForm.emailCode +
-              "?captcha=" +
-              this.regForm.captcha,
+          // const { data: res } = await this.reqM1Service(
+          //   "/authority/user/retrievePassword/" +
+          //     this.regForm.emailCode +
+          //     "?captcha=" +
+          //     this.regForm.captcha,
+          //   {
+          //     email: this.regForm.email,
+          //     loginId: this.regForm.userName,
+          //     password: this.regForm.password,
+          //   },
+          //   "post"
+          // );
+          const { data: res } = await this.$http.post(
+            `http://106.75.154.40:9012/authority/user/retrievePassword/${this.regForm.emailCode}?captcha=${this.regForm.captcha}`,
             {
               email: this.regForm.email,
               loginId: this.regForm.userName,
               password: this.regForm.password,
             },
-            "post"
+            {
+              headers: {
+                xip: window.localStorage.getItem("Ip"),
+              },
+            }
           );
+          console.log(res);
           // 过滤
           if (res.code === 20000) {
             // 提示
@@ -237,11 +255,11 @@ export default {
         return this.$message.error("未输入邮箱");
       } else {
         try {
-          const { data: res } = await this.reqM1Service(
-            "/authority/email/" + this.regForm.email,
-            "",
-            "get"
-          );
+          const { data: res } = await this.$http.get(`http://106.75.154.40:9012/authority/email/${this.regForm.email}`,{
+            headers: {
+              xip: window.localStorage.getItem('Ip')
+            }
+          })
           if (res.code === 20000) {
             // 开启验证码延时
             this.getCode();
