@@ -26,6 +26,9 @@
             <el-menu-item index="/shopManage">店铺管理</el-menu-item>
             <el-menu-item index="/expertPage">专家页面</el-menu-item>
             <el-menu-item index="/basePage">我的基地</el-menu-item>
+            <el-menu-item index="/messageBox" v-if="baseId == null"
+              >基地邀请</el-menu-item
+            >
           </el-menu>
         </el-aside>
 
@@ -88,25 +91,22 @@ export default {
       isPath: this.$route.path,
       userData: {},
       shopList: [],
+      baseId: "",
     };
   },
-  methods:{
-    
-  },
   created() {
-    if(!window.sessionStorage.getItem('token')){
+    if (!window.sessionStorage.getItem("token")) {
       this.$message({
-        message:'请先登录！'
-      })
-      this.$router.push('/login');
+        message: "请先登录！",
+      });
+      this.$router.push("/login");
     }
     // 用户数据渲染
     this.userData = this.$store.state.userData;
-    console.log(this.userData)
-  },
-  methods: {
-
-  },
+    
+    this.baseId = JSON.parse(window.sessionStorage.getItem('userData')).baseId
+},
+  methods: {},
 };
 </script>
 

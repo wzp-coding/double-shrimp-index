@@ -73,7 +73,7 @@ import changePassword from '../components/Me/components/changePassword.vue'
 import shopManage from '../components/Me/components/shopManage.vue'
 import expertPage from '../components/Me/components/expertPage.vue'
 import basePage from '../components/Me/components/basePage.vue'
-
+import messageBox from '../components/Me/components/messageBox.vue'
 // 登录页面
 import login from '../components/login/login.vue'
 import reg from '../components/login/reg.vue'
@@ -397,6 +397,11 @@ const routes = [
       {
         path: '/basePage',
         component: basePage
+      },
+      // 消息中心
+      {
+        path: '/messageBox',
+        component: messageBox
       }
     ]
 

@@ -131,6 +131,7 @@ export default {
               },
             }
           );
+          console.log(res)
         }
       });
     },

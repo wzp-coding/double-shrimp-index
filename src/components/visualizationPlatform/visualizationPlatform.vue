@@ -1062,7 +1062,7 @@ export default {
       };
 
       //保留
-
+      var This = this
       var count = 0;
       var timeTicket = null;
       var dataLength = option.series[0].data.length;
@@ -1130,7 +1130,7 @@ export default {
         if (params.data.name === '广东') {
           window.location.href = "#/guangdong?userId=" + params.data.name;
         } else {
-          alert("敬请期待");
+          This.$message.info("敬请期待");
         }
       });
     },
