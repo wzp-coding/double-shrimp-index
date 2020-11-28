@@ -155,23 +155,27 @@ export default {
 <style lang="less">
 .lxl-login {
   height: 10rem;
-  background-image: url("../../assets/45c.jpeg");
+  background-image: url("../../assets/picture4.jpg");
   background-size: 100% 100%;
   display: flex;
+  align-items: center;
   justify-content: space-between;
+  border-bottom: 2px solid #409EFF;
 }
 .lxl-logo {
-  height: 5rem;
-  width: 350px;
+  height: 100px;
+  width: 250px;
   margin-left: 5%;
-  background-image: url("../../assets/logo-black1.png");
+  background-image: url("../../assets/theLogo.png");
   background-size: 100% 100%;
-  background-repeat: no-repeat;
+  background-repeat: no-repeat; 
+  border-radius: 175px;
 }
 .lxl-avatar {
   height: 5rem;
   display: flex;
   align-items: center;
+  margin-right: 5%;
   > * {
     margin-right: 20px;
     font-weight: 600;
