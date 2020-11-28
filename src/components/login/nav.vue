@@ -16,27 +16,6 @@
         </div>
 
         <div class="lxl-avatar" v-if="isLogin">
-          <!-- <el-popover v-model="visible" width="200">
-            <el-alert
-              title="设置了回调置了回调置了回调置了回调置了回调置了回调置了回调的 alert"
-              type="success"
-              @close="hello"
-            >
-            </el-alert>
-            <div style="text-align: right; margin-top: 18px">
-              <el-button size="mini" type="text" @click="visible = false"
-                >取消</el-button
-              >
-              <el-button type="primary" size="mini" @click="visible = false"
-                >确定</el-button
-              >
-            </div>
-            <el-button slot="reference" circle type="success">
-              <el-badge :value="9" :max="10" class="item">
-                <i class="el-icon-message-solid"></i>
-              </el-badge>
-            </el-button>
-          </el-popover> -->
           <router-link to="/me"
             ><el-avatar :size="50" :src="userData.photo"> </el-avatar
           ></router-link>

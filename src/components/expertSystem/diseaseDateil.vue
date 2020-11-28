@@ -15,13 +15,13 @@
       <div class="main">
         <!-- title begin -->
         <div class="title">
-          <h1>{{diseaseInfo[0].diseaseName}}</h1>
+          <h1>{{diseaseInfo.diseaseName}}</h1>
           <br>
         </div>
         <!-- title end -->
         <!-- picture begin -->
         <div class="picture">
-          <img :src="diseaseInfo[0].pic" alt="图片区">
+          <img :src="diseaseInfo.pic" alt="图片区">
         </div>
         <br>
         <!-- picture end -->
@@ -30,12 +30,12 @@
           <div>
             <h2 class="a">症状</h2>
           </div>
-          <p>{{diseaseInfo[0].symptom}}</p>
+          <p>{{diseaseInfo.symptom}}</p>
           <br>
           <div>
             <h2 class="b">预防措施</h2>
           </div>
-          <p>{{diseaseInfo[0].solution}}</p>
+          <p>{{diseaseInfo.solution}}</p>
         </div>
         <!-- content end -->
       </div>
@@ -47,7 +47,7 @@ export default {
   data() {
     return {
       id: "",
-      diseaseInfo: [],
+      diseaseInfo: {},
     };
   },
   created() {
@@ -59,14 +59,16 @@ export default {
     async getDiseaseDeatailById(id) {
       await this.reqM1Service(`/education/diagnose/${id}`, {}, "get").then((res) => {
         res = res.data;
+        console.log(res);
         if (res.code === 20000) {
-          this.diseaseInfo.push({
-            diseaseName:res.data.diseaseName,
-            symptom:res.data.symptom,
-            solution:res.data.solution,
-            pic:res.data.pic
+          // this.diseaseInfo.push({
+          //   diseaseName:res.diseaseName,
+          //   symptom:res.symptom,
+          //   solution:res.solution,
+          //   pic:res.pic
+            this.diseaseInfo = res.data
 
-          })
+          // })
           console.log(this.diseaseInfo);
         }
       });
