@@ -40,11 +40,11 @@
                   <el-avatar
                     shape="circle"
                     :size="100"
-                    :src="userData.photo"
+                    :src="userData != null ? userData.photo : userData1.photo"
                   ></el-avatar>
                 </div>
-                <span class="user-avator-name">{{ userData.loginId }}</span>
-                <span class="user-avator-identity">{{ userData.role }}</span>
+                <span class="user-avator-name">{{ userData != null ? userData.loginId : userData1.loginId }}</span>
+                <span class="user-avator-identity">{{ userData != null ? userData.role : userData1.role }}</span>
               </el-col>
               <el-col :span="17" class="user-attestation">
                 <div class="user-attestation-header">认证情况</div>
@@ -90,6 +90,12 @@ export default {
     return {
       isPath: this.$route.path,
       userData: {},
+      userData1: {
+        loginId: "尚未登录",
+        role: "游客",
+        photo:
+          "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
+      },
       shopList: [],
       baseId: "",
     };

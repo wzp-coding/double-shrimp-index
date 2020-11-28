@@ -2,7 +2,7 @@
   <div class="lxl-vp">
     <div class="content">
       <el-header class="header">
-        <el-button @click="toVisualizationPlatform" > 返回 </el-button>
+        <el-button @click="toVisualizationPlatform" size="mini"> 返回 </el-button>
         <h1>对虾大数据可视化平台</h1>
       </el-header>
       <!-- 主内容区 -->

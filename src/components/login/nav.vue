@@ -17,10 +17,10 @@
 
         <div class="lxl-avatar" v-if="isLogin">
           <router-link to="/me"
-            ><el-avatar :size="50" :src="userData.photo"> </el-avatar
+            ><el-avatar :size="50" :src="userData != null ? userData.photo : userData1.photo"> </el-avatar
           ></router-link>
 
-          <router-link to="/me">{{ userData.loginId }}</router-link>
+          <router-link to="/me">{{ userData != null ? userData.loginId : userData1.loginId }}</router-link>
           <el-link @click="outUser()">退出</el-link>
         </div>
       </div>
