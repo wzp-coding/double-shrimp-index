@@ -12,29 +12,32 @@
         <el-breadcrumb-item>疾病详情</el-breadcrumb-item>
       </el-breadcrumb>
       <el-divider></el-divider>
-      <div>
-        <div class="someThing">
-          <div class="lxl-1">
-            <div>
-              <h2><i class="el-icon-info"></i>病名</h2>
-              <p style="margin-top: 3px">{{ diseaseInfo.diseaseName }}</p>
-              <el-divider></el-divider>
-              <h2><i class="el-icon-info"></i>症状</h2>
-              <p style="margin-top: 3px">{{ diseaseInfo.symptom }}</p>
-              <el-divider></el-divider>
-              <h2><i class="el-icon-info"></i>预防</h2>
-              <p style="margin-top: 3px">{{ diseaseInfo.solution }}</p>
-            </div>
-            <div>
-              <div class="block">
-                <el-image
-                  :src="diseaseInfo.pic"
-                ></el-image>
-              </div>
-            </div>
-          </div>
-          <div></div>
+      <div class="main">
+        <!-- title begin -->
+        <div class="title">
+          <h1>{{diseaseInfo[0].diseaseName}}</h1>
+          <br>
         </div>
+        <!-- title end -->
+        <!-- picture begin -->
+        <div class="picture">
+          <img :src="diseaseInfo[0].pic" alt="图片区">
+        </div>
+        <br>
+        <!-- picture end -->
+        <!-- content begin -->
+        <div class="content">
+          <div>
+            <h2 class="a">症状</h2>
+          </div>
+          <p>{{diseaseInfo[0].symptom}}</p>
+          <br>
+          <div>
+            <h2 class="b">预防措施</h2>
+          </div>
+          <p>{{diseaseInfo[0].solution}}</p>
+        </div>
+        <!-- content end -->
       </div>
     </div>
   </div>
@@ -44,28 +47,30 @@ export default {
   data() {
     return {
       id: "",
-      diseaseInfo: {},
+      diseaseInfo: [],
     };
+  },
+  created() {
+    let id = this.$route.query.id;
+    this.id = id;
+    this.getDiseaseDeatailById(this.id)
   },
   methods: {
     async getDiseaseDeatailById(id) {
       await this.reqM1Service(`/education/diagnose/${id}`, {}, "get").then((res) => {
         res = res.data;
         if (res.code === 20000) {
-          res = res.data;
-          this.diseaseInfo = res;
-          console.log("res: ", res);
+          this.diseaseInfo.push({
+            diseaseName:res.data.diseaseName,
+            symptom:res.data.symptom,
+            solution:res.data.solution,
+            pic:res.data.pic
+
+          })
+          console.log(this.diseaseInfo);
         }
       });
     },
-  },
-  created() {
-    let id = this.$route.query.id;
-    this.id = id;
-    // console.log('id: ', id);
-  },
-  async mounted() {
-    await this.getDiseaseDeatailById(this.id);
   },
 };
 </script>
@@ -80,26 +85,56 @@ export default {
   }
   margin-bottom: 40px;
 }
-.lxl-box {
-  width: 1150px;
+/deep/.el-table th>.cell {
+  text-align: center;
 }
-.someThing {
-  padding: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
-  background-color: rgb(245, 245, 245);
-  display: flex;
-  .lxl-1 {
-    display: inherit;
-    flex-direction: row;
-    font-size: 13px;
-    line-height: 30px;
-    > * {
-      flex: 1;
-      padding: 10px;
-    }
-  }
+/deep/.el-table .cell {
+  text-align: center;
 }
 /deep/.el-carousel__button {
   background-color: rgb(204, 123, 18) !important;
 }
+// title
+.title {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 30px  ;
+}
+// picture
+.picture {
+  display: flex;
+  justify-content: center;
+}
+.picture img {
+  background-size: contain;
+  width: 381px;
+  height: 200px;
+}
+h1 {
+  font-size: 34px;
+  font-weight: 400;
+  line-height: 1.15;
+}
+// content
+.content {
+  width: 1000px;
+}
+.content div {
+    border-left: 12px solid #4F9CEE;
+}
+.content h2 {
+  font-size: 22px;
+  padding: 0 8px 0 18px;
+  background-color: white;
+  font-weight: 400;
+}
+.content p {
+  font-size: 14px;
+  color: #333;
+  text-indent: 2em;
+  line-height: 40px;
+  margin-top: 15px; 
+  letter-spacing: 1.5px; 
+}
+  
 </style>

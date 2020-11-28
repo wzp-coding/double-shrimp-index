@@ -9,7 +9,7 @@
     >
       <div>
         <span
-          style="margin-right: 5px; border-left: 6px solid rgb(93, 183, 60)"
+          style="margin-right: 5px; border-left: 6px solid #409EFF"
         ></span>
         图文识病
       </div>
