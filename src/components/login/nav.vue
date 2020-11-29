@@ -88,7 +88,7 @@ export default {
       baseId: ''
     };
   },
-  created() {
+  updated() {
     let data = JSON.parse(window.sessionStorage.getItem("userData"));
     if (data) {
       this.baseId = data.baseId;
@@ -155,7 +155,7 @@ export default {
     margin-right: 20px;
     font-weight: 600;
     font-size: 1rem;
-    color: white;
+    // color: white;
   }
   .el-avatar {
     border: ivory 1.5px solid;

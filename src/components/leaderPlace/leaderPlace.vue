@@ -113,11 +113,12 @@ export default {
     return {
       date: new Date(),
       suppliesinNum: 0,
-      base: [],
+      base: {},
+      baseId: this.$store.state.userData.baseId,
       pondsNum: 0,
       totalVolume: 0,
       // 订单
-      order: []
+      order: [],
     };
   },
   mounted() {
@@ -153,19 +154,15 @@ export default {
     // 获取基地信息
     async getBase() {
       try {
-        const { data: res } = await this.reqM13Service("/base", "", "get");
-        // console.log(res);
+        const { data: res } = await this.reqM13Service(`/base/${this.baseId}`, "", "get");
+        console.log(res);
         if (res.code === 20000) {
-          this.base = res.data[0];
+          this.base = res.data;
         }
         // 获取池塘数量
-        const { data: res2 } = await this.reqM13Service("/pond", "", "get");
-        if (res2.code === 20000) {
-          this.pondsNum = res2.data.length;
-          res2.data.forEach((e) => {
-            this.totalVolume += e.pondVolume;
-          });
-        }
+        const { data: res2 } = await this.reqM13Service(`/pond/volume/${this.baseId}`, "", "get");
+       this.pondsNum = res2.pondNum
+       this.totalVolume = res2.volume;
       } catch (error) {
         this.$message.error("网络开小差了，请稍后重试 19999");
         console.log(error);
@@ -174,7 +171,9 @@ export default {
     // 获取池塘投入虾苗量
     async requestPond() {
       try {
-        const { data: res } = await this.reqM13Service("/pond", "", "get");
+        const { data: res } = await this.reqM13Service("/pond/search", {
+          baseId: this.baseId
+        }, "post");
         // console.log(res);
         if (res.code === 20000) {
           this.getChart1(res.data);
@@ -189,8 +188,10 @@ export default {
     // 获取订单信息
     async requestOrder() {
       try {
-        const { data: res } = await this.reqM13Service("/order", "", "get");
-        console.log(res);
+        const { data: res } = await this.reqM13Service("/order/search", {
+          baseId: this.baseId
+        }, "post");
+        // console.log(res);
         this.order = res.data.slice(0,8);
       } catch (error) {
         this.$message.error("网络开小差了，请稍后重试 19999");
@@ -199,7 +200,9 @@ export default {
     },
     // 获取农资出库信息
     async requestFarmOut() {
-      const { data: res } = await this.reqM13Service("/suppliesout", "", "get");
+      const { data: res } = await this.reqM13Service("/suppliesout/search", {
+          baseId: this.baseId
+        }, "post");
       // console.log(res.data)
       if (res.code === 20000) {
         this.getChart7(res.data);
@@ -207,7 +210,9 @@ export default {
     },
     // 获取农资信息
     async requestFarmData() {
-      const { data: res } = await this.reqM13Service("/suppliesin", "", "get");
+      const { data: res } = await this.reqM13Service("/suppliesin/search", {
+          baseId: this.baseId
+        }, "post");
       // console.log(res);
       if (res.code === 20000) {
         this.getChart8(res.data);
@@ -217,9 +222,10 @@ export default {
     async requestRemainFarmSource() {
       try {
         const { data: res } = await this.reqM13Service(
-          "/suppliesin",
-          "",
-          "get"
+          "/suppliesin/search", {
+            baseId: this.baseId
+          },
+          "post"
         );
         if (res.code === 20000) {
           this.getChart9(res.data);
@@ -234,9 +240,10 @@ export default {
     // 获取虾苗进货量
     async requestShrimp() {
       const { data: res } = await this.reqM13Service(
-        "/shrimpManagement",
-        "",
-        "get"
+        "/shrimpManagement/search",{
+          baseId: this.baseId
+        },
+        "post"
       );
       // console.log(res);
       if (res.code === 20000) {
@@ -246,9 +253,10 @@ export default {
     // 获取虾苗产量
     async requestShrimpYield() {
       const { data: res } = await this.reqM13Service(
-        "/shrimpManagement",
-        "",
-        "get"
+        "/shrimpManagement/search",{
+          baseId: this.baseId
+        },
+        "post"
       );
       // console.log(res);
       if (res.code === 20000) {
