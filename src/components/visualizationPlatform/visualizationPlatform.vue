@@ -690,78 +690,6 @@ export default {
         myChart.resize();
       });
     },
-    tooltipCharts() {
-      console.log(arguments[0]);
-      var myChart = echarts.init(document.getElementById("tooltipBarId"));
-      var option = {
-        tooltip: {},
-        dataset: {
-          source: [
-            [
-              "xAxis",
-              "201701",
-              "201702",
-              "201703",
-              "201704",
-              "201705",
-              "201706",
-              "201707",
-              "201708",
-              "201709",
-              "20170",
-              "201710",
-              "20170",
-              "201801",
-            ],
-            [
-              "amount",
-              41.1,
-              30.4,
-              65.1,
-              53.3,
-              83.8,
-              98.7,
-              65.1,
-              53.3,
-              41.1,
-              30.4,
-              53.3,
-              41.1,
-              53.3,
-              83.8,
-            ],
-          ],
-        },
-        xAxis: {
-          type: "category",
-          interval: true,
-          axisLabel: {
-            rotate: 45,
-          },
-          axisTick: {
-            show: false,
-          },
-        },
-        yAxis: {},
-        color: ["#4FA8F9", "#F5A623"],
-        grid: {
-          show: true,
-          backgroundColor: "#FAFAFA",
-          left: 30,
-          right: 20,
-          top: 20,
-        },
-        series: [
-          {
-            type: "bar",
-            smooth: true,
-            seriesLayoutBy: "row",
-            barWidth: 10,
-          },
-        ],
-      };
-      myChart.setOption(option);
-    },
     china(chinaChart, chinaChartTip) {
       let myChart = this.$echarts.init(document.querySelector(".chartMap"));
       myChart.hideLoading();
@@ -804,6 +732,7 @@ export default {
         上海: [121.4648, 31.2891],
       };
       let data = [];
+      // 55 条数据 ，31省
       chinaChart.forEach((e) => {
         let obj = {
           value: e.value,
@@ -813,7 +742,6 @@ export default {
         data.push(obj);
       });
       console.log(geoCoordMap[data[0].name]);
-      console.log("嘤嘤嘤");
       console.log(data);
       console.log(chinaChartTip);
       var convertData = function (data) {
@@ -824,6 +752,12 @@ export default {
             res.push({
               name: data[i].name,
               introduction: data[i].introduction,
+              value: geoCoord.concat(data[i].value),
+            });
+          } else if (geoCoord && !data[i].introduction) {
+            res.push({
+              name: data[i].name,
+              introduction: "暂无资料",
               value: geoCoord.concat(data[i].value),
             });
           }
@@ -852,40 +786,24 @@ export default {
           formatter: function (params) {
             var tipHtml = "";
             if (typeof params.value[2] == "undefined") {
-              // tipHtml =
-              //   '<div style="height:220px;width:100px;border-radius:5px;background:#fff;box-shadow:0 0 10px 5px #aaa">' +
-              //   '    <div style="height:50px;width:100%;border-radius:5px;background:#F8F9F9;border-bottom:1px solid #F0F0F0">' +
-              //   '        <span style="line-height:50px;margin-left:18px">' +
-              //   params.name +
-              //   "</span>" +
-              //   '        <span style="float:right;line-height:50px;margin-right:18px;color:#5396E3;cursor:pointer" onclick="mapTooltipClick(this);">点击查看详情</span>' +
-              //   "    </div>" +
-              //   '    <div style="height:110px;width:100%;background:#fff">' +
-              //   '        <div style="padding-left:18px;padding-top:22px">' +
-              //   '            <span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:rgba(92,169,235,1)"></span> ' +
-              //   "            <span>上传表格数量</span>" +
-              //   '            <span style="float:right;margin-right:18px">' +
-              //   params.value +
-              //   "万</span>" +
-              //   "        </div>" +
-              //   '        <div style="padding-left:18px;padding-top:14px">' +
-              //   '            <span style="display:inline-block;margin-right:5px;width:10px;height:10px;background-color:rgba(92,169,235,1)"></span> ' +
-              //   "            <span>上传数据条数</span>" +
-              //   '            <span style="float:right;margin-right:18px">' +
-              //   100 +
-              //   "条</span>" +
-              //   "        </div>" +
-              //   "    </div>" +
-              //   '    <div id="tooltipBarId" style="height:200px;width:100%;border-radius:0 0 5px 0;background:#fff"></div>' +
-              //   "</div>";
-              // // tooltipCharts(params.name)
-              return params.name + " : " + params.value + "个对虾养殖基地";
-              setTimeout(function () {
-                tooltipCharts(params.name);
-              }, 10);
-              return tipHtml;
+              //根据经纬度值是否存在
+              //无数据情况
+              return (
+                params.name +
+                " : " +
+                params.value +
+                "个对虾养殖基地:介绍1" +
+                params.introduction
+              );
+              // return tipHtml;
             } else {
-              return params.name + " : " + params.value[2] + "个对虾养殖基地";
+              return (
+                params.name +
+                " : " +
+                params.value[2] +
+                "个对虾养殖基地" +
+                params.introduction
+              );
             }
           },
           // position: ["40%", "40%"],
@@ -899,7 +817,7 @@ export default {
             color: "#fff",
           },
         },
-        // visualMap: {    //似乎没用
+        // visualMap: {
         //   show: false,
         //   min: 0,
         //   max: 500,
@@ -908,22 +826,16 @@ export default {
         //   text: ["高", "低"], // 文本，默认为数值文本
         //   calculable: true,
         //   seriesIndex: [1],
-        //   inRange: {},
         // },
         geo: {
+          //原本的
           map: "china",
-          show: true,
+          show: false,
           roam: true,
+          name: "light",
           zoom: 1.1,
-          // label: {
-          //   normal: {
-          //     show: false,
-          //   },
-          //   emphasis: {
-          //     show: false,
-          //   },
-          // },
-          itemStyle: {         //地图样式
+          itemStyle: {
+            //地图样式
             normal: {
               borderColor: "rgba(147, 235, 248, 1)",
               borderWidth: 1, //地图边线
@@ -945,7 +857,6 @@ export default {
                 globalCoord: false, // 缺省为 false
               },
               shadowColor: "rgba(128, 217, 248, 1)",
-              // shadowColor: 'rgba(255, 255, 255, 1)',
               shadowOffsetX: -2,
               shadowOffsetY: 2,
               shadowBlur: 10,
@@ -957,22 +868,84 @@ export default {
             },
           },
         },
+        
         series: [
           {
-            symbolSize: 6,
+            name: "全国数据",
+            type: "map",
+            map: "china", // 自定义扩展图表类型
+            zoom: 0.55, //缩放
+            showLegendSymbol: false,
+            roam: true,
+            scaleLimit: {
+              min: 0.35,
+              max: 0.62,
+            },
             label: {
-              normal: {
-                formatter: "{b}",
-                position: "right",
-                show: true,
-              },
-              emphasis: {
-                show: true,
-              },
+              // 文字
+              show: true,
+              color: "#fff",
+              fontSize: 10,
             },
             itemStyle: {
+              //地图样式
               normal: {
-                color: "#fff",
+                borderColor: "rgba(147, 235, 248, 1)",
+                borderWidth: 1, //地图边线
+                areaColor: {
+                  type: "radial",
+                  x: 0.5,
+                  y: 0.5,
+                  r: 0.8,
+                  colorStops: [
+                    {
+                      offset: 0,
+                      color: "rgba(147, 235, 248, 0)", // 0% 处的颜色
+                    },
+                    {
+                      offset: 1,
+                      color: "rgba(147, 235, 248, .2)", // 100% 处的颜色
+                    },
+                  ],
+                  globalCoord: false, // 缺省为 false
+                },
+                shadowColor: "rgba(128, 217, 248, 1)",
+                shadowOffsetX: -2,
+                shadowOffsetY: 2,
+                shadowBlur: 10,
+              },
+              emphasis: {
+                //鼠标移入动态的时候显示的默认样式
+                itemStyle: {
+                  areaColor: "#ff8d44",
+                  borderColor: "#404a59",
+                  borderWidth: 1,
+                },
+              },
+            },
+            layoutCenter: ["50%", "50%"],
+            layoutSize: "160%",
+            markPoint: {
+              symbol: "none",
+            },
+            data: convertData(data),
+          },
+          {
+            //这一部分为气泡下的圆点
+            symbolSize: 6, //气泡标签大小
+            // label: {
+            //   normal: {
+            //     formatter: "{b}",
+            //     position: "right",
+            //     show: true,
+            //   },
+            //   emphasis: {
+            //     show: true,
+            //   },
+            // },
+            itemStyle: {
+              normal: {
+                color: "#fff", //气泡下的圆点 和字
               },
               emphasis: {
                 areaColor: "#0a2dae",
@@ -987,8 +960,10 @@ export default {
             data: convertData(data),
           },
           {
+            // 显示基地数
             type: "map",
             map: "china",
+            // show:false,
             geoIndex: 0,
             aspectScale: 0.75, //长宽比
             showLegendSymbol: false, // 存在legend时显示
@@ -1003,22 +978,22 @@ export default {
                 },
               },
             },
-            roam: true,
-            itemStyle: {
-              //气泡
-              normal: {
-                areaColor: "#031525",
-                borderColor: "#FFFFFF",
-              },
-              emphasis: {
-                show: true,
-                areaColor: "#0a2dae",
-                borderWidth: 0,
-                color: "green",
-              },
-            },
+            roam: true, //是否缩放平移
+            // itemStyle: {
+            //   //气泡
+            //   normal: {
+            //     areaColor: "#031525",
+            //     borderColor: "#FFFFFF",
+            //   },
+            //   emphasis: {
+            //     show: true,
+            //     areaColor: "#0a2dae",
+            //     borderWidth: 0,
+            //     color: "green",
+            //   },
+            // },
             animation: false,
-            data: data,
+            data: data, //鼠标覆盖时显示基地数
           },
           {
             name: "Top 5",
@@ -1034,12 +1009,13 @@ export default {
                   fontSize: 9,
                 },
                 formatter(value) {
+                  //气泡上的值
                   return value.data.value[2];
                 },
               },
             },
             itemStyle: {
-              //标记样式
+              //气泡样式
               normal: {
                 color: "#da3960", //标志颜色
               },
@@ -1060,74 +1036,77 @@ export default {
           },
         ],
       };
-
       //保留
       var This = this
       var count = 0;
       var timeTicket = null;
-      var dataLength = option.series[0].data.length;
       timeTicket && clearInterval(timeTicket);
       timeTicket = setInterval(function () {
         myChart.dispatchAction({
           type: "downplay",
-          seriesIndex: 0,
+          // seriesIndex: 0, //serieIndex的索引值   可以触发多个
         });
         myChart.dispatchAction({
           type: "highlight",
-          seriesIndex: 0,
-          dataIndex: count % dataLength,
+          // seriesIndex: 0,
+          dataIndex: count, //高亮第几个数据
         });
         myChart.dispatchAction({
           type: "showTip",
-          seriesIndex: 0,
-          dataIndex: count % dataLength,
+          // seriesIndex: 0,
+          dataIndex: count,
         });
         count++;
-      }, 2500);
-
+        if (count >= 31) {
+          count = 0;
+        }
+      }, 3000);
       myChart.on("mouseover", function (params) {
-        console.log(params);
         clearInterval(timeTicket);
         myChart.dispatchAction({
           type: "downplay",
-          seriesIndex: 0,
+          // seriesIndex: 0,
         });
         myChart.dispatchAction({
           type: "highlight",
-          seriesIndex: 0,
+          // seriesIndex: 0,
           dataIndex: params.dataIndex,
         });
         myChart.dispatchAction({
           type: "showTip",
-          seriesIndex: 0,
+          // seriesIndex: 0,
           dataIndex: params.dataIndex,
         });
       });
-      myChart.on("mouseout", function (params) {
+
+      myChart.on("mouseout", function () {
         timeTicket && clearInterval(timeTicket);
         timeTicket = setInterval(function () {
           myChart.dispatchAction({
             type: "downplay",
-            seriesIndex: 0,
+            // seriesIndex: 0, //serieIndex的索引值   可以触发多个
           });
           myChart.dispatchAction({
             type: "highlight",
-            seriesIndex: 0,
-            dataIndex: count % dataLength,
+            // seriesIndex: 0,
+            dataIndex: count,
           });
           myChart.dispatchAction({
             type: "showTip",
-            seriesIndex: 0,
-            dataIndex: count % dataLength,
+            // seriesIndex: 0,
+            dataIndex: count,
           });
           count++;
-        }, 2500);
+          if (count >= 31) {
+            count = 0;
+          }
+        }, 3000);
       });
       myChart.setOption(option);
       myChart.on("click", function (params) {
         // 由于作用域的问题只能通过这个方式实现跳转
         console.log(params);
-        if (params.data.name === '广东') {
+        if (params.data.name === "广东") {
           window.location.href = "#/guangdong?userId=" + params.data.name;
         } else {
           This.$message.info("敬请期待");
