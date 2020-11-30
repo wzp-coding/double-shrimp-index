@@ -2,7 +2,7 @@
   <div class="lxl-vp">
     <div class="content">
       <el-header class="header">
-        <el-button @click="toVisualizationPlatform" > 返回 </el-button>
+        <el-button @click="toVisualizationPlatform"> 返回 </el-button>
         <h1>对虾大数据可视化平台</h1>
       </el-header>
       <!-- 主内容区 -->
@@ -772,49 +772,55 @@ export default {
           },
         },
         tooltip: {
-          // 窗口外框
-          backgroundColor: "rgba(0,0,0,0)",
+          // 显示的窗口
           trigger: "item",
+          formatter: function (item) {
+            var tipHtml = "";
+            if (item.data.value) {
+              tipHtml =
+                '<div style="background:#fff;border-radius:10px;padding-top:10px;box-shadow:0 0 10px #666">' +
+                '<div style="color:#fff;height:20px;border-radius:6px;font-size:12px;line-height:20px;background-color:#5861a2;text-align:center;margin:0 2px;">' +
+                item.data.name +
+                "</div>" +
+                '<div style="text-align:center;color:#494949;padding:8px 6px">' +
+                '<span style="font-size:18px;font-weight:bold;">' +
+                "对虾基地数：" +
+                item.data.value +
+                " " +
+                "</span>" +
+                "</div>" +
+                "</div>";
+            } else {
+              tipHtml = "<div>" + "该地区对虾暂无养殖场" + "</div>";
+            }
+            return tipHtml;
+          },
         },
         legend: {
           show: false,
         },
+        visualMap: {
+          show: false,
+          min: 0,
+          max: 500,
+          left: "left",
+          top: "bottom",
+          text: ["高", "低"], // 文本，默认为数值文本
+          calculable: true,
+          seriesIndex: [1],
+        },
         series: [
           {
-            tooltip: {
-              // 显示的窗口
-              trigger: "item",
-              formatter: function (item) {
-                var tipHtml = "";
-                if (item.data.value) {
-                  tipHtml =
-                    '<div style="background:#fff;border-radius:10px;padding-top:10px;box-shadow:0 0 10px #666">' +
-                    '<div style="color:#fff;height:20px;border-radius:6px;font-size:12px;line-height:20px;background-color:#5861a2;text-align:center;margin:0 2px;">' +
-                    item.data.name +
-                    "</div>" +
-                    '<div style="text-align:center;color:#494949;padding:8px 6px">' +
-                    '<span style="font-size:18px;font-weight:bold;">' +
-                    "对虾基地数：" +
-                    item.data.value +
-                    " " +
-                    "</span>" +
-                    "</div>" +
-                    "</div>";
-                } else {
-                  tipHtml =
-                    '<div style="background-color:red;border:1px solid black;">' +
-                    "该地区对虾暂无养殖场" +
-                    "</div>";
-                }
-                return tipHtml;
-              },
-            },
             name: "广东省数据",
             type: "map",
             map: "广东", // 自定义扩展图表类型
             zoom: 0.55, //缩放
             showLegendSymbol: true,
             roam: true,
+            scaleLimit: {
+              min: 0.35,
+              max: 0.62,
+            },
             label: {
               // 文字
               show: true,
@@ -853,7 +859,7 @@ export default {
             emphasis: {
               //鼠标移入动态的时候显示的默认样式
               itemStyle: {
-                areaColor: "#FFD181",
+                areaColor: "#ff8d44",
                 borderColor: "#404a59",
                 borderWidth: 1,
               },
@@ -865,8 +871,73 @@ export default {
             },
             data: convertData(data),
           },
+
         ],
       };
+      var count = 0;
+      var timeTicket = null;
+      timeTicket && clearInterval(timeTicket);
+      timeTicket = setInterval(function () {
+        myChart.dispatchAction({
+          type: "downplay",
+          seriesIndex: 0, //serieIndex的索引值   可以触发多个
+        });
+        myChart.dispatchAction({
+          type: "highlight",
+          seriesIndex: 0,
+          dataIndex: count, //高亮第几个数据
+        });
+        myChart.dispatchAction({
+          type: "showTip",
+          seriesIndex: 0,
+          dataIndex: count,
+        });
+        count++;
+        if (count >= 21) {
+          count = 0;
+        }
+      }, 3000);
+      myChart.on("mouseover", function (params) {
+        clearInterval(timeTicket);
+        myChart.dispatchAction({
+          type: "downplay",
+          seriesIndex: 0,
+        });
+        myChart.dispatchAction({
+          type: "highlight",
+          seriesIndex: 0,
+          dataIndex: params.dataIndex,
+        });
+        myChart.dispatchAction({
+          type: "showTip",
+          seriesIndex: 0,
+          dataIndex: params.dataIndex,
+        });
+      });
+
+      myChart.on("mouseout", function () {
+        timeTicket && clearInterval(timeTicket);
+        timeTicket = setInterval(function () {
+          myChart.dispatchAction({
+            type: "downplay",
+            seriesIndex: 0, //serieIndex的索引值   可以触发多个
+          });
+          myChart.dispatchAction({
+            type: "highlight",
+            seriesIndex: 0,
+            dataIndex: count,
+          });
+          myChart.dispatchAction({
+            type: "showTip",
+            seriesIndex: 0,
+            dataIndex: count,
+          });
+          count++;
+          if (count >= 3) {
+            count = 0;
+          }
+        }, 3000);
+      });
 
       myChart.setOption(option);
     },
@@ -907,7 +978,7 @@ li {
     background-color: #71c7dd;
     opacity: 0.5;
   }
-  .el-button:hover{
+  .el-button:hover {
     background-color: rgb(90, 130, 240);
   }
 }
