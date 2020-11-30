@@ -659,8 +659,8 @@ export default {
     /* 判断是否登录 */
     async isExit() {
       if (!this.$store.state.isLogin) {
-        this.$message.error("请先登录！！");
-        this.$router.push("/login");
+        this.$message.info("请先登录！！");
+        return this.$router.push("/login");
       }
       // 判断是否绑定基地
       const { data: res } = await this.reqM1Service(
@@ -672,9 +672,10 @@ export default {
         },
         "get"
       );
-      if (res.data.id == null) {
-        this.$message.error("请先绑定基地！！");
-        this.$router.push("/basePage");
+      console.log(res)
+      if (res.data.id == null ) {
+        this.$message.info('请先绑定基地！！')
+        return this.$router.push("/basePage");
       }
       this.baseId = res.data.id;
       this.getForecastData();

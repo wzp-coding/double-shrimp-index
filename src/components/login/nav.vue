@@ -36,9 +36,9 @@
             <el-menu-item index="/industryMarket">产业行情</el-menu-item>
             <el-menu-item index="/prawnNews">虾业专题</el-menu-item>
           </el-submenu>
-          <span class="middle-thread"></span>
+          <!-- <span class="middle-thread"></span> -->
           <el-menu-item index="/policies">政策法规</el-menu-item>
-          <span class="middle-thread"></span>
+          <!-- <span class="middle-thread"></span> -->
           <el-submenu index="/edu">
             <template slot="title">渔技学堂</template>
             <el-menu-item index="/edu">远程教育</el-menu-item>
@@ -46,25 +46,25 @@
             <el-menu-item index="/powerPoint">演示文稿</el-menu-item>
             <el-menu-item index="/intellectualProperty">知识产权</el-menu-item>
           </el-submenu>
-          <span class="middle-thread"></span>
+          <!-- <span class="middle-thread"></span> -->
           <el-menu-item index="/environmentalMonitoring">环境监控</el-menu-item>
-          <span class="middle-thread"></span>
+          <!-- <span class="middle-thread"></span> -->
           <el-menu-item index="/productTraceability">产品溯源</el-menu-item>
-          <span class="middle-thread"></span>
+          <!-- <span class="middle-thread"></span> -->
           <el-menu-item index="/knowledgeGraph">知识图谱</el-menu-item>
-          <span class="middle-thread"></span>
+          <!-- <span class="middle-thread"></span> -->
           <el-submenu index="/expertInterrogation">
             <template slot="title">专家系统</template>
             <el-menu-item index="/expertInterrogation">专家问诊</el-menu-item>
             <el-menu-item index="/autognosis">疾病自诊</el-menu-item>
           </el-submenu>
-          <span class="middle-thread"></span>
+          <!-- <span class="middle-thread"></span> -->
           <el-menu-item index="/visualizationPlatform">可视化平台</el-menu-item>
-          <span class="middle-thread"></span>
+          <!-- <span class="middle-thread"></span> -->
           <el-menu-item index="/emall">电子商城</el-menu-item>
-          <span class="middle-thread"></span>
+          <!-- <span class="middle-thread"></span> -->
           <el-menu-item index="/leaderPlace" v-if="baseId">领导仓</el-menu-item>
-          <span class="middle-thread" v-if="baseId"></span>
+          <!-- <span class="middle-thread" v-if="baseId"></span> -->
           <el-menu-item index="/me">个人中心</el-menu-item>
         </el-menu>
       </div>
@@ -103,6 +103,7 @@ export default {
       this.$store.commit(("changeToken", ""));
       this.$store.commit("changeUserData", this.userData1);
       this.$store.commit("changeIsLogin", false);
+      this.$store.commit('saveIp','')
       this.$message({
         showClose: true,
         message: "退出成功",
@@ -118,14 +119,19 @@ export default {
     // 用来标识登录，并监控浏览器刷新后重新将session中的数据放到vuex中
     isLogin() {
       if (
-        window.sessionStorage.getItem("userData") &&
-        window.sessionStorage.getItem("token")
+        window.sessionStorage.getItem("userData")  &&
+        window.sessionStorage.getItem("token") 
       ) {
         this.$store.dispatch("changeUserDataAsycn");
       }
       return this.$store.getters.getIsLogin;
     },
   },
+  created() {
+    if(window.localStorage.getItem('Ip')) {
+      this.$store.state.ip = window.localStorage.getItem('Ip')
+    }
+  }
 };
 </script>
 <style lang="less">
@@ -179,7 +185,7 @@ a {
   box-shadow: 2px 2px 3px rgba(0,0,0,0.5) !important;
 }
 .nav-menu {
-  width: 1150px;
+  width: 75.7%;
   .middle-thread {
     position: absolute;
     top: 50%;

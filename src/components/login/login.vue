@@ -134,6 +134,7 @@ export default {
               message: data.data.message,
               type: "error",
             });
+            this.getCaptcha()
           }
       });
     },
