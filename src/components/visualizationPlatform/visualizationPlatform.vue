@@ -186,7 +186,8 @@ export default {
     //
     chart2(barOne) {
       // 横坐标和纵坐标
-      let times = [];
+      var times = [];
+      console.log(barOne);
       let outPuts = [];
       barOne.forEach((e) => {
         times.push(e.time);
@@ -249,6 +250,7 @@ export default {
         ],
         series: [
           {
+            // xAxisIndex: 1,
             name: "年产量",
             type: "bar",
             barWidth: "40%",
@@ -259,6 +261,25 @@ export default {
           },
         ],
       };
+      setInterval(function () {
+        var temp, temp1, i;
+        temp = times[times.length - 1];
+        temp1 = outPuts[outPuts.length - 1];
+        for (i = times.length - 1; i > 0; i--) {
+          times[i] = times[i - 1];
+          outPuts[i] = outPuts[i - 1];
+        }
+        times[i] = temp;
+        outPuts[i] = temp1;
+        myChart.setOption({
+          xAxis: {
+            data: times,
+          },
+          series: {
+            data: outPuts,
+          },
+        });
+      }, 1600);
       myChart.setOption(option);
       // 自适应盒子大小,以及屏幕大小
       window.addEventListener("resize", function () {
@@ -332,7 +353,25 @@ export default {
           },
         ],
       };
-
+      setInterval(function () {
+        var temp, temp1, i;
+        temp = times[times.length - 1];
+        temp1 = measureOfConsumption[measureOfConsumption.length - 1];
+        for (i = times.length - 1; i > 0; i--) {
+          times[i] = times[i - 1];
+          measureOfConsumption[i] = measureOfConsumption[i - 1];
+        }
+        times[i] = temp;
+        measureOfConsumption[i] = temp1;
+        myChart.setOption({
+          xAxis: {
+            data: times,
+          },
+          series: {
+            data: measureOfConsumption,
+          },
+        });
+      }, 1600);
       myChart.setOption(option);
       window.addEventListener("resize", function () {
         myChart.resize();
@@ -341,14 +380,18 @@ export default {
     chart4() {
       let myChart = this.$echarts.init(document.querySelector(".chart4"));
       // 时间切分处理
-      const etime = new Date(this.predictTime[0]).getTime();
-      const ltime = new Date(this.predictTime[1]).getTime();
-      let eltime = (ltime - etime) / (this.orgindata.length - 1);
-      let arr = new Array(this.orgindata.length).fill(20);
+      const etime = new Date(this.predictTime[0]).getTime();     //this.predictTime[0] 接口获取的数据1
+      const ltime = new Date(this.predictTime[1]).getTime();     //this.predictTime[1] 接口获取的数据2
+      let eltime = (ltime - etime) / (this.orgindata.length - 1);   //在调用接口那里获得的data长度
+      var arr = new Array(this.orgindata.length).fill(20);
       let arr2 = Array.from(arr, (x, i) => {
         let time = new Date(etime + i * eltime).toLocaleDateString();
         return time;
       });
+      console.log('第四个表');
+      console.log(this.orgindata);
+      console.log(this.predictdata);
+      console.log(arr2);
       // 时间切分处理结束 arr2生成的值
       let option = {
         title: {
@@ -379,7 +422,6 @@ export default {
           top: "45px",
           right: "4%",
           bottom: "4%",
-
           show: true,
           borderColor: "white",
           containLabel: true,
@@ -466,7 +508,25 @@ export default {
           },
         ],
       };
-
+      setInterval(function () {
+        var temp, temp1, i;
+        temp = times[times.length - 1];
+        temp1 = outPuts[outPuts.length - 1];
+        for (i = times.length - 1; i > 0; i--) {
+          times[i] = times[i - 1];
+          outPuts[i] = outPuts[i - 1];
+        }
+        times[i] = temp;
+        outPuts[i] = temp1;
+        myChart.setOption({
+          xAxis: {
+            data: times,
+          },
+          series: {
+            data: outPuts,
+          },
+        });
+      }, 1600);
       myChart.setOption(option);
       // 自适应盒子大小,以及屏幕大小
       window.addEventListener("resize", function () {
@@ -549,6 +609,25 @@ export default {
           },
         ],
       };
+      setInterval(function () {
+        var temp, temp1, i;
+        temp = times[times.length - 1];
+        temp1 = areas[areas.length - 1];
+        for (i = times.length - 1; i > 0; i--) {
+          times[i] = times[i - 1];
+          areas[i] = areas[i - 1];
+        }
+        times[i] = temp;
+        areas[i] = temp1;
+        myChart.setOption({
+          xAxis: {
+            data: times,
+          },
+          series: {
+            data: areas,
+          },
+        });
+      }, 1600);
       myChart.setOption(option);
       // 自适应盒子大小,以及屏幕大小
       window.addEventListener("resize", function () {
@@ -565,9 +644,7 @@ export default {
         areas.push(e.area);
         outPuts.push(e.outPut);
       });
-
       let myChart = this.$echarts.init(document.querySelector(".chart6"));
-
       let option = {
         title: {
           text: "单位(kg/亩)",
@@ -597,7 +674,6 @@ export default {
           top: "45px",
           right: "4%",
           bottom: "4%",
-
           show: true,
           borderColor: "white",
           containLabel: true,
@@ -684,83 +760,31 @@ export default {
           },
         ],
       };
+      setInterval(function () {
+        var temp, temp1, temp2, i;
+        temp = times[times.length - 1];
+        temp1 = outPuts[outPuts.length - 1];
+        temp2 = areas[areas.length - 1];
+        for (i = times.length - 1; i > 0; i--) {
+          times[i] = times[i - 1];
+          outPuts[i] = outPuts[i - 1];
+          areas[i] = areas[i - 1];
+        }
+        times[i] = temp;
+        outPuts[i] = temp1;
+        areas[i] = temp2;
+        myChart.setOption({
+          xAxis: {
+            data: times,
+          },
+          series: [{ data: outPuts }, { data: areas }],
+        });
+      }, 1600);
       myChart.setOption(option);
       // 自适应盒子大小,以及屏幕大小
       window.addEventListener("resize", function () {
         myChart.resize();
       });
-    },
-    tooltipCharts() {
-      console.log(arguments[0]);
-      var myChart = echarts.init(document.getElementById("tooltipBarId"));
-      var option = {
-        tooltip: {},
-        dataset: {
-          source: [
-            [
-              "xAxis",
-              "201701",
-              "201702",
-              "201703",
-              "201704",
-              "201705",
-              "201706",
-              "201707",
-              "201708",
-              "201709",
-              "20170",
-              "201710",
-              "20170",
-              "201801",
-            ],
-            [
-              "amount",
-              41.1,
-              30.4,
-              65.1,
-              53.3,
-              83.8,
-              98.7,
-              65.1,
-              53.3,
-              41.1,
-              30.4,
-              53.3,
-              41.1,
-              53.3,
-              83.8,
-            ],
-          ],
-        },
-        xAxis: {
-          type: "category",
-          interval: true,
-          axisLabel: {
-            rotate: 45,
-          },
-          axisTick: {
-            show: false,
-          },
-        },
-        yAxis: {},
-        color: ["#4FA8F9", "#F5A623"],
-        grid: {
-          show: true,
-          backgroundColor: "#FAFAFA",
-          left: 30,
-          right: 20,
-          top: 20,
-        },
-        series: [
-          {
-            type: "bar",
-            smooth: true,
-            seriesLayoutBy: "row",
-            barWidth: 10,
-          },
-        ],
-      };
-      myChart.setOption(option);
     },
     china(chinaChart, chinaChartTip) {
       let myChart = this.$echarts.init(document.querySelector(".chartMap"));
@@ -852,33 +876,6 @@ export default {
           formatter: function (params) {
             var tipHtml = "";
             if (typeof params.value[2] == "undefined") {
-              // tipHtml =
-              //   '<div style="height:220px;width:100px;border-radius:5px;background:#fff;box-shadow:0 0 10px 5px #aaa">' +
-              //   '    <div style="height:50px;width:100%;border-radius:5px;background:#F8F9F9;border-bottom:1px solid #F0F0F0">' +
-              //   '        <span style="line-height:50px;margin-left:18px">' +
-              //   params.name +
-              //   "</span>" +
-              //   '        <span style="float:right;line-height:50px;margin-right:18px;color:#5396E3;cursor:pointer" onclick="mapTooltipClick(this);">点击查看详情</span>' +
-              //   "    </div>" +
-              //   '    <div style="height:110px;width:100%;background:#fff">' +
-              //   '        <div style="padding-left:18px;padding-top:22px">' +
-              //   '            <span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:rgba(92,169,235,1)"></span> ' +
-              //   "            <span>上传表格数量</span>" +
-              //   '            <span style="float:right;margin-right:18px">' +
-              //   params.value +
-              //   "万</span>" +
-              //   "        </div>" +
-              //   '        <div style="padding-left:18px;padding-top:14px">' +
-              //   '            <span style="display:inline-block;margin-right:5px;width:10px;height:10px;background-color:rgba(92,169,235,1)"></span> ' +
-              //   "            <span>上传数据条数</span>" +
-              //   '            <span style="float:right;margin-right:18px">' +
-              //   100 +
-              //   "条</span>" +
-              //   "        </div>" +
-              //   "    </div>" +
-              //   '    <div id="tooltipBarId" style="height:200px;width:100%;border-radius:0 0 5px 0;background:#fff"></div>' +
-              //   "</div>";
-              // // tooltipCharts(params.name)
               return params.name + " : " + params.value + "个对虾养殖基地";
               setTimeout(function () {
                 tooltipCharts(params.name);
@@ -923,7 +920,8 @@ export default {
           //     show: false,
           //   },
           // },
-          itemStyle: {         //地图样式
+          itemStyle: {
+            //地图样式
             normal: {
               borderColor: "rgba(147, 235, 248, 1)",
               borderWidth: 1, //地图边线
@@ -1062,7 +1060,7 @@ export default {
       };
 
       //保留
-      var This = this
+      var This = this;
       var count = 0;
       var timeTicket = null;
       var dataLength = option.series[0].data.length;
@@ -1127,10 +1125,10 @@ export default {
       myChart.on("click", function (params) {
         // 由于作用域的问题只能通过这个方式实现跳转
         console.log(params);
-        if (params.data.name === '广东') {
-          window.location.href = "#/guangdong?userId=" + params.data.name;
+        if (params.data.name === "广东") {
+          window.location.href = "#/guangdong?地区=" + params.data.name;
         } else {
-          This.$message.info('敬请期待')
+          This.$message.info("敬请期待");
         }
       });
     },

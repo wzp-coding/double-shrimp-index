@@ -726,7 +726,8 @@ export default {
       console.log(geoCoordMap);
       // 获取广东各省养殖数据
       var data = [];
-      console.log(guangdongDetail);
+      console.log(guangdongChart);
+      
       guangdongDetail.forEach((e) => {
         let obj = {
           value: e.value,
@@ -799,16 +800,16 @@ export default {
         legend: {
           show: false,
         },
-        visualMap: {
-          show: false,
-          min: 0,
-          max: 500,
-          left: "left",
-          top: "bottom",
-          text: ["高", "低"], // 文本，默认为数值文本
-          calculable: true,
-          seriesIndex: [1],
-        },
+        // visualMap: {
+        //   show: false,
+        //   min: 0,
+        //   max: 500,
+        //   left: "left",
+        //   top: "bottom",
+        //   text: ["高", "低"], // 文本，默认为数值文本
+        //   calculable: true,
+        //   seriesIndex: [1],
+        // },
         series: [
           {
             name: "广东省数据",
