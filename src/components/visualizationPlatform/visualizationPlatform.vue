@@ -510,21 +510,26 @@ export default {
       };
       setInterval(function () {
         var temp, temp1, i;
-        temp = times[times.length - 1];
-        temp1 = outPuts[outPuts.length - 1];
-        for (i = times.length - 1; i > 0; i--) {
-          times[i] = times[i - 1];
+        temp = arr2[arr2.length - 1];
+        temp1 = this.orgindata[this.orgindata.length - 1];
+        for (i = arr2.length - 1; i > 0; i--) {
+          arr2[i] = arr2[i - 1];
           outPuts[i] = outPuts[i - 1];
         }
-        times[i] = temp;
+        arr2[i] = temp;
         outPuts[i] = temp1;
         myChart.setOption({
           xAxis: {
-            data: times,
+            data: arr2,
           },
-          series: {
-            data: outPuts,
-          },
+          series: [
+            {
+              data:this.orgindata
+            },
+            {
+              data:this.predictdata
+            }
+          ]
         });
       }, 1600);
       myChart.setOption(option);
