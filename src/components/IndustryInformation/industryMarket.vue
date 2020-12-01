@@ -585,7 +585,6 @@ export default {
         }
       } catch (error) {
         console.log("网络错误 19999");
-        this.$router.go(0)
       }
     },
     //每周精品
@@ -684,7 +683,6 @@ export default {
         }
       } catch (error) {
         console.log("网络错误 19999");
-        this.$router.go(0)
       }
     },
     // 推荐，分页
