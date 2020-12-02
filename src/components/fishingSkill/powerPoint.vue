@@ -52,12 +52,14 @@
                   </p>
                 </div>
                 <div class="btns">
-                    <span
-                      class="el-icon-download"
-                      style="color: green"
-                      @click="getAllpptList"
-                      ><a :href="item.contentUrl" :download="item.contentUrl">下载</a></span
-                    >
+                  <span
+                    class="el-icon-download"
+                    style="color: green"
+                    @click="getAllpptList"
+                    ><a :href="item.contentUrl" :download="item.contentUrl"
+                      >下载</a
+                    ></span
+                  >
                   <span
                     class="el-icon-view"
                     style="margin-right: 10px; color: #4398d0"
@@ -111,7 +113,7 @@ export default {
       // 加载页面
       loading: true,
       // 点击分类 根据id分页
-      typeId: ""
+      typeId: "",
     };
   },
   created() {
@@ -148,7 +150,7 @@ export default {
         },
         "get"
       );
-      console.log(1)
+      console.log(1);
       if (res.code !== 20000) {
         return this.$message.error("获取列表失败！");
       }
@@ -180,7 +182,7 @@ export default {
     },
     // 搜索演示文稿
     async searchPPTList() {
-      const { data: res } = await this.reqM13Service(
+      const { data: res } = await this.reqM12Service(
         "/education/search/time/" +
           this.queryInfo.pagenum +
           "/8/2?key=" +
@@ -214,7 +216,7 @@ export default {
     },
     // 按类型查找演示文稿
     async getPPTbyTypeId(id) {
-      this.typeId=id;
+      this.typeId = id;
       const { data: res } = await this.reqM2Service(
         "/education/manuscripts/search/searchByTypeId/" +
           id +
@@ -233,18 +235,12 @@ export default {
     },
 
     bindPreview(url) {
-      console.log(url); // console.log(/(doc)|(ppt)|(pptx)|(xls)/.test(url)); // 跳转到空白页面预览，得等域名部署后
+      console.log(url); // console.log(/(doc)|(ppt)|(pptx)|(xls)/.test(url)); // 跳转到空白页面预览，得等域名部署后
       if (/(doc)|(ppt)|(pptx)/.test(url)) {
-        url =
-          "http://view.officeapps.live.com/op/view.aspx?src=" +
-          encodeURIComponent(url);
-      } 
-      // console.log(url);
-      //#region 包裹起来的区域是测试的
-      // url =
-      //   "https://view.officeapps.live.com/op/view.aspx?src=http%3a%2f%2fvideo.ch9.ms%2fbuild%2f2011%2fslides%2fTOOL-532T_Sutter.pptx";
-      // //#endregion
-      window.open(url);
+        window.open(`http://ow365.cn/?i=23209&furl=${url}`);
+        return;
+      }
+      return this.$message.error("获取演示文稿失败！");
     },
   },
 };
@@ -260,7 +256,7 @@ export default {
   flex-direction: row-reverse;
   a {
     color: #5a8239;
-    text-decoration:none;
+    text-decoration: none;
   }
 }
 .btns:hover {
@@ -309,7 +305,7 @@ export default {
       width: 275px;
       height: 287px;
       .pptTitle {
-        height:47px;
+        height: 47px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;

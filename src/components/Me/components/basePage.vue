@@ -132,6 +132,13 @@ export default {
             }
           );
           console.log(res)
+          if(res.message === '申请成功') {
+            this.isShowApply = false
+            this.isShowEnter = true
+            this.isPassSuccess()
+            return this.$message.success(res.message)
+          } else return this.$message.error(res.message)
+          
         }
       });
     },

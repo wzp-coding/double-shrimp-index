@@ -207,7 +207,7 @@
                   >
                   <div class="paggingBottom" style="width: 100%">
                     <p style="font-size: 13px; float: left">
-                      {{ item.creationTime
+                      {{ item.creationTime | timefilters
                       }}<span style="margin-left: 15px">
                         阅读： {{ item.clickNum }}</span
                       >
@@ -510,8 +510,7 @@ export default {
   },
   mounted(){
     window.addEventListener('scroll',this.handleScroll1) //监控滑动，运行handleScroll 函数
-    // window.addEventListener('scroll',this.test)
-    
+    window.addEventListener('scroll',this.test)
   },
   created() {
     //点击量 热度
@@ -525,9 +524,6 @@ export default {
         query: { id: id },
       });
     },
-    // test(){
-    //   console.log(document.body.scrollTop+document.documentElement.scrollTop)
-    // },
     handleScroll1(){
       let a = document.body.scrollTop+document.documentElement.scrollTop;
       if(a>24&&this.RecommList.length===0){
@@ -568,7 +564,7 @@ export default {
     // 前往搜索页面
     ToSearch(SearchKey) {
       this.$router.push({
-        path: "/instructpagedetail",
+        path: "instructpagedetail",
         query: { SearchKey: SearchKey },
       });
     },

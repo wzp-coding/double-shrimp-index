@@ -199,7 +199,7 @@ export default {
     // 监听 pagenum 改变
     handleCurrentChange(newPage) {
       this.videoInfo.page = newPage;
-      if (flag) {
+      if (this.flag) {
         this.getClass(this.classId);
       } else {
         this.searchVideo();

@@ -26,7 +26,7 @@
               @click="getTreeSonListBeed(item.id)"  
               class="leftsortParent"       
             >
-                {{ item.name}}
+               <i class="el-icon-caret-right"></i>{{ item.name}}
             <ul>
               <li 
               v-for="item in treeSonListBeed"
@@ -49,7 +49,7 @@
               @click="getTreeSonListStorage(item.id)"
               class="leftsortParent"          
             >
-                {{ item.name}}
+                <i class="el-icon-caret-right"></i>{{ item.name}}
             <ul>
               <li 
               v-for="item in treeSonListStorage"
@@ -71,7 +71,7 @@
               @click="fromTreeGetTableList(item.id)"  
               class="leftsortParent"              
             >
-                {{ item.name}}
+                <span style="padding-left: 15px;">{{ item.name }}</span>
             </li>
           </ul>
         </div>
@@ -228,7 +228,7 @@
 
       // 搜索区域
       async getSearchTableList() {
-        const { data: res } = await this.reqM13Service("/rights/search/time/"+ this.queryInfo.pagenum + "/7?key="+this.queryInfo.query,{
+        const { data: res } = await this.reqM12Service("/rights/search/time/"+ this.queryInfo.pagenum + "/7?key="+this.queryInfo.query,{
         params: this.queryInfo
       },'get')
         if (res.code !== 20000) {
@@ -461,18 +461,21 @@ a {
       list-style: none; 
     }
     .leftsortParent{
-      padding-left: 10px;
-      font-size: 14px;
+      padding-left: 20px;
+      font-size: 15px;
       line-height: 1.8em;
       font-weight: 600;
       cursor:pointer;
       color: #5d5f61;
+      padding-top: 10px;
+    
     }
     .leftsortSon {
-      padding-left: 20px;
-      font-size: 13px;
-      line-height: 1.6em;
+      padding-left: 25px;
+      font-size: 14px;
+      line-height: 1.8em;
       font-weight: 500;
+
       cursor:pointer;
       color: #78797a; 
     } 
