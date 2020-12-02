@@ -48,7 +48,7 @@ import breedingPlan from '../components/intelligentDecision/breedingPlan.vue'
 import waterQualityForecastAndWarning from '../components/intelligentDecision/waterQualityForecastAndWarning.vue'
 import informationRecommendation from '../components/intelligentDecision/informationRecommendation.vue'
 import precisionFeeding from '../components/intelligentDecision/precisionFeeding.vue'
-// 大数据
+// 大数据   可视化
 import visualizationPlatform from '../components/visualizationPlatform/visualizationPlatform.vue'
 import guangdong from '../components/visualizationPlatform/guangdong.vue'
 

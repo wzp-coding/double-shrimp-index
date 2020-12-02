@@ -55,6 +55,7 @@
 import "./china"; //地图信息
 import "./guangdong"; //广东详情页
 import "./jquery";
+var myVue = {}
 export default {
   data() {
     return {
@@ -65,6 +66,9 @@ export default {
       // 下标0位开始 1位结束
       predictTime: [],
     };
+  },
+  beforeCreate() {
+    myVue = this;
   },
   mounted() {
     this.requestAllData();
@@ -263,11 +267,11 @@ export default {
       };
       setInterval(function () {
         var temp, temp1, i;
-        temp = times[times.length - 1];
-        temp1 = outPuts[outPuts.length - 1];
-        for (i = times.length - 1; i > 0; i--) {
-          times[i] = times[i - 1];
-          outPuts[i] = outPuts[i - 1];
+        temp = times[0];
+        temp1 = outPuts[0];
+        for (i = 0; i < times.length - 1; i++) {
+          times[i] = times[i + 1];
+          outPuts[i] = outPuts[i + 1];
         }
         times[i] = temp;
         outPuts[i] = temp1;
@@ -355,11 +359,11 @@ export default {
       };
       setInterval(function () {
         var temp, temp1, i;
-        temp = times[times.length - 1];
-        temp1 = measureOfConsumption[measureOfConsumption.length - 1];
-        for (i = times.length - 1; i > 0; i--) {
-          times[i] = times[i - 1];
-          measureOfConsumption[i] = measureOfConsumption[i - 1];
+        temp = times[0];
+        temp1 = measureOfConsumption[0];
+        for (i = 0; i < times.length - 1; i++) {
+          times[i] = times[i + 1];
+          measureOfConsumption[i] = measureOfConsumption[i + 1];
         }
         times[i] = temp;
         measureOfConsumption[i] = temp1;
@@ -380,18 +384,16 @@ export default {
     chart4() {
       let myChart = this.$echarts.init(document.querySelector(".chart4"));
       // 时间切分处理
-      const etime = new Date(this.predictTime[0]).getTime();     //this.predictTime[0] 接口获取的数据1
-      const ltime = new Date(this.predictTime[1]).getTime();     //this.predictTime[1] 接口获取的数据2
-      let eltime = (ltime - etime) / (this.orgindata.length - 1);   //在调用接口那里获得的data长度
+      const etime = new Date(this.predictTime[0]).getTime(); //this.predictTime[0] 接口获取的数据1
+      const ltime = new Date(this.predictTime[1]).getTime(); //this.predictTime[1] 接口获取的数据2
+      let eltime = (ltime - etime) / (this.orgindata.length - 1); //在调用接口那里获得的data长度
       var arr = new Array(this.orgindata.length).fill(20);
       let arr2 = Array.from(arr, (x, i) => {
         let time = new Date(etime + i * eltime).toLocaleDateString();
         return time;
       });
-      console.log('第四个表');
-      console.log(this.orgindata);
-      console.log(this.predictdata);
-      console.log(arr2);
+      let preArr = this.predictdata; //预测数据
+      let oginArr = this.orgindata; //实际数据
       // 时间切分处理结束 arr2生成的值
       let option = {
         title: {
@@ -468,7 +470,7 @@ export default {
             type: "line",
             smooth: true,
             areaStyle: {},
-            data: this.orgindata.reverse(),
+            data: oginArr.reverse(),
             showSymbol: false,
             itemStyle: {
               borderColor: "#728eab",
@@ -499,7 +501,7 @@ export default {
               ),
               shadowColor: "rgba(0,0,0,1)",
             },
-            data: this.predictdata,
+            data: preArr,
             showSymbol: false,
             itemStyle: {
               borderColor: "#dad9b2",
@@ -509,27 +511,30 @@ export default {
         ],
       };
       setInterval(function () {
-        var temp, temp1, i;
-        temp = arr2[arr2.length - 1];
-        temp1 = this.orgindata[this.orgindata.length - 1];
-        for (i = arr2.length - 1; i > 0; i--) {
-          arr2[i] = arr2[i - 1];
-          outPuts[i] = outPuts[i - 1];
+        var temp, temp2, temp1, i;
+        temp = arr2[0];
+        temp1 = oginArr[0];
+        temp2 = preArr[0];
+        for (i = 0; i < arr2.length - 1; i++) {
+          arr2[i] = arr2[i + 1];
+          oginArr[i] = oginArr[i + 1];
+          preArr[i] = preArr[i + 1];
         }
         arr2[i] = temp;
-        outPuts[i] = temp1;
+        oginArr[i] = temp1;
+        preArr[i] = temp2;
         myChart.setOption({
           xAxis: {
             data: arr2,
           },
           series: [
             {
-              data:this.orgindata
+              data: oginArr,
             },
             {
-              data:this.predictdata
-            }
-          ]
+              data: preArr,
+            },
+          ],
         });
       }, 1600);
       myChart.setOption(option);
@@ -546,7 +551,6 @@ export default {
         times.push(e.time);
         areas.push(e.area);
       });
-
       let myChart = this.$echarts.init(document.querySelector(".chart5"));
       let option = {
         title: {
@@ -610,17 +614,32 @@ export default {
             data: areas.reverse(),
             itemStyle: {
               barBorderRadius: 5,
+              normal: {
+                color: function (params) {
+                  //注意，如果颜色太少的话，后面颜色不会自动循环，最好多定义几个颜色
+                  var colorList = [
+                    "#c23531",
+                    "#2f4554",
+                    "#61a0a8",
+                    "#d48265",
+                    "#91c7ae",
+                    "#749f83",
+                    "#ca8622",
+                  ];
+                  return colorList[params.dataIndex];
+                },
+              },
             },
           },
         ],
       };
       setInterval(function () {
         var temp, temp1, i;
-        temp = times[times.length - 1];
-        temp1 = areas[areas.length - 1];
-        for (i = times.length - 1; i > 0; i--) {
-          times[i] = times[i - 1];
-          areas[i] = areas[i - 1];
+        temp = times[0];
+        temp1 = areas[0];
+        for (i = 0; i < times.length - 1; i++) {
+          times[i] = times[i + 1];
+          areas[i] = areas[i + 1];
         }
         times[i] = temp;
         areas[i] = temp1;
@@ -767,13 +786,13 @@ export default {
       };
       setInterval(function () {
         var temp, temp1, temp2, i;
-        temp = times[times.length - 1];
-        temp1 = outPuts[outPuts.length - 1];
-        temp2 = areas[areas.length - 1];
-        for (i = times.length - 1; i > 0; i--) {
-          times[i] = times[i - 1];
-          outPuts[i] = outPuts[i - 1];
-          areas[i] = areas[i - 1];
+        temp = times[0];
+        temp1 = outPuts[0];
+        temp2 = areas[0];
+        for (i = 0; i < times.length - 1; i++) {
+          times[i] = times[i + 1];
+          outPuts[i] = outPuts[i + 1];
+          areas[i] = areas[i + 1];
         }
         times[i] = temp;
         outPuts[i] = temp1;
@@ -841,10 +860,6 @@ export default {
         };
         data.push(obj);
       });
-      console.log(geoCoordMap[data[0].name]);
-      console.log("嘤嘤嘤");
-      console.log(data);
-      console.log(chinaChartTip);
       var convertData = function (data) {
         var res = [];
         for (var i = 0; i < data.length; i++) {
@@ -859,11 +874,6 @@ export default {
         }
         return res;
       };
-      console.log("1346511");
-      var xx = convertData(data);
-      console.log("啊哈");
-      console.log(xx);
-      console.log(data);
       let option = {
         title: {
           top: 30,
@@ -1063,7 +1073,6 @@ export default {
           },
         ],
       };
-
       //保留
       var This = this;
       var count = 0;
@@ -1129,9 +1138,18 @@ export default {
       myChart.setOption(option);
       myChart.on("click", function (params) {
         // 由于作用域的问题只能通过这个方式实现跳转
+        console.log("进入广东");
         console.log(params);
         if (params.data.name === "广东") {
-          window.location.href = "#/guangdong?地区=" + params.data.name;
+          // window.location.href = "#/guangdong?地区=" + params.data.name;
+          myVue.$router.push({
+            path: "/guangdong",
+            // name: 'mallList',
+            query: {
+              id: params.data.name,
+              introduction:params.data.introduction
+            },
+          });
         } else {
           This.$message.info("敬请期待");
         }

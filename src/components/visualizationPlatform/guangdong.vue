@@ -62,7 +62,11 @@ export default {
       // 下标0位开始 1位结束
       predictTime: [],
       theRequest: null,
+      areaData:[]
     };
+  },
+  created(){
+
   },
   mounted() {
     this.requestAllData();
@@ -80,18 +84,6 @@ export default {
   },
   //   #a3fea7
   methods: {
-    GetRequest() {
-      var url = location.search; //获取url中"?"符后的字串
-      var theRequest = new Object();
-      if (url.indexOf("?") != -1) {
-        var str = url.substr(1);
-        strs = str.split("&");
-        for (var i = 0; i < strs.length; i++) {
-          theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
-        }
-      }
-      return theRequest;
-    },
     async requestAllData() {
       try {
         const { data: res } = await this.reqM3Service("/industry/1", "", "get");
@@ -147,7 +139,6 @@ export default {
     toVisualizationPlatform() {
       this.$router.push("/visualizationPlatform");
     },
-
     //   左边第一个扇形图
     chart1(pieOne) {
       // 数据格式处理
@@ -273,6 +264,25 @@ export default {
           },
         ],
       };
+      setInterval(function () {
+        var temp, temp1, i;
+        temp = times[0];
+        temp1 = outPuts[0];
+        for (i = 0; i < times.length - 1; i++) {
+          times[i] = times[i + 1];
+          outPuts[i] = outPuts[i + 1];
+        }
+        times[i] = temp;
+        outPuts[i] = temp1;
+        myChart.setOption({
+          xAxis: {
+            data: times,
+          },
+          series: {
+            data: outPuts,
+          },
+        });
+      }, 1600);
       myChart.setOption(option);
       // 自适应盒子大小,以及屏幕大小
       window.addEventListener("resize", function () {
@@ -346,15 +356,26 @@ export default {
           },
         ],
       };
-
+      setInterval(function () {
+        var temp, temp1, i;
+        temp = times[0];
+        temp1 = measureOfConsumption[0];
+        for (i = 0; i < times.length - 1; i++) {
+          times[i] = times[i + 1];
+          measureOfConsumption[i] = measureOfConsumption[i + 1];
+        }
+        times[i] = temp;
+        measureOfConsumption[i] = temp1;
+        myChart.setOption({
+          xAxis: {
+            data: times,
+          },
+          series: {
+            data: measureOfConsumption,
+          },
+        });
+      }, 1600);
       myChart.setOption(option);
-      // 自适应盒子大小,以及屏幕大小
-      //   $(".line h2").on("click", "a", function () {
-      //     // option.series[0].data = yData[$(this).index()].data[0];
-      //     // option.series[1].data = yData[$(this).index()].data[1];
-      //     myChart.setOption(option);
-      //   });
-
       window.addEventListener("resize", function () {
         myChart.resize();
       });
@@ -370,6 +391,8 @@ export default {
         let time = new Date(etime + i * eltime).toLocaleDateString();
         return time;
       });
+      let preArr = this.predictdata; //预测数据
+      let oginArr = this.orgindata; //实际数据
       // 时间切分处理结束 arr2生成的值
       let option = {
         title: {
@@ -487,6 +510,33 @@ export default {
           },
         ],
       };
+      setInterval(function () {
+        var temp, temp2, temp1, i;
+        temp = arr2[0];
+        temp1 = oginArr[0];
+        temp2 = preArr[0];
+        for (i = 0; i < arr2.length - 1; i++) {
+          arr2[i] = arr2[i + 1];
+          oginArr[i] = oginArr[i + 1];
+          preArr[i] = preArr[i + 1];
+        }
+        arr2[i] = temp;
+        oginArr[i] = temp1;
+        preArr[i] = temp2;
+        myChart.setOption({
+          xAxis: {
+            data: arr2,
+          },
+          series: [
+            {
+              data: oginArr,
+            },
+            {
+              data: preArr,
+            },
+          ],
+        });
+      }, 1600);
       myChart.setOption(option);
       // 自适应盒子大小,以及屏幕大小
       window.addEventListener("resize", function () {
@@ -501,7 +551,6 @@ export default {
         times.push(e.time);
         areas.push(e.area);
       });
-
       let myChart = this.$echarts.init(document.querySelector(".chart5"));
       let option = {
         title: {
@@ -565,10 +614,36 @@ export default {
             data: areas.reverse(),
             itemStyle: {
               barBorderRadius: 5,
+              normal:{
+                color: function(params) {
+                	//注意，如果颜色太少的话，后面颜色不会自动循环，最好多定义几个颜色
+                    var colorList = ['#c23531','#2f4554', '#61a0a8', '#d48265', '#91c7ae','#749f83', '#ca8622'];
+                    return colorList[params.dataIndex]
+                }
+              }
             },
           },
         ],
       };
+      setInterval(function () {
+        var temp, temp1, i;
+        temp = times[0];
+        temp1 = areas[0];
+        for (i = 0; i < times.length - 1; i++) {
+          times[i] = times[i + 1];
+          areas[i] = areas[i + 1];
+        }
+        times[i] = temp;
+        areas[i] = temp1;
+        myChart.setOption({
+          xAxis: {
+            data: times,
+          },
+          series: {
+            data: areas,
+          },
+        });
+      }, 1600);
       myChart.setOption(option);
       // 自适应盒子大小,以及屏幕大小
       window.addEventListener("resize", function () {
@@ -702,13 +777,56 @@ export default {
           },
         ],
       };
+      setInterval(function () {
+        var temp, temp1, temp2, i;
+        temp = times[0];
+        temp1 = outPuts[0];
+        temp2 = areas[0];
+        for (i = 0; i < times.length - 1; i++) {
+          times[i] = times[i + 1];
+          outPuts[i] = outPuts[i + 1];
+          areas[i] = areas[i + 1];
+        }
+        times[i] = temp;
+        outPuts[i] = temp1;
+        areas[i] = temp2;
+        myChart.setOption({
+          xAxis: {
+            data: times,
+          },
+          series: [{ data: outPuts }, { data: areas }],
+        });
+      }, 1600);   
       myChart.setOption(option);
       // 自适应盒子大小,以及屏幕大小
       window.addEventListener("resize", function () {
         myChart.resize();
       });
     },
+    async getIntroduction(){
+      try {
+        const { data: res } = await this.reqM3Service("/industry", "", "get");
+        console.log('广东数据');
+        console.log(res.data);
+        var temp =res.data
+        if (res.code === 20000) {
+          console.log('temp');
+          this.areaData = res.data[3];
+          console.log(this.areaData);
+          return this.areaData
+        } else {
+          this.$message.error("网络开小差了，请稍后重试 ALL 20001");
+        }
+      } catch (error) {
+        this.$message.error("网络开小差了，请稍后重试 ALL 19999");
+        console.log(error);
+      }
+    },
     guangdong(guangdongChart, guangdongDetail) {
+      console.log('广东介绍');
+      console.log(this.$route.query.introduction);
+      var temp = this.getIntroduction();
+      console.log(temp);
       let myChart = this.$echarts.init(document.querySelector(".chartMap"));
       myChart.showLoading();
       var geoCoordMap = {};
@@ -732,13 +850,12 @@ export default {
         let obj = {
           value: e.value,
           name: e.city + "市",
-          introduction: e.introduction,
+          introduction: this.$route.query.introduction,
         };
         data.push(obj);
       });
       console.log(data);
       console.log("嘤嘤嘤");
-      console.log(geoCoordMap["珠海市"]);
       console.log(data);
       var convertData = function (data) {
         var res = [];
@@ -777,25 +894,28 @@ export default {
           trigger: "item",
           formatter: function (item) {
             var tipHtml = "";
-            if (item.data.value) {
+            // if (item.data.value) {
               tipHtml =
-                '<div style="background:#fff;border-radius:10px;padding-top:10px;box-shadow:0 0 10px #666">' +
+                '<div style="width:100px;height:150px;border-radius:10px;padding-top:10px">' +
                 '<div style="color:#fff;height:20px;border-radius:6px;font-size:12px;line-height:20px;background-color:#5861a2;text-align:center;margin:0 2px;">' +
                 item.data.name +
                 "</div>" +
                 '<div style="text-align:center;color:#494949;padding:8px 6px">' +
                 '<span style="font-size:18px;font-weight:bold;">' +
-                "对虾基地数：" +
+                "对虾基地数：" +item.data.introduction[2]+
                 item.data.value +
                 " " +
                 "</span>" +
                 "</div>" +
                 "</div>";
-            } else {
-              tipHtml = "<div>" + "该地区对虾暂无养殖场" + "</div>";
-            }
+            // }
+            // else {
+            //   tipHtml = "<div>" + "该地区对虾暂无养殖场" + "</div>";
+            // }
             return tipHtml;
           },
+          position: ['30%', '70%']
+
         },
         legend: {
           show: false,
