@@ -88,13 +88,19 @@ export default {
       baseId: ''
     };
   },
+  created() {
+    this.getBaseId()
+  },
   updated() {
-    let data = JSON.parse(window.sessionStorage.getItem("userData"));
-    if (data) {
-      this.baseId = data.baseId;
-    }
+    this.getBaseId()
   },
   methods: {
+    getBaseId() {
+      let data = JSON.parse(window.sessionStorage.getItem("userData"));
+      if (data) {
+        this.baseId = data.baseId;
+      }
+    },
     outUser() {
       this.baseId = ''
       // 调用vuex使用默认的值的覆盖原有的用户
