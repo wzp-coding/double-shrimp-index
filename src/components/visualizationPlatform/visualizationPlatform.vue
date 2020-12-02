@@ -1143,9 +1143,9 @@ export default {
         if (params.data.name === "广东") {
           // window.location.href = "#/guangdong?地区=" + params.data.name;
           myVue.$router.push({
-            path: "/guangdong",
-            // name: 'mallList',
-            query: {
+            // path: "/guangdong",
+            name: 'province',
+            params: {
               id: params.data.name,
               introduction:params.data.introduction
             },

@@ -337,8 +337,8 @@ const routes = [
   },
   {
     path: '/guangdong',
-    component: guangdong
-
+    component: guangdong,
+    name:'province'
   },
   {
     path: '/emall',

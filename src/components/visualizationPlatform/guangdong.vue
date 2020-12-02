@@ -2,7 +2,9 @@
   <div class="lxl-vp">
     <div class="content">
       <el-header class="header">
-        <el-button @click="toVisualizationPlatform" size="mini"> 返回 </el-button>
+        <el-button @click="toVisualizationPlatform" size="mini">
+          返回
+        </el-button>
         <h1>对虾大数据可视化平台</h1>
       </el-header>
       <!-- 主内容区 -->
@@ -62,12 +64,10 @@ export default {
       // 下标0位开始 1位结束
       predictTime: [],
       theRequest: null,
-      areaData:[]
+      areaData: [],
     };
   },
-  created(){
-
-  },
+  created() {},
   mounted() {
     this.requestAllData();
     // 时间器
@@ -282,7 +282,7 @@ export default {
             data: outPuts,
           },
         });
-      }, 1600);
+      }, 2500);
       myChart.setOption(option);
       // 自适应盒子大小,以及屏幕大小
       window.addEventListener("resize", function () {
@@ -374,7 +374,7 @@ export default {
             data: measureOfConsumption,
           },
         });
-      }, 1600);
+      }, 2500);
       myChart.setOption(option);
       window.addEventListener("resize", function () {
         myChart.resize();
@@ -536,7 +536,7 @@ export default {
             },
           ],
         });
-      }, 1600);
+      }, 2500);
       myChart.setOption(option);
       // 自适应盒子大小,以及屏幕大小
       window.addEventListener("resize", function () {
@@ -614,13 +614,21 @@ export default {
             data: areas.reverse(),
             itemStyle: {
               barBorderRadius: 5,
-              normal:{
-                color: function(params) {
-                	//注意，如果颜色太少的话，后面颜色不会自动循环，最好多定义几个颜色
-                    var colorList = ['#c23531','#2f4554', '#61a0a8', '#d48265', '#91c7ae','#749f83', '#ca8622'];
-                    return colorList[params.dataIndex]
-                }
-              }
+              normal: {
+                color: function (params) {
+                  //注意，如果颜色太少的话，后面颜色不会自动循环，最好多定义几个颜色
+                  var colorList = [
+                    "#c23531",
+                    "#2f4554",
+                    "#61a0a8",
+                    "#d48265",
+                    "#91c7ae",
+                    "#749f83",
+                    "#ca8622",
+                  ];
+                  return colorList[params.dataIndex];
+                },
+              },
             },
           },
         ],
@@ -643,7 +651,7 @@ export default {
             data: areas,
           },
         });
-      }, 1600);
+      }, 2500);
       myChart.setOption(option);
       // 自适应盒子大小,以及屏幕大小
       window.addEventListener("resize", function () {
@@ -796,24 +804,24 @@ export default {
           },
           series: [{ data: outPuts }, { data: areas }],
         });
-      }, 1600);   
+      }, 2500);
       myChart.setOption(option);
       // 自适应盒子大小,以及屏幕大小
       window.addEventListener("resize", function () {
         myChart.resize();
       });
     },
-    async getIntroduction(){
+    async getIntroduction() {
       try {
         const { data: res } = await this.reqM3Service("/industry", "", "get");
-        console.log('广东数据');
+        console.log("广东数据");
         console.log(res.data);
-        var temp =res.data
+        var temp = res.data;
         if (res.code === 20000) {
-          console.log('temp');
+          console.log("temp");
           this.areaData = res.data[3];
           console.log(this.areaData);
-          return this.areaData
+          return this.areaData;
         } else {
           this.$message.error("网络开小差了，请稍后重试 ALL 20001");
         }
@@ -823,10 +831,7 @@ export default {
       }
     },
     guangdong(guangdongChart, guangdongDetail) {
-      console.log('广东介绍');
-      console.log(this.$route.query.introduction);
       var temp = this.getIntroduction();
-      console.log(temp);
       let myChart = this.$echarts.init(document.querySelector(".chartMap"));
       myChart.showLoading();
       var geoCoordMap = {};
@@ -845,18 +850,14 @@ export default {
       // 获取广东各省养殖数据
       var data = [];
       console.log(guangdongChart);
-      
       guangdongDetail.forEach((e) => {
         let obj = {
           value: e.value,
           name: e.city + "市",
-          introduction: this.$route.query.introduction,
+          introduction: this.$route.params.introduction,
         };
         data.push(obj);
       });
-      console.log(data);
-      console.log("嘤嘤嘤");
-      console.log(data);
       var convertData = function (data) {
         var res = [];
         for (var i = 0; i < data.length; i++) {
@@ -872,11 +873,6 @@ export default {
         }
         return res;
       };
-      var xx = convertData(data);
-      console.log("666");
-      console.log(xx);
-      console.log("1324");
-      console.log(data);
       myChart.hideLoading();
       let option = {
         title: {
@@ -894,42 +890,50 @@ export default {
           trigger: "item",
           formatter: function (item) {
             var tipHtml = "";
-            // if (item.data.value) {
+            if(item.data.value){
               tipHtml =
-                '<div style="width:100px;height:150px;border-radius:10px;padding-top:10px">' +
-                '<div style="color:#fff;height:20px;border-radius:6px;font-size:12px;line-height:20px;background-color:#5861a2;text-align:center;margin:0 2px;">' +
-                item.data.name +
-                "</div>" +
-                '<div style="text-align:center;color:#494949;padding:8px 6px">' +
-                '<span style="font-size:18px;font-weight:bold;">' +
-                "对虾基地数：" +item.data.introduction[2]+
-                item.data.value +
-                " " +
-                "</span>" +
-                "</div>" +
-                "</div>";
-            // }
-            // else {
-            //   tipHtml = "<div>" + "该地区对虾暂无养殖场" + "</div>";
-            // }
+              '<div style="width:400px;height:150px;border-radius:10px;padding-top:10px">' +
+              '<h1 style="width:400px;color:#fff;height:20px;border-radius:6px;line-height:20px;text-align:center;margin:0 2px;">' +
+              item.data.name +':'+item.data.value+'个对虾养殖基地'+
+              "</h1>" +
+              '<div style="overflow:hidden;white-space:normal;word-break:break-all;width:400px;color:#494949;padding:8px 6px">' +
+              '<p style="color:#fff;font-weight:17px">' +
+              item.data.introduction[2] +
+              "</p>" +
+              "</div>" +
+              "</div>";
+            }else{
+              tipHtml =
+              '<div style="width:400px;height:150px;border-radius:10px;padding-top:10px">' +
+              '<h1 style="width:400px;color:#fff;height:20px;border-radius:6px;line-height:20px;text-align:center;margin:0 2px;">' +
+              item.data.name +':'+'暂无对虾养殖基地'+
+              "</h1>" +
+              '<div style="overflow:hidden;white-space:normal;word-break:break-all;width:400px;color:#494949;padding:8px 6px">' +
+              '<p style="color:#fff;font-weight:17px">' +
+              item.data.introduction[2] +
+              "</p>" +
+              "</div>" +
+              "</div>";
+            }    
             return tipHtml;
           },
-          position: ['30%', '70%']
-
+          position: ["30%", "70%"],
+          backgroundColor: "none",
         },
         legend: {
           show: false,
         },
-        // visualMap: {
-        //   show: false,
-        //   min: 0,
-        //   max: 500,
-        //   left: "left",
-        //   top: "bottom",
-        //   text: ["高", "低"], // 文本，默认为数值文本
-        //   calculable: true,
-        //   seriesIndex: [1],
-        // },
+        visualMap: {
+          show: false,
+          min: 0,
+          max: 500,
+          left: "left",
+          top: "bottom",
+          text: ["高", "低"], // 文本，默认为数值文本
+          calculable: true,
+          seriesIndex: [1],
+        },
+
         series: [
           {
             name: "广东省数据",
@@ -988,11 +992,44 @@ export default {
             layoutCenter: ["50%", "50%"],
             layoutSize: "160%",
             markPoint: {
-              symbol: "none",
+              symbol: "pin",
             },
             data: convertData(data),
           },
-
+          {
+            type: "map",
+            map: "广东",
+            geoIndex: 0,
+            aspectScale: 0.75, //长宽比
+            showLegendSymbol: false, // 存在legend时显示
+            label: {
+              normal: {
+                show: false,
+              },
+              emphasis: {
+                show: false,
+                textStyle: {
+                  color: "#fff",
+                },
+              },
+            },
+            roam: true,
+            itemStyle: {
+              //气泡
+              normal: {
+                areaColor: "#031525",
+                borderColor: "#FFFFFF",
+              },
+              emphasis: {
+                show: true,
+                areaColor: "#0a2dae",
+                borderWidth: 0,
+                color: "green",
+              },
+            },
+            animation: false,
+            data: convertData(data),
+          },
         ],
       };
       var count = 0;
