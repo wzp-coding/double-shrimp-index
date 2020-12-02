@@ -181,7 +181,6 @@ export default {
           },
         ],
       };
-
       myChart.setOption(option);
       // 自适应盒子大小,以及屏幕大小
       window.addEventListener("resize", function () {
@@ -933,7 +932,6 @@ export default {
           calculable: true,
           seriesIndex: [1],
         },
-
         series: [
           {
             name: "广东省数据",
