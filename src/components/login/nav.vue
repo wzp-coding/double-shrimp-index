@@ -194,5 +194,8 @@ a {
     width: 1px !important;
     height: 10px;
   }
+  .el-menu-item {
+    margin: 3px 0 0 !important;
+  }
 }
 </style>

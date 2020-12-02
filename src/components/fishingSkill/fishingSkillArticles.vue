@@ -95,6 +95,22 @@
                       item.title | ellipsis
                     }}</span>
                   </div>
+                  <div class="btns">
+                    <span
+                      class="el-icon-download"
+                      style="color: green"
+                      ><a :href="item.contentUrl" :download="item.contentUrl"
+                        >下载</a
+                      ></span
+                    >
+                    <span
+                      class="el-icon-view"
+                      style="margin-right: 10px; color: #4398d0"
+                      @click="bindPreview(item.contentUrl)"
+                    >
+                      查看</span
+                    >
+                  </div>
                 </el-card>
               </div>
             </el-col>
@@ -151,11 +167,27 @@
                   </el-image>
                   <div style="padding: 14px">
                     <span @click="goToDetail(item.contentUrl)">{{
-                      item.title
+                      item.title | ellipsis
                     }}</span>
                     <div class="bottom clearfix">
                       <span class="title">渔技学堂</span>
                       <span class="title right">{{ item.clickNum }}人阅读</span>
+                    </div>
+                    <div class="btns" style="margin-top: 10px">
+                      <span
+                        class="el-icon-download"
+                        style="color: green"
+                        ><a :href="item.contentUrl" :download="item.contentUrl"
+                          >下载</a
+                        ></span
+                      >
+                      <span
+                        class="el-icon-view"
+                        style="margin-right: 10px; color: #4398d0"
+                        @click="bindPreview(item.contentUrl)"
+                      >
+                        查看</span
+                      >
                     </div>
                   </div>
                 </el-card>
@@ -398,12 +430,20 @@ export default {
       this.pageNum = newPage;
       this.getMoreArticle(this.onId);
     },
+    bindPreview(url) {
+      console.log(url); // console.log(/(doc)|(ppt)|(pptx)|(xls)/.test(url)); // 跳转到空白页面预览，得等域名部署后
+      if (/(doc)|(ppt)|(pptx)/.test(url)) {
+        window.open(`http://ow365.cn/?i=23209&furl=${url}`);
+        return;
+      }
+      return this.$message.error("获取该文章失败！");
+    },
   },
   filters: {
     ellipsis(value) {
       if (!value) return "";
-      if (value.length > 14) {
-        return value.slice(0, 14) + "...";
+      if (value.length > 13) {
+        return value.slice(0, 13) + "...";
       }
       return value;
     },
@@ -425,6 +465,17 @@ export default {
 }
 .lxl-box {
   width: 1150px;
+}
+.btns {
+  display: flex;
+  flex-direction: row-reverse;
+  a {
+    color: #5a8239;
+    text-decoration: none;
+  }
+}
+.btns:hover {
+  cursor: pointer;
 }
 .content {
   width: 1150px;
