@@ -1130,7 +1130,7 @@ export default {
         if (params.data.name === '广东') {
           window.location.href = "#/guangdong?userId=" + params.data.name;
         } else {
-          This.$message.info('敬请期待')
+          This.$message.info('敬请期待！')
         }
       });
     },

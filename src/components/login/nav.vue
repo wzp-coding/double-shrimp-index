@@ -80,7 +80,7 @@ export default {
       activeIndex: "",
       navPath: this.$route.path,
       userData1: {
-        loginId: "登录",
+        loginId: "尚未登录",
         role: "游客",
         photo:
           "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
@@ -88,13 +88,19 @@ export default {
       baseId: ''
     };
   },
+  created() {
+    this.getBaseId()
+  },
   updated() {
-    let data = JSON.parse(window.sessionStorage.getItem("userData"));
-    if (data) {
-      this.baseId = data.baseId;
-    }
+    this.getBaseId()
   },
   methods: {
+    getBaseId() {
+      let data = JSON.parse(window.sessionStorage.getItem("userData"));
+      if (data) {
+        this.baseId = data.baseId;
+      }
+    },
     outUser() {
       this.baseId = ''
       // 调用vuex使用默认的值的覆盖原有的用户
@@ -103,7 +109,6 @@ export default {
       this.$store.commit(("changeToken", ""));
       this.$store.commit("changeUserData", this.userData1);
       this.$store.commit("changeIsLogin", false);
-      this.$store.commit('saveIp','')
       this.$message({
         showClose: true,
         message: "退出成功",
@@ -119,19 +124,14 @@ export default {
     // 用来标识登录，并监控浏览器刷新后重新将session中的数据放到vuex中
     isLogin() {
       if (
-        window.sessionStorage.getItem("userData")  &&
-        window.sessionStorage.getItem("token") 
+        window.sessionStorage.getItem("userData") &&
+        window.sessionStorage.getItem("token")
       ) {
         this.$store.dispatch("changeUserDataAsycn");
       }
       return this.$store.getters.getIsLogin;
     },
   },
-  created() {
-    if(window.localStorage.getItem('Ip')) {
-      this.$store.state.ip = window.localStorage.getItem('Ip')
-    }
-  }
 };
 </script>
 <style lang="less">
@@ -185,7 +185,7 @@ a {
   box-shadow: 2px 2px 3px rgba(0,0,0,0.5) !important;
 }
 .nav-menu {
-  width: 75.7%;
+  width: 1150px;
   .middle-thread {
     position: absolute;
     top: 50%;

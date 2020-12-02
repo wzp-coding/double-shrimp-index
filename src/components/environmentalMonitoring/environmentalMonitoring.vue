@@ -478,6 +478,7 @@ export default {
       const myflag = this.form.typeId === "0" ? "" : "/water";
       // 根据类型获取算法参数
       this.form.arithmetic = this.form.typeId === "0" ? "arima" : "LR";
+      this.form.baseId = this.baseId
       // 匹配以获取单位
       const { data: res } = await this.reqM41Service(
         `/datarecord/forecast${myflag}/${this.form.arithmetic}/1/500`,
@@ -628,6 +629,7 @@ export default {
       const { data: res } = await this.reqM41Service(
         `/${flag}/search/1/500`,
         {
+          baseId: this.baseId,
           startTime: this.form.startTime,
           endTime: this.form.endTime,
           typeId: this.typeId,
@@ -673,7 +675,7 @@ export default {
         "get"
       );
       console.log(res)
-      if (res.data.id == null ) {
+      if (res.message === '拒绝' ) {
         this.$message.info('请先绑定基地！！')
         return this.$router.push("/basePage");
       }
