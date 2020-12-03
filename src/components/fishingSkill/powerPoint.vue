@@ -79,7 +79,7 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="queryInfo.pagenum"
-          :page-size="12"
+          :page-size="8"
           layout="prev, pager,next, total, jumper"
           :total="total"
           style="padding-left: 200px; padding-top: 10px"

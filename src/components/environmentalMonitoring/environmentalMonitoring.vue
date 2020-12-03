@@ -29,9 +29,11 @@
         <!-- 图表区域 -->
         <div class="lxl-main">
           <div>
-            <div class="chart1" ref="chart"></div>
+            <div class="chart1" ref="chart">
+            </div>
 
             <div class="lxl-em">
+              <div>请先添加数据</div>
               <iframe
                 :src="monitor.vedioUrl"
                 frameborder="no"
@@ -646,6 +648,7 @@ export default {
         {},
         "post"
       );
+      console.log(res);
       this.monitorInfo[0].children = res.data;
       this.monitorInfo[0].children.forEach((item, index, monitorInfo) => {
         monitorInfo[index] = {
