@@ -349,6 +349,7 @@ export default {
   created() {
     // 判断是否登录，或者是否创建基地
     this.isExit();
+    this.open();
   },
   methods: {
     // 点击获取预测节点信息
@@ -638,7 +639,28 @@ export default {
         },
         "post"
       );
+      this.isEmpty(res.data.total, "暂无数据", "环境预测");
       this.checkItemDataList = res.data.rows;
+    },
+
+    /* 判断是否有数据 */
+    isEmpty(data, text, title) {
+      if (data == 0) {
+        this.$notify.error({
+          title: title,
+          message: text,
+          duration: 0,
+        });
+      }
+    },
+
+    /* 进入提示 */
+    open() {
+      this.$notify({
+        title: "提示",
+        message: "可在右侧选择需要查看的信息",
+        type: "warning",
+      });
     },
 
     /* 获取监控视频节点 */
@@ -649,6 +671,7 @@ export default {
         "post"
       );
       console.log(res);
+      this.isEmpty(res.data.length, "暂无监控设备", "环境监控");
       this.monitorInfo[0].children = res.data;
       this.monitorInfo[0].children.forEach((item, index, monitorInfo) => {
         monitorInfo[index] = {
@@ -677,9 +700,8 @@ export default {
         },
         "get"
       );
-      console.log(res)
-      if (res.message === '拒绝' ) {
-        this.$message.info('请先绑定基地！！')
+      if (res.message === "拒绝") {
+        this.$message.info("请先绑定基地！！");
         return this.$router.push("/basePage");
       }
       this.baseId = res.data.id;
