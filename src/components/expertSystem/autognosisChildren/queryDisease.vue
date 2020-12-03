@@ -134,7 +134,7 @@ export default {
       //   },
       //   method: "get",
       // })
-      this.reqM13Service(httpUrl,{},'get').then((res) => {
+      this.reqM12Service(httpUrl,{},'get').then((res) => {
         res = res.data;
         console.log(res);
         if (res.code === 20000) {

@@ -86,10 +86,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@font-face {
-  font-family: btt;
-  src: url("../../../fonts/btt.ttf");
-}
 .shop-info {
   .shop-info-title {
     position: relative;
@@ -105,7 +101,6 @@ export default {
     }
   }
   .shop-info-header {
-    font-family: btt;
     font-size: 2rem;
     color: rgb(0, 0, 0);
     text-align: center;

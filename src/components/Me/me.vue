@@ -22,9 +22,13 @@
             <!-- <el-menu-item index="/message">我的消息</el-menu-item> -->
             <el-menu-item index="/favorite">购物车</el-menu-item>
             <el-menu-item index="/addressMan">收货地址管理</el-menu-item>
-            <el-menu-item index="/changePassword">修改密码</el-menu-item>
+            <!-- <el-menu-item index="/changePassword">修改密码</el-menu-item> -->
             <el-menu-item index="/shopManage">店铺管理</el-menu-item>
             <el-menu-item index="/expertPage">专家页面</el-menu-item>
+            <el-menu-item index="/basePage">我的基地</el-menu-item>
+            <el-menu-item index="/messageBox" v-if="baseId == null"
+              >基地邀请</el-menu-item
+            >
           </el-menu>
         </el-aside>
 
@@ -36,11 +40,11 @@
                   <el-avatar
                     shape="circle"
                     :size="100"
-                    :src="userData.photo"
+                    :src="userData != null ? userData.photo : userData1.photo"
                   ></el-avatar>
                 </div>
-                <span class="user-avator-name">{{ userData.loginId }}</span>
-                <span class="user-avator-identity">{{ userData.role }}</span>
+                <span class="user-avator-name">{{ userData != null ? userData.loginId : userData1.loginId }}</span>
+                <span class="user-avator-identity">{{ userData != null ? userData.role : userData1.role }}</span>
               </el-col>
               <el-col :span="17" class="user-attestation">
                 <div class="user-attestation-header">认证情况</div>
@@ -86,25 +90,32 @@ export default {
     return {
       isPath: this.$route.path,
       userData: {},
+      userData1: {
+        loginId: "尚未登录",
+        role: "游客",
+        photo:
+          "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
+      },
       shopList: [],
+      baseId: "",
     };
   },
-  methods:{
-    
-  },
   created() {
-    if(!window.sessionStorage.getItem('token')){
+    if (!window.sessionStorage.getItem("token")) {
       this.$message({
-        message:'请先登录！'
-      })
-      this.$router.push('/login');
+        message: "请先登录！",
+      });
+      this.$router.push("/login");
     }
     // 用户数据渲染
     this.userData = this.$store.state.userData;
-  },
-  methods: {
 
+    let data = JSON.parse(window.sessionStorage.getItem("userData"));
+    if (data) {
+      this.baseId = data.baseId;
+    }
   },
+  methods: {},
 };
 </script>
 
@@ -122,10 +133,6 @@ export default {
 .lxl-box {
   width: 1150px;
 }
-@font-face {
-  font-family: electronicFont;
-  src: url("../../fonts/KaneDemo-OVMZO.otf");
-}
 .user-view {
   .user-container {
     .user-right {
@@ -134,7 +141,6 @@ export default {
         display: flex;
         justify-content: space-between;
         background-color: #f7f7f7;
-        font-family: "electronicFont";
         .user-avator {
           min-height: 230px;
           background-color: #4ecb5f;

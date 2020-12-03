@@ -71,13 +71,6 @@
             <div class="classIntroduce">
               <span class="weight">课程说明：</span>{{ videoItem.brief }}
             </div>
-            <div class="picDescribe">
-              图文讲解
-              <div class="course">惠农网一件代发上架产品教程</div>
-              <div class="course">
-                发布供应流程：惠农网APP→我要卖→专区报名(新版代发·产品上架)→右上角添加→发布供应→确认发布→在售·选择供应→上架完成
-              </div>
-            </div>
           </el-col>
           <el-col :span="7">
             <div>

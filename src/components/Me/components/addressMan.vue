@@ -16,7 +16,7 @@
       </el-form-item>
       <el-form-item label="手机号" required prop="photo">
         <el-input
-          type="number"
+          type="tel"
           placeholder="请输入手机号"
           v-model="addressForm.photo"
         ></el-input>
@@ -111,7 +111,12 @@ export default {
           { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" },
         ],
         photo: [
-          { required: true, message: "请输入手机号", trigger: "blur" },
+          {
+            required: true,
+            message: "请输入手机号",
+            trigger: "blur",
+            type: "tel",
+          },
           {
             min: 11,
             max: 11,

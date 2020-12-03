@@ -11,7 +11,9 @@ export default new Vuex.Store({
       photo:"https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
     },
     token: '',
-    isLogin: false
+    isLogin: false,
+    ip:'',
+    baseId: ''
   },
   mutations: {
     changeUserData(state, step) {
@@ -22,6 +24,9 @@ export default new Vuex.Store({
     },
     changeIsLogin(state, step) {
       state.isLogin = step
+    },
+    saveIp(state, step) {
+      state.ip = step
     }
   },
   actions: {
@@ -35,6 +40,7 @@ export default new Vuex.Store({
         window.sessionStorage.getItem("token")
       );
       content.commit("changeIsLogin", true);
+      content.commit("saveIp", window.localStorage.getItem("Ip"));
     },
     loginAsycn(content, step) {
       window.sessionStorage.setItem("token", step.headers.token);
@@ -47,6 +53,7 @@ export default new Vuex.Store({
       content.commit("changeIsLogin", true);
     }
   },
+
   getters: {
     getIsLogin: state => {
       return state.isLogin

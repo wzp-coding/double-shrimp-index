@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import './plugins/element.js'
+
 import axios from 'axios'
 import store from './store'
 import echarts from 'echarts'
@@ -26,6 +27,7 @@ axios.defaults.baseM13URL = domain.Base_M13_URL
 //->1,模块一接口,url地址
 //->2,模块二接口,url地址
 axios.defaults.baseM2URL = domain.Base_M2_URL
+axios.defaults.baseM22URL = domain.Base_M22_URL
 //->3,模块三接口,url地址
 axios.defaults.baseM3URL = domain.Base_M3_URL
 axios.defaults.baseM31URL = domain.Base_M31_URL

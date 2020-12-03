@@ -14,19 +14,21 @@
             <el-breadcrumb-item>详情</el-breadcrumb-item>
           </el-breadcrumb>
         </div>
-        <!-- <div class="tr">
-          <input type="text" placeholder="  搜索你想要的农产品资讯" />
-          <i class="el-icon-search"></i>
-        </div> -->
       </div>
       <el-divider></el-divider>
       <div class="main">
-        <div class="left">
-          <div class="LeftTop">
-            <span style="font-size: 36px">{{ IdData.title }}</span>
-            <el-divider></el-divider>
-            <div class="pandc">
-              <div class="pic">
+        <div class="left" style="margin-top: 17px">
+          <div class="LeftTop" :data="IdData">
+            <span
+              style="
+                font-size: 37px;
+                font-family: Microsoft Yahei;
+                font-weight: 700;
+              "
+              >{{ IdData.title }}</span
+            >
+            <div class="articleMain" style="margin-top: 17px">
+              <div>
                 <el-avatar
                   style="border: 3px solid white"
                   :size="70"
@@ -34,91 +36,98 @@
                 ></el-avatar>
               </div>
               <div class="lxl-title">
-                <h3>{{ IdData.editor | limitword }}</h3>
+                <span>{{ IdData.editor }}报告</span>
                 <p style="display: flex">
-                  发布时间 {{ IdData.creationTime | timefilters
-                  }}<span style="margin-left: 15px" v-if="IdData.editor">
-                    {{ IdData.editor | limitword }}报告</span
-                  >
+                  发布时间 {{ IdData.creationTime | timefilters }}
                 </p>
               </div>
             </div>
           </div>
-          <!-- 富文本内容填充区域 -->
           <div class="article">
-            <div class="article" v-html="IdData.content" id="test"></div>
+            <h3 style="margin-bottom: 10px; font-weight: 510">
+              {{ IdData.summary }}
+            </h3>
+            <div v-html="IdData.content" id="articleHtml"></div>
           </div>
         </div>
-
         <div class="right">
-          <el-tabs v-model="activeName">
+          <el-tabs v-model="activeName" @tab-click="showHot">
             <el-tab-pane label="最新资讯" name="first">
               <div
-                class="list"
-                v-for="(item, index) in newDataList"
+                class="tabList"
+                v-for="(item, index) in newDatatabList"
                 :key="index"
               >
-                <div class="block">
+                <div class="tabListPicture">
                   <el-image
                     :src="item.picture"
                     @click="TonewPath(item.id)"
                   ></el-image>
-                  <div class="rightspan">
-                    <span @click="TonewPath(item.id)">{{ item.title }}</span>
-                  </div>
+                </div>
+                <div class="tabListWord">
+                  <span @click="TonewPath(item.id)">{{ item.title }}</span>
                 </div>
               </div>
             </el-tab-pane>
-            <el-tab-pane label="热门资讯" name="second">
+            <el-tab-pane label="热门资讯" name="second" v-loading="loading1">
               <div
-                class="list"
-                v-for="(item, index) in numclicklist"
+                class="tabList"
+                v-for="(item, index) in numclicktabList"
                 :key="index"
               >
-                <div class="block">
+                <div class="tabListPicture">
                   <el-image
                     :src="item.picture"
                     @click="TonewPath(item.id)"
                   ></el-image>
-                  <div class="rightspan">
-                    <span @click="TonewPath(item.id)">{{ item.title }}</span>
-                  </div>
+                </div>
+                <div class="tabListWord">
+                  <span @click="TonewPath(item.id)">{{ item.title }}</span>
                 </div>
               </div>
             </el-tab-pane>
           </el-tabs>
-          <!-- <el-tabs v-model="activeName1">
+          <el-tabs v-model="activeName1" @tab-click="showMonth">
             <el-tab-pane label="本周热门" name="first1">
               <div
-                class="list"
-                v-for="(item, index) in WeekDataList"
+                class="tabList"
+                v-for="(item, index) in WeekDatatabList"
                 :key="index"
               >
-                <div class="block">
+                <div class="tabListPicture">
                   <el-image
                     :src="item.picture"
                     @click="TonewPath(item.id)"
                   ></el-image>
-                  <div class="rightspan">
-                    <span @click="TonewPath(item.id)">{{ item.title }}</span>
-                  </div>
+                </div>
+                <div class="tabListWord">
+                  <span @click="TonewPath(item.id)">{{ item.title }}</span>
                 </div>
               </div>
             </el-tab-pane>
-            <el-tab-pane label="本月热门" name="second1">
-              <div class="list" v-for="(item, index) in MonthData" :key="index">
-                <div class="block">
+            <el-tab-pane
+              label="本月热门"
+              @click="showMonth"
+              name="second1"
+              v-loading="loading2"
+            >
+              <div
+                class="tabList"
+                v-for="(item, index) in MonthData"
+                :key="index"
+              >
+                <div class="tabListPicture">
                   <el-image
                     :src="item.picture"
                     @click="TonewPath(item.id)"
                   ></el-image>
-                  <div class="rightspan">
-                    <span @click="TonewPath(item.id)">{{ item.title }}</span>
-                  </div>
+                </div>
+                <div class="tabListWord">
+                  <span @click="TonewPath(item.id)">{{ item.title }}</span>
                 </div>
               </div>
             </el-tab-pane>
-          </el-tabs> -->
+          </el-tabs>
         </div>
       </div>
     </div>
@@ -154,21 +163,6 @@ export default {
         return times;
       }
     },
-    //限制文字个数
-    limitword(val) {
-      if (val == null || val == "" || val == 1) {
-        return "暂无数据";
-      } else {
-        var len = val.length;
-        if (len > 80) {
-          str: "";
-          str = val.substring(0, 80) + "......";
-          return str;
-        } else {
-          return val;
-        }
-      }
-    },
   },
   data() {
     return {
@@ -176,65 +170,68 @@ export default {
         "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
       activeName: "first",
       activeName1: "first1",
+      IdData: {},
       //按点击量查询
-      numclicklist: [],
+      numclicktabList: [],
 
       //按最新  时间
-      newDataList: [],
+      newDatatabList: [],
 
       //每周
-      WeekDataList: [],
+      WeekDatatabList: [],
       // 全部数据
       Alldata: [],
       //当前页面
       CurrentData: [],
-
       //每月
       MonthData: [],
-      IdData: {},
+      loading: true,
+      loading1: true,
+      loading2: true,
+      isRouterAlive:false
     };
   },
   created() {
-    //获取全部关于专题数据
-    this.getshrimpIndustryData();
-    //点击量 热度
-    this.getclickData();
-    //时间 最新
     this.getnewData();
-
-    //每周
-    // this.getWeekData();
-
-    //每月
-    // this.getMonthData();
+    this.getshrimpIndustryData();
+    window.addEventListener("scroll", this.handleScroll);
   },
-  mounted() {
-    console.log(this.$route.query.id);
+  watch: {
+    $route() {
+      this.$router.go(0)
+    },
   },
   methods: {
     //前往详情页 与更新详情页
     TonewPath(id) {
-      console.log(id);
       this.$router.push({
         path: "/instructdetail",
         query: { id: id },
       });
       this.$router.go(0);
     },
-
+    handleScroll() {
+      let a = document.body.scrollTop + document.documentElement.scrollTop;
+      if (a > 235 && this.WeekDatatabList.length === 0) {
+        this.getWeekData();
+      }
+    },
     //找到相应ID文章
     async getshrimpIndustryData() {
+      console.log(this.$route.query.id)
       try {
         const { data: res } = await this.reqM2Service(
-          `/info/information/${this.$route.query.id}`,
+          `/info/information/${this.$route.query.id}/${this.$store.state.userData.userId}`,
           "",
           "get"
         );
-        this.IdData = res.data;
         console.log("获取到文章");
-        console.log(res);
+        this.IdData = res.data;
+        console.log(res.data)
+        this.loading = false;
       } catch (error) {
         console.log("获取该ID文章信息失败");
+        this.$router.go(0)
       }
     },
     async getclickData() {
@@ -243,18 +240,36 @@ export default {
         "",
         "get"
       );
-      this.numclicklist = res.data.rows;
+      if (res.code === 20000) {
+        this.numclicktabList = res.data.rows;
+        this.loading1 = false;
+      } else {
+        console.log("获取点击量信息失败");
+        this.$router.go(0)
+      }
     },
-
     async getnewData() {
       const { data: res } = await this.reqM2Service(
         "/info/shrimpIndustry/findByTime/1/6",
         "",
         "get"
       );
-      this.newDataList = res.data.rows;
+      if (res.code === 20000) {
+        this.newDatatabList = res.data.rows;
+        this.loading2 = false;
+      } else {
+        console.log("获取最新数据失败");
+        this.$router.go(0)
+      }
     },
-
+    showHot() {
+      this.numclicktabList.length === 0
+        ? this.getclickData()
+        : (this.loading2 = false);
+    },
+    showMonth() {
+      this.MonthData.length === 0 ? this.getMonthData() : "";
+    },
     async getWeekData() {
       try {
         const { data: res } = await this.reqM2Service(
@@ -262,21 +277,33 @@ export default {
           "",
           "get"
         );
-        this.WeekDataList = res.data.rows;
+        if (res.code === 20000) {
+          this.WeekDatatabList = res.data.rows;
+          this.loading3 = false;
+        } else {
+          console.log("获取每周数据失败");
+        }
       } catch (error) {
-        console.log("获取吗每周数据失败");
+        console.log("获取每周数据失败");
+        this.$router.go(0)
       }
     },
     async getMonthData() {
       try {
         const { data: res } = await this.reqM2Service(
-          "/info/shrimpIndustry/findByClickMonthly/1/5",
+          "/info/shrimpIndustry/findByClickMonthly/1/6",
           "",
           "get"
         );
-        this.MonthData = res.data.rows;
+        if (res.code === 20000) {
+          this.MonthData = res.data.rows;
+          this.loading2 = false;
+        } else {
+          console.log("获取每月数据失败1");
+        }
       } catch (error) {
-        console.log("获取每月数据失败");
+        console.log("获取每月数据失败2");
+        this.$router.go(0)
       }
     },
   },
@@ -284,10 +311,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@font-face {
-  font-family: btt;
-  src: url("../../fonts/btt.ttf");
-}
 .lxl-body {
   display: flex;
   justify-content: center; //对齐方式
@@ -301,120 +324,66 @@ export default {
 .lxl-box {
   width: 1150px;
 }
-.top {
-  padding-top: 10px;
-  margin-bottom: -19px;
-  display: flex;
-  justify-content: space-between;
-  .tl {
-    margin-top: -10px;
-  }
-  .tr {
-    position: relative;
-    input {
-      padding-left: 5px;
-      border: 2px solid #d8d8d8;
-      border-radius: 100px;
-      width: 198px;
-      height: 38px;
-      outline: none;
-    }
-    i {
-      top: 13px;
-      position: absolute;
-      right: 20px;
-    }
-  }
-}
-
 .main {
-  margin-top: -30px;
+  margin-top: -25px;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
   .left {
-    float: left;
-    width: 67%;
-    .LeftTop {
-      width: 98%;
-      display: block;
-      padding: 20px;
-      margin: 13px 0 0 3px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
-      background-color: rgb(255, 250, 228);
-      font-family: "btt";
-      span {
-        display: block;
+    width: 69%;
+    margin-bottom: 10px;
+    .articleMain {
+      display: flex;
+      flex-wrap: nowrap;
+      .lxl-title {
+        margin-top: 17px;
+        margin-left: 5px;
       }
-      .pandc {
-        display: flex;
-        .lxl-title {
-          margin-top: 17px;
-          margin-left: 5px;
-        }
-        p {
-          padding-top: 6px;
-          font-size: 13px;
-          opacity: 0.9;
-        }
+      p {
+        padding-top: 6px;
+        font-size: 13px;
+        opacity: 0.9;
       }
     }
     .article {
       width: 100%;
-      font-size: 20.5px;
-
+      font-size: 19px;
       padding: 17px 0 0 5px;
-      #test {
+      #articleHtml {
         /deep/img {
           width: 98%;
-          height: 310px;
+          margin: 8px 0;
+          height: 370px;
         }
-      }
-      .block .el-image {
-        width: 98%;
-        height: 310px;
-        padding: 20px 0 35px 0;
       }
     }
   }
   .right {
-    float: right;
     width: 30%;
-    .el-image {
-      cursor: pointer;
-    }
-    .rightspan {
-      span {
-        color: #858585;
-        cursor: pointer;
-      }
-      span:hover {
-        color: black;
-        font-weight: 800px;
-      }
-    }
-
-    .el-tabs {
-      padding-top: 8px;
-    }
-    .list {
-      padding-top: 13px;
+    height: 1368px;
+    .tabList {
       width: 100%;
-      font-size: 13px;
-      .block {
-        display: flex;
-        display: block;
-        width: 100%;
-        height: 110px;
+      font-size: 14.21px;
+      display: flex;
+      justify-content: space-between;
+      .tabListPicture {
+        width: 40%;
+        height: 100px;
         padding-bottom: 5px;
         .el-image {
-          position: absolute;
-          width: 30%;
-          height: 100px;
-          float: left;
-          display: block;
+          height: 100%;
+          width: 100%;
         }
-        .rightspan {
-          width: 68%;
-          display: flex;
-          float: right;
+      }
+      .tabListWord {
+        width: 58%;
+        span {
+          color: #858585;
+          cursor: pointer;
+        }
+        span:hover {
+          color: black;
+          font-weight: 800px;
         }
       }
     }

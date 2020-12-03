@@ -17,9 +17,10 @@
             placeholder="请输入内容"
             v-model="queryInfo.query"
             clearable
-            @clear="getNewTableList"
+            @clear="handleQueryAllBtn"
             class="input-with-select"
           >
+            <!-- 搜索 -->
             <el-button
               slot="append"
               icon="el-icon-search"
@@ -28,6 +29,7 @@
           </el-input>
         </div>
       </div>
+      <!-- 分类 -->
       <div class="format">
         <label for="">类型： </label>
         <el-button @click="handleQueryAllBtn">全部</el-button>
@@ -44,12 +46,13 @@
             <el-card class="card">
               <el-image :src="item.pic" class="image"> </el-image>
               <div>
-                <div>
+                <div class="pptTitle">
                   <p style="padding: 10px">
                     {{ item.title }}
                   </p>
                 </div>
                 <div class="btns">
+<<<<<<< HEAD
                   <a :href="item.contentUrl" :download="item.contentUrl">
                     <span
                       class="el-icon-download"
@@ -59,6 +62,16 @@
                     ></a
                   >
 
+=======
+                  <span
+                    class="el-icon-download"
+                    style="color: green"
+                    @click="getAllpptList"
+                    ><a :href="item.contentUrl" :download="item.contentUrl"
+                      >下载</a
+                    ></span
+                  >
+>>>>>>> 06696b90e17636ff8ba5df455e22238ba0b7c3ee
                   <span
                     class="el-icon-view"
                     style="margin-right: 10px; color: #4398d0"
@@ -78,7 +91,11 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="queryInfo.pagenum"
+<<<<<<< HEAD
           :page-size="12"
+=======
+          :page-size="8"
+>>>>>>> 06696b90e17636ff8ba5df455e22238ba0b7c3ee
           layout="prev, pager,next, total, jumper"
           :total="total"
           style="padding-left: 200px; padding-top: 10px"
@@ -92,8 +109,10 @@
 export default {
   data() {
     return {
+      // 搜索框
       input: "",
       select: "",
+      // 演示文稿类型
       formattab: [],
       // 所有演示文稿
       pptlist: [],
@@ -109,6 +128,11 @@ export default {
       state: 0,
       // 加载页面
       loading: true,
+<<<<<<< HEAD
+=======
+      // 点击分类 根据id分页
+      typeId: "",
+>>>>>>> 06696b90e17636ff8ba5df455e22238ba0b7c3ee
     };
   },
   created() {
@@ -145,6 +169,7 @@ export default {
         },
         "get"
       );
+<<<<<<< HEAD
       if (res.code !== 20000) {
         return this.$message.error("获取列表失败！");
       }
@@ -163,12 +188,19 @@ export default {
         },
         "get"
       );
+=======
+      console.log(1);
+>>>>>>> 06696b90e17636ff8ba5df455e22238ba0b7c3ee
       if (res.code !== 20000) {
         return this.$message.error("获取列表失败！");
       }
       this.pptlist = res.data.rows;
       this.total = res.data.total;
+<<<<<<< HEAD
       this.queryInfo.pagenum = 1;
+=======
+      this.loading = false;
+>>>>>>> 06696b90e17636ff8ba5df455e22238ba0b7c3ee
       console.log(this.pptlist);
     },
     // 分页区域
@@ -177,7 +209,11 @@ export default {
       if (this.state == 0) {
         this.getAllpptList();
       } else if (this.state == 1) {
+<<<<<<< HEAD
         this.getPPTbyTypeId(id);
+=======
+        this.getPPTbyTypeId(this.typeId);
+>>>>>>> 06696b90e17636ff8ba5df455e22238ba0b7c3ee
       } else if (this.state == 2) {
         this.searchPPTList();
       }
@@ -187,14 +223,22 @@ export default {
       if (this.state == 0) {
         this.getAllpptList();
       } else if (this.state == 1) {
+<<<<<<< HEAD
         this.getPPTbyTypeId(id);
+=======
+        this.getPPTbyTypeId(this.typeId);
+>>>>>>> 06696b90e17636ff8ba5df455e22238ba0b7c3ee
       } else if (this.state == 2) {
         this.searchPPTList();
       }
     },
     // 搜索演示文稿
     async searchPPTList() {
+<<<<<<< HEAD
       const { data: res } = await this.reqM13Service(
+=======
+      const { data: res } = await this.reqM12Service(
+>>>>>>> 06696b90e17636ff8ba5df455e22238ba0b7c3ee
         "/education/search/time/" +
           this.queryInfo.pagenum +
           "/8/2?key=" +
@@ -210,7 +254,11 @@ export default {
       }
       this.pptlist = res.data.rows;
       this.total = res.data.total;
+<<<<<<< HEAD
       console.log(this.pptlist);
+=======
+      // console.log(this.pptlist);
+>>>>>>> 06696b90e17636ff8ba5df455e22238ba0b7c3ee
     },
     // 获取演示文稿的类型
     async getPPtTypes() {
@@ -228,6 +276,10 @@ export default {
     },
     // 按类型查找演示文稿
     async getPPTbyTypeId(id) {
+<<<<<<< HEAD
+=======
+      this.typeId = id;
+>>>>>>> 06696b90e17636ff8ba5df455e22238ba0b7c3ee
       const { data: res } = await this.reqM2Service(
         "/education/manuscripts/search/searchByTypeId/" +
           id +
@@ -246,6 +298,7 @@ export default {
     },
 
     bindPreview(url) {
+<<<<<<< HEAD
       console.log(url); // console.log(/(doc)|(ppt)|(pptx)|(xls)/.test(url)); // 跳转到空白页面预览，得等域名部署后
       if (/(doc)|(ppt)|(pptx)|(xls)/.test(url)) {
         url =
@@ -258,6 +311,14 @@ export default {
         "https://view.officeapps.live.com/op/view.aspx?src=http%3a%2f%2fvideo.ch9.ms%2fbuild%2f2011%2fslides%2fTOOL-532T_Sutter.pptx";
       //#endregion
       window.open(url);
+=======
+      console.log(url); // console.log(/(doc)|(ppt)|(pptx)|(xls)/.test(url)); // 跳转到空白页面预览，得等域名部署后
+      if (/(doc)|(ppt)|(pptx)/.test(url)) {
+        window.open(`http://ow365.cn/?i=23209&furl=${url}`);
+        return;
+      }
+      return this.$message.error("获取演示文稿失败！");
+>>>>>>> 06696b90e17636ff8ba5df455e22238ba0b7c3ee
     },
   },
 };
@@ -271,6 +332,10 @@ export default {
 .btns {
   display: flex;
   flex-direction: row-reverse;
+  a {
+    color: #5a8239;
+    text-decoration: none;
+  }
 }
 .btns:hover {
   cursor: pointer;
@@ -290,6 +355,7 @@ export default {
 .lxl-box {
   width: 1150px;
 }
+// 分类
 .format {
   padding: 10px;
   > * {
@@ -300,11 +366,13 @@ export default {
   width: 235px;
   height: 180px;
 }
+// 分页区域
 .pagination {
   width: 100%;
   margin: 20px;
   text-align: center;
 }
+// 卡片区域
 .lxl-card {
   .PPT-item {
     display: flex;
@@ -314,6 +382,15 @@ export default {
       margin: 5px;
       width: 275px;
       height: 287px;
+<<<<<<< HEAD
+=======
+      .pptTitle {
+        height: 47px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+>>>>>>> 06696b90e17636ff8ba5df455e22238ba0b7c3ee
     }
   }
 }

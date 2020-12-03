@@ -175,7 +175,7 @@ export default {
       box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
     }
     .el-tabs__item.is-left.is-active {
-      background-color: rgb(135, 204, 95);
+      background-color: #409EFF;
       color: #fff;
     }
     .content {
@@ -184,11 +184,7 @@ export default {
       .title {
         width: 19%;
         color: white;
-        background: linear-gradient(
-          to top,
-          #57b7cf 0%,
-          rgba(135, 204, 95, 1) 100%
-        );
+        background: #409EFF;
         padding: 18px;
         text-align: center;
         font-size: 1.3rem;

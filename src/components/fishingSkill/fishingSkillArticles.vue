@@ -81,29 +81,34 @@
                   <el-image
                     :src="item.pic"
                     class="illimage"
-                    @click="
-                      $router.push('/fishingSkillArticlesDetail?id=' + item.id)
-                    "
+                    @click="goToDetail(item.contentUrl)"
                   >
                     <div slot="error" class="image-slot">
                       <el-image
                         src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=386535230,3956809074&fm=26&gp=0.jpg"
-                        @click="
-                          $router.push(
-                            '/fishingSkillArticlesDetail?id=' + item.id
-                          )
-                        "
+                        @click="goToDetail(item.contentUrl)"
                       ></el-image>
                     </div>
                   </el-image>
                   <div style="padding: 14px" class="illPicName">
+                    <span @click="goToDetail(item.contentUrl)">{{
+                      item.title | ellipsis
+                    }}</span>
+                  </div>
+                  <div class="btns">
                     <span
-                      @click="
-                        $router.push(
-                          '/fishingSkillArticlesDetail?id=' + item.id
-                        )
-                      "
-                      >{{ item.title | ellipsis }}</span
+                      class="el-icon-download"
+                      style="color: green"
+                      ><a :href="item.contentUrl" :download="item.contentUrl"
+                        >下载</a
+                      ></span
+                    >
+                    <span
+                      class="el-icon-view"
+                      style="margin-right: 10px; color: #4398d0"
+                      @click="bindPreview(item.contentUrl)"
+                    >
+                      查看</span
                     >
                   </div>
                 </el-card>
@@ -144,37 +149,45 @@
           <el-row :gutter="20" class="articleRow">
             <el-col :span="4.8" v-for="(item, i) in adviseArticle" :key="i">
               <div class="adviseArticleCard">
-                <el-card :body-style="{ padding: '0px', height: '300px' }" class="adviseCard">
+                <el-card
+                  :body-style="{ padding: '0px', height: '300px' }"
+                  class="adviseCard"
+                >
                   <el-image
                     :src="item.pic"
                     class="advisedImage"
-                    @click="
-                      $router.push('/fishingSkillArticlesDetail?id=' + item.id)
-                    "
+                    @click="goToDetail(item.contentUrl)"
                   >
                     <div slot="error" class="image-slot">
                       <el-image
                         src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=386535230,3956809074&fm=26&gp=0.jpg"
-                        @click="
-                          $router.push(
-                            '/fishingSkillArticlesDetail?id=' + item.id
-                          )
-                        "
+                        @click="goToDetail(item.contentUrl)"
                       ></el-image>
                     </div>
                   </el-image>
                   <div style="padding: 14px">
-                    <span
-                      @click="
-                        $router.push(
-                          '/fishingSkillArticlesDetail?id=' + item.id
-                        )
-                      "
-                      >{{ item.title }}</span
-                    >
+                    <span @click="goToDetail(item.contentUrl)">{{
+                      item.title | ellipsis
+                    }}</span>
                     <div class="bottom clearfix">
                       <span class="title">渔技学堂</span>
                       <span class="title right">{{ item.clickNum }}人阅读</span>
+                    </div>
+                    <div class="btns" style="margin-top: 10px">
+                      <span
+                        class="el-icon-download"
+                        style="color: green"
+                        ><a :href="item.contentUrl" :download="item.contentUrl"
+                          >下载</a
+                        ></span
+                      >
+                      <span
+                        class="el-icon-view"
+                        style="margin-right: 10px; color: #4398d0"
+                        @click="bindPreview(item.contentUrl)"
+                      >
+                        查看</span
+                      >
                     </div>
                   </div>
                 </el-card>
@@ -394,6 +407,14 @@ export default {
     async moreArticle(typeId) {
       console.log("onId:" + typeId);
     },
+    goToDetail(url) {
+      if (/(doc)|(ppt)|(pptx)/.test(url)) {
+        url =
+          "http://view.officeapps.live.com/op/view.aspx?src=" +
+          encodeURIComponent(url);
+      }
+      window.open(url);
+    },
     handleSelect(index) {
       this.onId = index;
       console.log(index);
@@ -409,12 +430,20 @@ export default {
       this.pageNum = newPage;
       this.getMoreArticle(this.onId);
     },
+    bindPreview(url) {
+      console.log(url); // console.log(/(doc)|(ppt)|(pptx)|(xls)/.test(url)); // 跳转到空白页面预览，得等域名部署后
+      if (/(doc)|(ppt)|(pptx)/.test(url)) {
+        window.open(`http://ow365.cn/?i=23209&furl=${url}`);
+        return;
+      }
+      return this.$message.error("获取该文章失败！");
+    },
   },
   filters: {
     ellipsis(value) {
       if (!value) return "";
-      if (value.length > 14) {
-        return value.slice(0, 14) + "...";
+      if (value.length > 13) {
+        return value.slice(0, 13) + "...";
       }
       return value;
     },
@@ -436,6 +465,17 @@ export default {
 }
 .lxl-box {
   width: 1150px;
+}
+.btns {
+  display: flex;
+  flex-direction: row-reverse;
+  a {
+    color: #5a8239;
+    text-decoration: none;
+  }
+}
+.btns:hover {
+  cursor: pointer;
 }
 .content {
   width: 1150px;

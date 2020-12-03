@@ -15,7 +15,6 @@ import policiesMediaMoreArticle from '../components/policies/policiesMediaMoreAr
 // 渔技
 import edu from '../components/fishingSkill/edu.vue'
 import fishingSkillArticles from '../components/fishingSkill/fishingSkillArticles.vue'
-import fishingSkillArticlesDetail from '../components/fishingSkill/fishingSkillArticlesDetail.vue'
 import powerPoint from '../components/fishingSkill/powerPoint.vue'
 import intellectualProperty from '../components/fishingSkill/intellectualProperty.vue'
 import videoPlay from '../components/fishingSkill/videoPlay.vue'
@@ -73,8 +72,8 @@ import addressMan from '../components/Me/components/addressMan.vue'
 import changePassword from '../components/Me/components/changePassword.vue'
 import shopManage from '../components/Me/components/shopManage.vue'
 import expertPage from '../components/Me/components/expertPage.vue'
-import message from '../components/Me/components/message.vue'
-
+import basePage from '../components/Me/components/basePage.vue'
+import messageBox from '../components/Me/components/messageBox.vue'
 // 登录页面
 import login from '../components/login/login.vue'
 import reg from '../components/login/reg.vue'
@@ -82,7 +81,8 @@ import forgetPass from '../components/login/forgetPass.vue'
 import nav from '../components/login/nav.vue'
 import footer from '../components/login/footer.vue'
 
-
+// 领导仓
+import leaderPlace from '../components/leaderPlace/leaderPlace.vue'
 
 
 
@@ -153,7 +153,11 @@ const routes = [
     component: policies
 
   },
-
+  // 领导仓
+  {
+    path: '/leaderPlace',
+    component: leaderPlace
+  },
   // 知识产权详情页
   {
     path: '/intellectualPropertyArticle',
@@ -185,12 +189,6 @@ const routes = [
   {
     path: '/fishingSkillArticles',
     component: fishingSkillArticles
-
-  },
-  {
-    path: '/fishingSkillArticlesDetail',
-    component: fishingSkillArticlesDetail,
-    name: "fishingSkillArticlesDetail"
 
   },
   {
@@ -364,15 +362,11 @@ const routes = [
       // 个人中心首页
       {
         path: '/',
-        redirect: '/message'
+        redirect: '/meHomePage'
       },
       {
         path: '/meHomePage',
         component: meHomePage
-      },
-      {
-        path: '/message',
-        component: message
       },
       // 个人中心收藏夹
       {
@@ -398,6 +392,16 @@ const routes = [
       {
         path: '/expertPage',
         component: expertPage
+      },
+      // 基地信息页面
+      {
+        path: '/basePage',
+        component: basePage
+      },
+      // 消息中心
+      {
+        path: '/messageBox',
+        component: messageBox
       }
     ]
 

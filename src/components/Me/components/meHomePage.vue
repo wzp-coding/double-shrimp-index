@@ -165,7 +165,7 @@ export default {
             res.data.receiverAddress;
           return Address;
         } else {
-          this.$message.error(res.message);
+          // this.$message.error(res.message);
         }
       } catch (error) {
         this.$message.error("网络开小差了，请稍后重试19999");

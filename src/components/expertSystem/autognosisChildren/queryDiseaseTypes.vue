@@ -98,7 +98,7 @@ export default {
     getAllDisease(page=1,size=8,keys) {
       // 等分页查询接口完成加上去
       let httpUrl = `/diagnose/search/${page}/${size}?key=${keys}`;
-      this.reqM13Service(httpUrl,{},'get').then((res) => {
+      this.reqM12Service(httpUrl,{},'get').then((res) => {
         console.log(res.data);
         res = res.data;
         if (res.code === 20000) {

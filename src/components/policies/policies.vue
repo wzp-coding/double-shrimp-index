@@ -29,13 +29,12 @@
                 </el-carousel>
               </template>
             </div>
-
             <!-- 左栏第一栏右侧文字 -->
-            <div class="left1rword">
+            <div class="left1rword" v-loading="loading">
               <ul>
                 <li
                   class="left1rword0"
-                  v-for="item in policieslist"
+                  v-for="item in clicklist1"
                   :key="item.id"
                 >
                   <!-- 左栏第一栏右侧文字标题 -->
@@ -60,7 +59,7 @@
           </div>
 
           <!-- 左栏第二栏 《专家》 -->
-          <div>
+          <div v-loading="loading">
             <!-- 左栏第二栏标题区 -->
             <div class="left23head">
               <div class="left23headleft">专家</div>
@@ -72,7 +71,7 @@
                 </template>
               </div>
             </div>
-            <!-- 左栏第二栏内容区 -->
+            <!-- 左栏第二栏专家列表 -->
             <div class="left23word">
               <ul>
                 <li v-for="item in expertlist" :key="item.id">
@@ -91,7 +90,7 @@
           </div>
 
           <!-- 左栏第三栏 《媒体》 -->
-          <div>
+          <div v-loading="loading">
             <!-- 左栏第三栏标题区 -->
             <div class="left23head">
               <div class="left23headleft">媒体</div>
@@ -102,19 +101,13 @@
                 ></template>
               </div>
             </div>
-            <!-- 左栏第三栏内容区 -->
-            <!-- 媒体列表 -->
+            <!-- 左栏第三栏媒体列表 -->
             <div class="left23word">
               <ul>
                 <li v-for="item in medialist" :key="item.id">
                   <template>
-                    <router-link
-                      :to="{
-                        path: 'policiesListArticle',
-                        query: { id: item.id },
-                      }"
-                      >{{ item.title }}</router-link
-                    >
+                    <router-link :to="{path:'policiesListArticle',
+                    query:{id:item.id}}">{{ item.title }}</router-link>
                   </template>
                 </li>
               </ul>
@@ -123,130 +116,26 @@
         </div>
 
         <!-- 右侧栏 -->
-        <div class="lsx-right">
+        <div class="lsx-right" v-loading="loading">
           <!-- 右侧栏第一栏标题区 -->
           <div class="right1head">
             <div class="right1headleft">官方</div>
           </div>
-          <!-- 右侧栏第一栏内容区 -->
-          <!-- 专家列表 -->
-          <div class="right1rword">
-            <ul>
-              <li v-for="(item, i) in expertlist" :key="i">
-                <template>
-                  <router-link
-                    :to="{
-                      path: 'policiesListArticle',
-                      query: { id: item.id },
-                    }"
-                    >{{ item.title }}</router-link
-                  >
-                </template>
-              </li>
-            </ul>
-          </div>
-          <br />
-
-          <!-- 右栏第二栏内容区 -->
-          <!-- 按点击量查询政策法规 -->
+          <!-- 右栏内容区 -->
           <div class="right2word">
-            <ul style="list-style-type: disc">
-              <li
-                v-for="item in clicklist1"
-                :key="item.id"
-                class="rightwordhead"
-              >
-                <template>
-                  <router-link
-                    :to="{
-                      path: 'policiesListArticle',
-                      query: { id: item.id },
-                    }"
-                    >{{ item.title }}</router-link
-                  >
-                </template>
-              </li>
-            </ul>
-
-            <ul style="list-style-type: disc">
-              <li
-                v-for="item in clicklist2"
-                :key="item.id"
-                class="rightwordhead"
-              >
-                <template>
-                  <router-link
-                    :to="{
-                      path: 'policiesListArticle',
-                      query: { id: item.id },
-                    }"
-                    >{{ item.title }}</router-link
-                  >
-                </template>
-              </li>
-            </ul>
-
-            <!-- 查看更多 -->
-            <div class="right23more">
-              <router-link to="/policiesExpertMoreArticle"
-                >更多 <i class="el-icon-d-arrow-right"></i>
-              </router-link>
-            </div>
-            <!-- 推荐政策法规 -->
             <ul>
               <li
-                v-for="item in recommendlist"
+                v-for="item in officiallist"
                 :key="item.id"
                 class="rightwordhead"
               >
                 <template>
-                  <router-link
-                    :to="{
-                      path: 'policiesListArticle',
-                      query: { id: item.id },
-                    }"
-                    >{{ item.title }}</router-link
-                  >
+                  <router-link :to="{path:'policiesListArticle',query:{id:item.id}}">{{ item.title }}</router-link>
                 </template>
               </li>
             </ul>
-
-            <!-- 右栏第三栏 -->
-            <!-- 按时间查询政策法规 -->
-            <ul style="list-style-type: disc">
-              <li v-for="item in timelist" :key="item.id" class="rightwordhead">
-                <template>
-                  <router-link
-                    :to="{
-                      path: 'policiesListArticle',
-                      query: { id: item.id },
-                    }"
-                    >{{ item.title }}</router-link
-                  >
-                </template>
-              </li>
-            </ul>
-            <!-- 查看更多 -->
-            <div class="right23more">
-              <router-link to="/policiesMediaMoreArticle"
-                >更多 <i class="el-icon-d-arrow-right"></i>
-              </router-link>
-            </div>
           </div>
 
-          <!-- 右下按钮区 -->
-          <div class="tage">
-            <el-tag round>专家</el-tag>
-            <el-tag round>火参果资源</el-tag>
-            <el-tag round>橄榄</el-tag>
-            <el-tag round>红豆杉货源</el-tag>
-            <el-tag round>火鸡蛋</el-tag>
-            <el-tag round>豆芽货源</el-tag>
-            <el-tag round>洋葱货源</el-tag>
-            <el-tag round>红薯批发</el-tag>
-            <el-tag round>黄瓜货源</el-tag>
-            <el-tag round>猪货源</el-tag>
-          </div>
         </div>
       </div>
     </div>
@@ -256,20 +145,14 @@
 export default {
   data() {
     return {
-      // 左栏第一栏右侧政策法规列表
-      policieslist: [],
+      // 左侧第一栏按点击量查询政策法规第一页
+      clicklist1: [],
       // 左栏第二栏专家列表
       expertlist: [],
       // 左栏第三栏媒体列表
       medialist: [],
-      // 按点击量查询政策法规第一页
-      clicklist1: [],
-      // 按点击量查询政策法规第二页
-      clicklist2: [],
-      // 查询推荐政策法规
-      recommendlist: [],
-      // 按时间查询政策法规
-      timelist: [],
+      // 右栏官方列表
+      officiallist: [],
       // 轮播图
       imgList: [
         {
@@ -284,74 +167,24 @@ export default {
         },
       ],
       times: "",
+      loading: true,
     };
   },
   created() {
-    // 获取左侧第一栏列表政策法规数据
-    this.getPoliciesList();
+    // 左侧第一栏按点击量查询政策法规
+    this.getClickList1();
     // 获取专家列表数据
     this.getExpertList();
     // 获取媒体列表数据
     this.getMediaList();
-    // 按点击量查询政策法规第一页
-    this.getClickList1();
-    // 按点击量查询政策法规第二页
-    this.getClickList2();
-    // 查询推荐政策法规
-    this.getRecommendList();
-    // 按时间查询政策法规
-    this.getTimeList();
+    // 获取右栏官方列表
+    this.getOfficialList();
   },
   methods: {
-    // 获取左侧第一栏列表政策法规数据
-    async getPoliciesList() {
-      const { data: res } = await this.reqM2Service(
-        `/info/policies/1/8`,
-        "",
-        "post"
-      );
-      console.log(res);
-      if (res.code !== 20000) {
-        return this.$message.error("获取列表失败！");
-      }
-      this.policieslist = res.data.rows;
-      console.log(this.policieslist);
-    },
-
-    // 获取专家列表数据
-    async getExpertList() {
-      const { data: res } = await this.reqM2Service(
-        `/info/policies/search/searchByTypeId/1316746002186768384/1/12`,
-        "",
-        "post"
-      );
-      console.log(res);
-      if (res.code !== 20000) {
-        return this.$message.error("获取列表失败！");
-      }
-      this.expertlist = res.data.rows;
-      console.log(this.expertlist);
-    },
-
-    // 获取媒体列表数据
-    async getMediaList() {
-      const { data: res } = await this.reqM2Service(
-        `/info/policies/search/searchByTypeId/1316746032893267968/1/12`,
-        "",
-        "post"
-      );
-      console.log(res);
-      if (res.code !== 20000) {
-        return this.$message.error("获取列表失败！");
-      }
-      this.medialist = res.data.rows;
-      console.log(this.medialist);
-    },
-
-    // 按点击量查询政策法规第一页
+    // 按点击量查询政策法规(左侧第一栏)
     async getClickList1() {
       const { data: res } = await this.reqM2Service(
-        `/info/policies/findByClickNum/1/4`,
+        `/info/policies/findByClickNum/1/8`,
         "",
         "get"
       );
@@ -360,52 +193,55 @@ export default {
         return this.$message.error("获取列表失败！");
       }
       this.clicklist1 = res.data.rows;
+      this.loading=false;
       console.log(this.clicklist1);
     },
-    // 按点击量查询政策法规第二页
-    async getClickList2() {
+
+    // 获取专家列表数据
+    async getExpertList() {
       const { data: res } = await this.reqM2Service(
-        `/info/policies/findByClickNum/2/4`,
+        `/info/policies/search/searchByTypeId/1316746002186768384/1/10`,
         "",
-        "get"
+        "post"
       );
-      console.log(res);
       if (res.code !== 20000) {
         return this.$message.error("获取列表失败！");
       }
-      this.clicklist2 = res.data.rows;
-      console.log(this.clicklist2);
+      this.expertlist = res.data.rows;
+      this.loading=false;
+      console.log(this.expertlist);
     },
 
-    // 查询推荐政策法规
-    async getRecommendList() {
+    // 获取媒体列表数据
+    async getMediaList() {
       const { data: res } = await this.reqM2Service(
-        `/info/policies/findByRecommend/1/4`,
+        `/info/policies/search/searchByTypeId/1316746032893267968/1/10`,
         "",
-        "get"
+        "post"
       );
-      console.log(res);
       if (res.code !== 20000) {
         return this.$message.error("获取列表失败！");
       }
-      this.recommendlist = res.data.rows;
-      console.log(this.recommendlist);
+      this.medialist = res.data.rows;
+      this.loading=false;
+      console.log(this.medialist);
     },
 
-    // 按时间查询政策法规
-    async getTimeList() {
+    // 获取官方列表数据
+    async getOfficialList() {
       const { data: res } = await this.reqM2Service(
-        `/info/policies/findByTime/1/4`,
+        `/info/policies/search/searchByTypeId/1327786510489096192/1/28`,
         "",
-        "get"
+        "post"
       );
-      console.log(res);
       if (res.code !== 20000) {
         return this.$message.error("获取列表失败！");
       }
-      this.timelist = res.data.rows;
-      console.log(this.timelist);
+      this.officiallist = res.data.rows;
+      this.loading=false;
+      console.log(this.officiallist);
     },
+
     // 时间格式化
     formatTime(date) {
       //date是传入的时间
@@ -435,8 +271,6 @@ export default {
   },
 };
 </script>
-
-
 
 <style lang="less" scoped>
 a {
@@ -502,6 +336,9 @@ a {
       .left1rwordtitle {
         font-size: 13px;
         line-height: 2em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         a {
           color: #403a3e;
         }
@@ -582,38 +419,17 @@ a {
     text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.3);
   }
 }
-// 右栏第一栏内容
-.right1rword {
-  font-size: 13px;
-  line-height: 2em;
-  padding-left: 10px;
-  a {
-    color: #403a3e;
-  }
-  li {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  a:hover {
-    color: #39b8ed;
-  }
-}
 
-// 右栏第二栏内容
+// 右栏官方列表内容区
 .right2word {
-  width: 100%;
-  font-size: 13px;
-  line-height: 2em;
-  padding-left: 10px;
+  font-size: 14px;
+  line-height: 2.4em;
+  padding-left: 5px;
   a {
     color: #403a3e;
   }
   a:hover {
     color: #39b8ed;
-  }
-  ul {
-    list-style-position: inside;
   }
   li {
     white-space: nowrap;
@@ -621,38 +437,15 @@ a {
     text-overflow: ellipsis;
   }
 }
-
-.right23more {
-  width: 100%;
-  height: 20px;
-  line-height: 2em;
-  font-size: 13px;
-  border-top: 1px solid #b7b7b5;
-  a {
-    float: right;
-    color: #b7b7b5;
-  }
-  a:hover {
-    color: black;
-  }
-}
+// 右栏官方列表加粗标题
 .rightwordhead:nth-child(1) {
-  font-size: 15px;
-  font-weight: 800;
+  padding-top: 15px;
+  font-size: 16px;
+  font-weight: 700;
 }
-
-// 右栏下tag区
-.tage {
-  padding-top: 20px;
-}
-.el-tag {
-  background-color: #f0f9eb;
-  border-color: #e1f3d8;
-  color: #67c23a;
-  margin: 0 5px 10px 10px;
-  font-size: 14px;
-  padding-top: 5px;
-  height: 40px;
-  cursor: pointer;
+.rightwordhead:nth-child(7n) {
+  padding-top: 10px;
+  font-size: 16px;
+  font-weight: 700;
 }
 </style>

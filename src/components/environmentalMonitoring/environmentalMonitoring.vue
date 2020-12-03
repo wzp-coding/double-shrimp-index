@@ -29,9 +29,11 @@
         <!-- 图表区域 -->
         <div class="lxl-main">
           <div>
-            <div class="chart1" ref="chart"></div>
+            <div class="chart1" ref="chart">
+            </div>
 
             <div class="lxl-em">
+              <div>请先添加数据</div>
               <iframe
                 :src="monitor.vedioUrl"
                 frameborder="no"
@@ -69,16 +71,12 @@
             >
             </el-tree>
             <el-tree
+              :data="monitorInfo"
               :props="defaultProps"
-              :load="loadNode2"
-              accordion
-              lazy
+              default-expand-all
+              highlight-current
               @node-click="handleNodeClick2"
-              :highlight-current="true"
-              empty-text="暂无数据"
-              node-key="id"
-            >
-            </el-tree>
+            ></el-tree>
           </div>
         </div>
       </div>
@@ -92,12 +90,15 @@ export default {
       // 控制配置选项
       defaultProps: {
         label: "name",
-        children: "zones",
+        children: "children",
         isLeaf: "leaf",
       },
 
+      // token值
+      token: "Bearer " + window.sessionStorage.getItem("token"),
+
       // 基地id
-      baseId: "1248910886228332544",
+      baseId: "",
 
       // 存储设备信息
       equipmentList: [],
@@ -323,9 +324,18 @@ export default {
       monitor: {
         name: "",
         id: "",
-        vedioUrl:
-          "https://open.ys7.com/ezopen/h5/iframe_se?url=ezopen://kuvijh@open.ys7.com/C83568071/1.live&autoplay=0&audio=1&accessToken=at.0gtr0xdf7370qj6t1mdw36ruc82ru8e5-6t5ik3tant-07ogvjp-gsg2ay97y&templete=2",
+        vedioUrl: "",
       },
+
+      // 监控数据
+      monitorInfo: [
+        {
+          name: "监控位置",
+          children: [],
+        },
+      ],
+      // 存储监控视频的默认值
+      monitorDefault: [],
     };
   },
   computed: {
@@ -337,11 +347,9 @@ export default {
     },
   },
   created() {
-    this.getForecastData();
-    // 获取表格数据
-    this.getTableInfo();
-    // 查询监控设备
-    this.getMonitor();
+    // 判断是否登录，或者是否创建基地
+    this.isExit();
+    this.open();
   },
   methods: {
     // 点击获取预测节点信息
@@ -410,16 +418,6 @@ export default {
       }
     },
 
-    // 懒加载节点
-    async loadNode2(node, resolve) {
-      if (node.level === 0) {
-        return resolve([{ name: "监控位置" }]);
-      }
-      if (node.level === 1) {
-        await this.getMonitor(node, resolve);
-      }
-    },
-
     /* 预测图开始 */
     // 格式化时间 （可用于图表格式化）
     checkTime(date) {
@@ -483,6 +481,7 @@ export default {
       const myflag = this.form.typeId === "0" ? "" : "/water";
       // 根据类型获取算法参数
       this.form.arithmetic = this.form.typeId === "0" ? "arima" : "LR";
+      this.form.baseId = this.baseId
       // 匹配以获取单位
       const { data: res } = await this.reqM41Service(
         `/datarecord/forecast${myflag}/${this.form.arithmetic}/1/500`,
@@ -495,7 +494,6 @@ export default {
       if (res.data.orgindata.length === 0) {
         return this.$message.error("查无数据");
       }
-      this.$message.success("预测成功!!");
       this.isShowWarn = res.data.warn;
       // 获取画图的周期长度
       const length = this.getTimeLength(this.form.startTime, this.form.endTime);
@@ -634,36 +632,87 @@ export default {
       const { data: res } = await this.reqM41Service(
         `/${flag}/search/1/500`,
         {
+          baseId: this.baseId,
           startTime: this.form.startTime,
           endTime: this.form.endTime,
           typeId: this.typeId,
         },
         "post"
       );
+      this.isEmpty(res.data.total, "暂无数据", "环境预测");
       this.checkItemDataList = res.data.rows;
-      console.log(this.checkItemDataList);
     },
 
-    /* 获取监控视频 节点 */
-    async getMonitor(node, resolve) {
+    /* 判断是否有数据 */
+    isEmpty(data, text, title) {
+      if (data == 0) {
+        this.$notify.error({
+          title: title,
+          message: text,
+          duration: 0,
+        });
+      }
+    },
+
+    /* 进入提示 */
+    open() {
+      this.$notify({
+        title: "提示",
+        message: "可在右侧选择需要查看的信息",
+        type: "warning",
+      });
+    },
+
+    /* 获取监控视频节点 */
+    async getMonitorInfo() {
       const { data: res } = await this.reqM31Service(
         `/monitor/${this.baseId}`,
         {},
         "post"
       );
-      this.monitoringLocationList = res.data;
-      this.monitoringLocationList.forEach(
-        (item, index, monitoringLocationList) => {
-          monitoringLocationList[index] = {
-            name: item.monitoringLocation,
-            id: item.id,
-            vedioUrl: item.vedioUrl,
-            leaf: true,
-          };
-        }
+      console.log(res);
+      this.isEmpty(res.data.length, "暂无监控设备", "环境监控");
+      this.monitorInfo[0].children = res.data;
+      this.monitorInfo[0].children.forEach((item, index, monitorInfo) => {
+        monitorInfo[index] = {
+          name: item.monitoringLocation,
+          id: item.id,
+          vedioUrl: item.vedioUrl,
+          leaf: true,
+        };
+      });
+      this.monitorDefault = this.monitorInfo[0].children[0];
+    },
+
+    /* 判断是否登录 */
+    async isExit() {
+      if (!this.$store.state.isLogin) {
+        this.$message.info("请先登录！！");
+        return this.$router.push("/login");
+      }
+      // 判断是否绑定基地
+      const { data: res } = await this.reqM1Service(
+        "/authority/user/applyFor/addBase/status",
+        {
+          headers: {
+            Authorization: this.token,
+          },
+        },
+        "get"
       );
-      if(!resolve) { return }
-      return resolve(this.monitoringLocationList);
+      if (res.message === "拒绝") {
+        this.$message.info("请先绑定基地！！");
+        return this.$router.push("/basePage");
+      }
+      this.baseId = res.data.id;
+      this.getForecastData();
+      // 获取表格数据
+      this.getTableInfo();
+      // 查询监控设备
+      this.getMonitorInfo().then(() => {
+        // 点击监控设备
+        this.handleNodeClick2(this.monitorDefault);
+      });
     },
   },
 };
