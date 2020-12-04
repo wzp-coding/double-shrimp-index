@@ -2,14 +2,16 @@
   <div class="lxl-vp">
     <div class="content">
       <el-header class="header">
-        <el-button @click="toVisualizationPlatform" size="mini"> 返回 </el-button>
+        <el-button @click="toVisualizationPlatform" size="mini">
+          返回
+        </el-button>
         <h1>对虾大数据可视化平台</h1>
       </el-header>
       <!-- 主内容区 -->
       <section class="mainbox">
         <div class="col">
           <div class="panel bar">
-            <h2>广东不同种类对虾产量的占比</h2>
+            <h2>{{baseInfo}}基地不同种类对虾产量的占比</h2>
             <div class="chart chart1"></div>
             <div class="panel-footer"></div>
           </div>
@@ -52,6 +54,7 @@
 </template>
 <script>
 import "./guangdong";
+var myVue = {};
 export default {
   data() {
     return {
@@ -62,9 +65,16 @@ export default {
       // 下标0位开始 1位结束
       predictTime: [],
       theRequest: null,
+      areaData: [],
+      baseId: null,
+      baseInfo:'广东'
     };
   },
+  beforeCreate() {
+    myVue = this;
+  },
   mounted() {
+    // this.getIntroduction()
     this.requestAllData();
     // 时间器
     let that = this;
@@ -80,18 +90,6 @@ export default {
   },
   //   #a3fea7
   methods: {
-    GetRequest() {
-      var url = location.search; //获取url中"?"符后的字串
-      var theRequest = new Object();
-      if (url.indexOf("?") != -1) {
-        var str = url.substr(1);
-        strs = str.split("&");
-        for (var i = 0; i < strs.length; i++) {
-          theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
-        }
-      }
-      return theRequest;
-    },
     async requestAllData() {
       try {
         const { data: res } = await this.reqM3Service("/industry/1", "", "get");
@@ -99,18 +97,51 @@ export default {
         console.log(res);
         if (res.code === 20000) {
           this.industry = res.data;
-          this.chart1(this.industry[0]);
-          this.chart2(this.industry[1]);
-          this.chart3(this.industry[1]);
+          this.chart1(this.industry[1],false);
+          this.chart2(this.industry[2]);
+          this.chart3(this.industry[2]);
           this.requestPrice();
-          this.chart5(this.industry[1]);
-          this.chart6(this.industry[1]);
-          this.guangdong(this.industry[1], this.industry[2]);
+          this.chart5(this.industry[2]);
+          this.chart6(this.industry[2]);
+          this.guangdong(this.industry[3], this.industry[0]);
         } else {
           this.$message.error("网络开小差了，请稍后重试 20001");
         }
       } catch (error) {
         this.$message.error("网络开小差了，请稍后重试 19999");
+        console.log(error);
+      }
+    },
+    async serachByBaseId() {
+      try {
+        const { data: res } = await this.reqM3Service(
+          `/industry/base/${this.baseID}`,
+          "",
+          "get"
+        );
+        console.log("基地ID");
+        console.log(res);
+        this.chart1(res.data,true)
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async getIntroduction() {
+      try {
+        const { data: res } = await this.reqM3Service("/industry", "", "get");
+        console.log("广东数据");
+        console.log(res.data);
+        var temp = res.data;
+        if (res.code === 20000) {
+          console.log("temp");
+          this.areaData = res.data[3];
+          console.log(this.areaData);
+          return this.areaData;
+        } else {
+          this.$message.error("网络开小差了，请稍后重试 ALL 20001");
+        }
+      } catch (error) {
+        this.$message.error("网络开小差了，请稍后重试 ALL 19999");
         console.log(error);
       }
     },
@@ -121,21 +152,15 @@ export default {
           "",
           "post"
         );
-        console.log(res);
         if (res.code === 20000) {
           // 实际值，预测值
           const len = res.data.orgindata.length - res.data.predictdata.length;
           let arr = new Array(len).fill(0);
-
           this.orgindata = res.data.orgindata;
           this.predictdata = [...arr, ...res.data.predictdata];
-          console.log(arr, this.predictdata);
-
           this.predictTime.push(res.data.early);
           this.predictTime.push(res.data.last);
-
           this.chart4();
-          console.log("chart4");
         } else {
           this.$message.error("网络开小差了，请稍后重试 20001");
         }
@@ -147,18 +172,27 @@ export default {
     toVisualizationPlatform() {
       this.$router.push("/visualizationPlatform");
     },
-
     //   左边第一个扇形图
-    chart1(pieOne) {
+    chart1(pieOne,isSearch) {
       // 数据格式处理
       let dataArray = [];
-      pieOne.forEach((e) => {
+      if(isSearch){
+        pieOne.forEach((e)=>{
+          let obj = {
+            value:e.inputNum,
+            name: e.shrimpSpecies
+          }
+          dataArray.push(obj);
+        })
+      }else{
+        pieOne.forEach((e) => {
         let obj = {
           value: e.output,
           name: e.species,
         };
         dataArray.push(obj);
       });
+      }
       let myChart = this.$echarts.init(document.querySelector(".chart1"));
       let option = {
         color: ["orange", "white", "#a3fea7", "rgba(162, 245, 252, 1)"],
@@ -190,7 +224,6 @@ export default {
           },
         ],
       };
-
       myChart.setOption(option);
       // 自适应盒子大小,以及屏幕大小
       window.addEventListener("resize", function () {
@@ -273,6 +306,25 @@ export default {
           },
         ],
       };
+      setInterval(function () {
+        var temp, temp1, i;
+        temp = times[0];
+        temp1 = outPuts[0];
+        for (i = 0; i < times.length - 1; i++) {
+          times[i] = times[i + 1];
+          outPuts[i] = outPuts[i + 1];
+        }
+        times[i] = temp;
+        outPuts[i] = temp1;
+        myChart.setOption({
+          xAxis: {
+            data: times,
+          },
+          series: {
+            data: outPuts,
+          },
+        });
+      }, 2500);
       myChart.setOption(option);
       // 自适应盒子大小,以及屏幕大小
       window.addEventListener("resize", function () {
@@ -346,15 +398,26 @@ export default {
           },
         ],
       };
-
+      setInterval(function () {
+        var temp, temp1, i;
+        temp = times[0];
+        temp1 = measureOfConsumption[0];
+        for (i = 0; i < times.length - 1; i++) {
+          times[i] = times[i + 1];
+          measureOfConsumption[i] = measureOfConsumption[i + 1];
+        }
+        times[i] = temp;
+        measureOfConsumption[i] = temp1;
+        myChart.setOption({
+          xAxis: {
+            data: times,
+          },
+          series: {
+            data: measureOfConsumption,
+          },
+        });
+      }, 2500);
       myChart.setOption(option);
-      // 自适应盒子大小,以及屏幕大小
-      //   $(".line h2").on("click", "a", function () {
-      //     // option.series[0].data = yData[$(this).index()].data[0];
-      //     // option.series[1].data = yData[$(this).index()].data[1];
-      //     myChart.setOption(option);
-      //   });
-
       window.addEventListener("resize", function () {
         myChart.resize();
       });
@@ -370,6 +433,8 @@ export default {
         let time = new Date(etime + i * eltime).toLocaleDateString();
         return time;
       });
+      let preArr = this.predictdata; //预测数据
+      let oginArr = this.orgindata; //实际数据
       // 时间切分处理结束 arr2生成的值
       let option = {
         title: {
@@ -487,6 +552,33 @@ export default {
           },
         ],
       };
+      setInterval(function () {
+        var temp, temp2, temp1, i;
+        temp = arr2[0];
+        temp1 = oginArr[0];
+        temp2 = preArr[0];
+        for (i = 0; i < arr2.length - 1; i++) {
+          arr2[i] = arr2[i + 1];
+          oginArr[i] = oginArr[i + 1];
+          preArr[i] = preArr[i + 1];
+        }
+        arr2[i] = temp;
+        oginArr[i] = temp1;
+        preArr[i] = temp2;
+        myChart.setOption({
+          xAxis: {
+            data: arr2,
+          },
+          series: [
+            {
+              data: oginArr,
+            },
+            {
+              data: preArr,
+            },
+          ],
+        });
+      }, 2500);
       myChart.setOption(option);
       // 自适应盒子大小,以及屏幕大小
       window.addEventListener("resize", function () {
@@ -501,7 +593,6 @@ export default {
         times.push(e.time);
         areas.push(e.area);
       });
-
       let myChart = this.$echarts.init(document.querySelector(".chart5"));
       let option = {
         title: {
@@ -565,10 +656,44 @@ export default {
             data: areas.reverse(),
             itemStyle: {
               barBorderRadius: 5,
+              normal: {
+                color: function (params) {
+                  //注意，如果颜色太少的话，后面颜色不会自动循环，最好多定义几个颜色
+                  var colorList = [
+                    "#c23531",
+                    "#2f4554",
+                    "#61a0a8",
+                    "#d48265",
+                    "#91c7ae",
+                    "#749f83",
+                    "#ca8622",
+                  ];
+                  return colorList[params.dataIndex];
+                },
+              },
             },
           },
         ],
       };
+      setInterval(function () {
+        var temp, temp1, i;
+        temp = times[0];
+        temp1 = areas[0];
+        for (i = 0; i < times.length - 1; i++) {
+          times[i] = times[i + 1];
+          areas[i] = areas[i + 1];
+        }
+        times[i] = temp;
+        areas[i] = temp1;
+        myChart.setOption({
+          xAxis: {
+            data: times,
+          },
+          series: {
+            data: areas,
+          },
+        });
+      }, 2500);
       myChart.setOption(option);
       // 自适应盒子大小,以及屏幕大小
       window.addEventListener("resize", function () {
@@ -702,63 +827,70 @@ export default {
           },
         ],
       };
+      setInterval(function () {
+        var temp, temp1, temp2, i;
+        temp = times[0];
+        temp1 = outPuts[0];
+        temp2 = areas[0];
+        for (i = 0; i < times.length - 1; i++) {
+          times[i] = times[i + 1];
+          outPuts[i] = outPuts[i + 1];
+          areas[i] = areas[i + 1];
+        }
+        times[i] = temp;
+        outPuts[i] = temp1;
+        areas[i] = temp2;
+        myChart.setOption({
+          xAxis: {
+            data: times,
+          },
+          series: [{ data: outPuts }, { data: areas }],
+        });
+      }, 2500);
       myChart.setOption(option);
       // 自适应盒子大小,以及屏幕大小
       window.addEventListener("resize", function () {
         myChart.resize();
       });
     },
-    guangdong(guangdongChart, guangdongDetail) {
+    guangdong(guangdongChart, guangdongBase) {
       let myChart = this.$echarts.init(document.querySelector(".chartMap"));
       myChart.showLoading();
-      var geoCoordMap = {};
-      // //获取广东省地图数据
-      // echarts.registerMap('广东', geoJson);
-      let mapFeatures = this.$echarts.getMap("广东").geoJson.features;
-      myChart.hideLoading();
-      mapFeatures.forEach(function (v) {
-        // 地区名称
-        let name = v.properties.name;
-        // 地区经纬度
-        geoCoordMap[name] = v.properties.cp;
+      let data = [];
+      guangdongBase.forEach((e) => {
+        if (e.basePositionLatitude) {
+          let obj = {
+            baseName: e.baseName,
+            baseIntroduction: e.baseIntroduction,
+            baseId: e.id,
+          };
+          data.push(obj);
+        }
       });
-      console.log("广东各市数据");
-      console.log(geoCoordMap);
-      // 获取广东各省养殖数据
-      var data = [];
-      console.log(guangdongDetail);
-      guangdongDetail.forEach((e) => {
-        let obj = {
-          value: e.value,
-          name: e.city + "市",
-          introduction: e.introduction,
-        };
-        data.push(obj);
+      let geoCoordMap = {}; //基地经纬度数据
+      guangdongBase.forEach((e) => {
+        if (e.baseName && e.basePositionLatitude && e.basePositionLongitude) {
+          let name = e.baseName;
+          geoCoordMap[name] = [];
+          geoCoordMap[name][0] = e.basePositionLongitude;
+          geoCoordMap[name][1] = e.basePositionLatitude;
+        }
       });
-      console.log(data);
-      console.log("嘤嘤嘤");
-      console.log(geoCoordMap["珠海市"]);
-      console.log(data);
       var convertData = function (data) {
         var res = [];
         for (var i = 0; i < data.length; i++) {
-          var geoCoord = geoCoordMap[data[i].name];
+          var geoCoord = geoCoordMap[data[i].baseName];
           if (geoCoord) {
             res.push({
-              value: data[i].value,
-              name: data[i].name,
-              introduction: geoCoord.concat(data[i].introduction),
-              // introduction:data[i].introduction
+              name: data[i].baseName,
+              ID: data[i].baseId,
+              introduction: data[i].baseIntroduction,
+              value: geoCoord.concat(data[i].value),
             });
           }
         }
         return res;
       };
-      var xx = convertData(data);
-      console.log("666");
-      console.log(xx);
-      console.log("1324");
-      console.log(data);
       myChart.hideLoading();
       let option = {
         title: {
@@ -774,171 +906,162 @@ export default {
         tooltip: {
           // 显示的窗口
           trigger: "item",
+          "enterable": true,
           formatter: function (item) {
-            var tipHtml = "";
-            if (item.data.value) {
+            triggerOn: "click";
+            var tipHtml = "",
               tipHtml =
-                '<div style="background:#fff;border-radius:10px;padding-top:10px;box-shadow:0 0 10px #666">' +
-                '<div style="color:#fff;height:20px;border-radius:6px;font-size:12px;line-height:20px;background-color:#5861a2;text-align:center;margin:0 2px;">' +
+                '<div style="width:400px;height:150px;border-radius:10px;padding-top:10px">' +
+                '<h2 style="width:400px;color:#fff;height:20px;font-weight:13px;border-radius:6px;line-height:20px;text-align:center;margin:0 2px;">' +
                 item.data.name +
-                "</div>" +
-                '<div style="text-align:center;color:#494949;padding:8px 6px">' +
-                '<span style="font-size:18px;font-weight:bold;">' +
-                "对虾基地数：" +
-                item.data.value +
-                " " +
-                "</span>" +
+                "</h3>" +
+                '<div style="overflow:hidden;white-space:normal;word-break:break-all;width:400px;color:#494949;padding:8px 6px">' +
+                '<p style="color:#3dffc1;font-weight:11px;font-size:17px">' +
+                item.data.introduction +
+                "</p>" +
                 "</div>" +
                 "</div>";
-            } else {
-              tipHtml = "<div>" + "该地区对虾暂无养殖场" + "</div>";
-            }
             return tipHtml;
           },
+          textStyle: {
+            fontSize: 20,
+          },
+          position: ["30%", "64%"],
+          backgroundColor: "",
         },
-        legend: {
-          show: false,
-        },
-        visualMap: {
-          show: false,
-          min: 0,
-          max: 500,
-          left: "left",
-          top: "bottom",
-          text: ["高", "低"], // 文本，默认为数值文本
-          calculable: true,
-          seriesIndex: [1],
+        geo: {
+          map: "广东",
+          show: true,
+          roam: true,
+          zoom: 1.2,
+          scaleLimit: {
+            min: 0.6,
+            max: 1.3,
+          },
+          label: {
+            normal:{
+              align:'top',
+              show:true,
+              color:'#adbc1c',
+              fontSize:12
+            },
+            emphasis: {
+              show: true,
+            },
+          },
+          itemStyle: {
+            normal: {
+              borderColor: "rgba(147, 235, 248, 1)",
+              borderWidth: 1, //地图边线
+              areaColor: {
+                type: "radial",
+                x: 0.5,
+                y: 0.5,
+                r: 0.8,
+                colorStops: [
+                  {
+                    offset: 0,
+                    color: "rgba(147, 235, 248, 0)", // 0% 处的颜色
+                  },
+                  {
+                    offset: 1,
+                    color: "rgba(147, 235, 248, .2)", // 100% 处的颜色
+                  },
+                ],
+                globalCoord: false, // 缺省为 false
+              },
+              shadowColor: "rgba(128, 217, 248, 1)",
+              // shadowColor: 'rgba(255, 255, 255, 1)',
+              shadowOffsetX: -2,
+              shadowOffsetY: 2,
+              shadowBlur: 10,
+            },
+            emphasis: {
+              areaColor: "#ffd181", //悬浮区背景 1
+              borderWidth: 0,
+              color: "green",
+            },
+          },
         },
         series: [
           {
-            name: "广东省数据",
-            type: "map",
-            map: "广东", // 自定义扩展图表类型
-            zoom: 0.55, //缩放
-            showLegendSymbol: true,
-            roam: true,
-            scaleLimit: {
-              min: 0.35,
-              max: 0.62,
-            },
+            name: "城市",
+            type: "scatter",
+            coordinateSystem: "geo",
+            data: convertData(data),
+            roam: false,
+            symbolSize: 2,
             label: {
-              // 文字
-              show: true,
-              color: "#fff",
-              fontSize: 10,
+              normal: {
+                formatter: "{b}",
+                position: "right",
+                show: false,
+              },
+              emphasis: {
+                show: true,
+              },
             },
             itemStyle: {
-              //地图样式
               normal: {
-                borderColor: "rgba(147, 235, 248, 1)",
-                borderWidth: 1, //地图边线
-                areaColor: {
-                  type: "radial",
-                  x: 0.5,
-                  y: 0.5,
-                  r: 0.8,
-                  colorStops: [
-                    {
-                      offset: 0,
-                      color: "rgba(147, 235, 248, 0)", // 0% 处的颜色
-                    },
-                    {
-                      offset: 1,
-                      color: "rgba(147, 235, 248, .2)", // 100% 处的颜色
-                    },
-                  ],
-                  globalCoord: false, // 缺省为 false
-                },
-                shadowColor: "rgba(128, 217, 248, 1)",
-                // shadowColor: 'rgba(255, 255, 255, 1)',
-                shadowOffsetX: -2,
-                shadowOffsetY: 2,
-                shadowBlur: 10,
+                color: "#ddb926",
               },
             },
-            emphasis: {
-              //鼠标移入动态的时候显示的默认样式
-              itemStyle: {
-                areaColor: "#ff8d44",
-                borderColor: "#404a59",
-                borderWidth: 1,
-              },
-            },
-            layoutCenter: ["50%", "50%"],
-            layoutSize: "160%",
-            markPoint: {
-              symbol: "none",
-            },
-            data: convertData(data),
           },
-
+          {
+            name: "对虾养殖基地",
+            type: "effectScatter",
+            coordinateSystem: "geo",
+            roam: false,
+            data: convertData(data),
+            symbolSize: 5,
+            showEffectOn: "render",
+            rippleEffect: {
+              brushType: "stroke",
+            },
+            hoverAnimation: true,
+            label: {
+              normal: {
+                //黄字基地名  圆点介绍
+                formatter: "{b}",
+                position: "right",
+                show: false,    //圆点基地的名字
+              },
+              emphasis:{
+                formatter: "{b}",
+                position: "right",
+                show: true,  
+                label:{
+                  fontsSize:20
+                }
+              },
+              positon:'inside',
+              rotate:[5,0],      
+              fontsSize:20
+            },
+            itemStyle: {
+              normal: {
+                color: "#c480f8", //圆点
+                shadowBlur: 10,
+                shadowColor: "#333",
+              },
+              emphasis:{
+                color:'#3dffc1',
+              }
+            },
+            zlevel: 1,
+          },
         ],
       };
-      var count = 0;
-      var timeTicket = null;
-      timeTicket && clearInterval(timeTicket);
-      timeTicket = setInterval(function () {
-        myChart.dispatchAction({
-          type: "downplay",
-          seriesIndex: 0, //serieIndex的索引值   可以触发多个
-        });
-        myChart.dispatchAction({
-          type: "highlight",
-          seriesIndex: 0,
-          dataIndex: count, //高亮第几个数据
-        });
-        myChart.dispatchAction({
-          type: "showTip",
-          seriesIndex: 0,
-          dataIndex: count,
-        });
-        count++;
-        if (count >= 21) {
-          count = 0;
+      myChart.on("click", function (params) {
+        console.log(params);
+        console.log(params.data.ID);
+        myVue.baseID = params.data.ID;
+        myVue.baseInfo = params.data.name
+        myVue.serachByBaseId();
+        if (params.data) {
+          console.log(myVue);
         }
-      }, 3000);
-      myChart.on("mouseover", function (params) {
-        clearInterval(timeTicket);
-        myChart.dispatchAction({
-          type: "downplay",
-          seriesIndex: 0,
-        });
-        myChart.dispatchAction({
-          type: "highlight",
-          seriesIndex: 0,
-          dataIndex: params.dataIndex,
-        });
-        myChart.dispatchAction({
-          type: "showTip",
-          seriesIndex: 0,
-          dataIndex: params.dataIndex,
-        });
       });
-
-      myChart.on("mouseout", function () {
-        timeTicket && clearInterval(timeTicket);
-        timeTicket = setInterval(function () {
-          myChart.dispatchAction({
-            type: "downplay",
-            seriesIndex: 0, //serieIndex的索引值   可以触发多个
-          });
-          myChart.dispatchAction({
-            type: "highlight",
-            seriesIndex: 0,
-            dataIndex: count,
-          });
-          myChart.dispatchAction({
-            type: "showTip",
-            seriesIndex: 0,
-            dataIndex: count,
-          });
-          count++;
-          if (count >= 3) {
-            count = 0;
-          }
-        }, 3000);
-      });
-
       myChart.setOption(option);
     },
     //

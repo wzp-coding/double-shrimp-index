@@ -333,12 +333,11 @@ const routes = [
   {
     path: '/visualizationPlatform',
     component: visualizationPlatform
-
   },
   {
     path: '/guangdong',
-    component: guangdong
-
+    component: guangdong,
+    name: 'province'
   },
   {
     path: '/emall',
