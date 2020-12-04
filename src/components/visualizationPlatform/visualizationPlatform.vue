@@ -55,7 +55,7 @@
 import "./china"; //地图信息
 import "./guangdong"; //广东详情页
 import "./jquery";
-var myVue = {}
+var myVue = {};
 export default {
   data() {
     return {
@@ -115,20 +115,15 @@ export default {
           "",
           "post"
         );
-        console.log(res);
         if (res.code === 20000) {
           // 实际值，预测值
           const len = res.data.orgindata.length - res.data.predictdata.length;
           let arr = new Array(len).fill(0);
-
           this.orgindata = res.data.orgindata;
           this.predictdata = [...arr, ...res.data.predictdata];
-          console.log(arr, this.predictdata);
           this.predictTime.push(res.data.early);
           this.predictTime.push(res.data.last);
-
           this.chart4();
-          console.log("chart4");
         } else {
           this.$message.error("网络开小差了，请稍后重试price 20001");
         }
@@ -137,10 +132,8 @@ export default {
         console.log(error);
       }
     },
-
     //   左边第一个扇形图
     chart1(pieOne) {
-      console.log(pieOne);
       // 数据格式处理
       let dataArray = [];
       pieOne.forEach((e) => {
@@ -811,69 +804,61 @@ export default {
       });
     },
     china(chinaChart, chinaChartTip) {
+      //第二个参数表示存在基地
       let myChart = this.$echarts.init(document.querySelector(".chartMap"));
       myChart.hideLoading();
       let max = 480,
         min = 9; // todo
       let maxSize4Pin = 100,
         minSize4Pin = 20;
-      var geoCoordMap = {
-        台湾: [121.5135, 25.0308],
-        黑龙江: [127.9688, 45.368],
-        内蒙古: [110.3467, 41.4899],
-        吉林: [125.8154, 44.2584],
-        北京市: [116.4551, 40.2539],
-        辽宁: [123.1238, 42.1216],
-        河北: [114.4995, 38.1006],
-        天津: [117.4219, 39.4189],
-        山西: [112.3352, 37.9413],
-        陕西: [109.1162, 34.2004],
-        甘肃: [103.5901, 36.3043],
-        宁夏: [106.3586, 38.1775],
-        青海: [101.4038, 36.8207],
-        新疆: [87.9236, 43.5883],
-        西藏: [91.11, 29.97],
-        四川: [103.9526, 30.7617],
-        重庆: [108.384366, 30.439702],
-        山东: [117.1582, 36.8701],
-        河南: [113.4668, 34.6234],
-        江苏: [118.8062, 31.9208],
-        安徽: [117.29, 32.0581],
-        湖北: [114.3896, 30.6628],
-        浙江: [119.5313, 29.8773],
-        福建: [119.4543, 25.9222],
-        江西: [116.0046, 28.6633],
-        湖南: [113.0823, 28.2568],
-        贵州: [106.6992, 26.7682],
-        云南: [102.9199, 25.4663],
-        广东: [113.12244, 23.009505],
-        广西: [108.479, 23.1152],
-        海南: [110.3893, 19.8516],
-        上海: [121.4648, 31.2891],
-      };
-      let data = [];
-      chinaChart.forEach((e) => {
-        let obj = {
-          value: e.value,
-          name: e.name,
-          introduction: e.introduction,
-        };
-        data.push(obj);
+      var geoCoordMap = {}; //将基地名称及其经纬度存入
+      chinaChartTip.forEach((e) => {
+        if (e.baseName && e.basePositionLatitude && e.basePositionLongitude) {
+          let name = e.baseName;
+          geoCoordMap[name] = [];
+          geoCoordMap[name][0] = e.basePositionLongitude;
+          geoCoordMap[name][1] = e.basePositionLatitude;
+        }
       });
+
+      // console.log("更新后");
+      // console.log(geoCoordMap);
+      let data = [];
+      chinaChartTip.forEach((e) => {
+        if (e.basePositionLatitude) {
+          let obj = {
+            // baseAddr: e.baseAddr,
+            baseName: e.baseName,
+            baseIntroduction: e.baseIntroduction,
+            // baseId: e.id,
+            // x: e.basePositionLongitude,
+            // y: e.basePositionLatitude,
+            // value: 10,
+          };
+          data.push(obj);
+        }
+      });
+      console.log("最新");
       var convertData = function (data) {
         var res = [];
         for (var i = 0; i < data.length; i++) {
-          var geoCoord = geoCoordMap[data[i].name];
+          var geoCoord = geoCoordMap[data[i].baseName];
           if (geoCoord) {
             res.push({
-              name: data[i].name,
-              introduction: data[i].introduction,
+              name: data[i].baseName,
+              introduction: data[i].baseIntroduction,
               value: geoCoord.concat(data[i].value),
+              // name: geoCoord.concat(data[i].name)
             });
           }
         }
         return res;
       };
+      console.log("want");
+      let xx = [];
+      xx = convertData(data);
+      console.log(xx);
+
       let option = {
         title: {
           top: 30,
@@ -885,58 +870,56 @@ export default {
             color: "#ccc",
           },
         },
-        //鼠标覆盖省份事件
         tooltip: {
+          // 显示的窗口
           trigger: "item",
-          formatter: function (params) {
-            var tipHtml = "";
-            if (typeof params.value[2] == "undefined") {
-              return params.name + " : " + params.value + "个对虾养殖基地";
-              setTimeout(function () {
-                tooltipCharts(params.name);
-              }, 10);
-              return tipHtml;
-            } else {
-              return params.name + " : " + params.value[2] + "个对虾养殖基地";
-            }
+          formatter: function (item) {
+            var tipHtml = "",
+              tipHtml =
+                '<div style="width:400px;height:150px;border-radius:10px;padding-top:10px">' +
+                '<h1 style="width:400px;color:#fff;height:20px;border-radius:6px;line-height:20px;text-align:center;margin:0 2px;">' +
+                item.data.name +
+                "</h1>" +
+                '<div style="overflow:hidden;white-space:normal;word-break:break-all;width:400px;color:#494949;padding:8px 6px">' +
+                '<p style="color:#fff;font-weight:17px">' +
+                item.data.introduction +
+                "</p>" +
+                "</div>" +
+                "</div>";
+            return tipHtml;
           },
-          // position: ["40%", "40%"],
-        },
-        legend: {
-          orient: "vertical",
-          y: "bottom",
-          x: "right",
-          data: ["pm2.5"],
           textStyle: {
-            color: "#fff",
+            fontSize: 20,
           },
+          position: ["30%", "80%"],
+          backgroundColor: "none",
         },
-        // visualMap: {    //似乎没用
-        //   show: false,
-        //   min: 0,
-        //   max: 500,
+        // legend: {
         //   left: "left",
-        //   top: "bottom",
-        //   text: ["高", "低"], // 文本，默认为数值文本
-        //   calculable: true,
-        //   seriesIndex: [1],
-        //   inRange: {},
+        //   data: ["强", "中", "弱"],
+        //   textStyle: {
+        //     color: "#ccc",
+        //   },
         // },
         geo: {
           map: "china",
           show: true,
           roam: true,
           zoom: 1.1,
-          // label: {
-          //   normal: {
-          //     show: false,
-          //   },
-          //   emphasis: {
-          //     show: false,
-          //   },
-          // },
+          scaleLimit: {
+            min: 0.6,
+            max: 1.4,
+          },
+          label: {
+            normal:{
+              show:true,
+            },
+            emphasis: {
+              show: false,
+            },
+            
+          },
           itemStyle: {
-            //地图样式
             normal: {
               borderColor: "rgba(147, 235, 248, 1)",
               borderWidth: 1, //地图边线
@@ -972,186 +955,151 @@ export default {
         },
         series: [
           {
-            symbolSize: 6,
+            name: "城市",
+            type: "scatter",
+            coordinateSystem: "geo",
+            data: convertData(data),
+            symbolSize: 2,
             label: {
               normal: {
                 formatter: "{b}",
                 position: "right",
-                show: true,
-              },
-              emphasis: {
-                show: true,
-              },
-            },
-            itemStyle: {
-              normal: {
-                color: "#fff",
-              },
-              emphasis: {
-                areaColor: "#0a2dae",
-                borderWidth: 0,
-                color: "green",
-                show: true,
-              },
-            },
-            name: "light",
-            type: "scatter",
-            coordinateSystem: "geo",
-            data: convertData(data),
-          },
-          {
-            type: "map",
-            map: "china",
-            geoIndex: 0,
-            aspectScale: 0.75, //长宽比
-            showLegendSymbol: false, // 存在legend时显示
-            label: {
-              normal: {
                 show: false,
               },
               emphasis: {
-                show: false,
-                textStyle: {
-                  color: "#fff",
-                },
-              },
-            },
-            roam: true,
-            itemStyle: {
-              //气泡
-              normal: {
-                areaColor: "#031525",
-                borderColor: "#FFFFFF",
-              },
-              emphasis: {
                 show: true,
-                areaColor: "#0a2dae",
-                borderWidth: 0,
-                color: "green",
               },
             },
-            animation: false,
-            data: data,
+            itemStyle: {
+              normal: {
+                color: "#ddb926",
+              },
+            },
           },
           {
-            name: "Top 5",
-            type: "scatter",
+            name: "对虾养殖基地",
+            type: "effectScatter",
             coordinateSystem: "geo",
-            symbol: "pin",
-            symbolSize: [50, 50],
-            label: {
-              normal: {
-                show: true,
-                textStyle: {
-                  color: "#fff",
-                  fontSize: 9,
-                },
-                formatter(value) {
-                  return value.data.value[2];
-                },
-              },
-            },
-            itemStyle: {
-              //标记样式
-              normal: {
-                color: "#da3960", //标志颜色
-              },
-              emphasis: {
-                //鼠标移入样式
-                areaColor: "#0a2dae",
-                borderWidth: 0,
-                color: "green",
-              },
-            },
             data: convertData(data),
+            symbolSize: 1,
             showEffectOn: "render",
             rippleEffect: {
               brushType: "stroke",
             },
+            // tooltip:{
+            //   trigger:"item",
+            //   formatter:function(item){
+            //     return item.data.introduction
+            //   },
+            //   textStyle:{
+            //     fontSize:20
+            //   }
+            // },
             hoverAnimation: true,
+            label: {
+              normal: {
+                //黄字基地名  圆点介绍
+                formatter: "{b}",
+                position: "right",
+                show: true,
+              },
+            },
+            itemStyle: {
+              normal: {
+                color: "#f4e925", //圆点
+                shadowBlur: 10,
+                shadowColor: "#333",
+              },
+            },
             zlevel: 1,
           },
         ],
       };
       //保留
-      var This = this;
-      var count = 0;
-      var timeTicket = null;
-      var dataLength = option.series[0].data.length;
-      timeTicket && clearInterval(timeTicket);
-      timeTicket = setInterval(function () {
-        myChart.dispatchAction({
-          type: "downplay",
-          seriesIndex: 0,
-        });
-        myChart.dispatchAction({
-          type: "highlight",
-          seriesIndex: 0,
-          dataIndex: count % dataLength,
-        });
-        myChart.dispatchAction({
-          type: "showTip",
-          seriesIndex: 0,
-          dataIndex: count % dataLength,
-        });
-        count++;
-      }, 2500);
 
-      myChart.on("mouseover", function (params) {
-        console.log(params);
-        clearInterval(timeTicket);
-        myChart.dispatchAction({
-          type: "downplay",
-          seriesIndex: 0,
-        });
-        myChart.dispatchAction({
-          type: "highlight",
-          seriesIndex: 0,
-          dataIndex: params.dataIndex,
-        });
-        myChart.dispatchAction({
-          type: "showTip",
-          seriesIndex: 0,
-          dataIndex: params.dataIndex,
-        });
-      });
-      myChart.on("mouseout", function (params) {
-        timeTicket && clearInterval(timeTicket);
-        timeTicket = setInterval(function () {
-          myChart.dispatchAction({
-            type: "downplay",
-            seriesIndex: 0,
-          });
-          myChart.dispatchAction({
-            type: "highlight",
-            seriesIndex: 0,
-            dataIndex: count % dataLength,
-          });
-          myChart.dispatchAction({
-            type: "showTip",
-            seriesIndex: 0,
-            dataIndex: count % dataLength,
-          });
-          count++;
-        }, 2500);
-      });
+      // var This = this;
+      // var count = 0;
+      // var timeTicket = null;
+      // var dataLength = option.series[0].data.length;
+      // timeTicket && clearInterval(timeTicket);
+      // timeTicket = setInterval(function () {
+      //   myChart.dispatchAction({
+      //     type: "downplay",
+      //     seriesIndex: 0,
+      //   });
+      //   myChart.dispatchAction({
+      //     type: "highlight",
+      //     seriesIndex: 0,
+      //     dataIndex: count % dataLength,
+      //   });
+      //   myChart.dispatchAction({
+      //     type: "showTip",
+      //     seriesIndex: 0,
+      //     dataIndex: count % dataLength,
+      //   });
+      //   count++;
+      // }, 2500);
+
+      // myChart.on("mouseover", function (params) {
+      //   console.log(params);
+      //   clearInterval(timeTicket);
+      //   myChart.dispatchAction({
+      //     type: "downplay",
+      //     seriesIndex: 0,
+      //   });
+      //   myChart.dispatchAction({
+      //     type: "highlight",
+      //     seriesIndex: 0,
+      //     dataIndex: params.dataIndex,
+      //   });
+      //   myChart.dispatchAction({
+      //     type: "showTip",
+      //     seriesIndex: 0,
+      //     dataIndex: params.dataIndex,
+      //   });
+      // });
+      // myChart.on("mouseout", function (params) {
+      //   timeTicket && clearInterval(timeTicket);
+      //   timeTicket = setInterval(function () {
+      //     myChart.dispatchAction({
+      //       type: "downplay",
+      //       seriesIndex: 0,
+      //     });
+      //     myChart.dispatchAction({
+      //       type: "highlight",
+      //       seriesIndex: 0,
+      //       dataIndex: count % dataLength,
+      //     });
+      //     myChart.dispatchAction({
+      //       type: "showTip",
+      //       seriesIndex: 0,
+      //       dataIndex: count % dataLength,
+      //     });
+      //     count++;
+      //   }, 2500);
+      // });
       myChart.setOption(option);
       myChart.on("click", function (params) {
-        // 由于作用域的问题只能通过这个方式实现跳转
         console.log("进入广东");
         console.log(params);
-        if (params.data.name === "广东") {
-          // window.location.href = "#/guangdong?地区=" + params.data.name;
+        console.log(this);
+        if(this.id === 'ec_1607049988943'){
+          console.log('22');
+        }else{
+          console.log('33');
+        }
+        if (params.name === "广东") {
           myVue.$router.push({
             // path: "/guangdong",
-            name: 'province',
+            name: "province",
             params: {
-              id: params.data.name,
-              introduction:params.data.introduction
+              id: params.region.name,
+              introduction: params.region.introduction,
             },
           });
         } else {
-          This.$message.info("敬请期待");
+          console.log(this);
+          myVue.$message.info("敬请期待");
         }
       });
     },
