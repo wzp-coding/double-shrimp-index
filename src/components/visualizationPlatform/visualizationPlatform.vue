@@ -877,11 +877,11 @@ export default {
             var tipHtml = "",
               tipHtml =
                 '<div style="width:400px;height:150px;border-radius:10px;padding-top:10px">' +
-                '<h1 style="width:400px;color:#fff;height:20px;border-radius:6px;line-height:20px;text-align:center;margin:0 2px;">' +
+                '<h2 style="width:400px;color:#fff;height:20px;font-weight:13px;border-radius:6px;line-height:20px;text-align:center;margin:0 2px;">' +
                 item.data.name +
-                "</h1>" +
+                "</h3>" +
                 '<div style="overflow:hidden;white-space:normal;word-break:break-all;width:400px;color:#494949;padding:8px 6px">' +
-                '<p style="color:#fff;font-weight:17px">' +
+                '<p style="color:#3dffc1;font-weight:12px">' +
                 item.data.introduction +
                 "</p>" +
                 "</div>" +
@@ -894,30 +894,25 @@ export default {
           position: ["30%", "80%"],
           backgroundColor: "none",
         },
-        // legend: {
-        //   left: "left",
-        //   data: ["强", "中", "弱"],
-        //   textStyle: {
-        //     color: "#ccc",
-        //   },
-        // },
         geo: {
           map: "china",
           show: true,
           roam: true,
-          zoom: 1.1,
+          zoom: 1.2,
           scaleLimit: {
             min: 0.6,
             max: 1.4,
           },
           label: {
             normal:{
+              align:'top',
               show:true,
+              color:'#adbc1c',
+              fontSize:12
             },
             emphasis: {
-              show: false,
+              show: true,
             },
-            
           },
           itemStyle: {
             normal: {
@@ -941,7 +936,6 @@ export default {
                 globalCoord: false, // 缺省为 false
               },
               shadowColor: "rgba(128, 217, 248, 1)",
-              // shadowColor: 'rgba(255, 255, 255, 1)',
               shadowOffsetX: -2,
               shadowOffsetY: 2,
               shadowBlur: 10,
@@ -986,27 +980,18 @@ export default {
             rippleEffect: {
               brushType: "stroke",
             },
-            // tooltip:{
-            //   trigger:"item",
-            //   formatter:function(item){
-            //     return item.data.introduction
-            //   },
-            //   textStyle:{
-            //     fontSize:20
-            //   }
-            // },
             hoverAnimation: true,
             label: {
               normal: {
                 //黄字基地名  圆点介绍
                 formatter: "{b}",
                 position: "right",
-                show: true,
+                show: false,    //基地名
               },
             },
             itemStyle: {
               normal: {
-                color: "#f4e925", //圆点
+                color: "#c480f8", //圆点
                 shadowBlur: 10,
                 shadowColor: "#333",
               },
@@ -1016,68 +1001,6 @@ export default {
         ],
       };
       //保留
-
-      // var This = this;
-      // var count = 0;
-      // var timeTicket = null;
-      // var dataLength = option.series[0].data.length;
-      // timeTicket && clearInterval(timeTicket);
-      // timeTicket = setInterval(function () {
-      //   myChart.dispatchAction({
-      //     type: "downplay",
-      //     seriesIndex: 0,
-      //   });
-      //   myChart.dispatchAction({
-      //     type: "highlight",
-      //     seriesIndex: 0,
-      //     dataIndex: count % dataLength,
-      //   });
-      //   myChart.dispatchAction({
-      //     type: "showTip",
-      //     seriesIndex: 0,
-      //     dataIndex: count % dataLength,
-      //   });
-      //   count++;
-      // }, 2500);
-
-      // myChart.on("mouseover", function (params) {
-      //   console.log(params);
-      //   clearInterval(timeTicket);
-      //   myChart.dispatchAction({
-      //     type: "downplay",
-      //     seriesIndex: 0,
-      //   });
-      //   myChart.dispatchAction({
-      //     type: "highlight",
-      //     seriesIndex: 0,
-      //     dataIndex: params.dataIndex,
-      //   });
-      //   myChart.dispatchAction({
-      //     type: "showTip",
-      //     seriesIndex: 0,
-      //     dataIndex: params.dataIndex,
-      //   });
-      // });
-      // myChart.on("mouseout", function (params) {
-      //   timeTicket && clearInterval(timeTicket);
-      //   timeTicket = setInterval(function () {
-      //     myChart.dispatchAction({
-      //       type: "downplay",
-      //       seriesIndex: 0,
-      //     });
-      //     myChart.dispatchAction({
-      //       type: "highlight",
-      //       seriesIndex: 0,
-      //       dataIndex: count % dataLength,
-      //     });
-      //     myChart.dispatchAction({
-      //       type: "showTip",
-      //       seriesIndex: 0,
-      //       dataIndex: count % dataLength,
-      //     });
-      //     count++;
-      //   }, 2500);
-      // });
       myChart.setOption(option);
       myChart.on("click", function (params) {
         console.log("进入广东");

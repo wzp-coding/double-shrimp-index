@@ -11,7 +11,7 @@
       <section class="mainbox">
         <div class="col">
           <div class="panel bar">
-            <h2>广东不同种类对虾产量的占比</h2>
+            <h2>{{baseInfo}}基地不同种类对虾产量的占比</h2>
             <div class="chart chart1"></div>
             <div class="panel-footer"></div>
           </div>
@@ -67,6 +67,7 @@ export default {
       theRequest: null,
       areaData: [],
       baseId: null,
+      baseInfo:'广东'
     };
   },
   beforeCreate() {
@@ -96,7 +97,7 @@ export default {
         console.log(res);
         if (res.code === 20000) {
           this.industry = res.data;
-          this.chart1(this.industry[1]);
+          this.chart1(this.industry[1],false);
           this.chart2(this.industry[2]);
           this.chart3(this.industry[2]);
           this.requestPrice();
@@ -120,26 +121,7 @@ export default {
         );
         console.log("基地ID");
         console.log(res);
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    requireChina() {
-      try {
-        this.reqM3Service("/industry", "", "get").then((res) => {
-          if (res.data.code === 20000) {
-            let industry = res.data.data;
-            console.log(res.data);
-            // this.baseInfo = industry;
-            this.baseInfo.push(industry[0]);
-            this.baseInfo = JSON.parse(JSON.stringify(this.baseInfo));
-            console.log("111");
-            console.log(this.baseInfo);
-            console.log("111");
-          } else {
-            this.$message.error("网络开小差了，请稍后重试 ALL 20001");
-          }
-        });
+        this.chart1(res.data,true)
       } catch (error) {
         console.log(error);
       }
@@ -170,7 +152,6 @@ export default {
           "",
           "post"
         );
-        console.log(res);
         if (res.code === 20000) {
           // 实际值，预测值
           const len = res.data.orgindata.length - res.data.predictdata.length;
@@ -192,16 +173,26 @@ export default {
       this.$router.push("/visualizationPlatform");
     },
     //   左边第一个扇形图
-    chart1(pieOne) {
+    chart1(pieOne,isSearch) {
       // 数据格式处理
       let dataArray = [];
-      pieOne.forEach((e) => {
+      if(isSearch){
+        pieOne.forEach((e)=>{
+          let obj = {
+            value:e.inputNum,
+            name: e.shrimpSpecies
+          }
+          dataArray.push(obj);
+        })
+      }else{
+        pieOne.forEach((e) => {
         let obj = {
           value: e.output,
           name: e.species,
         };
         dataArray.push(obj);
       });
+      }
       let myChart = this.$echarts.init(document.querySelector(".chart1"));
       let option = {
         color: ["orange", "white", "#a3fea7", "rgba(162, 245, 252, 1)"],
@@ -865,22 +856,13 @@ export default {
     guangdong(guangdongChart, guangdongBase) {
       let myChart = this.$echarts.init(document.querySelector(".chartMap"));
       myChart.showLoading();
-      //获取广东省地图数据
-      // // echarts.registerMap('广东', geoJson);
-      // let mapFeatures = this.$echarts.getMap("广东").geoJson.features;
-      // // console.log("广东各市数据");
-      // // 获取广东各省养殖数据
       let data = [];
       guangdongBase.forEach((e) => {
         if (e.basePositionLatitude) {
           let obj = {
-            // baseAddr: e.baseAddr,
             baseName: e.baseName,
             baseIntroduction: e.baseIntroduction,
             baseId: e.id,
-            // x: e.basePositionLongitude,
-            // y: e.basePositionLatitude,
-            // value: 10,
           };
           data.push(obj);
         }
@@ -904,7 +886,6 @@ export default {
               ID: data[i].baseId,
               introduction: data[i].baseIntroduction,
               value: geoCoord.concat(data[i].value),
-              // name: geoCoord.concat(data[i].name)
             });
           }
         }
@@ -922,77 +903,48 @@ export default {
             color: "#ccc",
           },
         },
-        // tooltip: {
-        //   // 显示的窗口
-        //   trigger: "item",
-        //   formatter: function (item) {
-        //     var tipHtml = "";
-        //     if(item.data.value){
-        //       tipHtml =
-        //       '<div style="width:400px;height:150px;border-radius:10px;padding-top:10px">' +
-        //       '<h1 style="width:400px;color:#fff;height:20px;border-radius:6px;line-height:20px;text-align:center;margin:0 2px;">' +
-        //       item.data.name +':'+item.data.value+'个对虾养殖基地'+
-        //       "</h1>" +
-        //       '<div style="overflow:hidden;white-space:normal;word-break:break-all;width:400px;color:#494949;padding:8px 6px">' +
-        //       '<p style="color:#fff;font-weight:17px">' +
-        //       item.data.introduction[2] +
-        //       "</p>" +
-        //       "</div>" +
-        //       "</div>";
-        //     }else{
-        //       tipHtml =
-        //       '<div style="width:400px;height:150px;border-radius:10px;padding-top:10px">' +
-        //       '<h1 style="width:400px;color:#fff;height:20px;border-radius:6px;line-height:20px;text-align:center;margin:0 2px;">' +
-        //       item.data.name +':'+'暂无对虾养殖基地'+
-        //       "</h1>" +
-        //       '<div style="overflow:hidden;white-space:normal;word-break:break-all;width:400px;color:#494949;padding:8px 6px">' +
-        //       '<p style="color:#fff;font-weight:17px">' +
-        //       item.data.introduction[2] +
-        //       "</p>" +
-        //       "</div>" +
-        //       "</div>";
-        //     }
-        //     return tipHtml;
-        //   },
-        //   position: ["30%", "70%"],
-        //   backgroundColor: "none",
-        // },
         tooltip: {
           // 显示的窗口
           trigger: "item",
+          "enterable": true,
           formatter: function (item) {
             triggerOn: "click";
             var tipHtml = "",
               tipHtml =
                 '<div style="width:400px;height:150px;border-radius:10px;padding-top:10px">' +
-                '<h1 style="width:400px;color:#fff;height:20px;border-radius:6px;line-height:20px;text-align:center;margin:0 2px;">' +
+                '<h2 style="width:400px;color:#fff;height:20px;font-weight:13px;border-radius:6px;line-height:20px;text-align:center;margin:0 2px;">' +
                 item.data.name +
-                "</h1>" +
+                "</h3>" +
                 '<div style="overflow:hidden;white-space:normal;word-break:break-all;width:400px;color:#494949;padding:8px 6px">' +
-                '<p style="color:#fff;font-weight:17px">' +
+                '<p style="color:#3dffc1;font-weight:12px">' +
                 item.data.introduction +
                 "</p>" +
                 "</div>" +
                 "</div>";
-
             return tipHtml;
           },
           textStyle: {
             fontSize: 20,
           },
           position: ["30%", "64%"],
-          backgroundColor: "none",
+          backgroundColor: "",
         },
         geo: {
           map: "广东",
           show: true,
           roam: true,
-          zoom: 1,
+          zoom: 1.2,
           scaleLimit: {
             min: 0.6,
             max: 1.3,
           },
           label: {
+            normal:{
+              align:'top',
+              show:true,
+              color:'#adbc1c',
+              fontSize:12
+            },
             emphasis: {
               show: true,
             },
@@ -1072,12 +1024,17 @@ export default {
                 //黄字基地名  圆点介绍
                 formatter: "{b}",
                 position: "right",
-                show: true,
+                show: false,    //圆点基地的名字
               },
+              emphasis:{
+                formatter: "{b}",
+                position: "right",
+                show: false,  
+              }
             },
             itemStyle: {
               normal: {
-                color: "#f4e925", //圆点
+                color: "#c480f8", //圆点
                 shadowBlur: 10,
                 shadowColor: "#333",
               },
@@ -1090,6 +1047,7 @@ export default {
         console.log(params);
         console.log(params.data.ID);
         myVue.baseID = params.data.ID;
+        myVue.baseInfo = params.data.name
         myVue.serachByBaseId();
         if (params.data) {
           console.log(myVue);
