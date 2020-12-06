@@ -126,7 +126,7 @@ export default {
   methods: {
     // 详情页
     async toDetail() {
-      try {
+      // try {
         const { data: res } = await this.reqM1Service(
           "/traceability/adultShrimp/traceability/" + this.source,
           {},
@@ -141,9 +141,9 @@ export default {
         } else {
           return this.$message.error("查询错误！！");
         }
-      } catch (error) {
-        this.$message.error("网络开小差了，请稍后尝试！！");
-      }
+      // } catch (error) {
+        // this.$message.error("网络开小差了，请稍后尝试！！");
+      // }
     },
   },
 };

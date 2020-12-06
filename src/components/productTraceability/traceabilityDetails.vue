@@ -745,11 +745,7 @@
                     type="warning"
                     icon="el-icon-location-information"
                     size="mini"
-                    @click="
-                      getLogisticsById(scope.row).then(() =>
-                        init()
-                      )
-                    "
+                    @click="getLogisticsById(scope.row).then(() => init())"
                     >物流信息</el-button
                   >
                 </template>
@@ -915,27 +911,41 @@ export default {
 
     /* 获取基地的所有信息 */
     async getDetail() {
-      // 基地信息
-      this.base = this.adultShrimp.base;
-      // 虾苗来源
-      this.shrimp = this.adultShrimp.shrimp;
-      // // 投料信息
-      // this.shrimpFarmings =this.adultShrimp.shrimpFarmings;
+      if (this.adultShrimp.base) {
+        // 基地信息
+        this.base = this.adultShrimp.base;
+      }
+      if (this.adultShrimp.shrimp) {
+        // 虾苗来源
+        this.shrimp = this.adultShrimp.shrimp;
+      }
+      if (this.adultShrimp.shrimpFarmings) {
+        // // 投料信息
+        this.shrimpFarmings = this.adultShrimp.shrimpFarmings;
+      }
       // 养殖现场
-      this.monitorResult = this.adultShrimp.monitorResult.data;
-      // 物流信息
-      this.logistics = this.adultShrimp.others.logistics;
-      console.log('====================================');
-      console.log(this.logistics);
-      console.log('====================================');
-      // 加工信息
-      this.plant = this.adultShrimp.others.plant;
-      this.getQualificationList(this.plant.qualificationId);
-      // 冷库信息
-      this.storage = this.adultShrimp.others.storage;
-      // 基地图片
-      this.basePicture = this.adultShrimp.base.basePic.split(";");
-      this.getProcess(this.adultShrimp.adultShrimp.plantId);
+      if (this.adultShrimp.monitorResult) {
+        this.monitorResult = this.adultShrimp.monitorResult.data;
+      }
+
+      if (this.adultShrimp.others.logistics) {
+        // 物流信息
+        this.logistics = this.adultShrimp.others.logistics;
+      }
+      if (this.adultShrimp.others.plant) {
+        // 加工信息
+        this.plant = this.adultShrimp.others.plant;
+        this.getQualificationList(this.plant.qualificationId);
+      }
+      if (this.adultShrimp.others.storage) {
+        // 冷库信息
+        this.storage = this.adultShrimp.others.storage;
+      }
+      if (this.adultShrimp.base.basePic) {
+        // 基地图片
+        this.basePicture = this.adultShrimp.base.basePic.split(";");
+        this.getProcess(this.adultShrimp.adultShrimp.plantId);
+      }
     },
 
     ///* 投料信息开始 */
@@ -959,6 +969,7 @@ export default {
         },
         "post"
       );
+      console.log(res);
       this.total = res.data.total;
       this.shrimpFarmings = res.data.rows;
     },
