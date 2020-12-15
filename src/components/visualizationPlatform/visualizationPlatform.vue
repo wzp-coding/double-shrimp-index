@@ -830,10 +830,6 @@ export default {
             // baseAddr: e.baseAddr,
             baseName: e.baseName,
             baseIntroduction: e.baseIntroduction,
-            // baseId: e.id,
-            // x: e.basePositionLongitude,
-            // y: e.basePositionLatitude,
-            // value: 10,
           };
           data.push(obj);
         }
@@ -1019,14 +1015,19 @@ export default {
       myChart.setOption(option);
       myChart.on("click", function (params) {
         console.log("进入广东");
-        console.log(params);
-        console.log(this);
+        // console.log(params);
+        // console.log(this);
         if (this.id === "ec_1607049988943") {
           console.log("22");
         } else {
           console.log("33");
         }
         if (params.name === "广东") {
+          // console.log(params);
+          // console.log(myVue); //12
+          // console.log(myVue.industry[3].introduction);
+          // let gd = myVue.industry[3]
+          // console.log(gd[12]);
           myVue.$router.push({
             // path: "/guangdong",
             name: "province",

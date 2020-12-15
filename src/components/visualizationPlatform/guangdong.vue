@@ -11,7 +11,7 @@
       <section class="mainbox">
         <div class="col">
           <div class="panel bar">
-            <h2>{{baseInfo}}基地不同种类对虾产量的占比</h2>
+            <h2>{{ baseInfo }}基地不同种类对虾产量的占比</h2>
             <div class="chart chart1"></div>
             <div class="panel-footer"></div>
           </div>
@@ -26,7 +26,13 @@
             <div class="panel-footer"></div>
           </div>
         </div>
-        <div class="col">
+        <div class="col cols">
+          <div class="show">
+            <h2>广东省介绍</h2>
+            <div>
+              <p>{{intro}}</p>
+            </div>
+          </div>
           <div class="map">
             <div class="chartMap"></div>
           </div>
@@ -67,7 +73,8 @@ export default {
       theRequest: null,
       areaData: [],
       baseId: null,
-      baseInfo:'广东'
+      baseInfo: "广东",
+      intro:''  //广东省介绍
     };
   },
   beforeCreate() {
@@ -81,6 +88,7 @@ export default {
     this.timer = setInterval(function () {
       that.date = new Date().toLocaleString();
     });
+    myVue.getgdInfo();
   },
   beforeDestroy: function () {
     // 时间器
@@ -90,6 +98,14 @@ export default {
   },
   //   #a3fea7
   methods: {
+    async getgdInfo(){
+      const {data:res} = await this.reqM3Service("/industry", "", "get")
+        console.log(res);
+        let temp = res.data[3]
+        let gd = temp[12]
+        console.log(gd);
+        this.intro = gd.introduction
+    },
     async requestAllData() {
       try {
         const { data: res } = await this.reqM3Service("/industry/1", "", "get");
@@ -97,7 +113,7 @@ export default {
         console.log(res);
         if (res.code === 20000) {
           this.industry = res.data;
-          this.chart1(this.industry[1],false);
+          this.chart1(this.industry[1], false);
           this.chart2(this.industry[2]);
           this.chart3(this.industry[2]);
           this.requestPrice();
@@ -121,7 +137,7 @@ export default {
         );
         console.log("基地ID");
         console.log(res);
-        this.chart1(res.data,true)
+        this.chart1(res.data, true);
       } catch (error) {
         console.log(error);
       }
@@ -173,25 +189,25 @@ export default {
       this.$router.push("/visualizationPlatform");
     },
     //   左边第一个扇形图
-    chart1(pieOne,isSearch) {
+    chart1(pieOne, isSearch) {
       // 数据格式处理
       let dataArray = [];
-      if(isSearch){
-        pieOne.forEach((e)=>{
-          let obj = {
-            value:e.inputNum,
-            name: e.shrimpSpecies
-          }
-          dataArray.push(obj);
-        })
-      }else{
+      if (isSearch) {
         pieOne.forEach((e) => {
-        let obj = {
-          value: e.output,
-          name: e.species,
-        };
-        dataArray.push(obj);
-      });
+          let obj = {
+            value: e.inputNum,
+            name: e.shrimpSpecies,
+          };
+          dataArray.push(obj);
+        });
+      } else {
+        pieOne.forEach((e) => {
+          let obj = {
+            value: e.output,
+            name: e.species,
+          };
+          dataArray.push(obj);
+        });
       }
       let myChart = this.$echarts.init(document.querySelector(".chart1"));
       let option = {
@@ -906,16 +922,18 @@ export default {
         tooltip: {
           // 显示的窗口
           trigger: "item",
-          "enterable": true,
+          enterable: true,
+          triggerOn: "click", //鼠标点击触发
+          alwaysShowContent: true,
+          enterable:true,
           formatter: function (item) {
-            triggerOn: "click";
             var tipHtml = "",
               tipHtml =
-                '<div style="width:400px;height:150px;border-radius:10px;padding-top:10px">' +
+                '<div class="formatterCss" style="width:400px;height:150px;border-radius:10px;padding-top:10px">' +
                 '<h2 style="width:400px;color:#fff;height:20px;font-weight:13px;border-radius:6px;line-height:20px;text-align:center;margin:0 2px;">' +
                 item.data.name +
                 "</h3>" +
-                '<div style="overflow:hidden;white-space:normal;word-break:break-all;width:400px;color:#494949;padding:8px 6px">' +
+                '<div class="div1" style="overflow:hidden;white-space:normal;word-break:break-all;width:400px;color:#494949;padding:8px 6px">' +
                 '<p style="color:#3dffc1;font-weight:11px;font-size:17px">' +
                 item.data.introduction +
                 "</p>" +
@@ -932,18 +950,18 @@ export default {
         geo: {
           map: "广东",
           show: true,
-          roam: true,
+          roam: false,
           zoom: 1.2,
           scaleLimit: {
             min: 0.6,
             max: 1.3,
           },
           label: {
-            normal:{
-              align:'top',
-              show:true,
-              color:'#adbc1c',
-              fontSize:12
+            normal: {
+              align: "top",
+              show: true,
+              color: "#adbc1c",
+              fontSize: 12,
             },
             emphasis: {
               show: true,
@@ -1024,19 +1042,19 @@ export default {
                 //黄字基地名  圆点介绍
                 formatter: "{b}",
                 position: "right",
-                show: false,    //圆点基地的名字
+                show: false, //圆点基地的名字
               },
-              emphasis:{
+              emphasis: {
                 formatter: "{b}",
                 position: "right",
-                show: true,  
-                label:{
-                  fontsSize:20
-                }
+                show: true,
+                label: {
+                  fontsSize: 20,
+                },
               },
-              positon:'inside',
-              rotate:[5,0],      
-              fontsSize:20
+              positon: "inside",
+              rotate: [5, 0],
+              fontsSize: 20,
             },
             itemStyle: {
               normal: {
@@ -1044,25 +1062,37 @@ export default {
                 shadowBlur: 10,
                 shadowColor: "#333",
               },
-              emphasis:{
-                color:'#3dffc1',
-              }
+              emphasis: {
+                color: "#3dffc1",
+              },
             },
             zlevel: 1,
           },
         ],
       };
       myChart.on("click", function (params) {
-        console.log(params);
-        console.log(params.data.ID);
-        myVue.baseID = params.data.ID;
-        myVue.baseInfo = params.data.name
-        myVue.serachByBaseId();
+        console.log(myVue);
+        let show = document.getElementsByClassName("show");
+        let formatterEvent = document.getElementsByClassName('formatterCss') 
+        // console.log(formatterEvent);
+        if(formatterEvent[0]){
+          formatterEvent[0].style.display = 'none'
+        }
+        show[0].style.display = "block";
         if (params.data) {
-          console.log(myVue);
+          let show = document.getElementsByClassName("show");
+          if(formatterEvent[0]){
+            formatterEvent[0].style.display = 'block'
+          }
+          show[0].style.display = "none";
+          myVue.baseID = params.data.ID;
+          myVue.baseInfo = params.data.name;
+          myVue.serachByBaseId();
         }
       });
       myChart.setOption(option);
+      let show = document.getElementsByClassName("show");
+      show[0].style.display = 'block'
     },
     //
   },
@@ -1150,6 +1180,43 @@ header h1 {
         height: 55rem;
         width: 100%;
       }
+    }
+  }
+  .cols {
+    position: relative;
+    .show {
+      width: 400px;
+      height: 150px;
+      border-radius: 10px;
+      padding-top: 10px;
+      position: absolute;
+      display: none;
+      bottom: 150px;
+      right: 40px;
+      .div1 {
+        overflow: hidden;
+        white-space: normal;
+        word-break: break-all;
+        width: 400px;
+        color: #494949;
+        padding: 8px 6px;
+      }
+      h2 {
+        width: 400px;
+        color: #fff;
+        height: 20px;
+        font-weight: 15px;
+        border-radius: 6px;
+        line-height: 20px;
+        margin-bottom: 10px;
+        text-align: center;
+      }
+      p {
+        color: #3dffc1;
+        font-weight: 11px;
+        font-size: 17px;
+      }
+      // display: none;
     }
   }
   .panel {
