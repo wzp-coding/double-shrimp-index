@@ -479,7 +479,7 @@ export default {
   },
 };
 </script>
-<style lang="less" >
+<style lang="less" scoped>
 .lxl-body {
   display: flex;
   justify-content: center; //对齐方式-

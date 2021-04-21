@@ -96,6 +96,7 @@ export default {
           this.chart1(this.industry[2]);
           this.chart2(this.industry[1]);
           this.chart3(this.industry[1]);
+          console.log(11111111)
           this.requestPrice();
           this.chart5(this.industry[1]);
           this.chart6(this.industry[1]);
@@ -375,6 +376,7 @@ export default {
       });
     },
     chart4() {
+      console.log(222222222222)
       let myChart = this.$echarts.init(document.querySelector(".chart4"));
       // 时间切分处理
       const etime = new Date(this.predictTime[0]).getTime(); //this.predictTime[0] 接口获取的数据1

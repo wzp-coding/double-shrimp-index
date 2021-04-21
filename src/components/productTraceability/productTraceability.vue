@@ -159,7 +159,8 @@ export default {
 .ljc-img {
   height: 100%;
   width: 1150px;
-  background-image: url("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1602514034193&di=5d094e46786da70a650db63f3cf899ee&imgtype=0&src=http%3A%2F%2Fimg2.99114.com%2Fgroup1%2FM00%2F7A%2FD5%2FwKgGMFZMOeCAG32DAASBmpxCXU4173.jpg");
+  background-image: linear-gradient(to right, rgb(208, 204, 241) , rgb(189, 234, 252));
+  // background-image: url("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fcdn037.yun-img.com%2Fstatic%2Fupload%2Fdfgly%2Fteam%2F20180829092258_46735.jpg&refer=http%3A%2F%2Fcdn037.yun-img.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1619192580&t=c2abc3eae01badbe8e76245c400f6f4b");
   height: 800px;
   background-repeat: no-repeat;
   background-size: cover;

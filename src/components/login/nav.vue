@@ -17,10 +17,16 @@
 
         <div class="lxl-avatar" v-if="isLogin">
           <router-link to="/me"
-            ><el-avatar :size="50" :src="userData != null ? userData.photo : userData1.photo"> </el-avatar
+            ><el-avatar
+              :size="50"
+              :src="userData != null ? userData.photo : userData1.photo"
+            >
+            </el-avatar
           ></router-link>
 
-          <router-link to="/me">{{ userData != null ? userData.loginId : userData1.loginId }}</router-link>
+          <router-link to="/me">{{
+            userData != null ? userData.loginId : userData1.loginId
+          }}</router-link>
           <el-link @click="outUser()">退出</el-link>
         </div>
       </div>
@@ -85,14 +91,14 @@ export default {
         photo:
           "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
       },
-      baseId: ''
+      baseId: "",
     };
   },
   created() {
-    this.getBaseId()
+    this.getBaseId();
   },
   updated() {
-    this.getBaseId()
+    this.getBaseId();
   },
   methods: {
     getBaseId() {
@@ -102,7 +108,7 @@ export default {
       }
     },
     outUser() {
-      this.baseId = ''
+      this.baseId = "";
       // 调用vuex使用默认的值的覆盖原有的用户
       window.sessionStorage.setItem("token", "");
       window.sessionStorage.setItem("userData", null);
@@ -136,24 +142,30 @@ export default {
 </script>
 <style lang="less">
 .lxl-login {
+  position: relative;
   height: 10rem;
-  background-image: url("../../assets/picture4.jpg");
+  background-image: url("../../assets/45c.jpeg");
   background-size: 100% 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 2px solid #409EFF;
+  border-bottom: 2px solid #409eff;
 }
 .lxl-logo {
-  height: 100px;
-  width: 250px;
-  margin-left: 5%;
+  height: 150px;
+  width: 420px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
   background-image: url("../../assets/theLogo.png");
   background-size: 100% 100%;
-  background-repeat: no-repeat; 
+  background-repeat: no-repeat;
   border-radius: 175px;
 }
 .lxl-avatar {
+  position: absolute;
+  right: 0;
   height: 5rem;
   display: flex;
   align-items: center;
@@ -182,14 +194,14 @@ a {
 .el-menu--popup {
   min-width: 120px !important;
   border: 1px solid #74b1c5 !important;
-  box-shadow: 2px 2px 3px rgba(0,0,0,0.5) !important;
+  box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5) !important;
 }
 .nav-menu {
   width: 1150px;
   .middle-thread {
     position: absolute;
     top: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     background-color: #409eff;
     width: 1px !important;
     height: 10px;

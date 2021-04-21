@@ -229,8 +229,6 @@ export default {
     this.getWeekData();
   },
   mounted() {
-    // console.log(this.$route.query.id);
-    // console.log(this.$route.query.SearchKey);
     if (this.$route.query.SearchKey) {
       this.SearchKey = this.$route.query.SearchKey;
       this.searchData(this.SearchKey);

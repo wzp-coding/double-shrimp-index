@@ -117,37 +117,6 @@
           </el-col>
         </el-row>
       </div>
-      <!-- 选项卡区域 -->
-      <div class="optionCard">
-        <el-tabs v-model="activeName" type="card">
-          <el-tab-pane
-            v-for="(item, i) in cateGory"
-            :key="i"
-            :label="item.categoryName"
-            :name="item.categoryName"
-          >
-            <el-row
-              v-for="(childItem, i) in item.children"
-              :key="i"
-              class="cateRow"
-            >
-              <div separator="">
-                <el-col :span="3" class="fishPaneTitle">
-                  <span class="paneTitle">{{ childItem.categoryName }}</span>
-                </el-col>
-                <el-col :span="21" class="fishPaneSecondTitle">
-                  <span
-                    v-for="(nav, i) in childItem.children"
-                    :key="i"
-                    @click="goToSearch(nav)"
-                    >{{ nav.categoryName }}</span
-                  >
-                </el-col>
-              </div>
-            </el-row>
-          </el-tab-pane>
-        </el-tabs>
-      </div>
       <!-- 分割线 -->
       <div class="divider">
         <el-divider></el-divider>

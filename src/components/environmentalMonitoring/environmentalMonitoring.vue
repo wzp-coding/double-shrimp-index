@@ -28,11 +28,10 @@
 
         <!-- 图表区域 -->
         <div class="lxl-main">
-          <div>
-            <div class="chart1" ref="chart">
-            </div>
+          <div class="chart-content">
+            <div class="chart1" ref="chart"></div>
 
-            <div class="lxl-em">
+            <!-- <div class="lxl-em">
               <div>请先添加数据</div>
               <iframe
                 :src="monitor.vedioUrl"
@@ -41,7 +40,7 @@
                 width="100%"
                 style="background: rgba(0, 0, 0, 0.2)"
               ></iframe>
-            </div>
+            </div> -->
             <!-- <el-alert
               title="预测到接下来一段时间内，当前通道值可能会超出或低于阀值，请及时做出相应处理"
               type="warning"
@@ -59,7 +58,10 @@
             <el-alert title="环境监测平台" type="success" :closable="false">
             </el-alert>
             <!-- 右侧树区 -->
+            <address-choose @fatherMethods="receiveAddress" />
+
             <el-tree
+              v-show="showMoni"
               :props="defaultProps"
               :load="loadNode"
               accordion
@@ -70,13 +72,14 @@
               node-key="id"
             >
             </el-tree>
-            <el-tree
+            <!-- <el-tree
+              v-show="showMoni"
               :data="monitorInfo"
               :props="defaultProps"
               default-expand-all
               highlight-current
               @node-click="handleNodeClick2"
-            ></el-tree>
+            ></el-tree> -->
           </div>
         </div>
       </div>
@@ -84,7 +87,11 @@
   </div>
 </template>
 <script>
+import AddressChoose from "./AddressChoose";
 export default {
+  components: {
+    AddressChoose,
+  },
   data() {
     return {
       // 控制配置选项
@@ -93,7 +100,7 @@ export default {
         children: "children",
         isLeaf: "leaf",
       },
-
+      showMoni: true,
       // token值
       token: "Bearer " + window.sessionStorage.getItem("token"),
 
@@ -349,9 +356,23 @@ export default {
   created() {
     // 判断是否登录，或者是否创建基地
     this.isExit();
-    this.open();
+    // this.open();
   },
   methods: {
+    receiveAddress(value) {
+      console.log(value);
+      if (
+        value.province === "广东省" &&
+        value.city === "广州市" &&
+        value.region === "海珠区"
+      ) {
+        this.showMoni = true;
+        if (value.type == 3) this.$message.success("设备信息获取成功");
+      } else {
+        this.showMoni = false;
+        if (value.type == 3) this.$message.error("该地区无监测设备");
+      }
+    },
     // 点击获取预测节点信息
     handleNodeClick(data) {
       if (data.equipmentId) {
@@ -480,8 +501,8 @@ export default {
       // 气象类型或者水质类型的参数
       const myflag = this.form.typeId === "0" ? "" : "/water";
       // 根据类型获取算法参数
-      this.form.arithmetic = this.form.typeId === "0" ? "arima" : "LR";
-      this.form.baseId = this.baseId
+      this.form.arithmetic = this.form.typeId === "0" ? "arima" : "svm";
+      this.form.baseId = this.baseId;
       // 匹配以获取单位
       const { data: res } = await this.reqM41Service(
         `/datarecord/forecast${myflag}/${this.form.arithmetic}/1/500`,
@@ -709,10 +730,10 @@ export default {
       // 获取表格数据
       this.getTableInfo();
       // 查询监控设备
-      this.getMonitorInfo().then(() => {
-        // 点击监控设备
-        this.handleNodeClick2(this.monitorDefault);
-      });
+      // this.getMonitorInfo().then(() => {
+      //   // 点击监控设备
+      //   this.handleNodeClick2(this.monitorDefault);
+      // });
     },
   },
 };
@@ -746,12 +767,12 @@ export default {
   .lxl-main {
     width: 53%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
-    div {
+    .chart-content {
       .lxl-em {
         height: 20rem;
       }
       .chart1 {
-        height: 20rem;
+        height: 40rem;
       }
     }
   }

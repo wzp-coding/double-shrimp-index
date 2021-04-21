@@ -152,7 +152,6 @@ export default {
           },
         }
       );
-      console.log(res);
       if (res.data == null) {
         this.isShowApply = true;
       } else {

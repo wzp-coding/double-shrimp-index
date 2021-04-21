@@ -10,7 +10,7 @@
           >
             <el-breadcrumb-item>当前位置</el-breadcrumb-item>
             <el-breadcrumb-item>产业咨询</el-breadcrumb-item>
-            <el-breadcrumb-item>虾业专题</el-breadcrumb-item>
+            <el-breadcrumb-item>产业行情</el-breadcrumb-item>
           </el-breadcrumb>
         </div>
         <!-- 搜索 -->
@@ -24,6 +24,15 @@
         </div>
       </div>
       <el-divider></el-divider>
+      <el-carousel :interval="4000" type="card" height="500px" style="margin-bottom:40px;">
+        <el-carousel-item style="border-radius:10px;border:1px solid #ddd;" v-for="(item, index) in ClickDataList" v-if="index !== ClickDataList.length - 1" :key="item.id">
+          <el-image
+            :src="item.picture"
+            @click="TonewPath(item.id)"
+            style="width: 100%;height: 100%"
+          ></el-image>
+        </el-carousel-item>
+      </el-carousel>
       <el-container>
         <el-aside width="68%">
           <!-- 每周热门与热门资讯开始-->
@@ -104,7 +113,11 @@
                 </div>
               </h3>
               <div class="shrimpMarketLft">
-                <div class="shrimpMarketPic" style="margin-top:5px" v-if="jingcai1List.length">
+                <div
+                  class="shrimpMarketPic"
+                  style="margin-top: 5px"
+                  v-if="jingcai1List.length"
+                >
                   <div
                     class="shrimpMarketPicSon"
                     @click="TonewPath(jingcai1List[0].id)"
@@ -395,7 +408,7 @@
           <!-- 标签 -->
           <div class="tage">
             <div class="tageson">
-              <el-button size="medium" round>专家</el-button>
+              <el-button size="medium" round>芒果资源</el-button>
               <el-button size="medium" round>火参果资源</el-button>
             </div>
             <div class="tageson">
@@ -409,6 +422,22 @@
             <div class="tageson">
               <el-button size="medium" round>红薯批发</el-button>
               <el-button size="medium" round>黄瓜资源</el-button>
+            </div>
+             <div class="tageson">
+              <el-button size="medium" round>西瓜批发</el-button>
+              <el-button size="medium" round>波罗蜜</el-button>
+            </div>
+             <div class="tageson">
+              <el-button size="medium" round>凤梨批发</el-button>
+              <el-button size="medium" round>紫葡萄批发</el-button>
+            </div>
+             <div class="tageson">
+              <el-button size="medium" round>圣女果批发</el-button>
+              <el-button size="medium" round>冬瓜批发</el-button>
+            </div>
+             <div class="tageson">
+              <el-button size="medium" round>小米椒批发</el-button>
+              <el-button size="medium" round>香芋批发</el-button>
             </div>
           </div>
         </el-main>
@@ -460,9 +489,9 @@ export default {
         Infosize1: 16,
         TypeID1: "1316745747953225728",
       },
-      jingcai1List:[],
-      jingcai2List:[],
-      jingcai3List:[],
+      jingcai1List: [],
+      jingcai2List: [],
+      jingcai3List: [],
       queryInfo2: {
         Infopage2: 1,
         Infosize2: 4,
@@ -501,19 +530,19 @@ export default {
       SearchKey: "",
 
       loading: true,
-      loading1:true,
-      loading2:true,
-      loading3:true,
+      loading1: true,
+      loading2: true,
+      loading3: true,
       src:
         "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
     };
   },
-  mounted(){
-    window.addEventListener('scroll',this.handleScroll1) //监控滑动，运行handleScroll 函数
-    window.addEventListener('scroll',this.test)
+  mounted() {
+    window.addEventListener("scroll", this.handleScroll1); //监控滑动，运行handleScroll 函数
   },
   created() {
     //点击量 热度
+    console.log(11111);
     this.getLoadData();
   },
   methods: {
@@ -524,32 +553,33 @@ export default {
         query: { id: id },
       });
     },
-    handleScroll1(){
-      let a = document.body.scrollTop+document.documentElement.scrollTop;
-      if(a>24&&this.RecommList.length===0){
+    handleScroll1() {
+      let a = document.body.scrollTop + document.documentElement.scrollTop;
+      if (a > 24 && this.RecommList.length === 0) {
         this.getRecommData();
         this.getjingcai1();
-        window.removeEventListener('scroll',this.handleScroll1)
-        window.addEventListener('scroll',this.handleScroll2)  //执行监听2
+        window.removeEventListener("scroll", this.handleScroll1);
+        window.addEventListener("scroll", this.handleScroll2); //执行监听2
       }
     },
-    handleScroll2(){ 
-      let a = document.body.scrollTop+document.documentElement.scrollTop;
-      if(a>266&&this.MonthDataList.length===0){ 
+    handleScroll2() {
+      let a = document.body.scrollTop + document.documentElement.scrollTop;
+      if (a > 266 && this.MonthDataList.length === 0) {
         this.getjingcai2();
         this.getMonthData();
-        window.removeEventListener('scroll',this.handleScroll2)
-        window.addEventListener('scroll',this.handleScroll3) 
+        window.removeEventListener("scroll", this.handleScroll2);
+        window.addEventListener("scroll", this.handleScroll3);
       }
     },
-    handleScroll3(){ 
-      let a = document.body.scrollTop+document.documentElement.scrollTop;
-      if(a>570&&this.pagelist.length===0){
-        this.getjingcai3();      
-        window.removeEventListener('scroll',this.handleScroll3)
+    handleScroll3() {
+      let a = document.body.scrollTop + document.documentElement.scrollTop;
+      if (a > 570 && this.pagelist.length === 0) {
+        this.getjingcai3();
+        window.removeEventListener("scroll", this.handleScroll3);
       }
     },
-    getLoadData(){
+    // 进入页面加载数据
+    getLoadData() {
       this.getClickData();
       this.getNewData();
       this.getWeekData();
@@ -577,9 +607,9 @@ export default {
           "get"
         );
         console.log("获取点击量数据成功");
+        console.log(res)
         if (res.code === 20000) {
           this.ClickDataList = res.data.rows;
-          //console.log(Object.keys(ClickDataList));
         } else {
           console.log("网络错误 20001");
         }
@@ -630,7 +660,7 @@ export default {
         if (res.code === 20000) {
           console.log("获取精彩专题2数据成功");
           this.jingcai2List = res.data.rows;
-          this.loading2=false
+          this.loading2 = false;
         } else {
           console.log("网络错误20001");
         }
@@ -651,7 +681,7 @@ export default {
           this.pagelist = res.data.rows;
           this.queryInfo3.total = res.data.total;
           this.loading3 = false;
-          window.removeEventListener('scroll',this.handleScroll3)
+          window.removeEventListener("scroll", this.handleScroll3);
         } else {
           this.loading3 = false;
           console.log("获取精彩专题3数据失败");
@@ -676,8 +706,8 @@ export default {
         );
         if (res.code === 20000) {
           console.log("获取最新数据成功");
-          console.log(res)
-          this.NewDataList=res.data.rows
+          console.log(res);
+          this.NewDataList = res.data.rows;
         } else {
           console.log("网络错误 20001");
         }
@@ -696,7 +726,7 @@ export default {
         console.log("获取推荐数据成功");
         if (res.code === 20000) {
           this.RecommList = res.data.rows;
-          this.loading1=false
+          this.loading1 = false;
         } else {
           console.log(res.message);
         }
@@ -708,25 +738,25 @@ export default {
     async getMonthData() {
       try {
         const { data: res } = await this.reqM2Service(
-          "/info/shrimpIndustry/findByClickMonthly/1/7",
+          "/info/shrimpIndustry/findByClickMonthly/1/20",
           "",
           "get"
         );
         if (res.code === 20000) {
           console.log("获取每月数据成功");
           this.MonthDataList = res.data.rows;
-          this.loading2=false;
+          this.loading2 = false;
         } else {
           console.log("网络错误 20001");
         }
       } catch (error) {
         console.log("网络错误 19999");
       }
-    },   
+    },
   },
 };
 </script>
-<style lang="less" >
+<style lang="less" scoped>
 .lxl-body {
   display: flex;
   justify-content: center; //对齐方式
